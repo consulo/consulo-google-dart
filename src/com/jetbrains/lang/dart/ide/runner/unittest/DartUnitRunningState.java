@@ -20,6 +20,7 @@ import com.intellij.execution.testframework.sm.runner.ui.SMTRunnerConsoleView;
 import com.intellij.execution.ui.ConsoleView;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.projectRoots.Sdk;
 import com.intellij.openapi.util.Disposer;
 import com.intellij.openapi.util.io.FileUtil;
 import com.intellij.openapi.util.text.StringUtil;
@@ -32,9 +33,7 @@ import com.intellij.util.ResourceUtil;
 import com.intellij.util.text.StringTokenizer;
 import com.jetbrains.lang.dart.DartBundle;
 import com.jetbrains.lang.dart.ide.runner.DartStackTraceMessageFiler;
-import com.jetbrains.lang.dart.ide.settings.DartSettings;
 import com.jetbrains.lang.dart.util.DartResolveUtil;
-import com.jetbrains.lang.dart.util.DartSdkUtil;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -53,20 +52,20 @@ public class DartUnitRunningState extends CommandLineState {
   private static final String UNIT_CONFIG_FILE_NAME = "jetbrains_unit_config.dart";
   private final DartUnitRunnerParameters myUnitParameters;
   @Nullable
-  private final DartSettings myDartSettings;
+  private final Sdk mySdk;
   private int myDebuggingPort;
 
-  protected DartUnitRunningState(ExecutionEnvironment environment, DartUnitRunnerParameters parameters, DartSettings dartSettings) {
-    this(environment, parameters, dartSettings, -1);
+  protected DartUnitRunningState(ExecutionEnvironment environment, DartUnitRunnerParameters parameters, Sdk sdk) {
+    this(environment, parameters, sdk, -1);
   }
 
   public DartUnitRunningState(ExecutionEnvironment environment,
                               DartUnitRunnerParameters parameters,
-                              @Nullable DartSettings dartSettings,
+                              @Nullable Sdk sdk,
                               int debuggingPort) {
     super(environment);
     myUnitParameters = parameters;
-    myDartSettings = dartSettings;
+    mySdk = sdk;
     myDebuggingPort = debuggingPort;
   }
 
@@ -121,8 +120,8 @@ public class DartUnitRunningState extends CommandLineState {
   public GeneralCommandLine getCommand() throws ExecutionException {
     final GeneralCommandLine commandLine = new GeneralCommandLine();
 
-    final String path = myDartSettings == null ? null : myDartSettings.getSdkPath();
-    final String exePath = path == null ? null : DartSdkUtil.getCompilerPathByFolderPath(path);
+    final String path = mySdk == null ? null : mySdk.getHomePath();
+    final String exePath = path == null ? null : com.jetbrains.lang.dart.util.DartSdkUtil.getCompilerPathByFolderPath(path);
     if (exePath == null) {
       // todo: fix link
       throw new ExecutionException(DartBundle.message("dart.invalid.sdk"));
@@ -151,8 +150,8 @@ public class DartUnitRunningState extends CommandLineState {
   }
 
   private void setupUserProperties(GeneralCommandLine commandLine) throws ExecutionException {
-    if (myDartSettings != null) {
-      commandLine.getEnvironment().put("com.google.dart.sdk", myDartSettings.getSdkPath());
+    if (mySdk != null) {
+      commandLine.getEnvironment().put("com.google.dart.sdk", mySdk.getHomePath());
     }
 
     commandLine.addParameter("--ignore-unrecognized-flags");
@@ -210,10 +209,10 @@ public class DartUnitRunningState extends CommandLineState {
   private String getUnitPath(String path) {
     VirtualFile libRoot = VirtualFileManager.getInstance().findFileByUrl(VfsUtilCore.pathToUrl(path));
     VirtualFile packagesFolder = DartResolveUtil.findPackagesFolder(libRoot, getEnvironment().getProject());
-    if (myDartSettings == null || (packagesFolder != null && packagesFolder.findChild("unittest") != null)) {
+    if (mySdk == null || (packagesFolder != null && packagesFolder.findChild("unittest") != null)) {
       return "package:unittest/unittest.dart";
     }
-    return pathToDartUrl(StringUtil.notNullize(myDartSettings.getSdkPath()) + "/pkg/unittest/unittest.dart");
+    return pathToDartUrl(StringUtil.notNullize(mySdk.getHomePath()) + "/pkg/unittest/unittest.dart");
   }
 
   private static String pathToDartUrl(@NonNls @NotNull String path) {

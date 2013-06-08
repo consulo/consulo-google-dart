@@ -7,10 +7,8 @@ import com.intellij.openapi.compiler.CompileTask;
 import com.intellij.openapi.compiler.CompilerMessageCategory;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.module.Module;
-import com.intellij.openapi.module.ModuleType;
+import com.intellij.openapi.module.ModuleUtilCore;
 import com.intellij.openapi.projectRoots.Sdk;
-import com.intellij.openapi.roots.CompilerModuleExtension;
-import com.intellij.openapi.roots.ModuleRootManager;
 import com.intellij.openapi.vfs.VfsUtilCore;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.openapi.vfs.VirtualFileManager;
@@ -18,9 +16,9 @@ import com.jetbrains.lang.dart.DartBundle;
 import com.jetbrains.lang.dart.analyzer.AnalyzerMessage;
 import com.jetbrains.lang.dart.analyzer.DartAnalyzerDriver;
 import com.jetbrains.lang.dart.ide.DartSdkType;
-import com.jetbrains.lang.dart.ide.module.DartModuleType;
+import com.jetbrains.lang.dart.ide.module.DartModuleExtension;
 import com.jetbrains.lang.dart.ide.runner.server.DartCommandLineRunConfiguration;
-import com.jetbrains.lang.dart.ide.settings.DartSettings;
+import com.jetbrains.lang.dart.ide.settings.DartSdkUtil;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -45,7 +43,7 @@ public class DartCompiler implements CompileTask {
                          DartBundle.message("no.module.for.run.configuration", configuration.getName()), null, -1, -1);
       return false;
     }
-    if (ModuleType.get(module) != DartModuleType.getInstance()) {
+    if (ModuleUtilCore.getExtension(module, DartModuleExtension.class) == null) {
       // skip
       return true;
     }
@@ -68,8 +66,7 @@ public class DartCompiler implements CompileTask {
       return false;
     }
 
-    final ModuleRootManager moduleRootManager = ModuleRootManager.getInstance(module);
-    final Sdk sdk = moduleRootManager.getSdk();
+    final Sdk sdk = ModuleUtilCore.getSdk(module, DartModuleExtension.class);
 
     if (sdk == null) {
       context.addMessage(CompilerMessageCategory.ERROR, DartBundle.message("no.sdk.for.module", module.getName()), null, -1, -1);
@@ -81,19 +78,16 @@ public class DartCompiler implements CompileTask {
       return false;
     }
 
-    DartSettings dartSettings = new DartSettings(sdk.getHomePath());
-    if (dartSettings.getCompiler() == null) {
+    if (DartSdkUtil.getCompiler(sdk) == null) {
       context.addMessage(CompilerMessageCategory.ERROR, DartBundle.message("invalid.dart.sdk.for.module", module.getName()), null, -1, -1);
       return false;
     }
 
-    VirtualFile analyzerExecutable = dartSettings.getAnalyzer();
+    VirtualFile analyzerExecutable = DartSdkUtil.getAnalyzer(sdk);
     if (analyzerExecutable == null) {
       // can't "compile"
       return true;
     }
-
-    final String outputUrl = CompilerModuleExtension.getInstance(module).getCompilerOutputUrl();
     final DartAnalyzerDriver analyzerDriver =
       new DartAnalyzerDriver(module.getProject(), analyzerExecutable, sdk.getHomePath(), libraryRoot);
     List<AnalyzerMessage> messages = analyzerDriver.analyze();

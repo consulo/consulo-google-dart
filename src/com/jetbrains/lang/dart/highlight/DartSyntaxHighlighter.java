@@ -20,15 +20,15 @@ public class DartSyntaxHighlighter extends SyntaxHighlighterBase {
   private static final Map<IElementType, TextAttributesKey> ATTRIBUTES = new HashMap<IElementType, TextAttributesKey>();
 
   static {
-    fillMap(ATTRIBUTES, RESERVED, DartSyntaxHighlighterColors.KEYWORD);
-    fillMap(ATTRIBUTES, UNRESERVED, DartSyntaxHighlighterColors.KEYWORD);
+    safeMap(ATTRIBUTES, RESERVED, DartSyntaxHighlighterColors.KEYWORD);
+    safeMap(ATTRIBUTES, UNRESERVED, DartSyntaxHighlighterColors.KEYWORD);
 
-    fillMap(ATTRIBUTES, BINARY_OPERATORS, DartSyntaxHighlighterColors.OPERATION_SIGN);
-    fillMap(ATTRIBUTES, LOGIC_OPERATORS, DartSyntaxHighlighterColors.OPERATION_SIGN);
-    fillMap(ATTRIBUTES, BITWISE_OPERATORS, DartSyntaxHighlighterColors.OPERATION_SIGN);
-    fillMap(ATTRIBUTES, UNARY_OPERATORS, DartSyntaxHighlighterColors.OPERATION_SIGN);
+    safeMap(ATTRIBUTES, BINARY_OPERATORS, DartSyntaxHighlighterColors.OPERATION_SIGN);
+    safeMap(ATTRIBUTES, LOGIC_OPERATORS, DartSyntaxHighlighterColors.OPERATION_SIGN);
+    safeMap(ATTRIBUTES, BITWISE_OPERATORS, DartSyntaxHighlighterColors.OPERATION_SIGN);
+    safeMap(ATTRIBUTES, UNARY_OPERATORS, DartSyntaxHighlighterColors.OPERATION_SIGN);
 
-    fillMap(ATTRIBUTES, STRINGS, DartSyntaxHighlighterColors.STRING);
+    safeMap(ATTRIBUTES, STRINGS, DartSyntaxHighlighterColors.STRING);
 
     ATTRIBUTES.put(HEX_NUMBER, DartSyntaxHighlighterColors.NUMBER);
     ATTRIBUTES.put(NUMBER, DartSyntaxHighlighterColors.NUMBER);

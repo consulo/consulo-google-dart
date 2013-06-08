@@ -4,7 +4,6 @@ import com.intellij.codeInsight.daemon.impl.AnnotationHolderImpl;
 import com.intellij.lang.annotation.Annotation;
 import com.intellij.lang.annotation.AnnotationSession;
 import com.intellij.openapi.application.ApplicationManager;
-import com.intellij.openapi.application.PathManager;
 import com.intellij.openapi.util.Condition;
 import com.intellij.openapi.util.io.FileUtil;
 import com.intellij.openapi.vfs.VirtualFile;
@@ -13,7 +12,7 @@ import com.intellij.testFramework.fixtures.CodeInsightFixtureTestCase;
 import com.intellij.util.ArrayUtil;
 import com.intellij.util.containers.ContainerUtil;
 import com.jetbrains.lang.dart.ide.annotator.DartExternalAnnotator;
-import com.jetbrains.lang.dart.ide.settings.DartSettings;
+import com.jetbrains.lang.dart.ide.settings.DartSdkUtil;
 import com.jetbrains.lang.dart.util.DartTestUtils;
 import org.jetbrains.annotations.Nullable;
 
@@ -37,8 +36,8 @@ abstract public class DartAnalyzerTestBase extends CodeInsightFixtureTestCase {
     System.setProperty("com.google.dart.sdk", "");
   }
 
-  protected DartSettings getDartSettings() {
-    return new DartSettings(FileUtil.toSystemDependentName(DartTestUtils.BASE_TEST_DATA_PATH + "/sdk"));
+  protected DartSdkUtil getDartSettings() {
+    return new DartSdkUtil(FileUtil.toSystemDependentName(DartTestUtils.BASE_TEST_DATA_PATH + "/sdk"));
   }
 
   void doTest(String message, String... additionalFiles) throws IOException {
@@ -96,7 +95,7 @@ abstract public class DartAnalyzerTestBase extends CodeInsightFixtureTestCase {
     assertNotNull(file);
     VirtualFile virtualFile = file.getVirtualFile();
     assertNotNull(virtualFile);
-    DartSettings settings = getDartSettings();
+    DartSdkUtil settings = getDartSettings();
     VirtualFile analyzer = settings.getAnalyzer();
     assertNotNull(analyzer);
     DartAnalyzerDriver analyzerDriver = new DartAnalyzerDriver(myFixture.getProject(), analyzer, settings.getSdkPath(), virtualFile);

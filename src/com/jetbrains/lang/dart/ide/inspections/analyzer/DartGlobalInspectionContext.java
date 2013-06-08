@@ -13,6 +13,7 @@ import com.intellij.openapi.progress.ProgressIndicator;
 import com.intellij.openapi.progress.ProgressManager;
 import com.intellij.openapi.progress.util.ProgressWrapper;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.projectRoots.Sdk;
 import com.intellij.openapi.util.Computable;
 import com.intellij.openapi.util.Key;
 import com.intellij.openapi.vfs.VirtualFile;
@@ -21,7 +22,7 @@ import com.intellij.psi.search.SearchScope;
 import com.jetbrains.lang.dart.analyzer.AnalyzerMessage;
 import com.jetbrains.lang.dart.analyzer.DartAnalyzerDriver;
 import com.jetbrains.lang.dart.ide.index.DartLibraryIndex;
-import com.jetbrains.lang.dart.ide.settings.DartSettings;
+import com.jetbrains.lang.dart.ide.settings.DartSdkUtil;
 import gnu.trove.THashMap;
 import org.jetbrains.annotations.NotNull;
 
@@ -80,10 +81,10 @@ public class DartGlobalInspectionContext implements GlobalInspectionContextExten
       return;
     }
 
-    DartSettings settings = DartSettings.getSettingsForModule(module);
-    final VirtualFile analyzer = settings == null ? null : settings.getAnalyzer();
+    Sdk sdk = DartSdkUtil.getSdkForModule(module);
+    final VirtualFile analyzer = sdk == null ? null : DartSdkUtil.getAnalyzer(sdk);
     final DartAnalyzerDriver analyzerDriver =
-      analyzer == null ? null : new DartAnalyzerDriver(module.getProject(), analyzer, settings.getSdkPath(), libraryRoot);
+      analyzer == null ? null : new DartAnalyzerDriver(module.getProject(), analyzer, sdk.getHomePath(), libraryRoot);
 
     setIndicatorText("Analyzing library root: " + libraryRoot.getName());
 

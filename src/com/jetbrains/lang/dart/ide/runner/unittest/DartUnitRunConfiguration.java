@@ -4,11 +4,14 @@ import com.intellij.execution.ExecutionException;
 import com.intellij.execution.Executor;
 import com.intellij.execution.configurations.*;
 import com.intellij.execution.runners.ExecutionEnvironment;
+import com.intellij.execution.runners.ProgramRunner;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.module.ModuleUtilCore;
 import com.intellij.openapi.options.SettingsEditor;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.projectRoots.Sdk;
 import com.intellij.openapi.util.InvalidDataException;
+import com.intellij.openapi.util.JDOMExternalizable;
 import com.intellij.openapi.util.WriteExternalException;
 import com.intellij.openapi.util.io.FileUtilRt;
 import com.intellij.openapi.vfs.VfsUtilCore;
@@ -17,9 +20,10 @@ import com.intellij.openapi.vfs.VirtualFileManager;
 import com.intellij.util.xmlb.XmlSerializer;
 import com.jetbrains.lang.dart.DartFileType;
 import com.jetbrains.lang.dart.ide.runner.unittest.ui.DartUnitConfigurationEditorForm;
-import com.jetbrains.lang.dart.ide.settings.DartSettings;
+import com.jetbrains.lang.dart.ide.settings.DartSdkUtil;
 import org.jdom.Element;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * @author: Fedor.Korotkov
@@ -40,6 +44,18 @@ public class DartUnitRunConfiguration extends RunConfigurationBase implements Lo
     return new DartUnitConfigurationEditorForm(getProject());
   }
 
+  @Nullable
+  @Override
+  public JDOMExternalizable createRunnerSettings(ConfigurationInfoProvider provider) {
+    return null;
+  }
+
+  @Nullable
+  @Override
+  public SettingsEditor<JDOMExternalizable> getRunnerSettingsEditor(ProgramRunner runner) {
+    return null;
+  }
+
   @Override
   public RunProfileState getState(@NotNull Executor executor, @NotNull ExecutionEnvironment env) throws ExecutionException {
     final Project project = env.getProject();
@@ -56,7 +72,7 @@ public class DartUnitRunConfiguration extends RunConfigurationBase implements Lo
     if (module == null) {
       throw new ExecutionException("Can't find module for file");
     }
-    final DartSettings settingsForModule = DartSettings.getSettingsForModule(module);
+    final Sdk settingsForModule = DartSdkUtil.getSdkForModule(module);
     return new DartUnitRunningState(env, myRunnerParameters, settingsForModule);
   }
 

@@ -1,12 +1,10 @@
 package com.jetbrains.lang.dart.util;
 
 import com.intellij.ide.util.PropertiesComponent;
-import com.intellij.openapi.application.PathManager;
 import com.intellij.openapi.util.io.FileUtil;
 import com.intellij.openapi.vfs.LocalFileSystem;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.testFramework.fixtures.CodeInsightTestFixture;
-import com.jetbrains.lang.dart.ide.settings.DartSettingsUtil;
 import junit.framework.Assert;
 
 import java.io.File;

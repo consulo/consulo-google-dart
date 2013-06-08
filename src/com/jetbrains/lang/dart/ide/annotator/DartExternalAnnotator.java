@@ -10,8 +10,8 @@ import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.fileEditor.FileDocumentManager;
 import com.intellij.openapi.module.Module;
-import com.intellij.openapi.module.ModuleType;
 import com.intellij.openapi.module.ModuleUtilCore;
+import com.intellij.openapi.projectRoots.Sdk;
 import com.intellij.openapi.util.Comparing;
 import com.intellij.openapi.util.Condition;
 import com.intellij.openapi.util.TextRange;
@@ -22,7 +22,7 @@ import com.intellij.psi.search.GlobalSearchScope;
 import com.intellij.util.containers.ContainerUtil;
 import com.jetbrains.lang.dart.analyzer.AnalyzerMessage;
 import com.jetbrains.lang.dart.analyzer.DartAnalyzerDriver;
-import com.jetbrains.lang.dart.ide.settings.DartSettings;
+import com.jetbrains.lang.dart.ide.settings.DartSdkUtil;
 import com.jetbrains.lang.dart.util.DartResolveUtil;
 import com.jetbrains.lang.dart.validation.fixes.DartResolverErrorCode;
 import com.jetbrains.lang.dart.validation.fixes.DartTypeErrorCode;
@@ -54,14 +54,13 @@ public class DartExternalAnnotator extends ExternalAnnotator<DartAnalyzerDriver,
       return null;
     }
 
-    DartSettings settings = DartSettings.getSettingsForModule(module);
-    if (settings == null) {
-      LOG.debug("No settings for module " + module.getName());
-      ModuleType moduleType = ModuleType.get(module);
-      LOG.debug("Type " + (moduleType == null ? null : moduleType.getId()));
+    Sdk sdk = DartSdkUtil.getSdkForModule(module);
+    if (sdk == null) {
+      LOG.debug("No sdk for module " + module.getName());
+      return null;
     }
-    final VirtualFile analyzanalyzer = settings == null ? null : settings.getAnalyzer();
-    return analyzanalyzer == null ? null : new DartAnalyzerDriver(module.getProject(), analyzanalyzer, settings.getSdkPath(), libraryRoot);
+    final VirtualFile analyzanalyzer = DartSdkUtil.getAnalyzer(sdk);
+    return analyzanalyzer == null ? null : new DartAnalyzerDriver(module.getProject(), analyzanalyzer, sdk.getHomePath(), libraryRoot);
   }
 
   @Override

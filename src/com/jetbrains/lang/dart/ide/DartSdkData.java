@@ -7,6 +7,7 @@ import com.intellij.util.xmlb.XmlSerializerUtil;
 /**
  * @author: Fedor.Korotkov
  */
+@Deprecated
 public class DartSdkData implements SdkAdditionalData, PersistentStateComponent<DartSdkData> {
   private String homePath = "";
   private String version = "";

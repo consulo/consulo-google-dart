@@ -9,8 +9,7 @@ import com.intellij.ide.fileTemplates.FileTemplateUtil;
 import com.intellij.openapi.actionSystem.DataContext;
 import com.intellij.openapi.actionSystem.LangDataKeys;
 import com.intellij.openapi.module.Module;
-import com.intellij.openapi.module.ModuleType;
-import com.intellij.openapi.module.WebModuleTypeBase;
+import com.intellij.openapi.module.ModuleUtilCore;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.InputValidatorEx;
 import com.intellij.openapi.util.text.StringUtil;
@@ -19,7 +18,7 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.util.IncorrectOperationException;
 import com.jetbrains.lang.dart.DartBundle;
-import com.jetbrains.lang.dart.ide.module.DartModuleTypeBase;
+import com.jetbrains.lang.dart.ide.module.DartModuleExtension;
 import com.jetbrains.lang.dart.util.DartFileTemplateUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -38,9 +37,8 @@ public class CreateDartFileAction extends CreateFromTemplateAction<PsiFile> {
   @Override
   protected boolean isAvailable(DataContext dataContext) {
     final Module module = LangDataKeys.MODULE.getData(dataContext);
-    final ModuleType moduleType = module == null ? null : ModuleType.get(module);
-    final boolean isWebOrDartModule = moduleType instanceof WebModuleTypeBase || moduleType instanceof DartModuleTypeBase;
-    return super.isAvailable(dataContext) && isWebOrDartModule;
+
+    return super.isAvailable(dataContext) && module != null && ModuleUtilCore.getExtension(module, DartModuleExtension.class) != null;
   }
 
   @Override

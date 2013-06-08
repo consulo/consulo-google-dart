@@ -9,6 +9,7 @@ import com.intellij.execution.process.OSProcessHandler;
 import com.intellij.execution.process.ProcessHandler;
 import com.intellij.execution.runners.ExecutionEnvironment;
 import com.intellij.openapi.module.Module;
+import com.intellij.openapi.projectRoots.Sdk;
 import com.intellij.openapi.vfs.VfsUtilCore;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.openapi.vfs.VirtualFileManager;
@@ -16,9 +17,8 @@ import com.intellij.util.PathUtil;
 import com.intellij.util.text.StringTokenizer;
 import com.jetbrains.lang.dart.DartBundle;
 import com.jetbrains.lang.dart.ide.runner.DartStackTraceMessageFiler;
-import com.jetbrains.lang.dart.ide.settings.DartSettings;
+import com.jetbrains.lang.dart.ide.settings.DartSdkUtil;
 import com.jetbrains.lang.dart.util.DartResolveUtil;
-import com.jetbrains.lang.dart.util.DartSdkUtil;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -51,9 +51,10 @@ public class DartCommandLineRunningState extends CommandLineState {
   }
 
   public GeneralCommandLine getCommand() throws ExecutionException {
-    DartSettings dartSettings = DartSettings.getSettingsForModule(module);
-    String dartExecutablePath = DartSdkUtil.getCompilerPathByFolderPath(dartSettings != null ? dartSettings.getSdkPath() : null);
-    if (dartSettings == null || dartExecutablePath == null) {
+    Sdk dartSdkUtil = DartSdkUtil.getSdkForModule(module);
+    String dartExecutablePath = com.jetbrains.lang.dart.util.DartSdkUtil
+      .getCompilerPathByFolderPath(dartSdkUtil != null ? dartSdkUtil.getHomePath() : null);
+    if (dartSdkUtil == null || dartExecutablePath == null) {
       throw new ExecutionException(DartBundle.message("bad.home.for.sdk", module.getName()));
     }
     final GeneralCommandLine commandLine = new GeneralCommandLine();
@@ -65,7 +66,7 @@ public class DartCommandLineRunningState extends CommandLineState {
     setupUserProperties(
       module,
       commandLine,
-      dartSettings
+      dartSdkUtil
     );
 
     final TextConsoleBuilder consoleBuilder = TextConsoleBuilderFactory.getInstance().createBuilder(module.getProject());
@@ -77,8 +78,8 @@ public class DartCommandLineRunningState extends CommandLineState {
 
   private void setupUserProperties(@NotNull Module module,
                                    GeneralCommandLine commandLine,
-                                   @NotNull DartSettings sdk) {
-    commandLine.getEnvironment().put("com.google.dart.sdk", sdk.getSdkPath());
+                                   @NotNull Sdk sdk) {
+    commandLine.getEnvironment().put("com.google.dart.sdk", sdk.getHomePath());
 
     commandLine.addParameter("--ignore-unrecognized-flags");
 

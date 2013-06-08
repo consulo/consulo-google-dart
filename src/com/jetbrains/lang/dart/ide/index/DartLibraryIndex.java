@@ -2,13 +2,14 @@ package com.jetbrains.lang.dart.ide.index;
 
 import com.intellij.openapi.module.ModuleUtilCore;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.projectRoots.Sdk;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.search.GlobalSearchScope;
 import com.intellij.util.indexing.*;
 import com.intellij.util.io.EnumeratorStringDescriptor;
 import com.intellij.util.io.KeyDescriptor;
-import com.jetbrains.lang.dart.ide.settings.DartSettings;
+import com.jetbrains.lang.dart.ide.settings.DartSdkUtil;
 import gnu.trove.THashSet;
 import org.jetbrains.annotations.NotNull;
 
@@ -57,8 +58,8 @@ public class DartLibraryIndex extends ScalarIndexExtension<String> {
   public static List<VirtualFile> findLibraryClass(@NotNull PsiElement context, String libraryName) {
     if (libraryName.startsWith("dart:")) {
       String stdLibName = libraryName.substring("dart:".length());
-      DartSettings settings = DartSettings.getSettingsForModule(ModuleUtilCore.findModuleForPsiElement(context));
-      VirtualFile stdLibFile = settings != null ? settings.findSdkLibrary(context, stdLibName) : null;
+      Sdk sdk = DartSdkUtil.getSdkForModule(ModuleUtilCore.findModuleForPsiElement(context));
+      VirtualFile stdLibFile = sdk != null ? DartSdkUtil.findSdkLibrary(sdk, context, stdLibName) : null;
       if (stdLibFile != null) {
         return Arrays.asList(stdLibFile);
       }

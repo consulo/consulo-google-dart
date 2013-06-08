@@ -1,11 +1,9 @@
 package com.jetbrains.lang.dart.ide.converting;
 
-import com.intellij.openapi.application.PathManager;
 import com.intellij.openapi.util.JDOMUtil;
 import com.intellij.openapi.util.io.FileUtil;
 import com.intellij.testFramework.LightPlatformTestCase;
 import com.intellij.testFramework.PlatformTestCase;
-import com.jetbrains.lang.dart.ide.DartRunConfigurationConverterProvider;
 import com.jetbrains.lang.dart.util.DartTestUtils;
 import org.jdom.Document;
 import org.jdom.Element;

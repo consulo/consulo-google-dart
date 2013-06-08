@@ -12,6 +12,7 @@ import com.intellij.execution.ui.RunContentDescriptor;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.module.ModuleUtilCore;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.projectRoots.Sdk;
 import com.intellij.openapi.vfs.VfsUtilCore;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.openapi.vfs.VirtualFileManager;
@@ -20,8 +21,7 @@ import com.intellij.xdebugger.XDebugProcessStarter;
 import com.intellij.xdebugger.XDebugSession;
 import com.intellij.xdebugger.XDebuggerManager;
 import com.jetbrains.lang.dart.ide.runner.server.DartCommandLineDebugProcess;
-import com.jetbrains.lang.dart.ide.settings.DartSettings;
-import com.jetbrains.lang.dart.util.DartSdkUtil;
+import com.jetbrains.lang.dart.ide.settings.DartSdkUtil;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
@@ -61,11 +61,11 @@ public class DartUnitDebugRunner extends DefaultProgramRunner {
     }
 
     final Module module = ModuleUtilCore.findModuleForFile(virtualFile, project);
-    final DartSettings dartSettings = DartSettings.getSettingsForModule(module);
+    final Sdk sdk = DartSdkUtil.getSdkForModule(module);
 
-    final int debuggingPort = DartSdkUtil.findFreePortForDebugging();
+    final int debuggingPort = com.jetbrains.lang.dart.util.DartSdkUtil.findFreePortForDebugging();
 
-    final DartUnitRunningState dartUnitRunningState = new DartUnitRunningState(env, parameters, dartSettings, debuggingPort);
+    final DartUnitRunningState dartUnitRunningState = new DartUnitRunningState(env, parameters, sdk, debuggingPort);
     final ExecutionResult executionResult = dartUnitRunningState.execute(executor, this);
 
     final XDebugSession debugSession =

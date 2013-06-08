@@ -13,26 +13,20 @@ import com.intellij.openapi.application.ModalityState;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.fileEditor.FileDocumentManager;
 import com.intellij.openapi.module.Module;
-import com.intellij.openapi.module.ModuleType;
 import com.intellij.openapi.module.ModuleUtilCore;
-import com.intellij.openapi.module.WebModuleTypeBase;
 import com.intellij.openapi.progress.ProgressIndicator;
 import com.intellij.openapi.progress.Task;
 import com.intellij.openapi.projectRoots.Sdk;
-import com.intellij.openapi.roots.ModuleRootManager;
 import com.intellij.openapi.ui.Messages;
-import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiFile;
 import com.jetbrains.lang.dart.DartBundle;
-import com.jetbrains.lang.dart.ide.module.DartModuleTypeBase;
-import com.jetbrains.lang.dart.ide.settings.DartSettings;
-import com.jetbrains.lang.dart.ide.settings.DartSettingsUtil;
+import com.jetbrains.lang.dart.ide.module.DartModuleExtension;
+import com.jetbrains.lang.dart.ide.settings.DartSdkUtil;
 import com.jetbrains.lang.dart.util.DartResolveUtil;
 import icons.DartIcons;
+import org.consulo.yaml.psi.YAMLFile;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-import org.jetbrains.yaml.psi.YAMLFile;
 
 import java.nio.charset.Charset;
 
@@ -80,11 +74,12 @@ public class DartPubAction extends AnAction {
     }
 
     final boolean update = DartResolveUtil.findPackagesFolder(module) != null;
-    final DartSettings settings = DartSettings.getSettingsForModule(module);
-    final VirtualFile dartPub = settings == null ? null : settings.getPub();
+    final Sdk sdk = ModuleUtilCore.getSdk(module, DartModuleExtension.class);
+
+    final VirtualFile dartPub = DartSdkUtil.getPub(sdk);
     if (dartPub == null) {
       Messages.showOkCancelDialog(e.getProject(),
-                                  DartBundle.message("dart.sdk.bad.dartpub.path", settings != null ? settings.getPubPath() : ""),
+                                  DartBundle.message("dart.sdk.bad.dartpub.path", sdk == null ? "" : DartSdkUtil.getPubPath(sdk)),
                                   DartBundle.message("dart.warning"),
                                   DartIcons.Dart_16);
       return;
@@ -99,10 +94,7 @@ public class DartPubAction extends AnAction {
         command.setWorkDirectory(virtualFile.getParent().getPath());
         command.addParameter(update ? "update" : "install");
 
-        final DartSettings dartSettings = getSettings(psiFile);
-        if (dartSettings != null) {
-          command.getEnvironment().put("DART_SDK", settings.getSdkPath());
-        }
+        command.getEnvironment().put("DART_SDK", sdk.getHomePath());
 
         // save on disk
         ApplicationManager.getApplication().invokeAndWait(new Runnable() {
@@ -161,21 +153,5 @@ public class DartPubAction extends AnAction {
       return true;
     }
     return false;
-  }
-
-  @Nullable
-  private static DartSettings getSettings(PsiFile psiFile) {
-    final Module module = ModuleUtilCore.findModuleForPsiElement(psiFile);
-    DartSettings settings = null;
-    if (ModuleType.get(module) instanceof WebModuleTypeBase) {
-      settings = DartSettingsUtil.getSettings();
-    }
-    else if (ModuleType.get(module) instanceof DartModuleTypeBase) {
-      assert module != null;
-      final ModuleRootManager moduleRootManager = ModuleRootManager.getInstance(module);
-      final Sdk sdk = moduleRootManager.getSdk();
-      settings = new DartSettings(StringUtil.notNullize(sdk == null ? null : sdk.getHomePath()));
-    }
-    return settings;
   }
 }

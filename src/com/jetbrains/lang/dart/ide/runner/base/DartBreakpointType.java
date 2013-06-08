@@ -1,7 +1,6 @@
 package com.jetbrains.lang.dart.ide.runner.base;
 
 import com.intellij.openapi.module.Module;
-import com.intellij.openapi.module.ModuleType;
 import com.intellij.openapi.module.ModuleUtilCore;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
@@ -13,7 +12,7 @@ import com.intellij.xdebugger.breakpoints.ui.XBreakpointGroupingRule;
 import com.intellij.xdebugger.evaluation.XDebuggerEditorsProvider;
 import com.jetbrains.lang.dart.DartBundle;
 import com.jetbrains.lang.dart.DartFileType;
-import com.jetbrains.lang.dart.ide.module.DartModuleTypeBase;
+import com.jetbrains.lang.dart.ide.module.DartModuleExtension;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -34,7 +33,7 @@ public class DartBreakpointType extends XLineBreakpointType<XBreakpointPropertie
       Module module = ModuleUtilCore.findModuleForFile(file, project);
       if (module != null) {
         // only in dart module.
-        return ModuleType.get(module) instanceof DartModuleTypeBase;
+        return ModuleUtilCore.getExtension(module, DartModuleExtension.class) != null;
       }
     }
     return false;

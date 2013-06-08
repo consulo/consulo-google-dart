@@ -3,13 +3,12 @@ package com.jetbrains.lang.dart.ide;
 import com.intellij.openapi.fileChooser.FileChooserDescriptor;
 import com.intellij.openapi.fileChooser.PathChooserDialog;
 import com.intellij.openapi.projectRoots.*;
-import com.intellij.openapi.roots.JavadocOrderRootType;
-import com.intellij.openapi.roots.OrderRootType;
 import com.intellij.openapi.util.SystemInfo;
 import com.intellij.util.xmlb.XmlSerializer;
 import com.jetbrains.lang.dart.DartBundle;
 import com.jetbrains.lang.dart.util.DartSdkUtil;
 import org.jdom.Element;
+import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
 
@@ -26,9 +25,10 @@ public class DartSdkType extends SdkType {
     return icons.DartIcons.Dart_16;
   }
 
+  @Nullable
   @Override
-  public Icon getIconForAddAction() {
-    return icons.DartIcons.Dart_16;
+  public Icon getGroupIcon() {
+    return getIcon(); //TODO [VISTALL]  new icon
   }
 
   public static DartSdkType getInstance() {
@@ -48,7 +48,7 @@ public class DartSdkType extends SdkType {
   @Override
   public String getVersionString(String sdkHome) {
     final DartSdkData dartSdkData = DartSdkUtil.testDartSdk(sdkHome);
-    return dartSdkData != null ? dartSdkData.getVersion() : super.getVersionString(sdkHome);
+    return dartSdkData != null ? dartSdkData.getVersion() : null;
   }
 
   @Override
@@ -64,11 +64,6 @@ public class DartSdkType extends SdkType {
   @Override
   public AdditionalDataConfigurable createAdditionalDataConfigurable(SdkModel sdkModel, SdkModificator sdkModificator) {
     return null;
-  }
-
-  @Override
-  public boolean isRootTypeApplicable(OrderRootType type) {
-    return type == OrderRootType.SOURCES || type == OrderRootType.CLASSES || type == JavadocOrderRootType.getInstance();
   }
 
   @Override

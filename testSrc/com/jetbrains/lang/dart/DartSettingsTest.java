@@ -1,7 +1,7 @@
 package com.jetbrains.lang.dart;
 
 import com.intellij.testFramework.fixtures.LightPlatformCodeInsightFixtureTestCase;
-import com.jetbrains.lang.dart.ide.settings.DartSettings;
+import com.jetbrains.lang.dart.ide.settings.DartSdkUtil;
 import com.jetbrains.lang.dart.util.DartTestUtils;
 
 import java.util.Map;
@@ -13,7 +13,7 @@ public class DartSettingsTest extends LightPlatformCodeInsightFixtureTestCase {
   }
 
   public void testLibraries() throws Throwable {
-    Map<String, String> libs = DartSettings.computeData(myFixture.configureByFile("libraries.dart"));
+    Map<String, String> libs = DartSdkUtil.computeData(myFixture.configureByFile("libraries.dart"));
     assertEquals("html/dartium/html_dartium.dart", libs.get("html"));
   }
 }

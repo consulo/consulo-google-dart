@@ -6,12 +6,13 @@ import com.intellij.codeInsight.lookup.LookupElementBuilder;
 import com.intellij.codeInsight.lookup.LookupElementPresentation;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.module.ModuleUtilCore;
+import com.intellij.openapi.projectRoots.Sdk;
 import com.intellij.psi.PsiElement;
 import com.intellij.util.Function;
 import com.intellij.util.ProcessingContext;
 import com.intellij.util.containers.ContainerUtil;
 import com.jetbrains.lang.dart.ide.index.DartLibraryIndex;
-import com.jetbrains.lang.dart.ide.settings.DartSettings;
+import com.jetbrains.lang.dart.ide.settings.DartSdkUtil;
 import com.jetbrains.lang.dart.psi.DartId;
 import com.jetbrains.lang.dart.psi.DartLibraryId;
 import com.jetbrains.lang.dart.psi.DartPathOrLibraryReference;
@@ -68,8 +69,8 @@ public class DartLibraryNameCompletionContributor extends CompletionContributor 
   }
 
   private static Collection<? extends String> getStdLibraries(PsiElement context) {
-    DartSettings settings = DartSettings.getSettingsForModule(ModuleUtilCore.findModuleForPsiElement(context));
-    return settings != null ? settings.getLibraries(context) : Collections.<String>emptyList();
+    Sdk sdk = DartSdkUtil.getSdkForModule(ModuleUtilCore.findModuleForPsiElement(context));
+    return sdk != null ? DartSdkUtil.getLibraries(sdk, context) : Collections.<String>emptyList();
   }
 
   public static class QuotedStringLookupElement extends LookupElement {

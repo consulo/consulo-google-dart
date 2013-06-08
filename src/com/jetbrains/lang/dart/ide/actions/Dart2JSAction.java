@@ -11,9 +11,13 @@ import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.application.ModalityState;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.fileEditor.FileDocumentManager;
+import com.intellij.openapi.module.Module;
+import com.intellij.openapi.module.ModuleUtil;
+import com.intellij.openapi.module.ModuleUtilCore;
 import com.intellij.openapi.progress.ProgressIndicator;
 import com.intellij.openapi.progress.ProgressManager;
 import com.intellij.openapi.progress.Task;
+import com.intellij.openapi.projectRoots.Sdk;
 import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.vfs.VfsUtil;
 import com.intellij.openapi.vfs.VfsUtilCore;
@@ -22,8 +26,8 @@ import com.intellij.openapi.vfs.VirtualFileManager;
 import com.intellij.psi.PsiFile;
 import com.jetbrains.lang.dart.DartBundle;
 import com.jetbrains.lang.dart.ide.actions.ui.Dart2JSSettingsDialog;
-import com.jetbrains.lang.dart.ide.settings.DartSettings;
-import com.jetbrains.lang.dart.ide.settings.DartSettingsUtil;
+import com.jetbrains.lang.dart.ide.module.DartModuleExtension;
+import com.jetbrains.lang.dart.ide.settings.DartSdkUtil;
 import com.jetbrains.lang.dart.psi.DartFile;
 import com.jetbrains.lang.dart.util.DartResolveUtil;
 import org.jetbrains.annotations.NotNull;
@@ -59,10 +63,16 @@ public class Dart2JSAction extends AnAction {
     if (virtualFile == null) {
       return;
     }
-    final DartSettings settings = DartSettingsUtil.getSettings();
-    final VirtualFile dart2js = settings.getDart2JS();
+
+    Module module = ModuleUtil.findModuleForPsiElement(psiFile);
+    if(module == null) {
+      return;
+    }
+
+    final Sdk sdk = ModuleUtilCore.getSdk(module, DartModuleExtension.class);
+    final VirtualFile dart2js = DartSdkUtil.getDart2JS(sdk);
     if (dart2js == null) {
-      Messages.showOkCancelDialog(e.getProject(), DartBundle.message("dart.sdk.bad.dart2js.path", settings.getDart2JSPath()),
+      Messages.showOkCancelDialog(e.getProject(), DartBundle.message("dart.sdk.bad.dart2js.path", DartSdkUtil.getDart2JSPath(sdk)),
                                   DartBundle.message("dart.warning"),
                                   icons.DartIcons.Dart_16);
       return;
