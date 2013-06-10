@@ -14,6 +14,9 @@ import com.intellij.execution.runners.ExecutionEnvironment;
 import com.intellij.execution.runners.ProgramRunner;
 import com.intellij.execution.testframework.TestConsoleProperties;
 import com.intellij.execution.testframework.autotest.ToggleAutoTestAction;
+import com.intellij.execution.testframework.sm.SMTestRunnerConnectionUtil;
+import com.intellij.execution.testframework.sm.runner.SMTRunnerConsoleProperties;
+import com.intellij.execution.testframework.sm.runner.ui.SMTRunnerConsoleView;
 import com.intellij.execution.ui.ConsoleView;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
@@ -96,7 +99,7 @@ public class DartUnitRunningState extends CommandLineState {
       true,
       null
     );
-    testConsoleProperties.setUsePredefinedMessageFilter(false);
+    //FIXME [VISTALL] ? testConsoleProperties.setUsePredefinedMessageFilter(false);
     Filter filter = new DartStackTraceMessageFiler(testConsoleProperties.getProject(), myUnitParameters.getFilePath());
     smtConsoleView.addMessageFilter(filter);
 

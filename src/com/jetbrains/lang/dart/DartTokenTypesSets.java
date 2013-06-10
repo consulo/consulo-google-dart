@@ -1,9 +1,6 @@
 package com.jetbrains.lang.dart;
 
-import com.intellij.lang.LighterASTNode;
-import com.intellij.lang.LighterLazyParseableNode;
-import com.intellij.lang.PsiBuilder;
-import com.intellij.lang.PsiBuilderFactory;
+import com.intellij.lang.*;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.TokenType;
 import com.intellij.psi.tree.*;
@@ -117,7 +114,7 @@ public interface DartTokenTypesSets {
       PsiFile file = chameleon.getContainingFile();
       assert file != null : chameleon;
 
-      final PsiBuilder psiBuilder = PsiBuilderFactory.getInstance().createBuilder(file.getProject(), chameleon);
+      final PsiBuilder psiBuilder = PsiBuilderFactory.getInstance().createBuilder(file.getProject(), chameleon, Language.UNKNOWN_VERSION);
 
       final PsiBuilder builder = adapt_builder_(EMBEDDED_CONTENT, psiBuilder, new DartParser());
 
