@@ -2,6 +2,7 @@ package com.jetbrains.lang.dart.ide.module;
 
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.projectRoots.Sdk;
+import com.intellij.openapi.roots.ModifiableRootModel;
 import com.intellij.openapi.util.Comparing;
 import org.consulo.module.extension.MutableModuleExtensionWithSdk;
 import org.consulo.module.extension.ui.ModuleExtensionWithSdkPanel;
@@ -31,7 +32,7 @@ public class DartMutableModuleExtension extends DartModuleExtension implements M
 
   @Nullable
   @Override
-  public JComponent createConfigurablePanel(@Nullable Runnable runnable) {
+  public JComponent createConfigurablePanel(@NotNull ModifiableRootModel model, @Nullable Runnable runnable) {
     JPanel panel = new JPanel(new BorderLayout());
     panel.add(new ModuleExtensionWithSdkPanel(this, runnable), BorderLayout.NORTH);
     return panel;
