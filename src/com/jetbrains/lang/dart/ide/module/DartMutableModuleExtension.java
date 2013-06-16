@@ -3,8 +3,8 @@ package com.jetbrains.lang.dart.ide.module;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.projectRoots.Sdk;
 import com.intellij.openapi.roots.ModifiableRootModel;
-import com.intellij.openapi.util.Comparing;
 import org.consulo.module.extension.MutableModuleExtensionWithSdk;
+import org.consulo.module.extension.MutableModuleInheritableNamedPointer;
 import org.consulo.module.extension.ui.ModuleExtensionWithSdkPanel;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -17,7 +17,8 @@ import java.awt.*;
  * @since 17:50/08.06.13
  */
 public class DartMutableModuleExtension extends DartModuleExtension implements MutableModuleExtensionWithSdk<DartModuleExtension> {
-  @NotNull private final DartModuleExtension myModuleExtension;
+  @NotNull
+  private final DartModuleExtension myModuleExtension;
 
   public DartMutableModuleExtension(@NotNull String id, @NotNull Module module, @NotNull DartModuleExtension moduleExtension) {
     super(id, module);
@@ -25,9 +26,10 @@ public class DartMutableModuleExtension extends DartModuleExtension implements M
     commit(moduleExtension);
   }
 
+  @NotNull
   @Override
-  public void setSdk(@Nullable Sdk sdk) {
-    mySdkName = sdk == null ? null : sdk.getName();
+  public MutableModuleInheritableNamedPointer<Sdk> getInheritableSdk() {
+    return (MutableModuleInheritableNamedPointer<Sdk>)super.getInheritableSdk();
   }
 
   @Nullable
@@ -45,7 +47,7 @@ public class DartMutableModuleExtension extends DartModuleExtension implements M
 
   @Override
   public boolean isModified() {
-    return myIsEnabled != myModuleExtension.isEnabled() || !Comparing.equal(mySdkName, myModuleExtension.getSdkName());
+    return isModifiedImpl(myModuleExtension);
   }
 
   @Override
