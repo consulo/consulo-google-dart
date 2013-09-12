@@ -13,7 +13,6 @@ import com.intellij.openapi.projectRoots.Sdk;
 import com.intellij.openapi.vfs.VfsUtilCore;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.openapi.vfs.VirtualFileManager;
-import com.intellij.util.PathUtil;
 import com.intellij.util.text.StringTokenizer;
 import com.jetbrains.lang.dart.DartBundle;
 import com.jetbrains.lang.dart.ide.runner.DartStackTraceMessageFiler;
@@ -60,7 +59,7 @@ public class DartCommandLineRunningState extends CommandLineState {
     final GeneralCommandLine commandLine = new GeneralCommandLine();
 
     commandLine.setExePath(dartExecutablePath);
-    commandLine.setWorkDirectory(PathUtil.getParentPath(module.getModuleFilePath()));
+    commandLine.setWorkDirectory(module.getModuleDirPath());
     commandLine.setPassParentEnvironment(true);
 
     setupUserProperties(

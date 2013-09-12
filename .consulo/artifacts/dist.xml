@@ -1,10 +1,10 @@
 <component name="ArtifactManager">
-  <artifact name="dist">
+  <artifact build-on-make="true" name="dist">
     <output-path>$PROJECT_DIR$/out/artifacts/dist</output-path>
     <root id="root">
       <element id="directory" name="dart">
         <element id="directory" name="lib">
-          <element id="archive" name="dart.jar">
+          <element id="zip-archive" name="dart.jar">
             <element id="module-output" name="consulo-dart" />
           </element>
         </element>

@@ -14,60 +14,69 @@ import com.intellij.execution.runners.ProgramRunner;
 import com.intellij.execution.ui.RunContentDescriptor;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.util.InvalidDataException;
+import com.intellij.openapi.util.WriteExternalException;
 import com.intellij.openapi.util.text.StringUtil;
+import org.jdom.Element;
 import org.jetbrains.annotations.NotNull;
 
 /**
  * @author: Fedor.Korotkov
  */
 public class DartCommandLineRunner extends DefaultProgramRunner {
-  public static final String DART_RUNNER_ID = "DartCommandLineRunner";
+	public static final String DART_RUNNER_ID = "DartCommandLineRunner";
 
-  public static final RunProfileState EMPTY_RUN_STATE = new RunProfileState() {
-    public ExecutionResult execute(final Executor executor, @NotNull final ProgramRunner runner) throws ExecutionException {
-      return null;
-    }
+	public static final RunProfileState EMPTY_RUN_STATE = new RunProfileState() {
+		public ExecutionResult execute(final Executor executor, @NotNull final ProgramRunner runner) throws ExecutionException {
+			return null;
+		}
 
-    public RunnerSettings getRunnerSettings() {
-      return null;
-    }
+		public RunnerSettings getRunnerSettings() {
+			return null;
+		}
 
-    public ConfigurationPerRunnerSettings getConfigurationSettings() {
-      return new ConfigurationPerRunnerSettings(DART_RUNNER_ID, null);
-    }
-  };
+		public ConfigurationPerRunnerSettings getConfigurationSettings() {
+			return new ConfigurationPerRunnerSettings() {
+				@Override
+				public void readExternal(Element element) throws InvalidDataException {
 
-  @NotNull
-  @Override
-  public String getRunnerId() {
-    return DART_RUNNER_ID;
-  }
+				}
 
-  @Override
-  public boolean canRun(@NotNull String executorId, @NotNull RunProfile profile) {
-    return DefaultRunExecutor.EXECUTOR_ID.equals(executorId) && profile instanceof DartCommandLineRunConfiguration;
-  }
+				@Override
+				public void writeExternal(Element element) throws WriteExternalException {
 
-  @Override
-  protected RunContentDescriptor doExecute(Project project,
-                                           Executor executor,
-                                           RunProfileState state,
-                                           RunContentDescriptor contentToReuse,
-                                           ExecutionEnvironment env) throws ExecutionException {
-    final DartCommandLineRunConfiguration configuration = (DartCommandLineRunConfiguration)env.getRunProfile();
-    final Module module = configuration.getModule();
+				}
+			};
+		}
+	};
 
-    final String filePath = configuration.getFilePath();
-    assert filePath != null;
+	@NotNull
+	@Override
+	public String getRunnerId() {
+		return DART_RUNNER_ID;
+	}
 
-    final DartCommandLineRunningState dartCommandLineRunningState = new DartCommandLineRunningState(
-      env,
-      module,
-      filePath,
-      StringUtil.notNullize(configuration.getVMOptions()),
-      StringUtil.notNullize(configuration.getArguments())
-    );
+	@Override
+	public boolean canRun(@NotNull String executorId, @NotNull RunProfile profile) {
+		return DefaultRunExecutor.EXECUTOR_ID.equals(executorId) && profile instanceof DartCommandLineRunConfiguration;
+	}
 
-    return super.doExecute(project, executor, dartCommandLineRunningState, contentToReuse, env);
-  }
+	@Override
+	protected RunContentDescriptor doExecute(Project project, RunProfileState state, RunContentDescriptor contentToReuse, ExecutionEnvironment env) throws ExecutionException {
+		final DartCommandLineRunConfiguration configuration = (DartCommandLineRunConfiguration) env.getRunProfile();
+		final Module module = configuration.getModule();
+
+		final String filePath = configuration.getFilePath();
+		assert filePath != null;
+
+		final DartCommandLineRunningState dartCommandLineRunningState = new DartCommandLineRunningState(
+				env,
+				module,
+				filePath,
+				StringUtil.notNullize(configuration.getVMOptions()),
+				StringUtil.notNullize(configuration.getArguments())
+		);
+
+		return super.doExecute(project, dartCommandLineRunningState, contentToReuse, env);
+	}
 }

@@ -4,6 +4,7 @@ import com.intellij.lang.*;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.TokenType;
 import com.intellij.psi.tree.*;
+import com.intellij.util.LanguageVersionUtil;
 import com.intellij.util.diff.FlyweightCapableTreeStructure;
 
 import static com.intellij.lang.parser.GeneratedParserUtilBase.*;
@@ -114,7 +115,7 @@ public interface DartTokenTypesSets {
       PsiFile file = chameleon.getContainingFile();
       assert file != null : chameleon;
 
-      final PsiBuilder psiBuilder = PsiBuilderFactory.getInstance().createBuilder(file.getProject(), chameleon, Language.UNKNOWN_VERSION);
+      final PsiBuilder psiBuilder = PsiBuilderFactory.getInstance().createBuilder(file.getProject(), chameleon, LanguageVersionUtil.findDefaultVersion(getLanguage()));
 
       final PsiBuilder builder = adapt_builder_(EMBEDDED_CONTENT, psiBuilder, new DartParser());
 

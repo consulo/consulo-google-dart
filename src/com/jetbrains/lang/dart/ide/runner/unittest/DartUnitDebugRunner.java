@@ -2,7 +2,6 @@ package com.jetbrains.lang.dart.ide.runner.unittest;
 
 import com.intellij.execution.ExecutionException;
 import com.intellij.execution.ExecutionResult;
-import com.intellij.execution.Executor;
 import com.intellij.execution.configurations.RunProfile;
 import com.intellij.execution.configurations.RunProfileState;
 import com.intellij.execution.executors.DefaultDebugExecutor;
@@ -30,57 +29,52 @@ import java.io.IOException;
  * @author: Fedor.Korotkov
  */
 public class DartUnitDebugRunner extends DefaultProgramRunner {
-  public static final String DART_UNIT_DEBUG_RUNNER_ID = "DartUnitDebugRunner";
+	public static final String DART_UNIT_DEBUG_RUNNER_ID = "DartUnitDebugRunner";
 
-  @NotNull
-  @Override
-  public String getRunnerId() {
-    return DART_UNIT_DEBUG_RUNNER_ID;
-  }
+	@NotNull
+	@Override
+	public String getRunnerId() {
+		return DART_UNIT_DEBUG_RUNNER_ID;
+	}
 
-  @Override
-  public boolean canRun(@NotNull String executorId, @NotNull RunProfile profile) {
-    return DefaultDebugExecutor.EXECUTOR_ID.equals(executorId) && profile instanceof DartUnitRunConfiguration;
-  }
+	@Override
+	public boolean canRun(@NotNull String executorId, @NotNull RunProfile profile) {
+		return DefaultDebugExecutor.EXECUTOR_ID.equals(executorId) && profile instanceof DartUnitRunConfiguration;
+	}
 
-  @Override
-  protected RunContentDescriptor doExecute(Project project,
-                                           Executor executor,
-                                           RunProfileState state,
-                                           RunContentDescriptor contentToReuse,
-                                           ExecutionEnvironment env) throws ExecutionException {
-    final DartUnitRunConfiguration configuration = (DartUnitRunConfiguration)env.getRunProfile();
+	@Override
+	protected RunContentDescriptor doExecute(Project project, RunProfileState state, RunContentDescriptor contentToReuse, ExecutionEnvironment env) throws ExecutionException {
+		final DartUnitRunConfiguration configuration = (DartUnitRunConfiguration) env.getRunProfile();
 
-    final DartUnitRunnerParameters parameters = configuration.getRunnerParameters();
-    final String filePath = parameters.getFilePath();
-    assert filePath != null;
+		final DartUnitRunnerParameters parameters = configuration.getRunnerParameters();
+		final String filePath = parameters.getFilePath();
+		assert filePath != null;
 
-    final VirtualFile virtualFile = VirtualFileManager.getInstance().findFileByUrl(VfsUtilCore.pathToUrl(filePath));
-    if (virtualFile == null) {
-      throw new ExecutionException("Can't find file: " + filePath);
-    }
+		final VirtualFile virtualFile = VirtualFileManager.getInstance().findFileByUrl(VfsUtilCore.pathToUrl(filePath));
+		if (virtualFile == null) {
+			throw new ExecutionException("Can't find file: " + filePath);
+		}
 
-    final Module module = ModuleUtilCore.findModuleForFile(virtualFile, project);
-    final Sdk sdk = DartSdkUtil.getSdkForModule(module);
+		final Module module = ModuleUtilCore.findModuleForFile(virtualFile, project);
+		final Sdk sdk = DartSdkUtil.getSdkForModule(module);
 
-    final int debuggingPort = com.jetbrains.lang.dart.util.DartSdkUtil.findFreePortForDebugging();
+		final int debuggingPort = com.jetbrains.lang.dart.util.DartSdkUtil.findFreePortForDebugging();
 
-    final DartUnitRunningState dartUnitRunningState = new DartUnitRunningState(env, parameters, sdk, debuggingPort);
-    final ExecutionResult executionResult = dartUnitRunningState.execute(executor, this);
+		final DartUnitRunningState dartUnitRunningState = new DartUnitRunningState(env, parameters, sdk, debuggingPort);
+		final ExecutionResult executionResult = dartUnitRunningState.execute(env.getExecutor(), this);
 
-    final XDebugSession debugSession =
-      XDebuggerManager.getInstance(project).startSession(this, env, contentToReuse, new XDebugProcessStarter() {
-        @NotNull
-        public XDebugProcess start(@NotNull final XDebugSession session) throws ExecutionException {
-          try {
-            return new DartCommandLineDebugProcess(session, debuggingPort, executionResult);
-          }
-          catch (IOException e) {
-            throw new ExecutionException(e.getMessage(), e);
-          }
-        }
-      });
+		final XDebugSession debugSession =
+				XDebuggerManager.getInstance(project).startSession(this, env, contentToReuse, new XDebugProcessStarter() {
+					@NotNull
+					public XDebugProcess start(@NotNull final XDebugSession session) throws ExecutionException {
+						try {
+							return new DartCommandLineDebugProcess(session, debuggingPort, executionResult);
+						} catch (IOException e) {
+							throw new ExecutionException(e.getMessage(), e);
+						}
+					}
+				});
 
-    return debugSession.getRunContentDescriptor();
-  }
+		return debugSession.getRunContentDescriptor();
+	}
 }

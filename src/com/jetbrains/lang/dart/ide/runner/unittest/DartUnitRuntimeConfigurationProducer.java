@@ -135,7 +135,7 @@ public class DartUnitRuntimeConfigurationProducer extends RuntimeConfigurationPr
   @Nullable
   @Override
   protected RunnerAndConfigurationSettings findExistingByElement(Location location,
-                                                                 @NotNull RunnerAndConfigurationSettings[] existingConfigurations,
+																 @NotNull List<RunnerAndConfigurationSettings> existingConfigurations,
                                                                  ConfigurationContext context) {
     final String testName = "Test: " + findTestName(PsiTreeUtil.getParentOfType(location.getPsiElement(), DartCallExpression.class));
     return ContainerUtil.find(existingConfigurations, new Condition<RunnerAndConfigurationSettings>() {

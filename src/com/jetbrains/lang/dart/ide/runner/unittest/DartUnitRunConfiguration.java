@@ -4,14 +4,12 @@ import com.intellij.execution.ExecutionException;
 import com.intellij.execution.Executor;
 import com.intellij.execution.configurations.*;
 import com.intellij.execution.runners.ExecutionEnvironment;
-import com.intellij.execution.runners.ProgramRunner;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.module.ModuleUtilCore;
 import com.intellij.openapi.options.SettingsEditor;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.projectRoots.Sdk;
 import com.intellij.openapi.util.InvalidDataException;
-import com.intellij.openapi.util.JDOMExternalizable;
 import com.intellij.openapi.util.WriteExternalException;
 import com.intellij.openapi.util.io.FileUtilRt;
 import com.intellij.openapi.vfs.VfsUtilCore;
@@ -23,7 +21,6 @@ import com.jetbrains.lang.dart.ide.runner.unittest.ui.DartUnitConfigurationEdito
 import com.jetbrains.lang.dart.ide.settings.DartSdkUtil;
 import org.jdom.Element;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 /**
  * @author: Fedor.Korotkov
@@ -42,18 +39,6 @@ public class DartUnitRunConfiguration extends RunConfigurationBase implements Lo
   @Override
   public SettingsEditor<? extends RunConfiguration> getConfigurationEditor() {
     return new DartUnitConfigurationEditorForm(getProject());
-  }
-
-  @Nullable
-  @Override
-  public JDOMExternalizable createRunnerSettings(ConfigurationInfoProvider provider) {
-    return null;
-  }
-
-  @Nullable
-  @Override
-  public SettingsEditor<JDOMExternalizable> getRunnerSettingsEditor(ProgramRunner runner) {
-    return null;
   }
 
   @Override

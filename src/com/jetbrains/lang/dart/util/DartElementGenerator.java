@@ -7,6 +7,7 @@ import com.intellij.psi.PsiFileFactory;
 import com.intellij.psi.impl.PsiFileFactoryImpl;
 import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.testFramework.LightVirtualFile;
+import com.intellij.util.LanguageVersionUtil;
 import com.jetbrains.lang.dart.DartFileType;
 import com.jetbrains.lang.dart.DartLanguage;
 import com.jetbrains.lang.dart.psi.*;
@@ -89,7 +90,7 @@ public class DartElementGenerator {
     final PsiFileFactory factory = PsiFileFactory.getInstance(myProject);
     final String name = "dummy." + DartFileType.INSTANCE.getDefaultExtension();
     final LightVirtualFile virtualFile = new LightVirtualFile(name, DartFileType.INSTANCE, text);
-    final PsiFile psiFile = ((PsiFileFactoryImpl)factory).trySetupPsiForFile(virtualFile, DartLanguage.INSTANCE, false, true);
+    final PsiFile psiFile = ((PsiFileFactoryImpl)factory).trySetupPsiForFile(virtualFile, DartLanguage.INSTANCE, LanguageVersionUtil.findDefaultVersion(DartLanguage.INSTANCE), false, true);
     assert psiFile != null;
     return psiFile;
   }

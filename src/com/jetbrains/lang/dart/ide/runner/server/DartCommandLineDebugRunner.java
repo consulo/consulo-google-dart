@@ -2,7 +2,6 @@ package com.jetbrains.lang.dart.ide.runner.server;
 
 import com.intellij.execution.ExecutionException;
 import com.intellij.execution.ExecutionResult;
-import com.intellij.execution.Executor;
 import com.intellij.execution.configurations.RunProfile;
 import com.intellij.execution.configurations.RunProfileState;
 import com.intellij.execution.executors.DefaultDebugExecutor;
@@ -38,7 +37,6 @@ public class DartCommandLineDebugRunner extends DefaultProgramRunner {
 
   @Override
   protected RunContentDescriptor doExecute(Project project,
-                                           Executor executor,
                                            RunProfileState state,
                                            RunContentDescriptor contentToReuse,
                                            ExecutionEnvironment env) throws ExecutionException {
@@ -59,7 +57,7 @@ public class DartCommandLineDebugRunner extends DefaultProgramRunner {
       StringUtil.notNullize(configuration.getArguments())
     );
 
-    final ExecutionResult executionResult = dartCommandLineRunningState.execute(executor, this);
+    final ExecutionResult executionResult = dartCommandLineRunningState.execute(env.getExecutor(), this);
 
     final XDebugSession debugSession =
       XDebuggerManager.getInstance(project).startSession(this, env, contentToReuse, new XDebugProcessStarter() {

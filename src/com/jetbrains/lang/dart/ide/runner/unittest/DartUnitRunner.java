@@ -1,7 +1,6 @@
 package com.jetbrains.lang.dart.ide.runner.unittest;
 
 import com.intellij.execution.ExecutionException;
-import com.intellij.execution.Executor;
 import com.intellij.execution.configurations.RunProfile;
 import com.intellij.execution.configurations.RunProfileState;
 import com.intellij.execution.executors.DefaultRunExecutor;
@@ -22,40 +21,36 @@ import org.jetbrains.annotations.NotNull;
  * @author: Fedor.Korotkov
  */
 public class DartUnitRunner extends DefaultProgramRunner {
-  public static final String DART_UNIT_RUNNER_ID = "DartUnitRunner";
+	public static final String DART_UNIT_RUNNER_ID = "DartUnitRunner";
 
-  @NotNull
-  @Override
-  public String getRunnerId() {
-    return DART_UNIT_RUNNER_ID;
-  }
+	@NotNull
+	@Override
+	public String getRunnerId() {
+		return DART_UNIT_RUNNER_ID;
+	}
 
-  @Override
-  public boolean canRun(@NotNull String executorId, @NotNull RunProfile profile) {
-    return DefaultRunExecutor.EXECUTOR_ID.equals(executorId) && profile instanceof DartUnitRunConfiguration;
-  }
+	@Override
+	public boolean canRun(@NotNull String executorId, @NotNull RunProfile profile) {
+		return DefaultRunExecutor.EXECUTOR_ID.equals(executorId) && profile instanceof DartUnitRunConfiguration;
+	}
 
-  @Override
-  protected RunContentDescriptor doExecute(Project project,
-                                           Executor executor,
-                                           RunProfileState state,
-                                           RunContentDescriptor contentToReuse,
-                                           ExecutionEnvironment env) throws ExecutionException {
-    final DartUnitRunConfiguration configuration = (DartUnitRunConfiguration)env.getRunProfile();
+	@Override
+	protected RunContentDescriptor doExecute(Project project, RunProfileState state, RunContentDescriptor contentToReuse, ExecutionEnvironment env) throws ExecutionException {
+		final DartUnitRunConfiguration configuration = (DartUnitRunConfiguration) env.getRunProfile();
 
-    final DartUnitRunnerParameters parameters = configuration.getRunnerParameters();
-    final String filePath = parameters.getFilePath();
-    assert filePath != null;
+		final DartUnitRunnerParameters parameters = configuration.getRunnerParameters();
+		final String filePath = parameters.getFilePath();
+		assert filePath != null;
 
-    final VirtualFile virtualFile = VirtualFileManager.getInstance().findFileByUrl(VfsUtilCore.pathToUrl(filePath));
-    if (virtualFile == null) {
-      throw new ExecutionException("Can't find file: " + filePath);
-    }
+		final VirtualFile virtualFile = VirtualFileManager.getInstance().findFileByUrl(VfsUtilCore.pathToUrl(filePath));
+		if (virtualFile == null) {
+			throw new ExecutionException("Can't find file: " + filePath);
+		}
 
-    final Module module = ModuleUtilCore.findModuleForFile(virtualFile, project);
-    final Sdk sdk = DartSdkUtil.getSdkForModule(module);
+		final Module module = ModuleUtilCore.findModuleForFile(virtualFile, project);
+		final Sdk sdk = DartSdkUtil.getSdkForModule(module);
 
-    final DartUnitRunningState dartCommandLineRunningState = new DartUnitRunningState(env, parameters, sdk);
-    return super.doExecute(project, executor, dartCommandLineRunningState, contentToReuse, env);
-  }
+		final DartUnitRunningState dartCommandLineRunningState = new DartUnitRunningState(env, parameters, sdk);
+		return super.doExecute(project, dartCommandLineRunningState, contentToReuse, env);
+	}
 }

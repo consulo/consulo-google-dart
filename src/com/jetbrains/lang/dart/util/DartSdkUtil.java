@@ -1,7 +1,6 @@
 package com.jetbrains.lang.dart.util;
 
 import com.intellij.openapi.projectRoots.SdkModificator;
-import com.intellij.openapi.roots.JavadocOrderRootType;
 import com.intellij.openapi.roots.OrderRootType;
 import com.intellij.openapi.util.SystemInfo;
 import com.intellij.openapi.util.io.FileUtil;
@@ -88,7 +87,7 @@ public class DartSdkUtil {
 
     final VirtualFile docRoot = sdkRoot.findChild("doc");
     if (docRoot != null) {
-      modificator.addRoot(docRoot, JavadocOrderRootType.getInstance());
+      modificator.addRoot(docRoot, OrderRootType.DOCUMENTATION);
     }
   }
 

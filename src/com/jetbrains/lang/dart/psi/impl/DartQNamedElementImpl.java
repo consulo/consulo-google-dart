@@ -18,8 +18,6 @@ import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import javax.swing.*;
-
 /**
  * @author: Fedor.Korotkov
  */
@@ -58,12 +56,6 @@ public abstract class DartQNamedElementImpl extends DartPsiCompositeElementImpl 
       return ((NavigationItem)parent).getPresentation();
     }
     return null;
-  }
-
-  @Override
-  public Icon getIcon(int flags) {
-    final ItemPresentation presentation = getPresentation();
-    return presentation == null ? super.getIcon(flags) : presentation.getIcon(true);
   }
 
   @Override

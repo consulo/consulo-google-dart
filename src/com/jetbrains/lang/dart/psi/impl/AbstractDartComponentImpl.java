@@ -1,5 +1,6 @@
 package com.jetbrains.lang.dart.psi.impl;
 
+import com.intellij.ide.IconDescriptorUpdaters;
 import com.intellij.lang.ASTNode;
 import com.intellij.navigation.ItemPresentation;
 import com.intellij.openapi.util.text.StringUtil;
@@ -47,12 +48,6 @@ abstract public class AbstractDartComponentImpl extends DartPsiCompositeElementI
   @Override
   public PsiElement getNameIdentifier() {
     return getComponentName();
-  }
-
-  @Override
-  public Icon getIcon(int flags) {
-    final DartComponentType type = DartComponentType.typeOf(this);
-    return type == null ? super.getIcon(flags) : type.getIcon();
   }
 
   @Override
@@ -137,7 +132,7 @@ abstract public class AbstractDartComponentImpl extends DartPsiCompositeElementI
 
       @Override
       public Icon getIcon(boolean open) {
-        return AbstractDartComponentImpl.this.getIcon(0);
+        return IconDescriptorUpdaters.getIcon(AbstractDartComponentImpl.this, 0);
       }
     };
   }

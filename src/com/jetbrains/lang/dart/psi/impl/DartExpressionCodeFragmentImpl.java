@@ -16,6 +16,7 @@ import com.intellij.psi.impl.source.tree.FileElement;
 import com.intellij.psi.search.GlobalSearchScope;
 import com.intellij.psi.tree.IFileElementType;
 import com.intellij.testFramework.LightVirtualFile;
+import com.intellij.util.LanguageVersionUtil;
 import com.jetbrains.lang.dart.DartLanguage;
 import com.jetbrains.lang.dart.DartParser;
 import com.jetbrains.lang.dart.DartTokenTypes;
@@ -118,7 +119,7 @@ public class DartExpressionCodeFragmentImpl extends DartFile implements DartExpr
     @Override
     protected ASTNode doParseContents(@NotNull ASTNode chameleon, @NotNull PsiElement psi) {
       final PsiBuilderFactory factory = PsiBuilderFactory.getInstance();
-      final PsiBuilder psiBuilder = factory.createBuilder(getProject(), chameleon, Language.UNKNOWN_VERSION);
+      final PsiBuilder psiBuilder = factory.createBuilder(getProject(), chameleon, LanguageVersionUtil.findDefaultVersion(getLanguage()));
       final PsiBuilder builder = adapt_builder_(DartTokenTypes.STATEMENTS, psiBuilder, new DartParser());
 
       final PsiBuilder.Marker marker = builder.mark();

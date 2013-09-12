@@ -3,6 +3,7 @@ package com.jetbrains.lang.dart.ide;
 import com.intellij.codeInsight.generation.ClassMember;
 import com.intellij.codeInsight.generation.MemberChooserObject;
 import com.intellij.codeInsight.generation.PsiElementMemberChooserObject;
+import com.intellij.ide.IconDescriptorUpdaters;
 import com.intellij.navigation.ItemPresentation;
 import com.intellij.openapi.util.Iconable;
 import com.intellij.psi.util.PsiTreeUtil;
@@ -15,7 +16,7 @@ import org.jetbrains.annotations.Nullable;
  */
 public class DartNamedElementNode extends PsiElementMemberChooserObject implements ClassMember {
   public DartNamedElementNode(final DartComponent haxeNamedComponent) {
-    super(haxeNamedComponent, buildPresentationText(haxeNamedComponent), haxeNamedComponent.getIcon(Iconable.ICON_FLAG_VISIBILITY));
+    super(haxeNamedComponent, buildPresentationText(haxeNamedComponent), IconDescriptorUpdaters.getIcon(haxeNamedComponent, Iconable.ICON_FLAG_VISIBILITY));
   }
 
   @Nullable
