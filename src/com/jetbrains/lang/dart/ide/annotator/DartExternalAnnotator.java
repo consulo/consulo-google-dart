@@ -1,5 +1,10 @@
 package com.jetbrains.lang.dart.ide.annotator;
 
+import java.util.Collections;
+import java.util.List;
+
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import com.intellij.codeInsight.intention.IntentionAction;
 import com.intellij.lang.annotation.Annotation;
 import com.intellij.lang.annotation.AnnotationHolder;
@@ -27,11 +32,6 @@ import com.jetbrains.lang.dart.util.DartResolveUtil;
 import com.jetbrains.lang.dart.validation.fixes.DartResolverErrorCode;
 import com.jetbrains.lang.dart.validation.fixes.DartTypeErrorCode;
 import com.jetbrains.lang.dart.validation.fixes.FixAndIntentionAction;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.Collections;
-import java.util.List;
 
 /**
  * @author: Fedor.Korotkov
@@ -40,7 +40,7 @@ public class DartExternalAnnotator extends ExternalAnnotator<DartAnalyzerDriver,
   private static final Logger LOG = Logger.getInstance("#com.jetbrains.lang.dart.ide.annotator.DartExternalAnnotator");
 
   @Override
-  public DartAnalyzerDriver collectionInformation(@NotNull final PsiFile file) {
+  public DartAnalyzerDriver collectInformation(@NotNull final PsiFile file) {
     final List<VirtualFile> library = DartResolveUtil.findLibrary(file, GlobalSearchScope.projectScope(file.getProject()));
     final VirtualFile libraryRoot = library.isEmpty() ? DartResolveUtil.getRealVirtualFile(file) : library.iterator().next();
     if (libraryRoot == null) {
