@@ -169,6 +169,7 @@
                              implementationClass="com.jetbrains.lang.dart.psi.impl.DartFileReferenceImpl$DartPathOrLibraryManipulator"/>
     <lang.refactoringSupport language="Dart"
                              implementationClass="com.jetbrains.lang.dart.ide.refactoring.DartRefactoringSupportProvider"/>
+	<lang.elementIcon language="Dart" file="/icons/dartLang.png" />
 
     <codeInsight.parameterInfo language="Dart"
                                implementationClass="com.jetbrains.lang.dart.ide.info.DartParameterInfoHandler"/>

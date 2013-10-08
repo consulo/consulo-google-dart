@@ -1,10 +1,10 @@
 package com.jetbrains.lang.dart;
 
+import javax.swing.Icon;
+
+import org.jetbrains.annotations.NotNull;
 import com.intellij.openapi.fileTypes.LanguageFileType;
 import com.intellij.openapi.vfs.VirtualFile;
-import org.jetbrains.annotations.NotNull;
-
-import javax.swing.*;
 
 /**
  * Created by IntelliJ IDEA.
@@ -40,7 +40,7 @@ public class DartFileType extends LanguageFileType {
 
   @Override
   public Icon getIcon() {
-    return icons.DartIcons.Dart_16;
+    return icons.DartIcons.Dart;
   }
 
   @Override

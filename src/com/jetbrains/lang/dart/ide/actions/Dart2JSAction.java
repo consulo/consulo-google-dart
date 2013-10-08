@@ -39,7 +39,7 @@ public class Dart2JSAction extends AnAction {
   private static final Logger LOG = Logger.getInstance("#com.jetbrains.lang.dart.ide.actions.Dart2JSAction");
 
   public Dart2JSAction() {
-    super(icons.DartIcons.Dart_16);
+    super(icons.DartIcons.Dart);
   }
 
   @Override
@@ -74,7 +74,7 @@ public class Dart2JSAction extends AnAction {
     if (dart2js == null) {
       Messages.showOkCancelDialog(e.getProject(), DartBundle.message("dart.sdk.bad.dart2js.path", DartSdkUtil.getDart2JSPath(sdk)),
                                   DartBundle.message("dart.warning"),
-                                  icons.DartIcons.Dart_16);
+                                  icons.DartIcons.Dart);
       return;
     }
 

@@ -1,15 +1,19 @@
 package com.jetbrains.lang.dart.util;
 
+import java.util.List;
+
+import javax.swing.Icon;
+
+import org.jetbrains.annotations.NotNull;
+import com.intellij.icons.AllIcons;
+import com.intellij.ide.IconDescriptor;
 import com.intellij.ide.fileTemplates.FileTemplate;
 import com.intellij.ide.fileTemplates.FileTemplateManager;
 import com.intellij.openapi.util.Condition;
 import com.intellij.util.SmartList;
 import com.intellij.util.containers.ContainerUtil;
 import com.jetbrains.lang.dart.DartFileType;
-import org.jetbrains.annotations.NotNull;
-
-import javax.swing.*;
-import java.util.List;
+import icons.DartIcons;
 
 /**
  * @author: Fedor.Korotkov
@@ -44,11 +48,11 @@ public class DartFileTemplateUtil {
   public static Icon getTemplateIcon(String name) {
     name = getTemplateShortName(name);
     if ("Class".equals(name)) {
-      return icons.DartIcons.Class_dart;
+      return new IconDescriptor(AllIcons.Nodes.Class).addLayerIcon(DartIcons.DartLang).toIcon();
     }
     else if ("Interface".equals(name)) {
-      return icons.DartIcons.Interface_dart;
+      return new IconDescriptor(AllIcons.Nodes.Interface).addLayerIcon(DartIcons.DartLang).toIcon();
     }
-    return icons.DartIcons.Dart_16;
+    return icons.DartIcons.Dart;
   }
 }

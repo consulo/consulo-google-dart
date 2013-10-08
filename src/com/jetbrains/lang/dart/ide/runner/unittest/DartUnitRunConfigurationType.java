@@ -15,7 +15,7 @@ public class DartUnitRunConfigurationType extends ConfigurationTypeBase {
     super("DartUnitRunConfigurationType",
           DartBundle.message("runner.unit.configuration.name"),
           DartBundle.message("runner.unit.configuration.description"),
-          icons.DartIcons.Dart_16);
+          icons.DartIcons.Dart);
     addFactory(new DartUnitConfigurationFactory(this));
   }
 

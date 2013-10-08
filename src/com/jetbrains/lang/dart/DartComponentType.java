@@ -1,12 +1,13 @@
 package com.jetbrains.lang.dart;
 
+import javax.swing.Icon;
+
+import org.jetbrains.annotations.Nullable;
+import com.intellij.icons.AllIcons;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.util.PsiTreeUtil;
 import com.jetbrains.lang.dart.psi.*;
 import icons.DartIcons;
-import org.jetbrains.annotations.Nullable;
-
-import javax.swing.*;
 
 /**
  * @author: Fedor.Korotkov
@@ -15,57 +16,57 @@ public enum DartComponentType {
   CLASS(0) {
     @Override
     public Icon getIcon() {
-      return DartIcons.Class_dart;
+      return AllIcons.Nodes.Class;
     }
   }, INTERFACE(1) {
     @Override
     public Icon getIcon() {
-      return DartIcons.Interface_dart;
+      return AllIcons.Nodes.Interface;
     }
   }, FUNCTION(2) {
     @Override
     public Icon getIcon() {
-      return DartIcons.Function_dart;
+      return AllIcons.Nodes.Function;
     }
   }, METHOD(3) {
     @Override
     public Icon getIcon() {
-      return DartIcons.Method_dart;
+      return AllIcons.Nodes.Method;
     }
   }, VARIABLE(4) {
     @Override
     public Icon getIcon() {
-      return DartIcons.Variable_dart;
+      return AllIcons.Nodes.Variable;
     }
   }, FIELD(5) {
     @Override
     public Icon getIcon() {
-      return DartIcons.Field_dart;
+      return AllIcons.Nodes.Field;
     }
   }, PARAMETER(6) {
     @Override
     public Icon getIcon() {
-      return DartIcons.Parameter_dart;
+      return AllIcons.Nodes.Parameter;
     }
   }, TYPEDEF(7) {
     @Override
     public Icon getIcon() {
-      return DartIcons.Annotationtype_dart;
+      return AllIcons.Nodes.TypeAlias;
     }
   }, CONSTRUCTOR(8) {
     @Override
     public Icon getIcon() {
-      return DartIcons.Class_dart;
+      return AllIcons.Nodes.Method;
     }
   }, OPERATOR(9) {
     @Override
     public Icon getIcon() {
-      return DartIcons.Method_dart;
+      return AllIcons.Nodes.Method;
     }
   }, LABEL(10) {
     @Override
     public Icon getIcon() {
-      return DartIcons.Label_dart;
+      return DartIcons.Label;
     }
   };
   private final int myKey;

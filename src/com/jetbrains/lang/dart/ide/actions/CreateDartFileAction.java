@@ -31,7 +31,7 @@ import java.util.Properties;
  */
 public class CreateDartFileAction extends CreateFromTemplateAction<PsiFile> {
   public CreateDartFileAction() {
-    super(DartBundle.message("action.create.new.file"), DartBundle.message("action.create.new.file"), icons.DartIcons.Dart_16);
+    super(DartBundle.message("action.create.new.file"), DartBundle.message("action.create.new.file"), icons.DartIcons.Dart);
   }
 
   @Override

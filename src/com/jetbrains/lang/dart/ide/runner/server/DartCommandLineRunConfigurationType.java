@@ -19,7 +19,7 @@ public class DartCommandLineRunConfigurationType extends ConfigurationTypeBase {
     super("DartCommandLineRunConfigurationType",
           DartBundle.message("runner.command.line.configuration.name"),
           DartBundle.message("runner.command.line.configuration.name"),
-          icons.DartIcons.Dart_16);
+          icons.DartIcons.Dart);
     addFactory(new ConfigurationFactory(this) {
       @Override
       public RunConfiguration createTemplateConfiguration(Project project) {

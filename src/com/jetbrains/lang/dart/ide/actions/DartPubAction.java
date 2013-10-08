@@ -37,7 +37,7 @@ public class DartPubAction extends AnAction {
   private static final Logger LOG = Logger.getInstance("#com.jetbrains.lang.dart.ide.actions.DartPubAction");
 
   public DartPubAction() {
-    super(DartIcons.Dart_16);
+    super(DartIcons.Dart);
   }
 
   @Override
@@ -64,7 +64,7 @@ public class DartPubAction extends AnAction {
     if (!(psiFile instanceof YAMLFile) || module == null) {
       Messages.showOkCancelDialog(e.getProject(), DartBundle.message("dart.sdk.bad.dartpub.file"),
                                   DartBundle.message("dart.warning"),
-                                  DartIcons.Dart_16);
+                                  DartIcons.Dart);
       return;
     }
     final VirtualFile virtualFile = DartResolveUtil.getRealVirtualFile(psiFile);
@@ -81,7 +81,7 @@ public class DartPubAction extends AnAction {
       Messages.showOkCancelDialog(e.getProject(),
                                   DartBundle.message("dart.sdk.bad.dartpub.path", sdk == null ? "" : DartSdkUtil.getPubPath(sdk)),
                                   DartBundle.message("dart.warning"),
-                                  DartIcons.Dart_16);
+                                  DartIcons.Dart);
       return;
     }
 

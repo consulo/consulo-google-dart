@@ -16,7 +16,7 @@ public class DartModuleExtensionProvider implements ModuleExtensionProvider<Dart
   @Nullable
   @Override
   public Icon getIcon() {
-    return DartIcons.Dart_16;
+    return DartIcons.Dart;
   }
 
   @NotNull

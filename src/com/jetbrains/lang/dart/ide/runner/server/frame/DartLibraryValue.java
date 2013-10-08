@@ -31,7 +31,7 @@ public class DartLibraryValue extends XValue {
           myGlobals.clear();
           myGlobals.addAll(DartVMValue.fromJson(myDebugProcess, result.getAsJsonArray("globals")));
         }
-        node.setPresentation(icons.DartIcons.Dart_16, "library", Integer.toString(myLibraryId), !myGlobals.isEmpty());
+        node.setPresentation(icons.DartIcons.Dart, "library", Integer.toString(myLibraryId), !myGlobals.isEmpty());
         return true;
       }
     });

@@ -22,7 +22,7 @@ public class DartSdkType extends SdkType {
 
   @Override
   public Icon getIcon() {
-    return icons.DartIcons.Dart_16;
+    return icons.DartIcons.Dart;
   }
 
   @Nullable
