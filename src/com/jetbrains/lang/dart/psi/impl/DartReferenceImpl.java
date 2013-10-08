@@ -1,8 +1,15 @@
 package com.jetbrains.lang.dart.psi.impl;
 
+import gnu.trove.THashSet;
+
+import java.util.List;
+import java.util.Set;
+
+import org.jetbrains.annotations.NotNull;
 import com.intellij.lang.ASTNode;
 import com.intellij.openapi.util.Condition;
 import com.intellij.openapi.util.TextRange;
+import com.intellij.openapi.util.UnfairTextRange;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiPolyVariantReference;
@@ -19,11 +26,6 @@ import com.jetbrains.lang.dart.psi.*;
 import com.jetbrains.lang.dart.util.DartClassResolveResult;
 import com.jetbrains.lang.dart.util.DartElementGenerator;
 import com.jetbrains.lang.dart.util.DartResolveUtil;
-import gnu.trove.THashSet;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.List;
-import java.util.Set;
 
 /**
  * @author: Fedor.Korotkov
@@ -50,13 +52,13 @@ public class DartReferenceImpl extends DartExpressionImpl implements DartReferen
     DartReference[] dartReferences = PsiTreeUtil.getChildrenOfType(this, DartReference.class);
     if (dartReferences != null && dartReferences.length > 0) {
       TextRange lastReferenceRange = dartReferences[dartReferences.length - 1].getTextRange();
-      return new TextRange(
+      return new UnfairTextRange(
         lastReferenceRange.getStartOffset() - textRange.getStartOffset(),
         lastReferenceRange.getEndOffset() - textRange.getEndOffset()
       );
     }
 
-    return new TextRange(0, textRange.getEndOffset() - textRange.getStartOffset());
+    return new UnfairTextRange(0, textRange.getEndOffset() - textRange.getStartOffset());
   }
 
   @NotNull
