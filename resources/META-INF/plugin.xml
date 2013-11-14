@@ -1,305 +1,208 @@
 <idea-plugin version="2">
-  <id>com.jetbrains.lang.dart</id>
-  <name>Dart</name>
-  <description>Support for Dart programming language</description>
-  <version>1.0</version>
-  <category>Custom Languages</category>
-  <vendor>JetBrains</vendor>
-  <depends>com.intellij.xml</depends>
-  <depends optional="true" config-file="dart-copyright.xml">com.intellij.copyright</depends>
-  <change-notes>
-    <![CDATA[
-        <p>0.5-...:</p>
-        <ul>
-          <li>Bug fixes</li>
-        </ul>
-        <p>0.4.9:</p>
-        <ul>
-          <li>Bug fixes</li>
-          <li>Copyright support</li>
-        </ul>
-        <p>0.4.7:</p>
-        <ul>
-          <li>Dart Project Template</li>
-          <li>Bug fixes</li>
-        </ul>
-        <p>0.4.2-0.4.6:</p>
-        <ul>
-          <li>Bug fixes</li>
-        </ul>
-        <p>0.4.1:</p>
-        <ul>
-          <li>Bug fixes</li>
-          <li>Command Line Applications support in webide</li>
-        </ul>
-        <p>0.4:</p>
-        <ul>
-          <li>M1 ready</li>
-          <li>Cascaded Invocations</li>
-          <li>New optional named parameter syntax</li>
-          <li>Extract Method refactoring</li>
-          <li>Quick fixes</li>
-          <li>New import syntax support</li>
-        </ul>
-        <p>0.3.7:</p>
-        <ul>
-          <li>Debugger improvements</li>
-          <li>Debugging unit tests</li>
-        </ul>
-        <p>0.3.6:</p>
-        <ul>
-          <li>New getter syntax</li>
-          <li>'as' operator</li>
-          <li>Bug fixes</li>
-        </ul>
-        <p>0.3.5:</p>
-        <ul>
-          <li>Unit Testing</li>
-          <li>Pub support</li>
-          <li>Remote debugging</li>
-          <li>Introduce variable refactoring</li>
-          <li>Surround Action</li>
-          <li>Performance improvements</li>
-          <li>Bug fixes</li>
-        </ul>
-        <p>0.3.4:</p>
-        <ul>
-          <li>Command line applications</li>
-          <li>Debugger for client-side and server-side applications</li>
-          <li>Performance improvements</li>
-          <li>New icons</li>
-          <li>Bug fixes</li>
-        </ul>
-        <p>0.3.3:</p>
-        <ul>
-          <li>Bug fixes</li>
-        </ul>
-        <p>0.3.2:</p>
-        <ul>
-          <li>dart2js Support</li>
-          <li>Quick Documentation</li>
-          <li>Goto Implementation(s) action</li>
-          <li>Goto Super Method action</li>
-          <li>File Structure</li>
-          <li>Type resolving improvements</li>
-          <li>Goto Symbol Action</li>
-          <li>Dart Analyzer Support</li>
-          <li>Generate Action</li>
-        </ul>
-        <p>0.3.1:</p>
-        <ul>
-          <li>Reformat Code</li>
-          <li>Color scheme</li>
-          <li>Rename refactoring</li>
-          <li>Move refactoring</li>
-          <li>Dart SDK Support</li>
-          <li>Quick definition</li>
-          <li>Parameter info action</li>
-          <li>Frog Support</li>
-        </ul>
-        <p>0.3:</p>
-        <ul>
-          <li>Parser improvements</li>
-          <li>Jump to declaration</li>
-          <li>Reference completion</li>
-          <li>Class completion</li>
-          <li>Go to Class</li>
-          <li>Search for usages</li>
-          <li>Highlight symbol occurencies</li>
-        </ul>
-        <p>0.2:</p>
-        <ul>
-          <li>New parser</li>
-          <li>Keyword completion</li>
-          <li>Local resolve</li>
-        </ul>
-        <p>0.1.2:</p>
-        <ul>
-          <li>Basic syntax coloring</li>
-          <li>Brace matching</li>
-          <li>Commenting</li>
-          <li>Comments folding</li>
-        </ul>
-      ]]>
-  </change-notes>
+	<id>com.jetbrains.lang.dart</id>
+	<name>Dart</name>
+	<description>Support for Dart programming language</description>
+	<version>1.0</version>
+	<category>Custom Languages</category>
+	<vendor>JetBrains</vendor>
+	<depends>com.intellij.xml</depends>
 
-  <application-components/>
+	<application-components/>
 
-  <project-components>
-    <component>
-      <implementation-class>com.jetbrains.lang.dart.DartSupportLoader</implementation-class>
-    </component>
-    <component>
-      <implementation-class>com.jetbrains.lang.dart.compilation.DartCompilerHandler</implementation-class>
-      <skipForDefaultProject/>
-    </component>
-  </project-components>
+	<project-components>
+		<component>
+			<implementation-class>com.jetbrains.lang.dart.DartProjectComponent</implementation-class>
+		</component>
+	</project-components>
 
-  <extensionPoints>
-    <extensionPoint name="debugger.breakpoint.class.provider" interface="com.jetbrains.lang.dart.ide.runner.server.DartCommandLineBreakpointTypeProvider"/>
-  </extensionPoints>
+	<extensionPoints>
+		<extensionPoint name="debugger.breakpoint.class.provider" interface="com.jetbrains.lang.dart.ide.runner.server.DartCommandLineBreakpointTypeProvider"/>
+	</extensionPoints>
 
-  <extensions defaultExtensionNs="com.intellij">
-    <errorHandler implementation="com.intellij.diagnostic.ITNReporter"/>
-    <fileTypeFactory implementation="com.jetbrains.lang.dart.DartFileTypeFactory"/>
-	<iconDescriptorUpdater implementation="com.jetbrains.lang.dart.DartIconDescriptorUpdater" />
-    <lang.syntaxHighlighterFactory key="Dart" implementationClass="com.jetbrains.lang.dart.highlight.DartSyntaxHighlighterFactory"/>
-    <problemFileHighlightFilter implementation="com.jetbrains.lang.dart.highlight.DartProblemFileHighlightFilter"/>
-    <moduleExtensionProvider key="dart" implementationClass="com.jetbrains.lang.dart.ide.module.DartModuleExtensionProvider" />
+	<extensions defaultExtensionNs="com.intellij.copyright">
+		<updater filetype="Dart" implementationClass="com.jetbrains.lang.dart.ide.copyright.UpdateDartCopyrightsProvider"/>
+	</extensions>
 
-    <lang.braceMatcher language="Dart" implementationClass="com.jetbrains.lang.dart.ide.DartBraceMatcher"/>
-    <typedHandler implementation="com.jetbrains.lang.dart.ide.editor.DartTypeHandler" id="Dart"/>
+	<extensions defaultExtensionNs="com.intellij">
+		<errorHandler implementation="com.intellij.diagnostic.ITNReporter"/>
+		<fileTypeFactory implementation="com.jetbrains.lang.dart.DartFileTypeFactory"/>
+		<iconDescriptorUpdater implementation="com.jetbrains.lang.dart.DartIconDescriptorUpdater"/>
+		<lang.syntaxHighlighterFactory key="Dart" implementationClass="com.jetbrains.lang.dart.highlight.DartSyntaxHighlighterFactory"/>
+		<problemFileHighlightFilter implementation="com.jetbrains.lang.dart.highlight.DartProblemFileHighlightFilter"/>
+		<moduleExtensionProvider key="dart" implementationClass="com.jetbrains.lang.dart.ide.module.DartModuleExtensionProvider"/>
 
-    <lang.commenter language="Dart" implementationClass="com.jetbrains.lang.dart.ide.DartCommenter"/>
-    <lang.parserDefinition language="Dart" implementationClass="com.jetbrains.lang.dart.DartParserDefinition"/>
+		<lang.braceMatcher language="Dart" implementationClass="com.jetbrains.lang.dart.ide.DartBraceMatcher"/>
+		<typedHandler implementation="com.jetbrains.lang.dart.ide.editor.DartTypeHandler" id="Dart"/>
 
-    <languageInjector implementation="com.jetbrains.lang.dart.psi.DartLanguageInjector"/>
+		<lang.commenter language="Dart" implementationClass="com.jetbrains.lang.dart.ide.DartCommenter"/>
+		<lang.parserDefinition language="Dart" implementationClass="com.jetbrains.lang.dart.DartParserDefinition"/>
 
-    <colorSettingsPage implementation="com.jetbrains.lang.dart.highlight.DartColorsAndFontsPage"/>
-    <lang.foldingBuilder language="Dart" implementationClass="com.jetbrains.lang.dart.ide.folding.DartFoldingBuilder"/>
+		<languageInjector implementation="com.jetbrains.lang.dart.psi.DartLanguageInjector"/>
 
-    <lang.documentationProvider language="Dart" implementationClass="com.jetbrains.lang.dart.ide.documentation.DartDocumentationProvider"/>
-    <lang.findUsagesProvider language="Dart" implementationClass="com.jetbrains.lang.dart.ide.findUsages.DartFindUsagesProvider"/>
-    <usageTypeProvider implementation="com.jetbrains.lang.dart.ide.findUsages.DartUsageTypeProvider"/>
-    <lang.implementationTextSelectioner language="Dart"
-                                        implementationClass="com.jetbrains.lang.dart.ide.DartImplementationTextSelectioner"/>
-    <lang.formatter language="Dart" implementationClass="com.jetbrains.lang.dart.ide.formatter.DartFormattingModelBuilder"/>
-    <lang.psiStructureViewFactory language="Dart" implementationClass="com.jetbrains.lang.dart.ide.structure.DartStructureViewFactory"/>
-    <lang.elementManipulator forClass="com.jetbrains.lang.dart.psi.DartPathOrLibraryReference"
-                             implementationClass="com.jetbrains.lang.dart.psi.impl.DartFileReferenceImpl$DartPathOrLibraryManipulator"/>
-    <lang.refactoringSupport language="Dart"
-                             implementationClass="com.jetbrains.lang.dart.ide.refactoring.DartRefactoringSupportProvider"/>
-	<lang.elementIcon language="Dart" file="/icons/dartLang.png" />
+		<colorSettingsPage implementation="com.jetbrains.lang.dart.highlight.DartColorsAndFontsPage"/>
+		<lang.foldingBuilder language="Dart" implementationClass="com.jetbrains.lang.dart.ide.folding.DartFoldingBuilder"/>
 
-    <codeInsight.parameterInfo language="Dart"
-                               implementationClass="com.jetbrains.lang.dart.ide.info.DartParameterInfoHandler"/>
+		<lang.documentationProvider language="Dart" implementationClass="com.jetbrains.lang.dart.ide.documentation.DartDocumentationProvider"/>
+		<lang.findUsagesProvider language="Dart" implementationClass="com.jetbrains.lang.dart.ide.findUsages.DartFindUsagesProvider"/>
+		<usageTypeProvider implementation="com.jetbrains.lang.dart.ide.findUsages.DartUsageTypeProvider"/>
+		<lang.implementationTextSelectioner language="Dart"
+											implementationClass="com.jetbrains.lang.dart.ide.DartImplementationTextSelectioner"/>
+		<lang.formatter language="Dart" implementationClass="com.jetbrains.lang.dart.ide.formatter.DartFormattingModelBuilder"/>
+		<lang.psiStructureViewFactory language="Dart" implementationClass="com.jetbrains.lang.dart.ide.structure.DartStructureViewFactory"/>
+		<lang.elementManipulator forClass="com.jetbrains.lang.dart.psi.DartPathOrLibraryReference"
+								 implementationClass="com.jetbrains.lang.dart.psi.impl.DartFileReferenceImpl$DartPathOrLibraryManipulator"/>
+		<lang.refactoringSupport language="Dart"
+								 implementationClass="com.jetbrains.lang.dart.ide.refactoring.DartRefactoringSupportProvider"/>
+		<lang.elementIcon language="Dart" file="/icons/dartLang.png"/>
 
-    <renamePsiElementProcessor implementation="com.jetbrains.lang.dart.ide.DartRenamePsiElementProcessor"/>
-    <codeStyleSettingsProvider implementation="com.jetbrains.lang.dart.ide.formatter.settings.DartCodeStyleSettingsProvider"/>
-    <langCodeStyleSettingsProvider implementation="com.jetbrains.lang.dart.ide.formatter.settings.DartLanguageCodeStyleSettingsProvider"/>
+		<codeInsight.parameterInfo language="Dart"
+								   implementationClass="com.jetbrains.lang.dart.ide.info.DartParameterInfoHandler"/>
 
-    <codeInsight.lineMarkerProvider language="Dart"
-                                    implementationClass="com.jetbrains.lang.dart.ide.marker.DartImplementationsMarkerProvider"/>
-    <codeInsight.lineMarkerProvider language="Dart"
-                                    implementationClass="com.jetbrains.lang.dart.ide.marker.DartMethodOverrideMarkerProvider"/>
+		<renamePsiElementProcessor implementation="com.jetbrains.lang.dart.ide.DartRenamePsiElementProcessor"/>
+		<codeStyleSettingsProvider implementation="com.jetbrains.lang.dart.ide.formatter.settings.DartCodeStyleSettingsProvider"/>
+		<langCodeStyleSettingsProvider implementation="com.jetbrains.lang.dart.ide.formatter.settings.DartLanguageCodeStyleSettingsProvider"/>
 
-    <codeInsight.gotoSuper language="Dart" implementationClass="com.jetbrains.lang.dart.ide.actions.DartGotoSuperHandler"/>
+		<codeInsight.lineMarkerProvider language="Dart"
+										implementationClass="com.jetbrains.lang.dart.ide.marker.DartImplementationsMarkerProvider"/>
+		<codeInsight.lineMarkerProvider language="Dart"
+										implementationClass="com.jetbrains.lang.dart.ide.marker.DartMethodOverrideMarkerProvider"/>
 
-    <codeInsight.overrideMethod language="Dart"
-                                implementationClass="com.jetbrains.lang.dart.ide.generation.DartOverrideMethodHandler"/>
-    <codeInsight.implementMethod language="Dart"
-                                 implementationClass="com.jetbrains.lang.dart.ide.generation.DartImplementMethodHandler"/>
+		<codeInsight.gotoSuper language="Dart" implementationClass="com.jetbrains.lang.dart.ide.actions.DartGotoSuperHandler"/>
 
-    <fileBasedIndex implementation="com.jetbrains.lang.dart.ide.index.DartImportIndex"/>
-    <fileBasedIndex implementation="com.jetbrains.lang.dart.ide.index.DartPathIndex"/>
-    <fileBasedIndex implementation="com.jetbrains.lang.dart.ide.index.DartSourceIndex"/>
-    <fileBasedIndex implementation="com.jetbrains.lang.dart.ide.index.DartClassIndex"/>
-    <fileBasedIndex implementation="com.jetbrains.lang.dart.ide.index.DartLibraryIndex"/>
-    <fileBasedIndex implementation="com.jetbrains.lang.dart.ide.index.DartReversedLibraryIndex"/>
-    <fileBasedIndex implementation="com.jetbrains.lang.dart.ide.index.DartComponentIndex"/>
-    <fileBasedIndex implementation="com.jetbrains.lang.dart.ide.index.DartSymbolIndex"/>
-    <fileBasedIndex implementation="com.jetbrains.lang.dart.ide.index.DartInheritanceIndex"/>
+		<codeInsight.overrideMethod language="Dart"
+									implementationClass="com.jetbrains.lang.dart.ide.generation.DartOverrideMethodHandler"/>
+		<codeInsight.implementMethod language="Dart"
+									 implementationClass="com.jetbrains.lang.dart.ide.generation.DartImplementMethodHandler"/>
 
-    <definitionsSearch implementation="com.jetbrains.lang.dart.ide.index.DartInheritanceIndex$DefinitionsSearchExecutor"/>
+		<fileBasedIndex implementation="com.jetbrains.lang.dart.ide.index.DartImportIndex"/>
+		<fileBasedIndex implementation="com.jetbrains.lang.dart.ide.index.DartPathIndex"/>
+		<fileBasedIndex implementation="com.jetbrains.lang.dart.ide.index.DartSourceIndex"/>
+		<fileBasedIndex implementation="com.jetbrains.lang.dart.ide.index.DartClassIndex"/>
+		<fileBasedIndex implementation="com.jetbrains.lang.dart.ide.index.DartLibraryIndex"/>
+		<fileBasedIndex implementation="com.jetbrains.lang.dart.ide.index.DartReversedLibraryIndex"/>
+		<fileBasedIndex implementation="com.jetbrains.lang.dart.ide.index.DartComponentIndex"/>
+		<fileBasedIndex implementation="com.jetbrains.lang.dart.ide.index.DartSymbolIndex"/>
+		<fileBasedIndex implementation="com.jetbrains.lang.dart.ide.index.DartInheritanceIndex"/>
 
-    <internalFileTemplate name="Dart Class"/>
-    <internalFileTemplate name="Dart Interface"/>
-    <internalFileTemplate name="Dart Empty File"/>
+		<definitionsSearch implementation="com.jetbrains.lang.dart.ide.index.DartInheritanceIndex$DefinitionsSearchExecutor"/>
 
-    <liveTemplateMacro implementation="com.jetbrains.lang.dart.ide.template.macro.DartListVariableMacro"/>
-    <liveTemplateMacro implementation="com.jetbrains.lang.dart.ide.template.macro.DartIterableVariableMacro"/>
-    <liveTemplateMacro implementation="com.jetbrains.lang.dart.ide.template.macro.DartSuggestIndexNameMacro"/>
-    <liveTemplateMacro implementation="com.jetbrains.lang.dart.ide.template.macro.DartSuggestVariableNameMacro"/>
+		<internalFileTemplate name="Dart Class"/>
+		<internalFileTemplate name="Dart Interface"/>
+		<internalFileTemplate name="Dart Empty File"/>
 
-    <liveTemplateContext implementation="com.jetbrains.lang.dart.ide.template.DartTemplateContextType"/>
-    <defaultLiveTemplatesProvider implementation="com.jetbrains.lang.dart.ide.template.DartLiveTemplatesProvider"/>
+		<liveTemplateMacro implementation="com.jetbrains.lang.dart.ide.template.macro.DartListVariableMacro"/>
+		<liveTemplateMacro implementation="com.jetbrains.lang.dart.ide.template.macro.DartIterableVariableMacro"/>
+		<liveTemplateMacro implementation="com.jetbrains.lang.dart.ide.template.macro.DartSuggestIndexNameMacro"/>
+		<liveTemplateMacro implementation="com.jetbrains.lang.dart.ide.template.macro.DartSuggestVariableNameMacro"/>
 
-    <lang.surroundDescriptor language="Dart"
-                             implementationClass="com.jetbrains.lang.dart.ide.surroundWith.DartExpressionSurroundDescriptor"/>
-    <lang.surroundDescriptor language="Dart"
-                             implementationClass="com.jetbrains.lang.dart.ide.surroundWith.DartStatementsSurroundDescriptor"/>
+		<liveTemplateContext implementation="com.jetbrains.lang.dart.ide.template.DartTemplateContextType"/>
+		<defaultLiveTemplatesProvider implementation="com.jetbrains.lang.dart.ide.template.DartLiveTemplatesProvider"/>
 
-    <gotoClassContributor implementation="com.jetbrains.lang.dart.ide.DartClassContributor"/>
-    <gotoSymbolContributor implementation="com.jetbrains.lang.dart.ide.DartSymbolContributor"/>
+		<lang.surroundDescriptor language="Dart"
+								 implementationClass="com.jetbrains.lang.dart.ide.surroundWith.DartExpressionSurroundDescriptor"/>
+		<lang.surroundDescriptor language="Dart"
+								 implementationClass="com.jetbrains.lang.dart.ide.surroundWith.DartStatementsSurroundDescriptor"/>
 
-    <completion.contributor language="Dart" implementationClass="com.jetbrains.lang.dart.ide.completion.DartKeywordCompletionContributor"/>
-    <completion.contributor language="Dart"
-                            implementationClass="com.jetbrains.lang.dart.ide.completion.DartLibraryNameCompletionContributor"/>
-    <completion.contributor language="Dart"
-                            implementationClass="com.jetbrains.lang.dart.ide.completion.DartArgumentNameContributor"/>
-    <completion.contributor language="Dart"
-                            implementationClass="com.jetbrains.lang.dart.ide.completion.DartClassNameCompletionContributor"/>
+		<gotoClassContributor implementation="com.jetbrains.lang.dart.ide.DartClassContributor"/>
+		<gotoSymbolContributor implementation="com.jetbrains.lang.dart.ide.DartSymbolContributor"/>
 
-    <externalAnnotator language="Dart" implementationClass="com.jetbrains.lang.dart.ide.annotator.DartExternalAnnotator"/>
-    <annotator language="Dart" implementationClass="com.jetbrains.lang.dart.ide.annotator.DartColorAnnotator"/>
-    <!--<annotator language="Dart" implementationClass="com.jetbrains.lang.dart.ide.annotator.DartUnresolvedReferenceVisitor"/>-->
+		<completion.contributor language="Dart" implementationClass="com.jetbrains.lang.dart.ide.completion.DartKeywordCompletionContributor"/>
+		<completion.contributor language="Dart"
+								implementationClass="com.jetbrains.lang.dart.ide.completion.DartLibraryNameCompletionContributor"/>
+		<completion.contributor language="Dart"
+								implementationClass="com.jetbrains.lang.dart.ide.completion.DartArgumentNameContributor"/>
+		<completion.contributor language="Dart"
+								implementationClass="com.jetbrains.lang.dart.ide.completion.DartClassNameCompletionContributor"/>
 
-    <projectService serviceInterface="com.jetbrains.lang.dart.psi.DartClassResolveCache"
-                    serviceImplementation="com.jetbrains.lang.dart.psi.DartClassResolveCache"/>
+		<externalAnnotator language="Dart" implementationClass="com.jetbrains.lang.dart.analyzer.DartInProcessAnnotator"/>
+		<externalAnnotator language="HTML" implementationClass="com.jetbrains.lang.dart.analyzer.DartInProcessAnnotator"/>
+		<annotator language="Dart" implementationClass="com.jetbrains.lang.dart.ide.annotator.DartColorAnnotator"/>
+		<!--<annotator language="Dart" implementationClass="com.jetbrains.lang.dart.ide.annotator.DartUnresolvedReferenceVisitor"/>-->
 
-    <codeInspection.InspectionExtension id="dartGlobalInspection"
-                                        implementation="com.jetbrains.lang.dart.ide.inspections.analyzer.DartInspectionExtensionsFactory"/>
+		<projectService serviceInterface="com.jetbrains.lang.dart.psi.DartClassResolveCache"
+						serviceImplementation="com.jetbrains.lang.dart.psi.DartClassResolveCache"/>
 
-    <!--command line-->
-    <configurationType implementation="com.jetbrains.lang.dart.ide.runner.server.DartCommandLineRunConfigurationType"/>
-    <configurationProducer implementation="com.jetbrains.lang.dart.ide.runner.server.DartCommandLineRuntimeConfigurationProducer"/>
+		<codeInspection.InspectionExtension id="dartGlobalInspection"
+											implementation="com.jetbrains.lang.dart.ide.inspections.analyzer.DartInspectionExtensionsFactory"/>
 
-    <programRunner implementation="com.jetbrains.lang.dart.ide.runner.server.DartCommandLineRunner"/>
-    <programRunner implementation="com.jetbrains.lang.dart.ide.runner.server.DartCommandLineDebugRunner"/>
+		<!--command line-->
+		<configurationType implementation="com.jetbrains.lang.dart.ide.runner.server.DartCommandLineRunConfigurationType"/>
+		<configurationProducer implementation="com.jetbrains.lang.dart.ide.runner.server.DartCommandLineRuntimeConfigurationProducer"/>
 
-    <!--unit test-->
-    <configurationType implementation="com.jetbrains.lang.dart.ide.runner.unittest.DartUnitRunConfigurationType"/>
-    <configurationProducer implementation="com.jetbrains.lang.dart.ide.runner.unittest.DartUnitRuntimeConfigurationProducer"/>
-    <programRunner implementation="com.jetbrains.lang.dart.ide.runner.unittest.DartUnitRunner"/>
-    <programRunner implementation="com.jetbrains.lang.dart.ide.runner.unittest.DartUnitDebugRunner"/>
+		<programRunner implementation="com.jetbrains.lang.dart.ide.runner.server.DartCommandLineRunner"/>
+		<programRunner implementation="com.jetbrains.lang.dart.ide.runner.server.DartCommandLineDebugRunner"/>
 
-    <!--inspections-->
+		<projectService serviceInterface="com.jetbrains.lang.dart.analyzer.DartAnalyzerService"
+						serviceImplementation="com.jetbrains.lang.dart.analyzer.DartAnalyzerService"/>
 
-    <globalInspection shortName="DartGlobalInspectionTool"
-                      bundle="com.jetbrains.lang.dart.DartBundle"
-                      key="dart.analyzer.inspection.display.name"
-                      groupName="Dart"
-                      enabledByDefault="true"
-                      level="WARNING"
-                      implementationClass="com.jetbrains.lang.dart.ide.inspections.analyzer.DartGlobalInspectionTool"/>
+		<writingAccessProvider implementation="com.jetbrains.lang.dart.ide.DartWritingAccessProvider"/>
 
-    <localInspection language="Dart" shortName="DartUnresolvedImport" bundle="com.jetbrains.lang.dart.DartBundle"
-                     key="inspections.unresolved.import.name"
-                     groupName="Dart" enabledByDefault="true" level="WARNING"
-                     implementationClass="com.jetbrains.lang.dart.ide.inspections.DartUnresolvedImportInspection"/>
+		<!--unit test-->
+		<configurationType implementation="com.jetbrains.lang.dart.ide.runner.unittest.DartUnitRunConfigurationType"/>
+		<configurationProducer implementation="com.jetbrains.lang.dart.ide.runner.unittest.DartUnitRuntimeConfigurationProducer"/>
+		<programRunner implementation="com.jetbrains.lang.dart.ide.runner.unittest.DartUnitRunner"/>
+		<programRunner implementation="com.jetbrains.lang.dart.ide.runner.unittest.DartUnitDebugRunner"/>
 
-    <sdkType implementation="com.jetbrains.lang.dart.ide.DartSdkType"/>
-    <xdebugger.breakpointType implementation="com.jetbrains.lang.dart.ide.runner.base.DartBreakpointType"/>
-  </extensions>
+		<!--inspections-->
 
-  <extensions defaultExtensionNs="com.intellij.xml">
-    <html.scriptContentProvider language="Dart" implementationClass="com.jetbrains.lang.dart.DartScriptContentProvider"/>
-  </extensions>
+		<globalInspection shortName="DartGlobalInspectionTool"
+						  bundle="com.jetbrains.lang.dart.DartBundle"
+						  key="dart.analyzer.inspection.display.name"
+						  groupName="Dart"
+						  enabledByDefault="true"
+						  level="WARNING"
+						  implementationClass="com.jetbrains.lang.dart.ide.inspections.analyzer.DartGlobalInspectionTool"/>
 
-  <extensions defaultExtensionNs="com.jetbrains">
-    <lang.dart.debugger.breakpoint.class.provider  implementation="com.jetbrains.lang.dart.ide.runner.base.DartBreakpointTypeProvider"/>
-  </extensions>
+		<localInspection language="Dart" shortName="DartUnresolvedImport" bundle="com.jetbrains.lang.dart.DartBundle"
+						 key="inspections.unresolved.import.name"
+						 groupName="Dart" enabledByDefault="true" level="WARNING"
+						 implementationClass="com.jetbrains.lang.dart.ide.inspections.DartUnresolvedImportInspection"/>
 
-  <actions>
-    <action id="Dart.NewDartFile" class="com.jetbrains.lang.dart.ide.actions.CreateDartFileAction"
-            text="Dart File" description="Create new Dart file/class/interface">
-      <add-to-group group-id="NewGroup" anchor="before" relative-to-action="NewFromTemplate"/>
-    </action>
-    <action id="Dart.dart2js" class="com.jetbrains.lang.dart.ide.actions.Dart2JSAction"
-            text="dart2js" description="Translate Dart to JavaScript">
-      <add-to-group group-id="CutCopyPasteGroup" anchor="last"/>
-    </action>
-    <action id="Generate.GetAccessor.Dart" class="com.jetbrains.lang.dart.ide.generation.DartGenerateGetterAction"
-            text="Getter">
-      <add-to-group anchor="first" group-id="GenerateGroup"/>
-    </action>
-    <action id="Generate.SetAccessor.Dart" class="com.jetbrains.lang.dart.ide.generation.DartGenerateSetterAction"
-            text="Setter">
-      <add-to-group anchor="after" relative-to-action="Generate.GetAccessor.Dart" group-id="GenerateGroup"/>
-    </action>
-    <action id="Generate.GetSetAccessor.Dart" class="com.jetbrains.lang.dart.ide.generation.DartGenerateGetterSetterAction"
-            text="Getter and Setter">
-      <add-to-group anchor="after" relative-to-action="Generate.SetAccessor.Dart" group-id="GenerateGroup"/>
-    </action>
-  </actions>
+		<sdkType implementation="com.jetbrains.lang.dart.ide.DartSdkType"/>
+		<xdebugger.breakpointType implementation="com.jetbrains.lang.dart.ide.runner.base.DartBreakpointType"/>
+	</extensions>
+
+	<extensions defaultExtensionNs="com.intellij.xml">
+		<html.scriptContentProvider language="Dart" implementationClass="com.jetbrains.lang.dart.DartScriptContentProvider"/>
+	</extensions>
+
+	<extensions defaultExtensionNs="com.jetbrains">
+		<lang.dart.debugger.breakpoint.class.provider implementation="com.jetbrains.lang.dart.ide.runner.base.DartBreakpointTypeProvider"/>
+	</extensions>
+
+	<actions>
+		<action id="Dart.NewDartFile" class="com.jetbrains.lang.dart.ide.actions.CreateDartFileAction"
+				text="Dart File" description="Create new Dart file/class/interface" require-module-extensions="dart">
+			<add-to-group group-id="NewGroup1" anchor="before" relative-to-action="NewFile"/>
+		</action>
+		<action id="Generate.Constructor.Dart" class="com.jetbrains.lang.dart.ide.generation.DartGenerateConstructorAction"
+				text="Constructor">
+			<add-to-group anchor="first" group-id="GenerateGroup"/>
+		</action>
+		<action id="Generate.GetAccessor.Dart" class="com.jetbrains.lang.dart.ide.generation.DartGenerateGetterAction"
+				text="Getter">
+			<add-to-group anchor="after" relative-to-action="Generate.Constructor.Dart" group-id="GenerateGroup"/>
+		</action>
+		<action id="Generate.SetAccessor.Dart" class="com.jetbrains.lang.dart.ide.generation.DartGenerateSetterAction"
+				text="Setter">
+			<add-to-group anchor="after" relative-to-action="Generate.GetAccessor.Dart" group-id="GenerateGroup"/>
+		</action>
+		<action id="Generate.GetSetAccessor.Dart" class="com.jetbrains.lang.dart.ide.generation.DartGenerateGetterSetterAction"
+				text="Getter and Setter">
+			<add-to-group anchor="after" relative-to-action="Generate.SetAccessor.Dart" group-id="GenerateGroup"/>
+		</action>
+
+		<group can-use-project-as-default="true" require-module-extensions="dart">
+			<action id="Dart.dart2js" class="com.jetbrains.lang.dart.ide.actions.Dart2JSAction" text="Compile Dart to JavaScript" description="Run 'dart2js' compiler"/>
+			<action id="Dart.pub.build" class="com.jetbrains.lang.dart.ide.actions.DartPubBuildAction" text="Dart: Build" description="Run 'pub build'"/>
+			<action id="Dart.pub.upgrade" class="com.jetbrains.lang.dart.ide.actions.DartPubUpgradeAction" text="Dart: Upgrade Dependencies" description="Run 'pub upgrade'"/>
+			<separator/>
+			<add-to-group group-id="EditorPopupMenu" anchor="first"/>
+			<add-to-group group-id="ProjectViewPopupMenu" relative-to-action="CutCopyPasteGroup" anchor="before"/>
+		</group>
+
+		<!--<action id="open.in.dartium" class="com.jetbrains.lang.dart.ide.actions.OpenInDartiumAction">
+			<add-to-group group-id="RunContextPopupGroup" anchor="first"/>
+		</action>  -->
+	</actions>
 </idea-plugin>

@@ -81,11 +81,19 @@ public class DartVisitor extends PsiElementVisitor {
   }
 
   public void visitClassBody(@NotNull DartClassBody o) {
-    visitExecutionScope(o);
+    visitPsiCompositeElement(o);
   }
 
   public void visitClassDefinition(@NotNull DartClassDefinition o) {
     visitClass(o);
+  }
+
+  public void visitClassMembers(@NotNull DartClassMembers o) {
+    visitExecutionScope(o);
+  }
+
+  public void visitClassTypeAlias(@NotNull DartClassTypeAlias o) {
+    visitComponent(o);
   }
 
   public void visitCompareExpression(@NotNull DartCompareExpression o) {
@@ -241,11 +249,15 @@ public class DartVisitor extends PsiElementVisitor {
   }
 
   public void visitInterfaceBody(@NotNull DartInterfaceBody o) {
-    visitExecutionScope(o);
+    visitPsiCompositeElement(o);
   }
 
   public void visitInterfaceDefinition(@NotNull DartInterfaceDefinition o) {
     visitClass(o);
+  }
+
+  public void visitInterfaceMembers(@NotNull DartInterfaceMembers o) {
+    visitExecutionScope(o);
   }
 
   public void visitInterfaces(@NotNull DartInterfaces o) {
@@ -351,10 +363,6 @@ public class DartVisitor extends PsiElementVisitor {
     visitPsiCompositeElement(o);
   }
 
-  public void visitNativeStatement(@NotNull DartNativeStatement o) {
-    visitPsiCompositeElement(o);
-  }
-
   public void visitNewExpression(@NotNull DartNewExpression o) {
     visitExpression(o);
     // visitReference(o);
@@ -376,12 +384,21 @@ public class DartVisitor extends PsiElementVisitor {
     visitOperator(o);
   }
 
+  public void visitParameterNameReferenceExpression(@NotNull DartParameterNameReferenceExpression o) {
+    visitExpression(o);
+    // visitReference(o);
+  }
+
   public void visitParenthesizedExpression(@NotNull DartParenthesizedExpression o) {
     visitExpression(o);
     // visitReference(o);
   }
 
   public void visitPartOfStatement(@NotNull DartPartOfStatement o) {
+    visitPsiCompositeElement(o);
+  }
+
+  public void visitPartStatement(@NotNull DartPartStatement o) {
     visitPsiCompositeElement(o);
   }
 
@@ -415,7 +432,7 @@ public class DartVisitor extends PsiElementVisitor {
     visitPsiCompositeElement(o);
   }
 
-  public void visitResourceStatement(@NotNull DartResourceStatement o) {
+  public void visitRethrowStatement(@NotNull DartRethrowStatement o) {
     visitPsiCompositeElement(o);
   }
 
@@ -449,10 +466,6 @@ public class DartVisitor extends PsiElementVisitor {
   }
 
   public void visitShowCombinator(@NotNull DartShowCombinator o) {
-    visitPsiCompositeElement(o);
-  }
-
-  public void visitSourceStatement(@NotNull DartSourceStatement o) {
     visitPsiCompositeElement(o);
   }
 
@@ -493,6 +506,10 @@ public class DartVisitor extends PsiElementVisitor {
 
   public void visitSwitchStatement(@NotNull DartSwitchStatement o) {
     visitPsiCompositeElement(o);
+  }
+
+  public void visitSymbolLiteralExpression(@NotNull DartSymbolLiteralExpression o) {
+    visitExpression(o);
   }
 
   public void visitTernaryExpression(@NotNull DartTernaryExpression o) {

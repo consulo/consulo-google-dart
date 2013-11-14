@@ -17,21 +17,23 @@ public class DartNamedArgumentImpl extends DartPsiCompositeElementImpl implement
     super(node);
   }
 
-  @Override
-  @NotNull
-  public DartExpression getExpression() {
-    return findNotNullChildByClass(DartExpression.class);
-  }
-
-  @Override
-  @NotNull
-  public DartLabel getLabel() {
-    return findNotNullChildByClass(DartLabel.class);
-  }
-
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof DartVisitor) ((DartVisitor)visitor).visitNamedArgument(this);
     else super.accept(visitor);
+  }
+
+  @Override
+  @NotNull
+  public List<DartExpression> getExpressionList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, DartExpression.class);
+  }
+
+  public DartExpression getParameterReferenceExpression() {
+    return DartPsiImplUtil.getParameterReferenceExpression(this);
+  }
+
+  public DartExpression getExpression() {
+    return DartPsiImplUtil.getExpression(this);
   }
 
 }

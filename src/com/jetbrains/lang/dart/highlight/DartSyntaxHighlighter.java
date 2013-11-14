@@ -1,70 +1,74 @@
 package com.jetbrains.lang.dart.highlight;
 
+import static com.jetbrains.lang.dart.DartTokenTypes.*;
+import static com.jetbrains.lang.dart.DartTokenTypesSets.*;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import org.jetbrains.annotations.NotNull;
+import com.intellij.ide.highlighter.HtmlFileHighlighter;
+import com.intellij.ide.highlighter.XmlFileHighlighter;
 import com.intellij.lexer.Lexer;
 import com.intellij.openapi.editor.colors.TextAttributesKey;
 import com.intellij.openapi.fileTypes.SyntaxHighlighterBase;
 import com.intellij.psi.tree.IElementType;
 import com.jetbrains.lang.dart.DartLexer;
-import org.jetbrains.annotations.NotNull;
 
-import java.util.HashMap;
-import java.util.Map;
+public class DartSyntaxHighlighter extends SyntaxHighlighterBase
+{
+	private static final Map<IElementType, TextAttributesKey> ATTRIBUTES = new HashMap<IElementType, TextAttributesKey>();
 
-import static com.jetbrains.lang.dart.DartTokenTypes.*;
-import static com.jetbrains.lang.dart.DartTokenTypesSets.*;
+	static
+	{
+		fillMap(ATTRIBUTES, TOKENS_HIGHLIGHTED_AS_KEYWORDS, DartSyntaxHighlighterColors.KEYWORD);
 
-/**
- * @author: Fedor.Korotkov
- */
-public class DartSyntaxHighlighter extends SyntaxHighlighterBase {
-  private static final Map<IElementType, TextAttributesKey> ATTRIBUTES = new HashMap<IElementType, TextAttributesKey>();
+		fillMap(ATTRIBUTES, BINARY_OPERATORS, DartSyntaxHighlighterColors.OPERATION_SIGN);
+		fillMap(ATTRIBUTES, LOGIC_OPERATORS, DartSyntaxHighlighterColors.OPERATION_SIGN);
+		fillMap(ATTRIBUTES, BITWISE_OPERATORS, DartSyntaxHighlighterColors.OPERATION_SIGN);
+		fillMap(ATTRIBUTES, UNARY_OPERATORS, DartSyntaxHighlighterColors.OPERATION_SIGN);
 
-  static {
-    safeMap(ATTRIBUTES, RESERVED, DartSyntaxHighlighterColors.KEYWORD);
-    safeMap(ATTRIBUTES, UNRESERVED, DartSyntaxHighlighterColors.KEYWORD);
+		fillMap(ATTRIBUTES, STRINGS, DartSyntaxHighlighterColors.STRING);
 
-    safeMap(ATTRIBUTES, BINARY_OPERATORS, DartSyntaxHighlighterColors.OPERATION_SIGN);
-    safeMap(ATTRIBUTES, LOGIC_OPERATORS, DartSyntaxHighlighterColors.OPERATION_SIGN);
-    safeMap(ATTRIBUTES, BITWISE_OPERATORS, DartSyntaxHighlighterColors.OPERATION_SIGN);
-    safeMap(ATTRIBUTES, UNARY_OPERATORS, DartSyntaxHighlighterColors.OPERATION_SIGN);
-
-    safeMap(ATTRIBUTES, STRINGS, DartSyntaxHighlighterColors.STRING);
-
-    ATTRIBUTES.put(HEX_NUMBER, DartSyntaxHighlighterColors.NUMBER);
-    ATTRIBUTES.put(NUMBER, DartSyntaxHighlighterColors.NUMBER);
+		ATTRIBUTES.put(HEX_NUMBER, DartSyntaxHighlighterColors.NUMBER);
+		ATTRIBUTES.put(NUMBER, DartSyntaxHighlighterColors.NUMBER);
 
 
-    ATTRIBUTES.put(LPAREN, DartSyntaxHighlighterColors.PARENTHS);
-    ATTRIBUTES.put(RPAREN, DartSyntaxHighlighterColors.PARENTHS);
+		ATTRIBUTES.put(LPAREN, DartSyntaxHighlighterColors.PARENTHS);
+		ATTRIBUTES.put(RPAREN, DartSyntaxHighlighterColors.PARENTHS);
 
-    ATTRIBUTES.put(LBRACE, DartSyntaxHighlighterColors.BRACES);
-    ATTRIBUTES.put(RBRACE, DartSyntaxHighlighterColors.BRACES);
+		ATTRIBUTES.put(LBRACE, DartSyntaxHighlighterColors.BRACES);
+		ATTRIBUTES.put(RBRACE, DartSyntaxHighlighterColors.BRACES);
+		ATTRIBUTES.put(SHORT_TEMPLATE_ENTRY_START, DartSyntaxHighlighterColors.BRACES);
+		ATTRIBUTES.put(LONG_TEMPLATE_ENTRY_START, DartSyntaxHighlighterColors.BRACES);
+		ATTRIBUTES.put(LONG_TEMPLATE_ENTRY_END, DartSyntaxHighlighterColors.BRACES);
 
-    ATTRIBUTES.put(LBRACKET, DartSyntaxHighlighterColors.BRACKETS);
-    ATTRIBUTES.put(RBRACKET, DartSyntaxHighlighterColors.BRACKETS);
+		ATTRIBUTES.put(LBRACKET, DartSyntaxHighlighterColors.BRACKETS);
+		ATTRIBUTES.put(RBRACKET, DartSyntaxHighlighterColors.BRACKETS);
 
-    ATTRIBUTES.put(COMMA, DartSyntaxHighlighterColors.COMMA);
-    ATTRIBUTES.put(DOT, DartSyntaxHighlighterColors.DOT);
-    ATTRIBUTES.put(SEMICOLON, DartSyntaxHighlighterColors.SEMICOLON);
+		ATTRIBUTES.put(COMMA, DartSyntaxHighlighterColors.COMMA);
+		ATTRIBUTES.put(DOT, DartSyntaxHighlighterColors.DOT);
+		ATTRIBUTES.put(SEMICOLON, DartSyntaxHighlighterColors.SEMICOLON);
 
-    ATTRIBUTES.put(MULTI_LINE_COMMENT, DartSyntaxHighlighterColors.BLOCK_COMMENT);
-    ATTRIBUTES.put(SINGLE_LINE_COMMENT, DartSyntaxHighlighterColors.LINE_COMMENT);
-    ATTRIBUTES.put(DOC_COMMENT, DartSyntaxHighlighterColors.DOC_COMMENT);
+		ATTRIBUTES.put(MULTI_LINE_COMMENT, DartSyntaxHighlighterColors.BLOCK_COMMENT);
+		ATTRIBUTES.put(SINGLE_LINE_COMMENT, DartSyntaxHighlighterColors.LINE_COMMENT);
+		ATTRIBUTES.put(DOC_COMMENT, DartSyntaxHighlighterColors.DOC_COMMENT);
 
-    ATTRIBUTES.put(BAD_CHARACTER, DartSyntaxHighlighterColors.BAD_CHARACTER);
-  }
+		ATTRIBUTES.put(BAD_CHARACTER, DartSyntaxHighlighterColors.BAD_CHARACTER);
 
-  @NotNull
-  public Lexer getHighlightingLexer() {
-    return new DartLexer();
-  }
+		HtmlFileHighlighter.registerEmbeddedTokenAttributes(ATTRIBUTES, null);
+		XmlFileHighlighter.registerEmbeddedTokenAttributes(ATTRIBUTES, null);
+	}
 
-  @NotNull
-  public TextAttributesKey[] getTokenHighlights(IElementType tokenType) {
-    return pack(ATTRIBUTES.get(tokenType));
-  }
+	@NotNull
+	public Lexer getHighlightingLexer()
+	{
+		return new DartLexer();
+	}
 
-  public static Map<IElementType, TextAttributesKey> getKeys() {
-    return ATTRIBUTES;
-  }
+	@NotNull
+	public TextAttributesKey[] getTokenHighlights(IElementType tokenType)
+	{
+		return pack(ATTRIBUTES.get(tokenType));
+	}
 }

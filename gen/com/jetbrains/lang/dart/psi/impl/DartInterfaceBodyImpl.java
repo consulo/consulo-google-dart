@@ -17,51 +17,15 @@ public class DartInterfaceBodyImpl extends DartPsiCompositeElementImpl implement
     super(node);
   }
 
-  @Override
-  @NotNull
-  public List<DartGetterDeclaration> getGetterDeclarationList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, DartGetterDeclaration.class);
-  }
-
-  @Override
-  @NotNull
-  public List<DartMetadata> getMetadataList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, DartMetadata.class);
-  }
-
-  @Override
-  @NotNull
-  public List<DartMethodPrototypeDeclaration> getMethodPrototypeDeclarationList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, DartMethodPrototypeDeclaration.class);
-  }
-
-  @Override
-  @NotNull
-  public List<DartNamedConstructorDeclaration> getNamedConstructorDeclarationList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, DartNamedConstructorDeclaration.class);
-  }
-
-  @Override
-  @NotNull
-  public List<DartOperatorPrototype> getOperatorPrototypeList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, DartOperatorPrototype.class);
-  }
-
-  @Override
-  @NotNull
-  public List<DartSetterDeclaration> getSetterDeclarationList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, DartSetterDeclaration.class);
-  }
-
-  @Override
-  @NotNull
-  public List<DartVarDeclarationList> getVarDeclarationListList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, DartVarDeclarationList.class);
-  }
-
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof DartVisitor) ((DartVisitor)visitor).visitInterfaceBody(this);
     else super.accept(visitor);
+  }
+
+  @Override
+  @Nullable
+  public DartInterfaceMembers getInterfaceMembers() {
+    return findChildByClass(DartInterfaceMembers.class);
   }
 
 }

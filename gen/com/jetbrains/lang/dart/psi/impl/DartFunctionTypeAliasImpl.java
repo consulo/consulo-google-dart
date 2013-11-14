@@ -17,6 +17,11 @@ public class DartFunctionTypeAliasImpl extends AbstractDartComponentImpl impleme
     super(node);
   }
 
+  public void accept(@NotNull PsiElementVisitor visitor) {
+    if (visitor instanceof DartVisitor) ((DartVisitor)visitor).visitFunctionTypeAlias(this);
+    else super.accept(visitor);
+  }
+
   @Override
   @NotNull
   public DartComponentName getComponentName() {
@@ -24,9 +29,9 @@ public class DartFunctionTypeAliasImpl extends AbstractDartComponentImpl impleme
   }
 
   @Override
-  @Nullable
+  @NotNull
   public DartFormalParameterList getFormalParameterList() {
-    return findChildByClass(DartFormalParameterList.class);
+    return findNotNullChildByClass(DartFormalParameterList.class);
   }
 
   @Override
@@ -39,11 +44,6 @@ public class DartFunctionTypeAliasImpl extends AbstractDartComponentImpl impleme
   @Nullable
   public DartTypeParameters getTypeParameters() {
     return findChildByClass(DartTypeParameters.class);
-  }
-
-  public void accept(@NotNull PsiElementVisitor visitor) {
-    if (visitor instanceof DartVisitor) ((DartVisitor)visitor).visitFunctionTypeAlias(this);
-    else super.accept(visitor);
   }
 
 }

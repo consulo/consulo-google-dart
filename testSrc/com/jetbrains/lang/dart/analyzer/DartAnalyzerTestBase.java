@@ -11,7 +11,6 @@ import com.intellij.psi.PsiFile;
 import com.intellij.testFramework.fixtures.CodeInsightFixtureTestCase;
 import com.intellij.util.ArrayUtil;
 import com.intellij.util.containers.ContainerUtil;
-import com.jetbrains.lang.dart.ide.annotator.DartExternalAnnotator;
 import com.jetbrains.lang.dart.ide.settings.DartSdkUtil;
 import com.jetbrains.lang.dart.util.DartTestUtils;
 import org.jetbrains.annotations.Nullable;

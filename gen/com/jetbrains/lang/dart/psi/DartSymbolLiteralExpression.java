@@ -5,12 +5,12 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface DartResourceStatement extends DartPsiCompositeElement {
+public interface DartSymbolLiteralExpression extends DartExpression {
 
   @Nullable
-  DartPathOrLibraryReference getPathOrLibraryReference();
+  DartReferenceExpression getReferenceExpression();
 
-  @NotNull
-  String getPath();
+  @Nullable
+  DartUserDefinableOperator getUserDefinableOperator();
 
 }

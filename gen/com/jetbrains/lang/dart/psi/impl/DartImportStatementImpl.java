@@ -17,6 +17,11 @@ public class DartImportStatementImpl extends DartPsiCompositeElementImpl impleme
     super(node);
   }
 
+  public void accept(@NotNull PsiElementVisitor visitor) {
+    if (visitor instanceof DartVisitor) ((DartVisitor)visitor).visitImportStatement(this);
+    else super.accept(visitor);
+  }
+
   @Override
   @Nullable
   public DartComponentName getComponentName() {
@@ -39,17 +44,6 @@ public class DartImportStatementImpl extends DartPsiCompositeElementImpl impleme
   @NotNull
   public List<DartShowCombinator> getShowCombinatorList() {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, DartShowCombinator.class);
-  }
-
-  @Override
-  @Nullable
-  public DartStringLiteralExpression getStringLiteralExpression() {
-    return findChildByClass(DartStringLiteralExpression.class);
-  }
-
-  public void accept(@NotNull PsiElementVisitor visitor) {
-    if (visitor instanceof DartVisitor) ((DartVisitor)visitor).visitImportStatement(this);
-    else super.accept(visitor);
   }
 
   @NotNull

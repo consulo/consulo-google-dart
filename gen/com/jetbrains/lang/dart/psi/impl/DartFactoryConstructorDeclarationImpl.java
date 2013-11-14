@@ -17,6 +17,11 @@ public class DartFactoryConstructorDeclarationImpl extends AbstractDartComponent
     super(node);
   }
 
+  public void accept(@NotNull PsiElementVisitor visitor) {
+    if (visitor instanceof DartVisitor) ((DartVisitor)visitor).visitFactoryConstructorDeclaration(this);
+    else super.accept(visitor);
+  }
+
   @Override
   @Nullable
   public DartComponentName getComponentName() {
@@ -43,13 +48,8 @@ public class DartFactoryConstructorDeclarationImpl extends AbstractDartComponent
 
   @Override
   @Nullable
-  public DartVarInit getVarInit() {
-    return findChildByClass(DartVarInit.class);
-  }
-
-  public void accept(@NotNull PsiElementVisitor visitor) {
-    if (visitor instanceof DartVisitor) ((DartVisitor)visitor).visitFactoryConstructorDeclaration(this);
-    else super.accept(visitor);
+  public DartType getType() {
+    return findChildByClass(DartType.class);
   }
 
 }

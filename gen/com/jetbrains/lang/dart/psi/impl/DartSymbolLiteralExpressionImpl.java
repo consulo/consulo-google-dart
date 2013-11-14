@@ -11,26 +11,27 @@ import static com.jetbrains.lang.dart.DartTokenTypes.*;
 import com.jetbrains.lang.dart.psi.*;
 import com.jetbrains.lang.dart.util.DartPsiImplUtil;
 
-public class DartSourceStatementImpl extends DartPsiCompositeElementImpl implements DartSourceStatement {
+public class DartSymbolLiteralExpressionImpl extends DartExpressionImpl implements DartSymbolLiteralExpression {
 
-  public DartSourceStatementImpl(ASTNode node) {
+  public DartSymbolLiteralExpressionImpl(ASTNode node) {
     super(node);
+  }
+
+  public void accept(@NotNull PsiElementVisitor visitor) {
+    if (visitor instanceof DartVisitor) ((DartVisitor)visitor).visitSymbolLiteralExpression(this);
+    else super.accept(visitor);
   }
 
   @Override
   @Nullable
-  public DartPathOrLibraryReference getPathOrLibraryReference() {
-    return findChildByClass(DartPathOrLibraryReference.class);
+  public DartReferenceExpression getReferenceExpression() {
+    return findChildByClass(DartReferenceExpression.class);
   }
 
-  public void accept(@NotNull PsiElementVisitor visitor) {
-    if (visitor instanceof DartVisitor) ((DartVisitor)visitor).visitSourceStatement(this);
-    else super.accept(visitor);
-  }
-
-  @NotNull
-  public String getPath() {
-    return DartPsiImplUtil.getPath(this);
+  @Override
+  @Nullable
+  public DartUserDefinableOperator getUserDefinableOperator() {
+    return findChildByClass(DartUserDefinableOperator.class);
   }
 
 }

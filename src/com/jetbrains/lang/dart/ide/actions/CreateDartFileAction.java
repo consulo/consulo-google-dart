@@ -35,13 +35,6 @@ public class CreateDartFileAction extends CreateFromTemplateAction<PsiFile> {
   }
 
   @Override
-  protected boolean isAvailable(DataContext dataContext) {
-    final Module module = LangDataKeys.MODULE.getData(dataContext);
-
-    return super.isAvailable(dataContext) && module != null && ModuleUtilCore.getExtension(module, DartModuleExtension.class) != null;
-  }
-
-  @Override
   protected String getActionName(PsiDirectory directory, String newName, String templateName) {
     return DartBundle.message("progress.creating.file", newName);
   }

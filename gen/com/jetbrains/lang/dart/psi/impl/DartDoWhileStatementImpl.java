@@ -17,6 +17,11 @@ public class DartDoWhileStatementImpl extends DartPsiCompositeElementImpl implem
     super(node);
   }
 
+  public void accept(@NotNull PsiElementVisitor visitor) {
+    if (visitor instanceof DartVisitor) ((DartVisitor)visitor).visitDoWhileStatement(this);
+    else super.accept(visitor);
+  }
+
   @Override
   @Nullable
   public DartAssertStatement getAssertStatement() {
@@ -85,6 +90,12 @@ public class DartDoWhileStatementImpl extends DartPsiCompositeElementImpl implem
 
   @Override
   @Nullable
+  public DartRethrowStatement getRethrowStatement() {
+    return findChildByClass(DartRethrowStatement.class);
+  }
+
+  @Override
+  @Nullable
   public DartReturnStatement getReturnStatement() {
     return findChildByClass(DartReturnStatement.class);
   }
@@ -117,11 +128,6 @@ public class DartDoWhileStatementImpl extends DartPsiCompositeElementImpl implem
   @Nullable
   public DartWhileStatement getWhileStatement() {
     return findChildByClass(DartWhileStatement.class);
-  }
-
-  public void accept(@NotNull PsiElementVisitor visitor) {
-    if (visitor instanceof DartVisitor) ((DartVisitor)visitor).visitDoWhileStatement(this);
-    else super.accept(visitor);
   }
 
 }

@@ -11,26 +11,15 @@ import static com.jetbrains.lang.dart.DartTokenTypes.*;
 import com.jetbrains.lang.dart.psi.*;
 import com.jetbrains.lang.dart.util.DartPsiImplUtil;
 
-public class DartNativeStatementImpl extends DartPsiCompositeElementImpl implements DartNativeStatement {
+public class DartParameterNameReferenceExpressionImpl extends DartReferenceImpl implements DartParameterNameReferenceExpression {
 
-  public DartNativeStatementImpl(ASTNode node) {
+  public DartParameterNameReferenceExpressionImpl(ASTNode node) {
     super(node);
   }
 
-  @Override
-  @Nullable
-  public DartPathOrLibraryReference getPathOrLibraryReference() {
-    return findChildByClass(DartPathOrLibraryReference.class);
-  }
-
   public void accept(@NotNull PsiElementVisitor visitor) {
-    if (visitor instanceof DartVisitor) ((DartVisitor)visitor).visitNativeStatement(this);
+    if (visitor instanceof DartVisitor) ((DartVisitor)visitor).visitParameterNameReferenceExpression(this);
     else super.accept(visitor);
-  }
-
-  @NotNull
-  public String getPath() {
-    return DartPsiImplUtil.getPath(this);
   }
 
 }

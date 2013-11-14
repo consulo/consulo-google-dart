@@ -27,6 +27,8 @@ public interface DartTokenTypes {
   IElementType CATCH_PART = new DartElementType("CATCH_PART");
   IElementType CLASS_BODY = new DartElementType("CLASS_BODY");
   IElementType CLASS_DEFINITION = new DartElementType("CLASS_DEFINITION");
+  IElementType CLASS_MEMBERS = new DartElementType("CLASS_MEMBERS");
+  IElementType CLASS_TYPE_ALIAS = new DartElementType("CLASS_TYPE_ALIAS");
   IElementType COMPARE_EXPRESSION = new DartElementType("COMPARE_EXPRESSION");
   IElementType COMPONENT_NAME = new DartElementType("COMPONENT_NAME");
   IElementType COMPOUND_LITERAL_EXPRESSION = new DartElementType("COMPOUND_LITERAL_EXPRESSION");
@@ -67,6 +69,7 @@ public interface DartTokenTypes {
   IElementType INTERFACES = new DartElementType("INTERFACES");
   IElementType INTERFACE_BODY = new DartElementType("INTERFACE_BODY");
   IElementType INTERFACE_DEFINITION = new DartElementType("INTERFACE_DEFINITION");
+  IElementType INTERFACE_MEMBERS = new DartElementType("INTERFACE_MEMBERS");
   IElementType IS_EXPRESSION = new DartElementType("IS_EXPRESSION");
   IElementType ITERATOR_EXPRESSION = new DartElementType("ITERATOR_EXPRESSION");
   IElementType LABEL = new DartElementType("LABEL");
@@ -90,14 +93,15 @@ public interface DartTokenTypes {
   IElementType NAMED_ARGUMENT = new DartElementType("NAMED_ARGUMENT");
   IElementType NAMED_CONSTRUCTOR_DECLARATION = new DartElementType("NAMED_CONSTRUCTOR_DECLARATION");
   IElementType NAMED_FORMAL_PARAMETERS = new DartElementType("NAMED_FORMAL_PARAMETERS");
-  IElementType NATIVE_STATEMENT = new DartElementType("NATIVE_STATEMENT");
   IElementType NEW_EXPRESSION = new DartElementType("NEW_EXPRESSION");
   IElementType NORMAL_FORMAL_PARAMETER = new DartElementType("NORMAL_FORMAL_PARAMETER");
   IElementType ON_PART = new DartElementType("ON_PART");
   IElementType OPERATOR_DECLARATION = new DartElementType("OPERATOR_DECLARATION");
   IElementType OPERATOR_PROTOTYPE = new DartElementType("OPERATOR_PROTOTYPE");
+  IElementType PARAMETER_NAME_REFERENCE_EXPRESSION = new DartElementType("PARAMETER_NAME_REFERENCE_EXPRESSION");
   IElementType PARENTHESIZED_EXPRESSION = new DartElementType("PARENTHESIZED_EXPRESSION");
   IElementType PART_OF_STATEMENT = new DartElementType("PART_OF_STATEMENT");
+  IElementType PART_STATEMENT = new DartElementType("PART_STATEMENT");
   IElementType PATH_OR_LIBRARY_REFERENCE = new DartElementType("PATH_OR_LIBRARY_REFERENCE");
   IElementType PREFIX_EXPRESSION = new DartElementType("PREFIX_EXPRESSION");
   IElementType PREFIX_OPERATOR = new DartElementType("PREFIX_OPERATOR");
@@ -105,7 +109,7 @@ public interface DartTokenTypes {
   IElementType REDIRECTION = new DartElementType("REDIRECTION");
   IElementType REFERENCE_EXPRESSION = new DartElementType("REFERENCE_EXPRESSION");
   IElementType RELATIONAL_OPERATOR = new DartElementType("RELATIONAL_OPERATOR");
-  IElementType RESOURCE_STATEMENT = new DartElementType("RESOURCE_STATEMENT");
+  IElementType RETHROW_STATEMENT = new DartElementType("RETHROW_STATEMENT");
   IElementType RETURN_STATEMENT = new DartElementType("RETURN_STATEMENT");
   IElementType RETURN_TYPE = new DartElementType("RETURN_TYPE");
   IElementType SETTER_DECLARATION = new DartElementType("SETTER_DECLARATION");
@@ -114,7 +118,6 @@ public interface DartTokenTypes {
   IElementType SHIFT_RIGHT_OPERATOR = new DartElementType("SHIFT_RIGHT_OPERATOR");
   IElementType SHORT_TEMPLATE_ENTRY = new DartElementType("SHORT_TEMPLATE_ENTRY");
   IElementType SHOW_COMBINATOR = new DartElementType("SHOW_COMBINATOR");
-  IElementType SOURCE_STATEMENT = new DartElementType("SOURCE_STATEMENT");
   IElementType STATEMENTS = new DartElementType("STATEMENTS");
   IElementType STRING_LITERAL_EXPRESSION = new DartElementType("STRING_LITERAL_EXPRESSION");
   IElementType SUFFIX_EXPRESSION = new DartElementType("SUFFIX_EXPRESSION");
@@ -124,6 +127,7 @@ public interface DartTokenTypes {
   IElementType SUPER_EXPRESSION = new DartElementType("SUPER_EXPRESSION");
   IElementType SWITCH_CASE = new DartElementType("SWITCH_CASE");
   IElementType SWITCH_STATEMENT = new DartElementType("SWITCH_STATEMENT");
+  IElementType SYMBOL_LITERAL_EXPRESSION = new DartElementType("SYMBOL_LITERAL_EXPRESSION");
   IElementType TERNARY_EXPRESSION = new DartElementType("TERNARY_EXPRESSION");
   IElementType THIS_EXPRESSION = new DartElementType("THIS_EXPRESSION");
   IElementType THROW_STATEMENT = new DartElementType("THROW_STATEMENT");
@@ -210,7 +214,6 @@ public interface DartTokenTypes {
   IElementType MUL = new DartElementType("*");
   IElementType MUL_EQ = new DartElementType("*=");
   IElementType NATIVE = new DartElementType("native");
-  IElementType NEGATE = new DartElementType("negate");
   IElementType NEQ = new DartElementType("!=");
   IElementType NEQ_EQ = new DartElementType("!==");
   IElementType NEW = new DartElementType("new");
@@ -236,14 +239,13 @@ public interface DartTokenTypes {
   IElementType REGULAR_STRING_PART = new DartElementType("REGULAR_STRING_PART");
   IElementType REM = new DartElementType("%");
   IElementType REM_EQ = new DartElementType("%=");
-  IElementType RESOURCE = new DartElementType("resource");
+  IElementType RETHROW = new DartElementType("rethrow");
   IElementType RETURN = new DartElementType("return");
   IElementType RPAREN = new DartElementType(")");
   IElementType SEMICOLON = new DartElementType(";");
   IElementType SET = new DartElementType("set");
   IElementType SHORT_TEMPLATE_ENTRY_START = new DartElementType("SHORT_TEMPLATE_ENTRY_START");
   IElementType SHOW = new DartElementType("show");
-  IElementType SOURCE = new DartElementType("source");
   IElementType STATIC = new DartElementType("static");
   IElementType SUPER = new DartElementType("super");
   IElementType SWITCH = new DartElementType("switch");
@@ -317,6 +319,12 @@ public interface DartTokenTypes {
       }
       else if (type == CLASS_DEFINITION) {
         return new DartClassDefinitionImpl(node);
+      }
+      else if (type == CLASS_MEMBERS) {
+        return new DartClassMembersImpl(node);
+      }
+      else if (type == CLASS_TYPE_ALIAS) {
+        return new DartClassTypeAliasImpl(node);
       }
       else if (type == COMPARE_EXPRESSION) {
         return new DartCompareExpressionImpl(node);
@@ -438,6 +446,9 @@ public interface DartTokenTypes {
       else if (type == INTERFACE_DEFINITION) {
         return new DartInterfaceDefinitionImpl(node);
       }
+      else if (type == INTERFACE_MEMBERS) {
+        return new DartInterfaceMembersImpl(node);
+      }
       else if (type == IS_EXPRESSION) {
         return new DartIsExpressionImpl(node);
       }
@@ -507,9 +518,6 @@ public interface DartTokenTypes {
       else if (type == NAMED_FORMAL_PARAMETERS) {
         return new DartNamedFormalParametersImpl(node);
       }
-      else if (type == NATIVE_STATEMENT) {
-        return new DartNativeStatementImpl(node);
-      }
       else if (type == NEW_EXPRESSION) {
         return new DartNewExpressionImpl(node);
       }
@@ -525,11 +533,17 @@ public interface DartTokenTypes {
       else if (type == OPERATOR_PROTOTYPE) {
         return new DartOperatorPrototypeImpl(node);
       }
+      else if (type == PARAMETER_NAME_REFERENCE_EXPRESSION) {
+        return new DartParameterNameReferenceExpressionImpl(node);
+      }
       else if (type == PARENTHESIZED_EXPRESSION) {
         return new DartParenthesizedExpressionImpl(node);
       }
       else if (type == PART_OF_STATEMENT) {
         return new DartPartOfStatementImpl(node);
+      }
+      else if (type == PART_STATEMENT) {
+        return new DartPartStatementImpl(node);
       }
       else if (type == PATH_OR_LIBRARY_REFERENCE) {
         return new DartPathOrLibraryReferenceImpl(node);
@@ -552,8 +566,8 @@ public interface DartTokenTypes {
       else if (type == RELATIONAL_OPERATOR) {
         return new DartRelationalOperatorImpl(node);
       }
-      else if (type == RESOURCE_STATEMENT) {
-        return new DartResourceStatementImpl(node);
+      else if (type == RETHROW_STATEMENT) {
+        return new DartRethrowStatementImpl(node);
       }
       else if (type == RETURN_STATEMENT) {
         return new DartReturnStatementImpl(node);
@@ -578,9 +592,6 @@ public interface DartTokenTypes {
       }
       else if (type == SHOW_COMBINATOR) {
         return new DartShowCombinatorImpl(node);
-      }
-      else if (type == SOURCE_STATEMENT) {
-        return new DartSourceStatementImpl(node);
       }
       else if (type == STATEMENTS) {
         return new DartStatementsImpl(node);
@@ -608,6 +619,9 @@ public interface DartTokenTypes {
       }
       else if (type == SWITCH_STATEMENT) {
         return new DartSwitchStatementImpl(node);
+      }
+      else if (type == SYMBOL_LITERAL_EXPRESSION) {
+        return new DartSymbolLiteralExpressionImpl(node);
       }
       else if (type == TERNARY_EXPRESSION) {
         return new DartTernaryExpressionImpl(node);

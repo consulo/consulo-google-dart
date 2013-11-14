@@ -1,5 +1,6 @@
 package com.jetbrains.lang.dart.ide.runner.server;
 
+import org.jetbrains.annotations.NotNull;
 import com.intellij.execution.ExecutionException;
 import com.intellij.execution.configurations.CommandLineState;
 import com.intellij.execution.configurations.GeneralCommandLine;
@@ -15,10 +16,9 @@ import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.openapi.vfs.VirtualFileManager;
 import com.intellij.util.text.StringTokenizer;
 import com.jetbrains.lang.dart.DartBundle;
-import com.jetbrains.lang.dart.ide.runner.DartStackTraceMessageFiler;
+import com.jetbrains.lang.dart.ide.runner.DartStackTraceMessageFilter;
 import com.jetbrains.lang.dart.ide.settings.DartSdkUtil;
 import com.jetbrains.lang.dart.util.DartResolveUtil;
-import org.jetbrains.annotations.NotNull;
 
 /**
  * @author: Fedor.Korotkov
@@ -69,7 +69,7 @@ public class DartCommandLineRunningState extends CommandLineState {
     );
 
     final TextConsoleBuilder consoleBuilder = TextConsoleBuilderFactory.getInstance().createBuilder(module.getProject());
-    consoleBuilder.addFilter(new DartStackTraceMessageFiler(module.getProject(), filePath));
+    consoleBuilder.addFilter(new DartStackTraceMessageFilter(module.getProject(), filePath));
     setConsoleBuilder(consoleBuilder);
 
     return commandLine;
@@ -89,7 +89,7 @@ public class DartCommandLineRunningState extends CommandLineState {
 
     String libUrl = VfsUtilCore.pathToUrl(filePath);
     final VirtualFile libraryRoot = VirtualFileManager.getInstance().findFileByUrl(libUrl);
-    final VirtualFile packages = DartResolveUtil.findPackagesFolder(module);
+    final VirtualFile packages = DartResolveUtil.getDartPackagesFolder(module.getProject(), libraryRoot);
     if (packages != null && packages.isDirectory()) {
       commandLine.addParameter("--package-root=" + packages.getPath() + "/");
     }

@@ -1,5 +1,10 @@
 package com.jetbrains.lang.dart.ide.runner;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import com.intellij.execution.filters.Filter;
 import com.intellij.execution.filters.OpenFileHyperlinkInfo;
 import com.intellij.openapi.progress.ProcessCanceledException;
@@ -10,13 +15,8 @@ import com.intellij.openapi.vfs.VfsUtilCore;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.openapi.vfs.VirtualFileManager;
 import com.jetbrains.lang.dart.util.DartResolveUtil;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-public class DartStackTraceMessageFiler implements Filter {
+public class DartStackTraceMessageFilter implements Filter {
   // #0      DefaultFailureHandler.fail (file:///C:/dart/dart-sdk/lib/unittest/expect.dart:85:5)
   private static final Pattern tracePattern = Pattern.compile("(#[0-9]+\\s+)(.*)\\s+\\((.*):(\\d+):(\\d+)\\)");
   private final Project myProject;
@@ -38,7 +38,7 @@ public class DartStackTraceMessageFiler implements Filter {
     if (fileUrl.startsWith(DartResolveUtil.PACKAGE_PREFIX) && libraryRootPath != null) {
       String libUrl = VfsUtilCore.pathToUrl(libraryRootPath);
       final VirtualFile libraryRoot = VirtualFileManager.getInstance().findFileByUrl(libUrl);
-      final VirtualFile packages = DartResolveUtil.findPackagesFolder(libraryRoot, project);
+      final VirtualFile packages = DartResolveUtil.getDartPackagesFolder(project, libraryRoot);
       if (packages != null) {
         String relativePath = fileUrl.substring(DartResolveUtil.PACKAGE_PREFIX.length());
         relativePath = FileUtil.toSystemIndependentName(relativePath);
@@ -57,7 +57,7 @@ public class DartStackTraceMessageFiler implements Filter {
     return new Result(prefix.length(), prefix.length() + name.length(), hyperlinkInfo);
   }
 
-  public DartStackTraceMessageFiler(@NotNull Project project, @Nullable String libraryRootPath) {
+  public DartStackTraceMessageFilter(@NotNull Project project, @Nullable String libraryRootPath) {
     myProject = project;
     myLibraryRootPath = libraryRootPath;
   }

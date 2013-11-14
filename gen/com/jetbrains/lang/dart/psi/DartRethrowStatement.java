@@ -5,12 +5,6 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface DartSourceStatement extends DartPsiCompositeElement {
-
-  @Nullable
-  DartPathOrLibraryReference getPathOrLibraryReference();
-
-  @NotNull
-  String getPath();
+public interface DartRethrowStatement extends DartPsiCompositeElement {
 
 }
