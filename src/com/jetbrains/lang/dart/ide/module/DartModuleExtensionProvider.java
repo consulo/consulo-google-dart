@@ -1,12 +1,12 @@
 package com.jetbrains.lang.dart.ide.module;
 
-import com.intellij.openapi.module.Module;
-import icons.DartIcons;
+import javax.swing.Icon;
+
 import org.consulo.module.extension.ModuleExtensionProvider;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import javax.swing.*;
+import com.intellij.openapi.module.Module;
+import icons.DartIcons;
 
 /**
  * @author VISTALL
@@ -23,12 +23,6 @@ public class DartModuleExtensionProvider implements ModuleExtensionProvider<Dart
   @Override
   public String getName() {
     return "Dart";
-  }
-
-  @NotNull
-  @Override
-  public Class<DartModuleExtension> getImmutableClass() {
-    return DartModuleExtension.class;
   }
 
   @NotNull
