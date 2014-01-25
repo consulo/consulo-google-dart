@@ -2,11 +2,11 @@
   <artifact build-on-make="true" name="dist">
     <output-path>$PROJECT_DIR$/out/artifacts/dist</output-path>
     <root id="root">
-      <element id="directory" name="dart">
+      <element id="directory" name="google-dart">
         <element id="directory" name="lib">
           <element id="zip-archive" name="dart.jar">
-            <element id="module-output" name="consulo-dart" />
-            <element id="module-production-resource-output" name="consulo-dart" />
+            <element id="module-output" name="consulo-google-dart" />
+            <element id="module-production-resource-output" name="consulo-google-dart" />
           </element>
           <element id="file-copy" path="$PROJECT_DIR$/lib/commons-lang3-3.1.jar" />
           <element id="file-copy" path="$PROJECT_DIR$/lib/dartanalyzer.jar" />
