@@ -29,7 +29,11 @@
 		<iconDescriptorUpdater implementation="com.jetbrains.lang.dart.DartIconDescriptorUpdater"/>
 		<lang.syntaxHighlighterFactory key="Dart" implementationClass="com.jetbrains.lang.dart.highlight.DartSyntaxHighlighterFactory"/>
 		<problemFileHighlightFilter implementation="com.jetbrains.lang.dart.highlight.DartProblemFileHighlightFilter"/>
-		<moduleExtensionProvider key="dart" implementationClass="com.jetbrains.lang.dart.ide.module.DartModuleExtensionProvider"/>
+		<moduleExtensionProvider key="dart"
+								 name="Google Dart"
+								 icon="/icons/dart.png"
+								 immutableClass="com.jetbrains.lang.dart.ide.module.DartModuleExtension"
+								 mutableClass="com.jetbrains.lang.dart.ide.module.DartMutableModuleExtension"/>
 
 		<lang.braceMatcher language="Dart" implementationClass="com.jetbrains.lang.dart.ide.DartBraceMatcher"/>
 		<typedHandler implementation="com.jetbrains.lang.dart.ide.editor.DartTypeHandler" id="Dart"/>
