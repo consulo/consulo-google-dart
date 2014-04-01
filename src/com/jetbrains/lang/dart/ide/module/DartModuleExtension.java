@@ -17,8 +17,9 @@ public class DartModuleExtension extends ModuleExtensionWithSdkImpl<DartModuleEx
 		super(id, module);
 	}
 
+	@NotNull
 	@Override
-	protected Class<? extends SdkType> getSdkTypeClass()
+	public Class<? extends SdkType> getSdkTypeClass()
 	{
 		return DartSdkType.class;
 	}
