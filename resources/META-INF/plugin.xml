@@ -2,7 +2,7 @@
 	<id>com.jetbrains.lang.dart</id>
 	<name>Dart</name>
 	<description>Support for Dart programming language</description>
-	<version>1.0</version>
+	<version>SNAPSHOT</version>
 	<category>Custom Languages</category>
 	<vendor>JetBrains</vendor>
 	<depends>com.intellij.xml</depends>
