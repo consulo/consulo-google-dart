@@ -1,5 +1,8 @@
 package com.jetbrains.lang.dart.ide.structure;
 
+import org.jetbrains.annotations.NonNls;
+import org.jetbrains.annotations.NotNull;
+import com.intellij.icons.AllIcons;
 import com.intellij.ide.IdeBundle;
 import com.intellij.ide.structureView.StructureViewModel;
 import com.intellij.ide.structureView.StructureViewModelBase;
@@ -10,12 +13,9 @@ import com.intellij.ide.util.treeView.smartTree.Filter;
 import com.intellij.ide.util.treeView.smartTree.TreeElement;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
-import com.intellij.util.PlatformIcons;
 import com.jetbrains.lang.dart.DartComponentType;
 import com.jetbrains.lang.dart.psi.DartClass;
 import com.jetbrains.lang.dart.psi.DartComponent;
-import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
 
 /**
  * @author: Fedor.Korotkov
@@ -52,7 +52,8 @@ public class DartStructureViewModel extends StructureViewModelBase implements St
   private static final Filter ourFieldsFilter = new Filter() {
     @NonNls public static final String ID = "SHOW_FIELDS";
 
-    public boolean isVisible(TreeElement treeNode) {
+    @Override
+	public boolean isVisible(TreeElement treeNode) {
       if (!(treeNode instanceof DartStructureViewElement)) return true;
       final PsiElement element = ((DartStructureViewElement)treeNode).getRealElement();
 
@@ -68,20 +69,22 @@ public class DartStructureViewModel extends StructureViewModelBase implements St
       return true;
     }
 
-    public boolean isReverted() {
+    @Override
+	public boolean isReverted() {
       return true;
     }
 
-    @NotNull
+    @Override
+	@NotNull
     public ActionPresentation getPresentation() {
       return new ActionPresentationData(
         IdeBundle.message("action.structureview.show.fields"),
-        null,
-        PlatformIcons.FIELD_ICON
+        null, AllIcons.Nodes.PpFile
       );
     }
 
-    @NotNull
+    @Override
+	@NotNull
     public String getName() {
       return ID;
     }

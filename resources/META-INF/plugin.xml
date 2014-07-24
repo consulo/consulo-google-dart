@@ -100,7 +100,9 @@
 		<liveTemplateMacro implementation="com.jetbrains.lang.dart.ide.template.macro.DartSuggestVariableNameMacro"/>
 
 		<liveTemplateContext implementation="com.jetbrains.lang.dart.ide.template.DartTemplateContextType"/>
-		<defaultLiveTemplatesProvider implementation="com.jetbrains.lang.dart.ide.template.DartLiveTemplatesProvider"/>
+		<bundleLiveTemplateSet path="liveTemplates/dart_miscellaneous" />
+		<bundleLiveTemplateSet path="liveTemplates/dart_iterations" />
+		<bundleLiveTemplateSet path="liveTemplates/dart_surround" />
 
 		<lang.surroundDescriptor language="Dart"
 								 implementationClass="com.jetbrains.lang.dart.ide.surroundWith.DartExpressionSurroundDescriptor"/>
