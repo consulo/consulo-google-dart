@@ -2,13 +2,17 @@
 package com.jetbrains.lang.dart.psi.impl;
 
 import java.util.List;
-import org.jetbrains.annotations.*;
+
+import org.jetbrains.annotations.NotNull;
 import com.intellij.lang.ASTNode;
-import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
-import static com.jetbrains.lang.dart.DartTokenTypes.*;
-import com.jetbrains.lang.dart.psi.*;
+import com.jetbrains.lang.dart.psi.DartExportStatement;
+import com.jetbrains.lang.dart.psi.DartHideCombinator;
+import com.jetbrains.lang.dart.psi.DartMetadata;
+import com.jetbrains.lang.dart.psi.DartPathOrLibraryReference;
+import com.jetbrains.lang.dart.psi.DartShowCombinator;
+import com.jetbrains.lang.dart.psi.DartVisitor;
 import com.jetbrains.lang.dart.util.DartPsiImplUtil;
 
 public class DartExportStatementImpl extends DartPsiCompositeElementImpl implements DartExportStatement {
@@ -23,12 +27,6 @@ public class DartExportStatementImpl extends DartPsiCompositeElementImpl impleme
   }
 
   @Override
-  @Nullable
-  public DartComponentName getComponentName() {
-    return findChildByClass(DartComponentName.class);
-  }
-
-  @Override
   @NotNull
   public List<DartHideCombinator> getHideCombinatorList() {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, DartHideCombinator.class);
@@ -36,14 +34,24 @@ public class DartExportStatementImpl extends DartPsiCompositeElementImpl impleme
 
   @Override
   @NotNull
-  public DartPathOrLibraryReference getPathOrLibraryReference() {
-    return findNotNullChildByClass(DartPathOrLibraryReference.class);
+  public List<DartMetadata> getMetadataList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, DartMetadata.class);
   }
 
   @Override
   @NotNull
   public List<DartShowCombinator> getShowCombinatorList() {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, DartShowCombinator.class);
+  }
+
+  public String getUri() {
+    return DartPsiImplUtil.getUri(this);
+  }
+
+  @Override
+  @NotNull
+  public DartPathOrLibraryReference getLibraryExpression() {
+    return findNotNullChildByClass(DartPathOrLibraryReference.class);
   }
 
 }

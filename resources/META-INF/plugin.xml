@@ -15,10 +15,6 @@
 		</component>
 	</project-components>
 
-	<extensionPoints>
-		<extensionPoint name="debugger.breakpoint.class.provider" interface="com.jetbrains.lang.dart.ide.runner.server.DartCommandLineBreakpointTypeProvider"/>
-	</extensionPoints>
-
 	<extensions defaultExtensionNs="com.intellij.copyright">
 		<updater filetype="Dart" implementationClass="com.jetbrains.lang.dart.ide.copyright.UpdateDartCopyrightsProvider"/>
 	</extensions>
@@ -78,12 +74,11 @@
 		<codeInsight.implementMethod language="Dart"
 									 implementationClass="com.jetbrains.lang.dart.ide.generation.DartImplementMethodHandler"/>
 
-		<fileBasedIndex implementation="com.jetbrains.lang.dart.ide.index.DartImportIndex"/>
+		<fileBasedIndex implementation="com.jetbrains.lang.dart.ide.index.DartImportAndExportIndex"/>
 		<fileBasedIndex implementation="com.jetbrains.lang.dart.ide.index.DartPathIndex"/>
 		<fileBasedIndex implementation="com.jetbrains.lang.dart.ide.index.DartSourceIndex"/>
 		<fileBasedIndex implementation="com.jetbrains.lang.dart.ide.index.DartClassIndex"/>
 		<fileBasedIndex implementation="com.jetbrains.lang.dart.ide.index.DartLibraryIndex"/>
-		<fileBasedIndex implementation="com.jetbrains.lang.dart.ide.index.DartReversedLibraryIndex"/>
 		<fileBasedIndex implementation="com.jetbrains.lang.dart.ide.index.DartComponentIndex"/>
 		<fileBasedIndex implementation="com.jetbrains.lang.dart.ide.index.DartSymbolIndex"/>
 		<fileBasedIndex implementation="com.jetbrains.lang.dart.ide.index.DartInheritanceIndex"/>
@@ -131,12 +126,11 @@
 		<codeInspection.InspectionExtension id="dartGlobalInspection"
 											implementation="com.jetbrains.lang.dart.ide.inspections.analyzer.DartInspectionExtensionsFactory"/>
 
+		<xdebugger.breakpointType implementation="com.jetbrains.lang.dart.ide.runner.DartLineBreakpointType" />
+		<programRunner implementation="com.jetbrains.lang.dart.ide.runner.DartRunner" />
 		<!--command line-->
 		<configurationType implementation="com.jetbrains.lang.dart.ide.runner.server.DartCommandLineRunConfigurationType"/>
-		<configurationProducer implementation="com.jetbrains.lang.dart.ide.runner.server.DartCommandLineRuntimeConfigurationProducer"/>
-
-		<programRunner implementation="com.jetbrains.lang.dart.ide.runner.server.DartCommandLineRunner"/>
-		<programRunner implementation="com.jetbrains.lang.dart.ide.runner.server.DartCommandLineDebugRunner"/>
+		<runConfigurationProducer implementation="com.jetbrains.lang.dart.ide.runner.server.DartCommandLineRuntimeConfigurationProducer"/>
 
 		<projectService serviceInterface="com.jetbrains.lang.dart.analyzer.DartAnalyzerService"
 						serviceImplementation="com.jetbrains.lang.dart.analyzer.DartAnalyzerService"/>
@@ -145,9 +139,7 @@
 
 		<!--unit test-->
 		<configurationType implementation="com.jetbrains.lang.dart.ide.runner.unittest.DartUnitRunConfigurationType"/>
-		<configurationProducer implementation="com.jetbrains.lang.dart.ide.runner.unittest.DartUnitRuntimeConfigurationProducer"/>
-		<programRunner implementation="com.jetbrains.lang.dart.ide.runner.unittest.DartUnitRunner"/>
-		<programRunner implementation="com.jetbrains.lang.dart.ide.runner.unittest.DartUnitDebugRunner"/>
+		<runConfigurationProducer implementation="com.jetbrains.lang.dart.ide.runner.unittest.DartUnitRuntimeConfigurationProducer"/>
 
 		<!--inspections-->
 
@@ -159,21 +151,15 @@
 						  level="WARNING"
 						  implementationClass="com.jetbrains.lang.dart.ide.inspections.analyzer.DartGlobalInspectionTool"/>
 
-		<localInspection language="Dart" shortName="DartUnresolvedImport" bundle="com.jetbrains.lang.dart.DartBundle"
-						 key="inspections.unresolved.import.name"
-						 groupName="Dart" enabledByDefault="true" level="WARNING"
-						 implementationClass="com.jetbrains.lang.dart.ide.inspections.DartUnresolvedImportInspection"/>
+		<localInspection language="Dart" bundle="com.jetbrains.lang.dart.DartBundle" key="dart.deprecated.api.usage"
+						 groupName="Dart" enabledByDefault="true" level="WEAK WARNING"
+						 implementationClass="com.jetbrains.lang.dart.ide.inspections.DartDeprecatedApiUsageInspection"/>
 
 		<sdkType implementation="com.jetbrains.lang.dart.ide.DartSdkType"/>
-		<xdebugger.breakpointType implementation="com.jetbrains.lang.dart.ide.runner.base.DartBreakpointType"/>
 	</extensions>
 
 	<extensions defaultExtensionNs="com.intellij.xml">
 		<html.scriptContentProvider language="Dart" implementationClass="com.jetbrains.lang.dart.DartScriptContentProvider"/>
-	</extensions>
-
-	<extensions defaultExtensionNs="com.jetbrains">
-		<lang.dart.debugger.breakpoint.class.provider implementation="com.jetbrains.lang.dart.ide.runner.base.DartBreakpointTypeProvider"/>
 	</extensions>
 
 	<actions>

@@ -1,24 +1,28 @@
 package com.jetbrains.lang.dart.ide.runner.server.frame;
 
+import java.util.List;
+
+import org.jetbrains.annotations.NotNull;
 import com.intellij.xdebugger.frame.XExecutionStack;
 import com.intellij.xdebugger.frame.XSuspendContext;
 import com.jetbrains.lang.dart.ide.runner.server.DartCommandLineDebugProcess;
+import com.jetbrains.lang.dart.ide.runner.server.google.VmCallFrame;
 
-import java.util.List;
+public class DartSuspendContext extends XSuspendContext
+{
+	private final
+	@NotNull
+	DartExecutionStack myExecutionStack;
 
-public class DartSuspendContext extends XSuspendContext {
-  private final DartExecutionStack myExecutionStack;
+	public DartSuspendContext(final @NotNull DartCommandLineDebugProcess debugProcess, final @NotNull List<VmCallFrame> vmCallFrames)
+	{
+		myExecutionStack = new DartExecutionStack(debugProcess, vmCallFrames);
+	}
 
-  public DartSuspendContext(DartCommandLineDebugProcess debugProcess) {
-    myExecutionStack = new DartExecutionStack(debugProcess);
-  }
-
-  public DartSuspendContext(DartCommandLineDebugProcess debugProcess, List<DartStackFrame> frames) {
-    myExecutionStack = new DartExecutionStack(debugProcess, frames);
-  }
-
-  @Override
-  public XExecutionStack getActiveExecutionStack() {
-    return myExecutionStack;
-  }
+	@Override
+	@NotNull
+	public XExecutionStack getActiveExecutionStack()
+	{
+		return myExecutionStack;
+	}
 }

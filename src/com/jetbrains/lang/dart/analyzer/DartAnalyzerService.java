@@ -16,13 +16,18 @@ import com.google.dart.engine.context.AnalysisContext;
 import com.google.dart.engine.context.ChangeSet;
 import com.google.dart.engine.sdk.DirectoryBasedDartSdk;
 import com.google.dart.engine.source.DartUriResolver;
-import com.google.dart.engine.source.PackageUriResolver;
+import com.google.dart.engine.source.ExplicitPackageUriResolver;
 import com.google.dart.engine.source.Source;
 import com.google.dart.engine.source.SourceFactory;
-import com.google.dart.engine.source.UriResolver;
 import com.intellij.openapi.Disposable;
+import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.components.ServiceManager;
+import com.intellij.openapi.editor.Document;
+import com.intellij.openapi.fileEditor.FileDocumentManager;
+import com.intellij.openapi.module.Module;
+import com.intellij.openapi.module.ModuleUtilCore;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.roots.ProjectRootManager;
 import com.intellij.openapi.util.Comparing;
 import com.intellij.openapi.util.Disposer;
 import com.intellij.openapi.util.io.FileUtilRt;
@@ -33,8 +38,11 @@ import com.intellij.openapi.vfs.VirtualFileCopyEvent;
 import com.intellij.openapi.vfs.VirtualFileEvent;
 import com.intellij.openapi.vfs.VirtualFileMoveEvent;
 import com.intellij.openapi.vfs.VirtualFilePropertyEvent;
+import com.intellij.reference.SoftReference;
 import com.intellij.util.Function;
 import com.jetbrains.lang.dart.DartFileType;
+import com.jetbrains.lang.dart.sdk.DartConfigurable;
+import com.jetbrains.lang.dart.util.DartUrlResolver;
 
 public class DartAnalyzerService
 {
@@ -44,16 +52,22 @@ public class DartAnalyzerService
 	private
 	@Nullable
 	String mySdkPath;
+	private long myPubspecYamlTimestamp;
+	private
+	@NotNull
+	VirtualFile[] myDartPackageRoots;
 	private
 	@Nullable
-	VirtualFile myDartPackagesFolder;
+	VirtualFile myContentRoot; // checked only in case of ExplicitPackageUriResolver
+
 	private
 	@Nullable
 	WeakReference<AnalysisContext> myAnalysisContextRef;
 
 	private final Collection<VirtualFile> myCreatedFiles = Collections.synchronizedSet(new THashSet<VirtualFile>());
 
-	private final Map<VirtualFile, DartFileBasedSource> myFileToSourceMap = Collections.synchronizedMap(new THashMap<VirtualFile, DartFileBasedSource>());
+	private final Map<VirtualFile, DartFileBasedSource> myFileToSourceMap = Collections.synchronizedMap(new THashMap<VirtualFile,
+			DartFileBasedSource>());
 
 	public DartAnalyzerService(final Project project)
 	{
@@ -61,8 +75,7 @@ public class DartAnalyzerService
 
 		final VirtualFileAdapter listener = new VirtualFileAdapter()
 		{
-			@Override
-			public void beforePropertyChange(final VirtualFilePropertyEvent event)
+			public void beforePropertyChange(@NotNull final VirtualFilePropertyEvent event)
 			{
 				if(VirtualFile.PROP_NAME.equals(event.getPropertyName()))
 				{
@@ -70,14 +83,12 @@ public class DartAnalyzerService
 				}
 			}
 
-			@Override
-			public void beforeFileMovement(final VirtualFileMoveEvent event)
+			public void beforeFileMovement(@NotNull final VirtualFileMoveEvent event)
 			{
 				fileDeleted(event);
 			}
 
-			@Override
-			public void fileDeleted(final VirtualFileEvent event)
+			public void fileDeleted(@NotNull final VirtualFileEvent event)
 			{
 				if(FileUtilRt.extensionEquals(event.getFileName(), DartFileType.DEFAULT_EXTENSION))
 				{
@@ -85,8 +96,7 @@ public class DartAnalyzerService
 				}
 			}
 
-			@Override
-			public void propertyChanged(final VirtualFilePropertyEvent event)
+			public void propertyChanged(@NotNull final VirtualFilePropertyEvent event)
 			{
 				if(VirtualFile.PROP_NAME.equals(event.getPropertyName()))
 				{
@@ -94,20 +104,17 @@ public class DartAnalyzerService
 				}
 			}
 
-			@Override
-			public void fileMoved(final VirtualFileMoveEvent event)
+			public void fileMoved(@NotNull final VirtualFileMoveEvent event)
 			{
 				fileCreated(event);
 			}
 
-			@Override
-			public void fileCopied(final VirtualFileCopyEvent event)
+			public void fileCopied(@NotNull final VirtualFileCopyEvent event)
 			{
 				fileCreated(event);
 			}
 
-			@Override
-			public void fileCreated(final VirtualFileEvent event)
+			public void fileCreated(@NotNull final VirtualFileEvent event)
 			{
 				if(FileUtilRt.extensionEquals(event.getFileName(), DartFileType.DEFAULT_EXTENSION))
 				{
@@ -120,7 +127,6 @@ public class DartAnalyzerService
 
 		Disposer.register(project, new Disposable()
 		{
-			@Override
 			public void dispose()
 			{
 				LocalFileSystem.getInstance().removeVirtualFileListener(listener);
@@ -135,26 +141,55 @@ public class DartAnalyzerService
 	}
 
 	@NotNull
-	public AnalysisContext getAnalysisContext(final @NotNull VirtualFile annotatedFile, final @NotNull String sdkPath, final @Nullable VirtualFile packagesFolder)
+	public AnalysisContext getAnalysisContext(final @NotNull VirtualFile annotatedFile, final @NotNull String sdkPath)
 	{
-		AnalysisContext analysisContext = myAnalysisContextRef == null ? null : myAnalysisContextRef.get();
+		AnalysisContext analysisContext = SoftReference.dereference(myAnalysisContextRef);
 
-		if(analysisContext != null && Comparing.equal(sdkPath, mySdkPath) && Comparing.equal(packagesFolder, myDartPackagesFolder))
+		final DartUrlResolver dartUrlResolver = DartUrlResolver.getInstance(myProject, annotatedFile);
+		final VirtualFile yamlFile = dartUrlResolver.getPubspecYamlFile();
+		final Document cachedDocument = yamlFile == null ? null : FileDocumentManager.getInstance().getCachedDocument(yamlFile);
+		final long pubspecYamlTimestamp = yamlFile == null ? -1 : cachedDocument == null ? yamlFile.getModificationCount() : cachedDocument
+				.getModificationStamp();
+
+		final VirtualFile[] packageRoots = dartUrlResolver.getPackageRoots();
+
+		final VirtualFile contentRoot = ProjectRootManager.getInstance(myProject).getFileIndex().getContentRootForFile(annotatedFile);
+		final Module module = ModuleUtilCore.findModuleForFile(annotatedFile, myProject);
+
+		final boolean useExplicitPackageUriResolver = !ApplicationManager.getApplication().isUnitTestMode() &&
+				contentRoot != null &&
+				module != null &&
+				!DartConfigurable.isCustomPackageRootSet(module) &&
+				yamlFile == null;
+
+		final boolean sameContext = analysisContext != null &&
+				Comparing.equal(sdkPath, mySdkPath) &&
+				pubspecYamlTimestamp == myPubspecYamlTimestamp &&
+				Comparing.haveEqualElements(packageRoots, myDartPackageRoots) &&
+				(!useExplicitPackageUriResolver || Comparing.equal(contentRoot, myContentRoot));
+
+		if(sameContext)
 		{
 			applyChangeSet(analysisContext, annotatedFile);
 			myCreatedFiles.clear();
 		}
 		else
 		{
-			final DartUriResolver dartUriResolver = new DartUriResolver(new DirectoryBasedDartSdk(new File(sdkPath)));
-			final UriResolver fileResolver = new DartFileResolver(myProject);
-			final SourceFactory sourceFactory = packagesFolder == null ? new SourceFactory(dartUriResolver, fileResolver) : new SourceFactory(dartUriResolver, fileResolver, new PackageUriResolver(new File(packagesFolder.getPath())));
+			final DirectoryBasedDartSdk dirBasedSdk = new DirectoryBasedDartSdk(new File(sdkPath));
+			final DartUriResolver dartUriResolver = new DartUriResolver(dirBasedSdk);
+			final DartFileAndPackageUriResolver fileAndPackageUriResolver = new DartFileAndPackageUriResolver(myProject, dartUrlResolver);
+
+			final SourceFactory sourceFactory = useExplicitPackageUriResolver ? new SourceFactory(dartUriResolver, fileAndPackageUriResolver,
+					new ExplicitPackageUriResolver(dirBasedSdk, new File(contentRoot.getPath()))) : new SourceFactory(dartUriResolver,
+					fileAndPackageUriResolver);
 
 			analysisContext = AnalysisEngine.getInstance().createAnalysisContext();
 			analysisContext.setSourceFactory(sourceFactory);
 
 			mySdkPath = sdkPath;
-			myDartPackagesFolder = packagesFolder;
+			myPubspecYamlTimestamp = pubspecYamlTimestamp;
+			myDartPackageRoots = packageRoots;
+			myContentRoot = contentRoot;
 			myAnalysisContextRef = new WeakReference<AnalysisContext>(analysisContext);
 		}
 
@@ -178,7 +213,7 @@ public class DartAnalyzerService
 		{
 			for(VirtualFile file : myCreatedFiles)
 			{
-				changeSet.added(DartFileBasedSource.getSource(myProject, file));
+				changeSet.addedSource(DartFileBasedSource.getSource(myProject, file));
 			}
 		}
 
@@ -193,20 +228,21 @@ public class DartAnalyzerService
 			{
 				if(!source.exists() || !myFileToSourceMap.containsKey(((DartFileBasedSource) source).getFile()))
 				{
-					changeSet.removed(source);
+					changeSet.removedSource(source);
 					continue;
 				}
 
 				if(((DartFileBasedSource) source).isOutOfDate())
 				{
-					changeSet.changed(source);
+					changeSet.changedSource(source);
 				}
 			}
 		}
 	}
 
 	/**
-	 * Do not use this method directly, use {@link com.jetbrains.lang.dart.analyzer.DartFileBasedSource#getSource(com.intellij.openapi.project.Project, com.intellij.openapi.vfs.VirtualFile)}
+	 * Do not use this method directly, use {@link com.jetbrains.lang.dart.analyzer.DartFileBasedSource#getSource(com.intellij.openapi.project
+	 * .Project, com.intellij.openapi.vfs.VirtualFile)}
 	 */
 	@NotNull
 	DartFileBasedSource getOrCreateSource(final @NotNull VirtualFile file, final @NotNull Function<VirtualFile, DartFileBasedSource> creator)

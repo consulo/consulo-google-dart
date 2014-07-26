@@ -21,6 +21,7 @@
 
   generateFirstCheck=50
 
+  tokens = [
 // reserved words
   ASSERT="assert"
   BREAK="break"
@@ -54,11 +55,13 @@
   WHILE="while"
   WITH="with"
 
-  INTERFACE="interface"
+// void
+  VOID="void"
 
 // BUILT_IN_IDENTIFIER
   ABSTRACT="abstract"
   AS="as"
+  DEFERRED="deferred"
   EXPORT="export"
   EXTERNAL="external"
   FACTORY="factory"
@@ -106,16 +109,13 @@
   EXPRESSION_BODY_DEF="=>"
   EQ="="
   EQ_EQ="=="
-  EQ_EQ_EQ="==="
   NEQ="!="
-  NEQ_EQ="!=="
   DOT="."
   COMMA=","
   COLON=":"
   GT=">"
   GT_EQ=">="
   GT_GT_EQ=">>="
-  GT_GT_GT_EQ=">>>="
   LT="<"
   LT_EQ="<="
   LT_LT="<<"
@@ -131,43 +131,54 @@
   AND_AND="&&"
   HASH="#"
   AT="@"
+  ]
 
   extends(".*Expression")="expression"
 }
 
-dartUnit ::= (metadata* topLevelDefinition)*
+dartUnit ::= topLevelDefinition*
 private topLevelDefinition ::= libraryStatement
                              | partOfStatement
                              | importStatement
                              | exportStatement
                              | partStatement
                              | classDefinition
-                             | interfaceDefinition
-                             | classTypeAlias
                              | functionTypeAlias
-                             | functionDeclarationWithBodyOrNative
                              | getterOrSetterDeclaration
+                             | functionDeclarationWithBodyOrNative
                              | varDeclarationListWithSemicolon
-                             {recoverUntil="top_level_recover"}
-private top_level_recover ::= !('#' | '@' | 'import' | 'library' | 'native' | 'class' | 'const' | 'final' | 'get' | 'interface'
-                              | 'set' | 'static' | 'typedef' | 'var' | <<nonStrictID>> | 'abstract' | 'part'| 'export' | 'external')
+                             | incompleteDeclaration // not valid according to spec, but we'd like it to be parsed in order to have completion
+                             {recoverWhile="top_level_recover"}
+private top_level_recover ::= !(<<nonStrictID>> | '@' | 'abstract' | 'class' | 'const' | 'export' | 'external' | 'final' | 'get' | 'import' | 'library' | 'part' | 'set' | 'static' | 'typedef' | 'var' | 'void')
 
-partOfStatement ::= 'part' 'of' libraryId ';' {
+incompleteDeclaration ::= metadata* ('external' | 'static' | 'final' | 'const')* type | metadata+;
+
+partOfStatement ::= metadata* 'part' 'of' libraryId ';' {
+  pin=4
+  methods = [ getLibraryName ]
+}
+
+libraryStatement ::= metadata* 'library' qualifiedComponentName ';' {
   pin=3
   methods = [ getLibraryName ]
 }
 
-libraryStatement ::= 'library' qualifiedComponentName ';' {
-  pin=2
-  methods = [ getLibraryName ]
+importStatement ::= metadata* 'import' pathOrLibraryReference ('deferred'? 'as' componentName )? combinator* ';' {
+  pin=3
+  implements="com.jetbrains.lang.dart.psi.DartImportOrExportStatement"
+  methods = [
+    getUri
+    libraryExpression = "pathOrLibraryReference"
+    importPrefix = "componentName"
+  ]
 }
 
-importStatement ::= 'import' pathOrLibraryReference ('as' componentName )? combinator* ';' {
-  pin=2
+exportStatement ::= metadata* 'export' pathOrLibraryReference combinator* ';' {
+  pin=3
+  implements="com.jetbrains.lang.dart.psi.DartImportOrExportStatement"
   methods = [
-    getLibraryName
+    getUri
     libraryExpression = "pathOrLibraryReference"
-    getLibraryPrefix
   ]
 }
 
@@ -177,10 +188,8 @@ showCombinator ::= 'show' libraryReferenceList
 hideCombinator ::= 'hide' libraryReferenceList
 libraryReferenceList ::= libraryComponentReferenceExpression (',' libraryComponentReferenceExpression)*
 
-exportStatement ::= 'export' pathOrLibraryReference ('as' componentName )? combinator* ';'
-
-partStatement ::= 'part' pathOrLibraryReference ';' {
-  pin=2
+partStatement ::= metadata* 'part' pathOrLibraryReference ';' {
+  pin=3
   methods = [ getPath ]
 }
 
@@ -191,62 +200,66 @@ pathOrLibraryReference ::= stringLiteralExpression
 
 libraryId ::= <<nonStrictID>> ('.' <<nonStrictID>>)*
 {mixin="com.jetbrains.lang.dart.psi.impl.DartLibraryReferenceImpl" implements="com.jetbrains.lang.dart.psi.DartReference"
-recoverUntil="semicolon_recover"}
+recoverWhile="semicolon_recover"}
 
 private semicolon_recover ::= !(';')
 
-varAccessDeclaration ::= 'static'? (finalOrConst type componentName | finalOrConst componentName | type componentName | 'var' componentName)
+varAccessDeclaration ::= metadata* 'static'? (finalOrConst type componentName | finalOrConst componentName | type componentName | 'var' componentName)
 {mixin="com.jetbrains.lang.dart.psi.impl.AbstractDartComponentImpl" implements="com.jetbrains.lang.dart.psi.DartComponent"}
 private finalOrConst ::= 'final' | 'const'
-varDeclaration ::= varAccessDeclaration varInit?
 private varDeclarationListWithSemicolon ::= varDeclarationList ';'{pin=1}
 varDeclarationList ::= varAccessDeclaration varInit? (',' varDeclarationListPart)* {pin = 3}
 varDeclarationListPart ::= componentName varInit?
 {mixin="com.jetbrains.lang.dart.psi.impl.AbstractDartComponentImpl" implements="com.jetbrains.lang.dart.psi.DartComponent"}
 
-private operatorPrototypeWithSemicolon ::= operatorPrototype ';' {pin=1}
-operatorPrototype ::= returnType? 'operator' userDefinableOperator formalParameterList
-{pin=2 mixin="com.jetbrains.lang.dart.psi.impl.AbstractDartOperator" implements="com.jetbrains.lang.dart.psi.DartOperator"}
-private abstractOperatorDeclarationWithSemicolon ::= abstractOperatorDeclaration ';' {pin=1}
-abstractOperatorDeclaration ::= 'abstract' returnType? 'operator' userDefinableOperator formalParameterList
-{pin=3 mixin="com.jetbrains.lang.dart.psi.impl.AbstractDartOperator" implements="com.jetbrains.lang.dart.psi.DartOperator"}
-operatorDeclaration ::= returnType? 'operator' userDefinableOperator formalParameterList (';' | functionBodyOrNative)
-{pin=3 mixin="com.jetbrains.lang.dart.psi.impl.AbstractDartOperator" implements="com.jetbrains.lang.dart.psi.DartOperator"}
-classDefinition ::= 'abstract'? 'class' componentName typeParameters? (superclass mixins?)? interfaces? ('native' stringLiteralExpression?)? classBody
-{pin=3 mixin="com.jetbrains.lang.dart.psi.impl.AbstractDartPsiClass" implements="com.jetbrains.lang.dart.psi.DartClass"}
+operatorDeclaration ::= operatorDeclarationWithReturnType | operatorDeclarationWithoutReturnType // 'operator' is a valid identifier, so can be a returnType
+{mixin="com.jetbrains.lang.dart.psi.impl.AbstractDartOperator" implements="com.jetbrains.lang.dart.psi.DartOperator"}
+private operatorDeclarationWithReturnType    ::= metadata* 'external'? returnType 'operator' userDefinableOperator formalParameterList (';' | functionBodyOrNative) {pin=5}
+private operatorDeclarationWithoutReturnType ::= metadata* 'external'?            'operator' userDefinableOperator formalParameterList (';' | functionBodyOrNative) {pin=4}
+
+classDefinition ::= metadata* 'abstract'? 'class' componentName typeParameters? (mixinApplication | standardClassDeclarationTail)
+{pin=4 mixin="com.jetbrains.lang.dart.psi.impl.AbstractDartPsiClass" implements="com.jetbrains.lang.dart.psi.DartClass"}
+
+mixinApplication ::= '=' type mixins? interfaces? ';' {pin = 1}
+private standardClassDeclarationTail ::= (superclass mixins?)? interfaces? ('native' stringLiteralExpression?)? classBody?
 
 classBody ::= '{' classMembers '}' {pin=1}
-classMembers ::= (metadata* classMemberDefinition)*
-{recoverUntil="simple_scope_recover" implements="com.jetbrains.lang.dart.psi.DartExecutionScope"}
+classMembers ::= classMemberDefinition*
+{recoverWhile="simple_scope_recover" implements="com.jetbrains.lang.dart.psi.DartExecutionScope"}
 private simple_scope_recover ::= !'}'
 
 private getterOrSetterDeclaration ::= getterDeclaration | setterDeclaration
-getterDeclaration ::= ('external' | 'static' | 'const' | 'abstract')* returnType? 'get' componentName formalParameterList? (';' | functionBodyOrNative)
-{pin=4 mixin="com.jetbrains.lang.dart.psi.impl.AbstractDartComponentImpl" implements="com.jetbrains.lang.dart.psi.DartComponent"}
-setterDeclaration ::= ('external' | 'static' | 'const' | 'abstract')* returnType? 'set' componentName formalParameterList (';' | functionBodyOrNative)
-{pin=4 mixin="com.jetbrains.lang.dart.psi.impl.AbstractDartComponentImpl" implements="com.jetbrains.lang.dart.psi.DartComponent"}
+
+getterDeclaration ::= getterDeclarationWithReturnType | getterDeclarationWithoutReturnType // 'get' is a valid identifier, so can be a returnType
+{mixin="com.jetbrains.lang.dart.psi.impl.AbstractDartComponentImpl" implements="com.jetbrains.lang.dart.psi.DartComponent"}
+private getterDeclarationWithReturnType    ::= metadata* ('external' | 'static')* returnType 'get' componentName formalParameterList? (';' | functionBodyOrNative) {pin=5}
+private getterDeclarationWithoutReturnType ::= metadata* ('external' | 'static')*            'get' componentName formalParameterList? (';' | functionBodyOrNative) {pin=4}
+
+setterDeclaration ::= setterDeclarationWithReturnType | setterDeclarationWithoutReturnType // 'set' is a valid identifier, so can be a returnType
+{mixin="com.jetbrains.lang.dart.psi.impl.AbstractDartComponentImpl" implements="com.jetbrains.lang.dart.psi.DartComponent"}
+private setterDeclarationWithReturnType    ::= metadata* ('external' | 'static')* returnType 'set' componentName formalParameterList (';' | functionBodyOrNative) {pin=5}
+private setterDeclarationWithoutReturnType ::= metadata* ('external' | 'static')*            'set' componentName formalParameterList (';' | functionBodyOrNative) {pin=4}
 
 typeParameters ::= '<' typeParameter (',' typeParameter)* '>' {pin=1}
-typeParameter ::= componentName ('extends' type)?
-{recoverUntil="type_parameter_recover" mixin="com.jetbrains.lang.dart.psi.impl.AbstractDartComponentImpl" implements="com.jetbrains.lang.dart.psi.DartComponent"}
+typeParameter ::= metadata* componentName ('extends' type)?
+{recoverWhile="type_parameter_recover" mixin="com.jetbrains.lang.dart.psi.impl.AbstractDartComponentImpl" implements="com.jetbrains.lang.dart.psi.DartComponent"}
 
-private type_parameter_recover ::= !('(' | ',' | '.' | '>' | 'extends' | 'factory' | 'implements' | '{')
+private type_parameter_recover ::= !(<<nonStrictID>> | '(' | ',' | '=' | '>' | '@' | 'abstract' | 'class' | 'const' | 'export' | 'extends' |
+                                     'external' | 'final' | 'get' | 'implements' | 'import' | 'library' | 'native' | 'part' | 'set' |
+                                     'static' | 'typedef' | 'var' | 'void' | '{')
 superclass ::= 'extends' type {pin=1}
 mixins ::= 'with' typeList {pin=1}
 interfaces ::= 'implements' typeList {pin=1}
-superinterfaces::= 'extends' typeList {pin=1}
-defaultFactroy::= 'default' simpleQualifiedReferenceExpression typeParameters? {pin=1}
 
 private classMemberDefinition ::= factoryConstructorDeclaration
-                                | abstractOperatorDeclarationWithSemicolon
                                 | namedConstructorDeclaration
-                                | methodDeclaration
                                 | operatorDeclaration
                                 | getterOrSetterDeclaration
+                                | methodDeclaration
                                 | varDeclarationListWithSemicolon
-                                {recoverUntil="class_member_recover"}
-private class_member_recover ::= !('abstract' | 'const' | 'factory' | 'final' | 'get' | 'operator'
-                                 | 'set' | 'static' | 'var' | <<nonStrictID>> | '}' | '@' | 'external')
+                                | incompleteDeclaration // not valid according to spec, but we'd like it to be parsed in order to have completion
+                                {recoverWhile="class_member_recover"}
+private class_member_recover ::= !(<<nonStrictID>> | '@' | 'abstract' | 'class' | 'const' | 'export' | 'external' | 'factory' | 'final' | 'get' | 'import' | 'library' | 'operator' | 'part' | 'set' | 'static' | 'typedef' | 'var' | 'void' | '}' )
 
 private functionBodyOrNative ::= 'native' functionBody
                                | functionNative
@@ -254,12 +267,10 @@ private functionBodyOrNative ::= 'native' functionBody
 
 private functionNative ::= 'native' (stringLiteralExpression ';' | ';' | stringLiteralExpression functionBody)
 
-methodDeclaration ::= ('external' | 'static' | 'const' | 'abstract')* functionDeclarationPrivate initializers? (';' | functionBodyOrNative | redirection)?
-{pin=2 mixin="com.jetbrains.lang.dart.psi.impl.AbstractDartComponentImpl" implements="com.jetbrains.lang.dart.psi.DartComponent"}
-methodPrototypeDeclaration ::= 'const'? functionDeclarationPrivate ';'
-{pin=2 mixin="com.jetbrains.lang.dart.psi.impl.AbstractDartComponentImpl" implements="com.jetbrains.lang.dart.psi.DartComponent"}
-namedConstructorDeclaration ::= ('external' | 'const')* referenceExpression '.' componentName formalParameterList initializers? (';' | functionBodyOrNative | redirection)?
-{pin=5 mixin="com.jetbrains.lang.dart.psi.impl.AbstractDartComponentImpl" implements="com.jetbrains.lang.dart.psi.DartComponent"}
+methodDeclaration ::= metadata* ('external' | 'static' | 'const')* functionDeclarationPrivate initializers? (';' | functionBodyOrNative | redirection)?
+{pin=3 mixin="com.jetbrains.lang.dart.psi.impl.AbstractDartComponentImpl" implements="com.jetbrains.lang.dart.psi.DartComponent"}
+namedConstructorDeclaration ::= metadata* ('external' | 'const')* referenceExpression '.' componentName formalParameterList initializers? (';' | functionBodyOrNative | redirection)?
+{pin=6 mixin="com.jetbrains.lang.dart.psi.impl.AbstractDartComponentImpl" implements="com.jetbrains.lang.dart.psi.DartComponent"}
 
 initializers ::= ':' superCallOrFieldInitializer (',' superCallOrFieldInitializer)*
 
@@ -269,79 +280,71 @@ fieldInitializer ::= ('this' '.')? referenceExpression '=' expression {pin=2}
 
 superCallOrFieldInitializer ::= ('super' | 'this') ('.' referenceExpression)? arguments
                               | fieldInitializer
-                              {recoverUntil="super_call_or_field_initializer_recover"}
-private super_call_or_field_initializer_recover ::= !(')' | ',' | ':' | ';' | '=' | '=>' | ']' | 'abstract' | 'const' | 'factory'
-                                                    | 'final' | 'get' | 'native' | 'operator' | 'set' | 'static' | 'var' | '{' | '}'
-                                                    | <<nonStrictID>>)
+                              {recoverWhile="super_call_or_field_initializer_recover"}
+private super_call_or_field_initializer_recover ::= !(<<nonStrictID>> | ',' | ':' | ';' | '=>' | '@' | 'abstract' | 'class' | 'const' |
+                                                      'export' | 'external' | 'factory' | 'final' | 'get' | 'import' | 'library' |
+                                                      'native' | 'operator' | 'part' | 'set' | 'static' | 'typedef' | 'var' | 'void' | '{' |
+                                                      '}' )
 
-interfaceDefinition ::= 'interface' componentName typeParameters? superinterfaces? defaultFactroy? factorySpecification? interfaceBody
-{pin=2 mixin="com.jetbrains.lang.dart.psi.impl.AbstractDartPsiClass" implements="com.jetbrains.lang.dart.psi.DartClass"}
-factorySpecification ::= 'factory' type {pin=1}
+functionTypeAlias ::= metadata* 'typedef' functionPrefix typeParameters? formalParameterList ';'
+{pin=5 mixin="com.jetbrains.lang.dart.psi.impl.AbstractDartComponentImpl" implements="com.jetbrains.lang.dart.psi.DartComponent"}
+private functionPrefix ::= returnType componentName | componentName
 
-functionTypeAlias ::= 'typedef' functionPrefix typeParameters? formalParameterList ';'
-{pin=4 mixin="com.jetbrains.lang.dart.psi.impl.AbstractDartComponentImpl" implements="com.jetbrains.lang.dart.psi.DartComponent"}
-
-classTypeAlias ::= 'typedef' componentName typeParameters? '=' 'abstract'? type mixins? ';'
-{pin=4 mixin="com.jetbrains.lang.dart.psi.impl.TypedefDartPsiClass" implements="com.jetbrains.lang.dart.psi.DartComponent"}
-
-interfaceBody ::= '{' interfaceMembers '}' {pin=1}
-interfaceMembers ::= (metadata* interfaceMemberDefinition)*
-{recoverUntil=simple_scope_recover implements="com.jetbrains.lang.dart.psi.DartExecutionScope"}
-
-private interfaceMemberDefinition ::= methodPrototypeDeclaration
-                                    | varDeclarationListWithSemicolon
-                                    | namedConstructorDeclaration
-                                    | getterOrSetterDeclaration
-                                    | operatorPrototypeWithSemicolon
-                                    {recoverUntil="interface_member_definition_recover"}
-private interface_member_definition_recover::= !('abstract' | 'assert' | 'class' | 'const' | 'extends' | 'factory' | 'final' | 'get'
-                                               | 'implements' | 'import' | 'interface' | 'is' | 'library' | 'native'
-                                               | 'operator' | 'set' | '@' | 'static' | 'typedef' | 'var' | '}' | <<nonStrictID>>)
-
-factoryConstructorDeclaration ::= ('external' | 'const')* 'factory' referenceExpression ('.' componentName)? formalParameterList factoryTail?
-{pin=2 mixin="com.jetbrains.lang.dart.psi.impl.AbstractDartComponentImpl" implements="com.jetbrains.lang.dart.psi.DartComponent"}
+factoryConstructorDeclaration ::= metadata* ('external' | 'const')* 'factory' referenceExpression ('.' componentName)? formalParameterList factoryTail?
+{pin=3 mixin="com.jetbrains.lang.dart.psi.impl.AbstractDartComponentImpl" implements="com.jetbrains.lang.dart.psi.DartComponent"}
 private factoryTail ::= varFactoryDeclaration ';' | functionBodyOrNative | ';' {pin(".*")=1}
 private varFactoryDeclaration ::= '=' type ['.' referenceExpression] {pin(".*")=1}
 
-userDefinableOperator ::= multiplicativeOperator
-                        | additiveOperator
-                        | shiftOperator
-                        | relationalOperator
-                        | bitwiseOperator
-                        | '=='  // Disallow negative '&' === equality checks.
-                        | '~'   // Disallow ! operator.
-                        | '[' ']' '='?
+userDefinableOperator ::= binaryOperator |
+                          '~' |
+                          '[' ']' '='?
+private binaryOperator ::= multiplicativeOperator |
+                           additiveOperator |
+                           shiftOperator|
+                           relationalOperator|
+                           '==' |
+                           bitwiseOperator
 
 multiplicativeOperator ::= '*' | '/' | '%' | '~/'
-assignmentOperator ::= '=' | '*=' | '/=' | '~/=' | '%=' | '+=' | '-=' | '<<=' | '>>>=' | '>>=' | '&=' | '^=' | '|='
 additiveOperator ::= '+' | '-'
 shiftOperator ::= '<<' | shiftRightOperator
 relationalOperator ::= '>=' | '>' | '<=' | '<'
-equalityOperator ::= '==' | '!=' | '===' | '!=='
 bitwiseOperator ::= '&' | '^' | '|'
 shiftRightOperator ::= '>' '>'
+
+assignmentOperator ::= '=' | '*=' | '/=' | '~/=' | '%=' | '+=' | '-=' | '<<=' | '>>=' | '&=' | '^=' | '|='
+equalityOperator ::= '==' | '!='
 
 formalParameterList ::= '(' normalFormalParameter (',' normalFormalParameter)* (',' namedFormalParameters)? ')'
                       | '(' namedFormalParameters? ')'
 
-fieldFormalParameter ::= finalVarOrType? 'this' '.' referenceExpression
+fieldFormalParameter ::= metadata* finalConstVarOrType? 'this' '.' referenceExpression formalParameterList?
 
 namedFormalParameters ::= '[' defaultFormalNamedParameter (',' defaultFormalNamedParameter)* ']' |
                           '{' defaultFormalNamedParameter (',' defaultFormalNamedParameter)* '}'
 
-defaultFormalNamedParameter ::= normalFormalParameter (('=' | ':') expression)? {recoverUntil="default_formal_parameter_recover"}
+defaultFormalNamedParameter ::= normalFormalParameter (('=' | ':') expression)? {recoverWhile="default_formal_parameter_recover"}
 private default_formal_parameter_recover ::= !(')' | ',' | ']' | '}')
 
-normalFormalParameter ::= functionDeclaration
+normalFormalParameter ::= functionSignature
                         | fieldFormalParameter
-                        | varDeclaration
-                        | componentName {
+                        | simpleFormalParameter {
   methods = [findComponentName]
 }
 
-returnType ::= type | 'var'
+simpleFormalParameter ::= declaredIdentifier | metadata* componentName
+{mixin="com.jetbrains.lang.dart.psi.impl.AbstractDartComponentImpl" implements="com.jetbrains.lang.dart.psi.DartComponent"}
+private declaredIdentifier ::= metadata* finalConstVarOrTypeAndComponentName;
 
-finalVarOrType ::= 'final' type? | 'var' | type
+returnType ::= 'void' | type
+
+private finalConstVarOrType ::= 'final' type? | 'const' type? | 'var' | type // Be careful on using it! It may erroneously consume 'type?'. See finalConstVarOrTypeAndComponentName
+private finalConstVarOrTypeAndComponentName ::= 'final' type componentName |
+                                                'final'      componentName |
+                                                'const' type componentName |
+                                                'const'      componentName |
+                                                'var'        componentName |
+                                                        type componentName
 
 qualifiedComponentName ::= << nonStrictID >> ('.' << nonStrictID >>)*
 {mixin="com.jetbrains.lang.dart.psi.impl.DartQNamedElementImpl" implements="com.jetbrains.lang.dart.psi.DartQNamedElement"}
@@ -365,16 +368,21 @@ typeList ::= type (',' type)*
 block ::= '{' statements '}' {pin=1}
 
 statements ::= statement* {implements="com.jetbrains.lang.dart.psi.DartExecutionScope"}
-private statement ::= label* nonLabelledStatement {pin=2 recoverUntil="statement_recover"}
-private statement_recover ::= !('!' | '(' | ')' | '+' | '++' | '-' | '--' | ';' | '<' | '[' | 'assert' | 'break' | 'case' | 'const'
-                              | 'continue' | 'default' | 'do' | 'else' | 'false' | 'final' | 'for' | 'if' | 'new' | 'null' | 'rethrow' | 'return'
-                              | 'static' | 'super' | 'switch' | 'this' | 'throw' | 'true' | 'try' | 'var' | 'while' | '{' | '}' | '~'
-                              | HEX_NUMBER | <<nonStrictID>> | NUMBER | OPEN_QUOTE | RAW_SINGLE_QUOTED_STRING | RAW_TRIPLE_QUOTED_STRING
-                              | "abstract" | "assert" | "class"  | "extends" | "factory" | "get" | "implements" | "import" | "interface"
-                              | "is" | "@" | "library" | "native" | "as" | "on" | "set" | "static" | "typedef" | "operator")
+private statement ::= label* nonLabelledStatement {pin=2 recoverWhile="statement_recover"}
+private statement_recover ::= !(<<nonStrictID>> | <<parenthesizedExpressionWrapper>> | <<varInitWrapper>> | '!' | '!=' | '%' | '%=' | '&&' |
+                                '&' | '&=' | '(' | ')' | '*' | '*=' | '+' | '++' | '+=' | ',' | '-' | '--' | '-=' | '.' | '/' | '/=' | ':' |
+                                 ';' | '<' | '<<' | '<<=' | '<=' | '=' | '==' | '=>' | '>' | '>=' | '>>=' | '?' | '@' | '[' | ']' | '^' |
+                                 '^=' | 'abstract' | 'as' | 'assert' | 'break' | 'case' | 'catch' | 'class' | 'const' | 'continue' |
+                                 'default' | 'deferred' | 'do' | 'else' | 'export' | 'external' | 'factory' | 'final' | 'finally' | 'for' | 'get' |
+                                 'hide' | 'if' | 'import' | 'is' | 'library' | 'native' | 'new' | 'on' | 'operator' | 'part' | 'rethrow' |
+                                 'return' | 'set' | 'show' | 'static' | 'super' | 'switch' | 'this' | 'throw' | 'try' | 'typedef' | 'var' |
+                                 'void' | 'while' | '{' | '|' | '|=' | '||' | '}' | '~' | '~/' | '~/=' | CLOSING_QUOTE | FALSE | HASH |
+                                 HEX_NUMBER | LONG_TEMPLATE_ENTRY_END | LONG_TEMPLATE_ENTRY_START | NULL | NUMBER | OPEN_QUOTE |
+                                 RAW_SINGLE_QUOTED_STRING | RAW_TRIPLE_QUOTED_STRING | REGULAR_STRING_PART | SHORT_TEMPLATE_ENTRY_START |
+                                 TRUE)
 
-private nonLabelledStatement ::= block // Guard to break tie with map literal.
-                               | metadata* functionDeclarationWithBody ';'?
+private nonLabelledStatement ::= block // Guard to break tie with map literal.  todo why ';'?
+                               | functionDeclarationWithBody ';'?
                                | forStatement ';'?
                                | whileStatement ';'?
                                | doWhileStatement ';'?
@@ -389,12 +397,12 @@ private nonLabelledStatement ::= block // Guard to break tie with map literal.
                                | assertStatement
                                | statementFollowedBySemiColon
                                | ';'
-private statementFollowedBySemiColon ::= (metadata* varDeclarationList | expression) ';' {pin=1}
+private statementFollowedBySemiColon ::= (varDeclarationList | expression) ';' {pin=1}
 
 label::= componentName ':'
 {mixin="com.jetbrains.lang.dart.psi.impl.AbstractDartComponentImpl" implements="com.jetbrains.lang.dart.psi.DartComponent"}
 
-private expressionWithRecoverUntilParen ::= expression {recoverUntil="not_paren_recover"}
+private expressionWithRecoverUntilParen ::= expression {recoverWhile="not_paren_recover"}
 private not_paren_recover ::= !')'
 
 whileStatement ::= 'while' '(' expressionWithRecoverUntilParen ')' statement {pin=1}
@@ -413,7 +421,7 @@ forLoopPartsInBraces::= '(' forLoopParts ')'
 forLoopParts::= varDeclarationList ';' expression? ';' expressionList?
               | forInPart
               | expressionList? ';' expression? ';' expressionList?
-              {recoverUntil="for_loops_parts_recover"}
+              {recoverWhile="for_loops_parts_recover"}
 
 forInPart ::= (varAccessDeclaration | componentName) 'in' expression
 
@@ -422,13 +430,13 @@ private for_loops_parts_recover ::= !')'
 ifStatement ::= 'if' '(' expressionWithRecoverUntilParen ')' statement ('else' statement)?  {pin=1}
 switchStatement ::= 'switch' '(' expressionWithRecoverUntilParen ')' '{' switchCase* defaultCase? '}' {pin=1}
 
-switchCase ::= label? ('case' expression ':')+ statements {recoverUntil="switch_case_recover"}
+switchCase ::= label? ('case' expression ':')+ statements {recoverWhile="switch_case_recover"}
 private switch_case_recover ::= !('case' | 'default' | '}' | <<nonStrictID>>)
 defaultCase::= label? ('case' expression ':')* 'default' ':' statements
 
-tryStatement ::= 'try' block ((onPart | catchPart)+ finallyPart? | finallyPart) {pin=1}
-onPart ::= 'on' type catchPart? {pin=1}
-catchPart ::= 'catch' formalParameterList block {pin=1}
+tryStatement ::= 'try' block (onPart+ finallyPart? | finallyPart) {pin=1}
+onPart ::= catchPart block | 'on' type catchPart? block {pin=1}
+catchPart ::= 'catch' '(' componentName (',' componentName)? ')' {pin=1}
 finallyPart::= 'finally' block {pin=1}
 
 varInit ::= '=' expression {pin=1}
@@ -436,9 +444,9 @@ varInit ::= '=' expression {pin=1}
 expressionList ::= expression (',' expression)*
 arguments ::= '(' argumentList? ')'
 
-argumentList ::= argumentListPart (',' argumentListPart)* {recoverUntil="argument_list_recover"}
+argumentList ::= argumentListPart (',' argumentListPart)* {recoverWhile="argument_list_recover"}
 private argument_list_recover ::= !(')')
-private argumentListPart ::= namedArgument | expression {recoverUntil="argument_list_part_recover"}
+private argumentListPart ::= namedArgument | expression {recoverWhile="argument_list_part_recover"}
 private argument_list_part_recover ::= !(')' | ',')
 
 namedArgument ::= parameterNameReferenceExpression ':' expression {
@@ -451,23 +459,21 @@ namedArgument ::= parameterNameReferenceExpression ':' expression {
 parameterNameReferenceExpression ::= << nonStrictID >>
 {mixin="com.jetbrains.lang.dart.psi.impl.DartReferenceImpl" implements="com.jetbrains.lang.dart.psi.DartReference"}
 
-expression ::= assignExpressionWrapper {recoverUntil="expression_recover"}
-private expression_recover ::= !('!' | '!=' | '!==' | 'is'| '%' | '%=' | '&&' | '&' | '&=' | '(' | ')' | '*' | '*=' | '+' | '++'
-                               | '+=' | ',' | '-' | '--' | '-=' | '...' | '/' | '/=' | ':' | ';' | '<' | '<<' | '<<=' | '<='
-                               | '=' | '==' | '===' | '=>' | '>' | '>=' | '>>=' | '>>>=' | '?' | '[' | ']'
-                               | '^' | '^=' | 'abstract' | 'assert' | 'break' | 'case' | 'catch' | 'class' | 'const'
-                               | 'continue' | 'default' | 'do' | 'else' | 'factory' | 'false' | 'final' | 'finally'
-                               | 'for' | 'get' | 'if' | 'in' | 'interface' | 'native' | 'new' | 'null' | 'operator' | 'rethrow'
-                               | 'return' | 'set' | 'static' | 'super' | 'switch' | 'this' | 'throw' | 'true' | 'try'
-                               | 'typedef' | 'var' | 'while' | '{' | '|' | '|=' | '||' | '}' | '~' | '~/=' | '.'
-                               | HEX_NUMBER | <<nonStrictID>> | NUMBER | OPEN_QUOTE | RAW_SINGLE_QUOTED_STRING | RAW_TRIPLE_QUOTED_STRING
-                               | LONG_TEMPLATE_ENTRY_END | shiftRightOperator | ('.' '.'))
+expression ::= assignExpressionWrapper {recoverWhile="expression_recover"}
+private expression_recover ::= !(<<nonStrictID>> | <<parenthesizedExpressionWrapper>> | '!' | '!=' | '%' | '%=' |
+                                 '&&' | '&' | '&=' | '(' | ')' | '*' | '*=' | '+' | '++' | '+=' | ',' | '-' | '--' | '-=' | '.' | '/' |
+                                 '/=' | ':' | ';' | '<' | '<<' | '<<=' | '<=' | '=' | '==' | '=>' | '>' | '>=' | '>>=' | '?' | '@' | '[' |
+                                 ']' | '^' | '^=' | 'abstract' | 'as' | 'assert' | 'break' | 'case' | 'catch' | 'class' | 'const' |
+                                 'continue' | 'default' | 'deferred' | 'do' | 'else' | 'export' | 'external' | 'factory' | 'final' | 'finally' | 'for' |
+                                 'get' | 'hide' | 'if' | 'import' | 'is' | 'library' | 'native' | 'new' | 'on' | 'operator' | 'part' |
+                                 'rethrow' | 'return' | 'set' | 'show' | 'static' | 'super' | 'switch' | 'this' | 'throw' | 'try' |
+                                 'typedef' | 'var' | 'void' | 'while' | '{' | '|' | '|=' | '||' | '}' | '~' | '~/' | '~/=' | CLOSING_QUOTE |
+                                  FALSE | HASH | HEX_NUMBER | LONG_TEMPLATE_ENTRY_END | LONG_TEMPLATE_ENTRY_START | NULL | NUMBER |
+                                  OPEN_QUOTE | RAW_SINGLE_QUOTED_STRING | RAW_TRIPLE_QUOTED_STRING | REGULAR_STRING_PART |
+                                  SHORT_TEMPLATE_ENTRY_START | TRUE)
 
-private assignExpressionWrapper ::= iteratorExpressionWrapper assignExpression*
-left assignExpression ::= assignmentOperator iteratorExpressionWrapper {pin=1 extends="expression"}
-
-private iteratorExpressionWrapper ::= ternaryExpressionWrapper iteratorExpression?
-left iteratorExpression ::= '...' ternaryExpressionWrapper
+private assignExpressionWrapper ::= ternaryExpressionWrapper assignExpression*
+left assignExpression ::= assignmentOperator ternaryExpressionWrapper {pin=1} // todo right associate
 
 private ternaryExpressionWrapper ::= logicOrExpressionWrapper ternaryExpression?
 left ternaryExpression ::= '?' expression ':' ternaryExpressionWrapper
@@ -500,7 +506,7 @@ private multiplicativeExpressionWrapper ::= prefixExpression multiplicativeExpre
 left multiplicativeExpression ::= multiplicativeOperator prefixExpression
 {mixin="com.jetbrains.lang.dart.psi.impl.DartOperatorExpressionImpl" implements="com.jetbrains.lang.dart.psi.DartReference"}
 
-prefixExpression ::= prefixOperator prefixExpression | suffixExpressionWrapper
+prefixExpression ::= (prefixOperator prefixExpression) | suffixExpressionWrapper
 {mixin="com.jetbrains.lang.dart.psi.impl.DartOperatorExpressionImpl" implements="com.jetbrains.lang.dart.psi.DartReference"}
 prefixOperator ::= '-' | '+' | '--' | '++' | '!' | '~' | '?'
 
@@ -508,26 +514,25 @@ private suffixExpressionWrapper ::= valueExpression suffixExpression*
 left suffixExpression ::= ('--' | '++')
 {mixin="com.jetbrains.lang.dart.psi.impl.DartOperatorExpressionImpl" implements="com.jetbrains.lang.dart.psi.DartReference"}
 
-valueExpression ::= value cascadeReferenceExpression* (isExpression | asExpression)?
+valueExpression ::= primary callOrArrayAccessOrQualifiedRefExpression cascadeReferenceExpression* (isExpression | asExpression)?
 left isExpression ::= 'is' '!'? type
 left asExpression ::= 'as' type
 {mixin="com.jetbrains.lang.dart.psi.impl.DartClassReferenceImpl" implements="com.jetbrains.lang.dart.psi.DartReference"}
 
-private value ::=  (literalExpression qualifiedReferenceTail?)
-                 | functionExpression
-                 | compoundLiteralExpression
-                 | newExpressionOrConstOrCall
-                 | callOrArrayAccess
+private primary ::=  literalExpression |
+                     functionExpression |
+                     newExpression |
+                     constConstructorExpression |
+                     refOrThisOrSuperOrParenExpression
 
 parenthesizedExpression ::= '(' expressionInParentheses ')'
 {pin=1 mixin="com.jetbrains.lang.dart.psi.impl.DartClassReferenceImpl" implements="com.jetbrains.lang.dart.psi.DartReference"}
-private expressionInParentheses ::= expression | statement {recoverUntil=parenthesesRecovery}
+private expressionInParentheses ::= expression | statement {recoverWhile=parenthesesRecovery}
 private parenthesesRecovery ::= !')'
 
-private newExpressionOrConstOrCall ::= (newExpression | constConstructorExpression) qualifiedReferenceTail?
-private qualifiedReferenceTail ::= qualifiedReferenceExpression (callExpression | arrayAccessExpression | qualifiedReferenceExpression)*
+private callOrArrayAccessOrQualifiedRefExpression ::= (callExpression | arrayAccessExpression | qualifiedReferenceExpression)*
 
-private callOrArrayAccess ::= (referenceExpression | thisExpression | superExpression | << parenthesizedExpressionWrapper >>) (callExpression | arrayAccessExpression | qualifiedReferenceExpression)*
+private refOrThisOrSuperOrParenExpression ::= (referenceExpression | thisExpression | superExpression | << parenthesizedExpressionWrapper >>)
 
 left callExpression ::= arguments
 {mixin="com.jetbrains.lang.dart.psi.impl.DartReferenceImpl" implements="com.jetbrains.lang.dart.psi.DartReference"}
@@ -543,7 +548,7 @@ referenceExpression ::= << nonStrictID >>
 {mixin="com.jetbrains.lang.dart.psi.impl.DartReferenceImpl" implements="com.jetbrains.lang.dart.psi.DartReference"}
 
 left qualifiedReferenceExpression ::= '.' referenceExpression {elementType="referenceExpression"}
-left cascadeReferenceExpression ::= '.''.' << cascadeStopper >> (arrayAccess | callOrArrayAccess) << varInitWrapper >>
+left cascadeReferenceExpression ::= '.''.' << cascadeStopper >> (arrayAccess | refOrThisOrSuperOrParenExpression callOrArrayAccessOrQualifiedRefExpression) << varInitWrapper >>
 {mixin="com.jetbrains.lang.dart.psi.impl.DartReferenceImpl" implements="com.jetbrains.lang.dart.psi.DartReference"}
 
 simpleQualifiedReferenceExpression ::= referenceExpression qualifiedReferenceExpression* {elementType="referenceExpression"}
@@ -563,9 +568,6 @@ literalExpression ::= NULL | TRUE | FALSE | NUMBER | HEX_NUMBER | stringLiteralE
 
 symbolLiteralExpression ::= HASH (userDefinableOperator | simpleQualifiedReferenceExpression) {pin=1}
 
-compoundLiteralExpression ::= 'const'? typeArguments? (listLiteralExpression | mapLiteralExpression)
-{mixin="com.jetbrains.lang.dart.psi.impl.DartClassReferenceImpl" implements="com.jetbrains.lang.dart.psi.DartReference"}
-
 stringLiteralExpression ::= (RAW_SINGLE_QUOTED_STRING | RAW_TRIPLE_QUOTED_STRING | stringTemplate)+
 {mixin="com.jetbrains.lang.dart.psi.impl.DartClassReferenceImpl" implements="com.jetbrains.lang.dart.psi.DartReference"}
 
@@ -573,26 +575,22 @@ private stringTemplate ::= OPEN_QUOTE (REGULAR_STRING_PART | shortTemplateEntry 
 shortTemplateEntry ::= SHORT_TEMPLATE_ENTRY_START (thisExpression | referenceExpression) {pin=1}
 longTemplateEntry ::= LONG_TEMPLATE_ENTRY_START expression LONG_TEMPLATE_ENTRY_END {pin=1}
 
-listLiteralExpression ::= '[' (expressionList ','?)? ']'
+listLiteralExpression ::= 'const'? typeArguments? '[' (expressionList ','?)? ']'
 {mixin="com.jetbrains.lang.dart.psi.impl.DartClassReferenceImpl" implements="com.jetbrains.lang.dart.psi.DartReference"}
-mapLiteralExpression ::= '{' (mapLiteralEntry (',' mapLiteralEntry)* ','? )? '}'
+mapLiteralExpression ::= 'const'? typeArguments? '{' (mapLiteralEntry (',' mapLiteralEntry)* ','? )? '}'
 {mixin="com.jetbrains.lang.dart.psi.impl.DartClassReferenceImpl" implements="com.jetbrains.lang.dart.psi.DartReference"}
 
-mapLiteralEntry ::= (stringLiteralExpression | referenceExpression) ':' expression {recoverUntil="map_literal_entry_recover"}
-private map_literal_entry_recover ::= !('!=' | '!==' | 'is' | '%' | '&&' | '&' | '(' | ')' | '*' | '+' | ',' | '-' | '.' | '/' | ':' | ';' | '<'
-                                      | '<<' | '<=' | '==' | '===' | '=>' | '>' | '>=' | '?' | '[' | ']' | '^'
-                                      | 'native' | '{' | '|' | '||' | '}' | '~/' | shiftRightOperator | ('.' '.'))
+mapLiteralEntry ::= expression ':' expression {recoverWhile="map_literal_entry_recover"}
+private map_literal_entry_recover ::= !(',' | '}')
 
-functionExpression ::= (returnType componentName | componentName)? formalParameterList functionExpressionBody
+functionExpression ::= formalParameterList functionExpressionBody
+functionSignature ::= metadata* functionDeclarationPrivate
 {mixin="com.jetbrains.lang.dart.psi.impl.AbstractDartComponentImpl" implements="com.jetbrains.lang.dart.psi.DartComponent"}
-functionDeclaration ::= functionDeclarationPrivate
+private functionDeclarationPrivate ::= returnType componentName formalParameterList | componentName formalParameterList // todo remove, use functionSignature as in spec
+functionDeclarationWithBodyOrNative ::= metadata* 'external'? (returnType componentName formalParameterList | componentName formalParameterList) ( ';' | functionBodyOrNative)
 {mixin="com.jetbrains.lang.dart.psi.impl.AbstractDartComponentImpl" implements="com.jetbrains.lang.dart.psi.DartComponent"}
-private functionDeclarationPrivate ::= (returnType componentName formalParameterList | componentName formalParameterList) initializers?
-functionDeclarationWithBodyOrNative ::= 'external'? (returnType componentName formalParameterList | componentName formalParameterList) ( ';' | functionBodyOrNative)
+functionDeclarationWithBody ::= metadata*  (returnType componentName formalParameterList | componentName formalParameterList) functionBody // todo merge with functionDeclarationWithBodyOrNative
 {mixin="com.jetbrains.lang.dart.psi.impl.AbstractDartComponentImpl" implements="com.jetbrains.lang.dart.psi.DartComponent"}
-functionDeclarationWithBody ::= (returnType componentName formalParameterList | componentName formalParameterList) functionBody
-{mixin="com.jetbrains.lang.dart.psi.impl.AbstractDartComponentImpl" implements="com.jetbrains.lang.dart.psi.DartComponent"}
-private functionPrefix ::= returnType componentName | componentName
 
 functionBody ::= arrowBodyWithSemi | block
 private arrowBodyWithSemi ::= arrowBody ';' {pin=1}

@@ -41,9 +41,15 @@ public class DartMethodDeclarationImpl extends AbstractDartComponentImpl impleme
   }
 
   @Override
+  @Nullable
+  public DartInitializers getInitializers() {
+    return findChildByClass(DartInitializers.class);
+  }
+
+  @Override
   @NotNull
-  public List<DartInitializers> getInitializersList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, DartInitializers.class);
+  public List<DartMetadata> getMetadataList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, DartMetadata.class);
   }
 
   @Override

@@ -17,12 +17,9 @@ import com.jetbrains.lang.dart.psi.DartHideCombinator;
 import com.jetbrains.lang.dart.psi.DartImportStatement;
 import com.jetbrains.lang.dart.psi.DartLibraryComponentReferenceExpression;
 import com.jetbrains.lang.dart.psi.DartLibraryStatement;
-import com.jetbrains.lang.dart.psi.DartResolver;
 import com.jetbrains.lang.dart.psi.DartShowCombinator;
+import com.jetbrains.lang.dart.resolve.DartResolver;
 
-/**
- * Created by fedorkorotkov.
- */
 public class DartImportUtil
 {
 	private DartImportUtil()
@@ -45,7 +42,7 @@ public class DartImportUtil
 			{
 				for(DartImportStatement importStatement : importStatements)
 				{
-					final PsiElement importTarget = importStatement.getPathOrLibraryReference().resolve();
+					final PsiElement importTarget = importStatement.getLibraryExpression().resolve();
 					if(importTarget != null && DartResolver.resolveSimpleReference(importTarget, componentName) != null)
 					{
 						addShowOrRemoveHide(importStatement, componentName);
@@ -80,7 +77,8 @@ public class DartImportUtil
 		// try to remove hide
 		for(DartHideCombinator hideCombinator : importStatement.getHideCombinatorList())
 		{
-			final List<DartLibraryComponentReferenceExpression> libraryComponents = hideCombinator.getLibraryReferenceList().getLibraryComponentReferenceExpressionList();
+			final List<DartLibraryComponentReferenceExpression> libraryComponents = hideCombinator.getLibraryReferenceList()
+					.getLibraryComponentReferenceExpressionList();
 			for(DartLibraryComponentReferenceExpression libraryComponentReferenceExpression : libraryComponents)
 			{
 				if(componentName.equals(libraryComponentReferenceExpression.getText()))
@@ -100,7 +98,8 @@ public class DartImportUtil
 			return;
 		}
 		final DartShowCombinator combinatoroToAdd = showCombinators.iterator().next();
-		final DartLibraryComponentReferenceExpression libraryComponentReference = DartElementGenerator.createLibraryComponentReference(importStatement.getProject(), componentName);
+		final DartLibraryComponentReferenceExpression libraryComponentReference = DartElementGenerator.createLibraryComponentReference
+				(importStatement.getProject(), componentName);
 		if(libraryComponentReference != null)
 		{
 			combinatoroToAdd.getLibraryReferenceList().getNode().addLeaf(DartTokenTypes.COMMA, ",", null);

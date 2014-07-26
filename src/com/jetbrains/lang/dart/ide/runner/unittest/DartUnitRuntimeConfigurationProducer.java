@@ -1,153 +1,180 @@
 package com.jetbrains.lang.dart.ide.runner.unittest;
 
-import com.intellij.execution.Location;
-import com.intellij.execution.PsiLocation;
-import com.intellij.execution.RunnerAndConfigurationSettings;
+import static com.jetbrains.lang.dart.ide.runner.unittest.DartUnitRunnerParameters.Scope;
+
+import java.util.List;
+
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import com.intellij.execution.actions.ConfigurationContext;
-import com.intellij.execution.configurations.LocatableConfiguration;
-import com.intellij.execution.junit.RuntimeConfigurationProducer;
-import com.intellij.openapi.util.Condition;
+import com.intellij.execution.actions.RunConfigurationProducer;
+import com.intellij.openapi.util.Comparing;
+import com.intellij.openapi.util.Ref;
 import com.intellij.openapi.util.io.FileUtil;
 import com.intellij.openapi.util.text.StringUtil;
+import com.intellij.openapi.vfs.VfsUtilCore;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiElement;
+import com.intellij.psi.PsiFile;
 import com.intellij.psi.util.PsiTreeUtil;
-import com.intellij.util.containers.ContainerUtil;
+import com.intellij.util.PathUtil;
+import com.jetbrains.lang.dart.ide.runner.server.DartCommandLineRuntimeConfigurationProducer;
 import com.jetbrains.lang.dart.psi.DartArgumentList;
 import com.jetbrains.lang.dart.psi.DartCallExpression;
 import com.jetbrains.lang.dart.psi.DartExpression;
 import com.jetbrains.lang.dart.psi.DartFile;
 import com.jetbrains.lang.dart.util.DartResolveUtil;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import com.jetbrains.lang.dart.util.DartUrlResolver;
 
-import java.util.List;
+public class DartUnitRuntimeConfigurationProducer extends RunConfigurationProducer<DartUnitRunConfiguration>
+{
+	public DartUnitRuntimeConfigurationProducer()
+	{
+		super(DartUnitRunConfigurationType.getInstance());
+	}
 
-/**
- * @author: Fedor.Korotkov
- */
-public class DartUnitRuntimeConfigurationProducer extends RuntimeConfigurationProducer {
-  private PsiElement mySourceElement;
+	@Override
+	protected boolean setupConfigurationFromContext(final @NotNull DartUnitRunConfiguration configuration,
+			final @NotNull ConfigurationContext context, final @NotNull Ref<PsiElement> sourceElement)
+	{
+		final VirtualFile dartFile = DartCommandLineRuntimeConfigurationProducer.findRunnableDartFile(context);
+		if(dartFile == null)
+		{
+			return false;
+		}
 
-  public DartUnitRuntimeConfigurationProducer() {
-    super(DartUnitRunConfigurationType.getInstance());
-  }
+		final DartUrlResolver urlResolver = DartUrlResolver.getInstance(context.getProject(), dartFile);
+		final VirtualFile dartUnitLib = urlResolver.findFileByDartUrl("package:unittest/unittest.dart");
+		if(dartUnitLib == null)
+		{
+			return false;
+		}
 
-  @Override
-  public PsiElement getSourceElement() {
-    return mySourceElement;
-  }
+		final VirtualFile yamlFile = urlResolver.getPubspecYamlFile();
+		if(yamlFile != null)
+		{
+			final VirtualFile parent = yamlFile.getParent();
+			final VirtualFile testFolder = parent == null ? null : parent.findChild("test");
+			if(testFolder == null || !testFolder.isDirectory() || !VfsUtilCore.isAncestor(testFolder, dartFile, true))
+			{
+				return false;
+			}
+		}
 
-  @Override
-  protected RunnerAndConfigurationSettings createConfigurationByElement(Location location, ConfigurationContext context) {
-    if (!(location instanceof PsiLocation)) return null;
+		final PsiElement element = findTestElement(context.getPsiLocation());
+		if(element == null || !setupRunConfiguration(configuration.getRunnerParameters(), element))
+		{
+			return false;
+		}
 
-    final RunnerAndConfigurationSettings settings = cloneTemplateConfiguration(location.getProject(), context);
-    final LocatableConfiguration runConfig = (LocatableConfiguration)settings.getConfiguration();
-    if (!(runConfig instanceof DartUnitRunConfiguration)) {
-      return null;
-    }
+		configuration.setGeneratedName();
+		return true;
+	}
 
-    final DartUnitRunConfiguration dartUnitRunConfiguration = ((DartUnitRunConfiguration)runConfig);
-    final PsiElement element = findTestElement(location.getPsiElement());
-    if (element == null || !setupRunConfiguration(dartUnitRunConfiguration, element)) {
-      return null;
-    }
+	@Override
+	public boolean isConfigurationFromContext(final @NotNull DartUnitRunConfiguration configuration, final @NotNull ConfigurationContext context)
+	{
+		final PsiElement testElement = findTestElement(context.getPsiLocation());
+		if(testElement == null)
+		{
+			return false;
+		}
 
-    mySourceElement = location.getPsiElement();
-    settings.setName("Test: " + dartUnitRunConfiguration.getRunnerParameters().getTestName());
-    return settings;
-  }
+		final DartUnitRunnerParameters paramsFromContext = new DartUnitRunnerParameters();
+		if(!setupRunConfiguration(paramsFromContext, testElement))
+		{
+			return false;
+		}
 
-  private static boolean setupRunConfiguration(DartUnitRunConfiguration configuration, @NotNull PsiElement expression) {
-    if (expression instanceof DartCallExpression) {
-      return setupRunConfiguration(configuration, (DartCallExpression)expression);
-    }
-    else if (expression instanceof DartFile) {
-      return setupRunConfiguration(configuration, (DartFile)expression);
-    }
-    return false;
-  }
+		final DartUnitRunnerParameters existingParams = configuration.getRunnerParameters();
 
-  private static boolean setupRunConfiguration(DartUnitRunConfiguration configuration, @NotNull DartFile dartFile) {
-    final VirtualFile virtualFile = DartResolveUtil.getRealVirtualFile(dartFile);
-    if (virtualFile == null || !DartResolveUtil.isLibraryRoot(dartFile)) {
-      return false;
-    }
-    configuration.getRunnerParameters().setTestName(DartResolveUtil.getLibraryName(dartFile));
-    configuration.getRunnerParameters().setScope(DartUnitRunnerParameters.Scope.ALL);
-    configuration.getRunnerParameters().setFilePath(FileUtil.toSystemIndependentName(virtualFile.getPath()));
-    return true;
-  }
+		return Comparing.equal(existingParams.getFilePath(), paramsFromContext.getFilePath()) &&
+				Comparing.equal(existingParams.getScope(), paramsFromContext.getScope()) &&
+				(existingParams.getScope() == Scope.ALL || Comparing.equal(existingParams.getTestName(), paramsFromContext.getTestName()));
+	}
 
-  @Nullable
-  private static String findTestName(@Nullable DartCallExpression expression) {
-    String testName;
-    final DartArgumentList dartArgumentList = expression == null ? null : expression.getArguments().getArgumentList();
-    if (dartArgumentList == null || dartArgumentList.getExpressionList().isEmpty()) {
-      return null;
-    }
-    final DartExpression dartExpression = dartArgumentList.getExpressionList().get(0);
-    testName = dartExpression == null ? "" : StringUtil.unquoteString(dartExpression.getText());
-    return testName;
-  }
+	private static boolean setupRunConfiguration(final @NotNull DartUnitRunnerParameters runnerParams, final @NotNull PsiElement psiElement)
+	{
+		if(psiElement instanceof DartCallExpression)
+		{
+			final String testName = findTestName((DartCallExpression) psiElement);
+			final List<VirtualFile> virtualFiles = DartResolveUtil.findLibrary(psiElement.getContainingFile());
+			if(testName == null || virtualFiles.isEmpty())
+			{
+				return false;
+			}
 
-  private static boolean setupRunConfiguration(DartUnitRunConfiguration configuration, @NotNull DartCallExpression expression) {
-    final String testName = findTestName(expression);
-    final List<VirtualFile> virtualFiles = DartResolveUtil.findLibrary(expression.getContainingFile());
-    if (testName == null || virtualFiles.isEmpty()) {
-      return false;
-    }
-    configuration.getRunnerParameters().setTestName(testName);
-    configuration.getRunnerParameters().setScope(isTest(expression)
-                                                 ? DartUnitRunnerParameters.Scope.METHOD
-                                                 : DartUnitRunnerParameters.Scope.GROUP);
-    final String path = virtualFiles.iterator().next().getPath();
-    configuration.getRunnerParameters().setFilePath(FileUtil.toSystemIndependentName(path));
-    return true;
-  }
+			runnerParams.setTestName(testName);
+			runnerParams.setScope(isTest((DartCallExpression) psiElement) ? Scope.METHOD : Scope.GROUP);
+			final String dartFilePath = virtualFiles.iterator().next().getPath();
+			runnerParams.setFilePath(dartFilePath);
+			runnerParams.setWorkingDirectory(PathUtil.getParentPath(dartFilePath));
+			return true;
+		}
+		else
+		{
+			final PsiFile psiFile = psiElement.getContainingFile();
+			if(psiFile instanceof DartFile)
+			{
+				final VirtualFile virtualFile = DartResolveUtil.getRealVirtualFile((DartFile) psiElement);
+				if(virtualFile == null || !DartResolveUtil.isLibraryRoot((DartFile) psiElement))
+				{
+					return false;
+				}
 
-  @Nullable
-  private static PsiElement findTestElement(PsiElement element) {
-    DartCallExpression callExpression = PsiTreeUtil.getParentOfType(element, DartCallExpression.class);
-    while (callExpression != null) {
-      if (isGroup(callExpression) || isTest(callExpression)) {
-        return callExpression;
-      }
-      callExpression = PsiTreeUtil.getParentOfType(callExpression, DartCallExpression.class, true);
-    }
-    return element.getContainingFile();
-  }
+				runnerParams.setTestName(DartResolveUtil.getLibraryName((DartFile) psiElement));
+				runnerParams.setScope(Scope.ALL);
+				final String dartFilePath = FileUtil.toSystemIndependentName(virtualFile.getPath());
+				runnerParams.setFilePath(dartFilePath);
+				runnerParams.setWorkingDirectory(PathUtil.getParentPath(dartFilePath));
+				return true;
+			}
+		}
+		return false;
+	}
 
-  private static boolean isTest(DartCallExpression expression) {
-    return checkLibAndName(expression, "test");
-  }
+	@Nullable
+	private static String findTestName(@Nullable DartCallExpression expression)
+	{
+		String testName;
+		final DartArgumentList dartArgumentList = expression == null ? null : expression.getArguments().getArgumentList();
+		if(dartArgumentList == null || dartArgumentList.getExpressionList().isEmpty())
+		{
+			return null;
+		}
+		final DartExpression dartExpression = dartArgumentList.getExpressionList().get(0);
+		testName = dartExpression == null ? "" : StringUtil.unquoteString(dartExpression.getText());
+		return testName;
+	}
 
-  private static boolean isGroup(DartCallExpression expression) {
-    return checkLibAndName(expression, "group");
-  }
+	@Nullable
+	private static PsiElement findTestElement(@Nullable PsiElement element)
+	{
+		DartCallExpression callExpression = PsiTreeUtil.getParentOfType(element, DartCallExpression.class);
+		while(callExpression != null)
+		{
+			if(isGroup(callExpression) || isTest(callExpression))
+			{
+				return callExpression;
+			}
+			callExpression = PsiTreeUtil.getParentOfType(callExpression, DartCallExpression.class, true);
+		}
+		return element != null ? element.getContainingFile() : null;
+	}
 
-  private static boolean checkLibAndName(DartCallExpression callExpression, String expectedName) {
-    final String name = callExpression.getExpression().getText();
-    return expectedName.equalsIgnoreCase(name);
-  }
+	private static boolean isTest(DartCallExpression expression)
+	{
+		return checkLibAndName(expression, "test");
+	}
 
-  @Nullable
-  @Override
-  protected RunnerAndConfigurationSettings findExistingByElement(Location location,
-																 @NotNull List<RunnerAndConfigurationSettings> existingConfigurations,
-                                                                 ConfigurationContext context) {
-    final String testName = "Test: " + findTestName(PsiTreeUtil.getParentOfType(location.getPsiElement(), DartCallExpression.class));
-    return ContainerUtil.find(existingConfigurations, new Condition<RunnerAndConfigurationSettings>() {
-      @Override
-      public boolean value(RunnerAndConfigurationSettings settings) {
-        return testName.equals(settings.getName());
-      }
-    });
-  }
+	private static boolean isGroup(DartCallExpression expression)
+	{
+		return checkLibAndName(expression, "group");
+	}
 
-  @Override
-  public int compareTo(Object o) {
-    return PREFERED;
-  }
+	private static boolean checkLibAndName(DartCallExpression callExpression, String expectedName)
+	{
+		final String name = callExpression.getExpression().getText();
+		return expectedName.equalsIgnoreCase(name);
+	}
 }

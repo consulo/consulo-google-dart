@@ -1,60 +1,52 @@
 package com.jetbrains.lang.dart.psi;
 
+import java.util.List;
+
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
+public interface DartClass extends DartComponent
+{
+	@Nullable
+	DartType getSuperClass();
 
-/**
- * @author: Fedor.Korotkov
- */
-public interface DartClass extends DartComponent {
-  @Nullable
-  DartType getSuperClass();
+	@NotNull
+	List<DartType> getImplementsList();
 
-  @NotNull
-  List<DartType> getImplementsList();
+	@NotNull
+	List<DartType> getMixinsList();
 
-  @NotNull
-  List<DartType> getMixinsList();
+	boolean isGeneric();
 
-  boolean isInterface();
+	@NotNull
+	List<DartComponent> getMethods();
 
-  boolean isGeneric();
+	@NotNull
+	List<DartComponent> getFields();
 
-  @NotNull
-  List<DartComponent> getMethods();
+	@NotNull
+	List<DartComponent> getConstructors();
 
-  @NotNull
-  List<DartComponent> getFields();
+	@Nullable
+	DartComponent findFieldByName(@NotNull final String name);
 
-  /**
-   * @return named and factory constructors
-   */
+	@Nullable
+	DartComponent findMethodByName(@NotNull final String name);
 
-  @NotNull
-  List<DartComponent> getConstructors();
+	@Nullable
+	DartComponent findMemberByName(@NotNull final String name);
 
-  @Nullable
-  DartComponent findFieldByName(@NotNull final String name);
+	@NotNull
+	List<DartComponent> findMembersByName(@NotNull final String name);
 
-  @Nullable
-  DartComponent findMethodByName(@NotNull final String name);
+	@Nullable
+	DartTypeParameters getTypeParameters();
 
-  @Nullable
-  DartComponent findMemberByName(@NotNull final String name);
+	@Nullable
+	DartOperator findOperator(String operator, @Nullable DartClass rightDartClass);
 
-  @NotNull
-  List<DartComponent> findMembersByName(@NotNull final String name);
+	List<DartOperator> getOperators();
 
-  @Nullable
-  DartTypeParameters getTypeParameters();
-
-  @Nullable
-  DartOperator findOperator(String operator, @Nullable DartClass rightDartClass);
-
-  List<DartOperator> getOperators();
-
-  @Nullable
-  DartComponent findNamedConstructor(String name);
+	@Nullable
+	DartComponent findNamedConstructor(String name);
 }

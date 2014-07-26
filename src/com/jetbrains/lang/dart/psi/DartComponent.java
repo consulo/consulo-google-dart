@@ -1,22 +1,24 @@
 package com.jetbrains.lang.dart.psi;
 
-import com.intellij.psi.PsiNameIdentifierOwner;
 import org.jetbrains.annotations.Nullable;
+import com.intellij.psi.PsiNameIdentifierOwner;
 
-/**
- * @author: Fedor.Korotkov
- */
-public interface DartComponent extends DartPsiCompositeElement, PsiNameIdentifierOwner {
-  @Nullable
-  DartComponentName getComponentName();
+public interface DartComponent extends DartPsiCompositeElement, PsiNameIdentifierOwner
+{
+	@Nullable
+	DartComponentName getComponentName();
 
-  boolean isStatic();
+	boolean isStatic();
 
-  boolean isPublic();
+	boolean isPublic();
 
-  boolean isGetter();
+	boolean isConstructor();
 
-  boolean isSetter();
+	boolean isGetter();
 
-  boolean isAbstract();
+	boolean isSetter();
+
+	boolean isAbstract();
+
+	DartMetadata getMetadataByName(final String name);
 }

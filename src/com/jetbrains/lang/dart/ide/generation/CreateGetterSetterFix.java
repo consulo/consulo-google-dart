@@ -1,26 +1,25 @@
 package com.jetbrains.lang.dart.ide.generation;
 
-import java.util.List;
-
 import com.intellij.codeInsight.template.Template;
 import com.intellij.codeInsight.template.TemplateManager;
 import com.intellij.openapi.util.Condition;
 import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.util.containers.ContainerUtil;
+import com.jetbrains.lang.dart.DartBundle;
 import com.jetbrains.lang.dart.psi.DartClass;
 import com.jetbrains.lang.dart.psi.DartComponent;
 import com.jetbrains.lang.dart.psi.DartReturnType;
 import com.jetbrains.lang.dart.psi.DartType;
 import com.jetbrains.lang.dart.util.DartPresentableUtil;
+import org.jetbrains.annotations.NotNull;
 
-/**
- * @author: Fedor.Korotkov
- */
+import java.util.List;
+
 public class CreateGetterSetterFix extends BaseCreateMethodsFix<DartComponent>
 {
 	public enum Strategy
 	{
-		GETTER
+		GETTER(DartBundle.message("dart.fix.getter.none.found"))
 				{
 					@Override
 					boolean accept(final String name, List<DartComponent> componentList)
@@ -34,60 +33,82 @@ public class CreateGetterSetterFix extends BaseCreateMethodsFix<DartComponent>
 							}
 						}) == null;
 					}
-				}, SETTER
-			{
-				@Override
-				boolean accept(final String name, List<DartComponent> componentList)
+				},
+
+		SETTER(DartBundle.message("dart.fix.setter.none.found"))
 				{
-					return name.startsWith("_") && ContainerUtil.find(componentList, new Condition<DartComponent>()
+					@Override
+					boolean accept(final String name, List<DartComponent> componentList)
 					{
-						@Override
-						public boolean value(DartComponent component)
+						return name.startsWith("_") && ContainerUtil.find(componentList, new Condition<DartComponent>()
 						{
-							return component.isSetter() && DartPresentableUtil.setterGetterName(name).equals(component.getName());
-						}
-					}) == null;
-				}
-			}, GETTERSETTER
-			{
-				@Override
-				boolean accept(final String name, List<DartComponent> componentList)
+							@Override
+							public boolean value(DartComponent component)
+							{
+								return component.isSetter() && DartPresentableUtil.setterGetterName(name).equals(component.getName());
+							}
+						}) == null;
+					}
+				},
+
+		GETTERSETTER(DartBundle.message("dart.fix.gettersetter.none.found"))
 				{
-					return name.startsWith("_") && ContainerUtil.find(componentList, new Condition<DartComponent>()
+					@Override
+					boolean accept(final String name, List<DartComponent> componentList)
 					{
-						@Override
-						public boolean value(DartComponent component)
+						return name.startsWith("_") && ContainerUtil.find(componentList, new Condition<DartComponent>()
 						{
-							return (component.isGetter() || component.isSetter()) && DartPresentableUtil.setterGetterName(name).equals(component.getName());
-						}
-					}) == null;
-				}
-			};
+							@Override
+							public boolean value(DartComponent component)
+							{
+								return (component.isGetter() || component.isSetter()) && DartPresentableUtil.setterGetterName(name).equals(component
+										.getName());
+							}
+						}) == null;
+					}
+				};
+
+		private final String myNothingFoundMessage;
+
+		Strategy(final String nothingFoundMessage)
+		{
+			myNothingFoundMessage = nothingFoundMessage;
+		}
 
 		abstract boolean accept(String name, List<DartComponent> componentList);
 	}
 
-	private final Strategy myStratagy;
+	private final
+	@NotNull
+	Strategy myStrategy;
 
-	public CreateGetterSetterFix(final DartClass dartClass, Strategy strategy)
+	public CreateGetterSetterFix(final DartClass dartClass, @NotNull Strategy strategy)
 	{
 		super(dartClass);
-		myStratagy = strategy;
+		myStrategy = strategy;
+	}
+
+	@Override
+	@NotNull
+	protected String getNothingFoundMessage()
+	{
+		return myStrategy.myNothingFoundMessage;
 	}
 
 	@Override
 	protected Template buildFunctionsText(TemplateManager templateManager, DartComponent namedComponent)
 	{
 		final DartReturnType returnType = PsiTreeUtil.getChildOfType(namedComponent, DartReturnType.class);
-		final DartType dartType = returnType == null ? PsiTreeUtil.getChildOfType(namedComponent, DartType.class) : returnType.getType();
-		final String typeText = DartPresentableUtil.buildTypeText(namedComponent, dartType);
+		final DartType dartType = PsiTreeUtil.getChildOfType(namedComponent, DartType.class);
+		final String typeText = returnType == null ? DartPresentableUtil.buildTypeText(namedComponent, dartType,
+				null) : DartPresentableUtil.buildTypeText(namedComponent, returnType, null);
 		final Template template = templateManager.createTemplate(getClass().getName(), DART_TEMPLATE_GROUP);
 		template.setToReformat(true);
-		if(myStratagy == Strategy.GETTER || myStratagy == Strategy.GETTERSETTER)
+		if(myStrategy == Strategy.GETTER || myStrategy == Strategy.GETTERSETTER)
 		{
 			buildGetter(template, namedComponent.getName(), typeText);
 		}
-		if(myStratagy == Strategy.SETTER || myStratagy == Strategy.GETTERSETTER)
+		if(myStrategy == Strategy.SETTER || myStrategy == Strategy.GETTERSETTER)
 		{
 			buildSetter(template, namedComponent.getName(), typeText);
 		}

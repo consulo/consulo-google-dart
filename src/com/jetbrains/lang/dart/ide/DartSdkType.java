@@ -11,7 +11,6 @@ import com.intellij.openapi.projectRoots.SdkModificator;
 import com.intellij.openapi.projectRoots.SdkType;
 import com.intellij.openapi.roots.OrderRootType;
 import com.intellij.openapi.util.SystemInfo;
-import com.jetbrains.lang.dart.DartBundle;
 import com.jetbrains.lang.dart.util.DartSdkUtil;
 
 /**
@@ -46,13 +45,13 @@ public class DartSdkType extends SdkType
 	@Override
 	public String getPresentableName()
 	{
-		return DartBundle.message("dart.sdk.name.presentable");
+		return "Dart";
 	}
 
 	@Override
 	public String suggestSdkName(String currentSdkName, String sdkHome)
 	{
-		return DartBundle.message("dart.sdk.name.suggest", getVersionString(sdkHome));
+		return "Dart " + getVersionString(sdkHome);
 	}
 
 	@Override

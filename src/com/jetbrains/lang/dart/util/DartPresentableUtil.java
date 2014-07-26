@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
+import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import com.intellij.codeInsight.lookup.LookupElement;
@@ -14,46 +15,22 @@ import com.intellij.codeInsight.template.ExpressionContext;
 import com.intellij.codeInsight.template.Result;
 import com.intellij.codeInsight.template.Template;
 import com.intellij.codeInsight.template.TextResult;
+import com.intellij.psi.PsiElement;
 import com.intellij.psi.util.PsiTreeUtil;
+import com.jetbrains.lang.dart.DartTokenTypes;
 import com.jetbrains.lang.dart.psi.*;
 
-/**
- * @author: Fedor.Korotkov
- */
 public class DartPresentableUtil
 {
+
+	@NonNls
+	public static final String RIGHT_ARROW = "\u2192";
+	@NonNls
+	private static final String SPACE = " ";
+
 	public static String setterGetterName(String name)
 	{
 		return name.startsWith("_") ? name.substring(1) : name;
-	}
-
-	public static String unwrapCommentDelimiters(String text)
-	{
-		if(text.startsWith("/**"))
-		{
-			text = text.substring("/**".length());
-		}
-		if(text.startsWith("/*"))
-		{
-			text = text.substring("/*".length());
-		}
-		if(text.startsWith("///"))
-		{
-			text = text.substring("///".length());
-		}
-		if(text.startsWith("//"))
-		{
-			text = text.substring("//".length());
-		}
-		if(text.endsWith("**/"))
-		{
-			text = text.substring(0, text.length() - "**/".length());
-		}
-		if(text.endsWith("*/"))
-		{
-			text = text.substring(0, text.length() - "*/".length());
-		}
-		return text;
 	}
 
 	@NotNull
@@ -65,6 +42,13 @@ public class DartPresentableUtil
 	@NotNull
 	public static String getPresentableParameterList(DartComponent element, DartGenericSpecialization specialization)
 	{
+		return getPresentableParameterList(element, specialization, false);
+	}
+
+	@NotNull
+	public static String getPresentableParameterList(DartComponent element, DartGenericSpecialization specialization,
+			boolean functionalStyleSignatures)
+	{
 		final StringBuilder result = new StringBuilder();
 		final DartFormalParameterList parameterList = PsiTreeUtil.getChildOfType(element, DartFormalParameterList.class);
 		if(parameterList == null)
@@ -74,7 +58,7 @@ public class DartPresentableUtil
 		final List<DartNormalFormalParameter> list = parameterList.getNormalFormalParameterList();
 		for(int i = 0, size = list.size(); i < size; i++)
 		{
-			result.append(getPresentableNormalFormalParameter(list.get(i), specialization));
+			result.append(getPresentableNormalFormalParameter(list.get(i), specialization, functionalStyleSignatures));
 			if(i < size - 1)
 			{
 				result.append(", ");
@@ -87,7 +71,10 @@ public class DartPresentableUtil
 			{
 				result.append(", ");
 			}
-			result.append("[");
+
+			final boolean isOptional = isOptionalParameterList(namedFormalParameters);
+			result.append(isOptional ? '{' : '[');
+
 			List<DartDefaultFormalNamedParameter> list1 = namedFormalParameters.getDefaultFormalNamedParameterList();
 			for(int i = 0, size = list1.size(); i < size; i++)
 			{
@@ -96,91 +83,93 @@ public class DartPresentableUtil
 					result.append(", ");
 				}
 				DartDefaultFormalNamedParameter formalParameter = list1.get(i);
-				result.append(getPresentableNormalFormalParameter(formalParameter.getNormalFormalParameter(), specialization));
+				result.append(getPresentableNormalFormalParameter(formalParameter.getNormalFormalParameter(), specialization,
+						functionalStyleSignatures));
 			}
-			result.append("]");
+			result.append(isOptional ? '}' : ']');
 		}
 		return result.toString();
+	}
+
+	private static boolean isOptionalParameterList(final @NotNull DartNamedFormalParameters parameters)
+	{
+		// Workaround for the lack of distinction between named and optional params in the grammar
+		final PsiElement firstChild = parameters.getFirstChild();
+		return firstChild != null && "{".equals(firstChild.getText());
 	}
 
 	public static String getPresentableNormalFormalParameter(DartNormalFormalParameter parameter, DartGenericSpecialization specialization)
 	{
-		DartComponentName componentName = parameter.getComponentName();
-		DartFunctionDeclaration functionDeclaration = parameter.getFunctionDeclaration();
-		DartVarDeclaration varDeclaration = parameter.getVarDeclaration();
-		if(componentName != null)
-		{
-			return componentName.getText();
-		}
-		else if(varDeclaration != null)
-		{
-			return buildPresentableVarDeclaration(varDeclaration, specialization);
-		}
-		else if(functionDeclaration != null)
-		{
-			final StringBuilder result = new StringBuilder();
-			final DartReturnType returnType = functionDeclaration.getReturnType();
-			if(returnType != null)
-			{
-				result.append(buildTypeText(PsiTreeUtil.getParentOfType(parameter, DartComponent.class), returnType.getType(), specialization));
-				result.append(" ");
-			}
-			result.append(functionDeclaration.getName());
-			result.append("(");
-			result.append(getPresentableParameterList(functionDeclaration, specialization));
-			result.append(")");
-			return result.toString();
-		}
-		return "";
+		return getPresentableNormalFormalParameter(parameter, specialization, false);
 	}
 
-	@Nullable
-	public static String getParameterName(DartNormalFormalParameter parameter)
-	{
-		DartComponentName componentName = parameter.getComponentName();
-		DartFunctionDeclaration functionDeclaration = parameter.getFunctionDeclaration();
-		DartVarDeclaration varDeclaration = parameter.getVarDeclaration();
-		if(componentName != null)
-		{
-			return componentName.getName();
-		}
-		else if(varDeclaration != null)
-		{
-			return varDeclaration.getVarAccessDeclaration().getComponentName().getName();
-		}
-		else if(functionDeclaration != null)
-		{
-			return functionDeclaration.getComponentName().getName();
-		}
-		return null;
-	}
-
-	private static String buildPresentableVarDeclaration(@NotNull DartVarDeclaration varDeclaration, DartGenericSpecialization specialization)
+	public static String getPresentableNormalFormalParameter(DartNormalFormalParameter parameter, DartGenericSpecialization specialization,
+			boolean functionalStyleSignature)
 	{
 		final StringBuilder result = new StringBuilder();
-		final DartType type = varDeclaration.getVarAccessDeclaration().getType();
-		if(type != null)
+
+		final DartFunctionSignature functionSignature = parameter.getFunctionSignature();
+		final DartFieldFormalParameter fieldFormalParameter = parameter.getFieldFormalParameter();
+		final DartSimpleFormalParameter simpleFormalParameter = parameter.getSimpleFormalParameter();
+
+		if(functionSignature != null)
 		{
-			result.append(buildTypeText(PsiTreeUtil.getParentOfType(varDeclaration, DartClass.class), type, specialization));
-			result.append(" ");
+			final DartReturnType returnType = functionSignature.getReturnType();
+			if(!functionalStyleSignature && returnType != null)
+			{
+				result.append(buildTypeText(PsiTreeUtil.getParentOfType(parameter, DartComponent.class), returnType, specialization));
+				result.append(SPACE);
+			}
+			result.append(functionSignature.getName());
+			result.append("(");
+			result.append(getPresentableParameterList(functionSignature, specialization, functionalStyleSignature));
+			result.append(")");
+			if(functionalStyleSignature && returnType != null)
+			{
+				result.append(SPACE);
+				result.append(RIGHT_ARROW);
+				result.append(SPACE);
+				result.append(buildTypeText(PsiTreeUtil.getParentOfType(parameter, DartComponent.class), returnType, specialization));
+			}
 		}
-		result.append(varDeclaration.getVarAccessDeclaration().getName());
-		final DartVarInit varInit = varDeclaration.getVarInit();
-		final DartExpression varInitExpression = varInit == null ? null : varInit.getExpression();
-		if(varInitExpression != null)
+		else if(fieldFormalParameter != null)
 		{
-			result.append(" = ");
-			result.append(varInitExpression.getText());
+			final DartType type = fieldFormalParameter.getType();
+			if(type != null)
+			{
+				result.append(buildTypeText(PsiTreeUtil.getParentOfType(parameter, DartComponent.class), type, specialization));
+				result.append(SPACE);
+			}
+			result.append(fieldFormalParameter.getReferenceExpression().getText());
 		}
+		else if(simpleFormalParameter != null)
+		{
+			final DartType type = simpleFormalParameter.getType();
+			if(type != null)
+			{
+				result.append(buildTypeText(PsiTreeUtil.getParentOfType(parameter, DartComponent.class), type, specialization));
+				result.append(SPACE);
+			}
+			result.append(simpleFormalParameter.getComponentName().getText());
+		}
+
 		return result.toString();
 	}
 
-	public static String buildTypeText(@Nullable DartComponent component, @Nullable DartType type)
+
+	public static String buildTypeText(final @Nullable DartComponent element, final @Nullable DartReturnType returnType,
+			final @Nullable DartGenericSpecialization specializations)
 	{
-		return buildTypeText(component, type, new DartGenericSpecialization());
+		if(returnType == null)
+		{
+			return "";
+		}
+		return returnType.getNode().findChildByType(DartTokenTypes.VOID) == null ? buildTypeText(element, returnType.getType(),
+				specializations) : "void";
 	}
 
-	public static String buildTypeText(@Nullable DartComponent element, @Nullable DartType type, DartGenericSpecialization specializations)
+	public static String buildTypeText(final @Nullable DartComponent element, final @Nullable DartType type,
+			final @Nullable DartGenericSpecialization specializations)
 	{
 		if(type == null)
 		{
@@ -188,7 +177,7 @@ public class DartPresentableUtil
 		}
 		final StringBuilder result = new StringBuilder();
 		final String typeText = type.getReferenceExpression().getText();
-		if(specializations.containsKey(element, typeText))
+		if(specializations != null && specializations.containsKey(element, typeText))
 		{
 			final DartClass haxeClass = specializations.get(element, typeText).getDartClass();
 			result.append(haxeClass == null ? typeText : haxeClass.getName());
@@ -237,8 +226,12 @@ public class DartPresentableUtil
 				DartClass dartClass = ((DartReference) expression).resolveDartClass().getDartClass();
 				if(dartClass != null)
 				{
-					result.addTextSegment(dartClass.getName());
-					result.addTextSegment(" ");
+					final String name = dartClass.getName();
+					if(name != null)
+					{
+						result.addTextSegment(name);
+						result.addTextSegment(" ");
+					}
 				}
 			}
 
@@ -269,8 +262,12 @@ public class DartPresentableUtil
 				DartClass dartClass = ((DartReference) expression).resolveDartClass().getDartClass();
 				if(dartClass != null)
 				{
-					result.addTextSegment(dartClass.getName());
-					result.addTextSegment(" ");
+					final String name = dartClass.getName();
+					if(name != null)
+					{
+						result.addTextSegment(name);
+						result.addTextSegment(SPACE);
+					}
 				}
 			}
 

@@ -56,11 +56,14 @@ public class DartKeywordCompletionContributor extends CompletionContributor
 
 	public DartKeywordCompletionContributor()
 	{
-		final PsiElementPattern.Capture<PsiElement> idInExpression = psiElement().withSuperParent(1, DartId.class).withSuperParent(2, DartReference.class);
+		final PsiElementPattern.Capture<PsiElement> idInExpression = psiElement().withSuperParent(1, DartId.class).withSuperParent(2,
+				DartReference.class);
 		final PsiElementPattern.Capture<PsiElement> inComplexExpression = psiElement().withSuperParent(3, DartReference.class);
 		final PsiElementPattern.Capture<PsiElement> inStringLiteral = psiElement().inside(DartStringLiteralExpression.class);
+		final PsiElementPattern.Capture<PsiElement> inComment = psiElement().withElementType(DartTokenTypesSets.COMMENTS);
 
-		final PsiElementPattern.Capture<PsiElement> elementCapture = psiElement().andNot(idInExpression.and(inComplexExpression)).andNot(inStringLiteral);
+		final PsiElementPattern.Capture<PsiElement> elementCapture = psiElement().andNot(inComment).andNot(idInExpression.and(inComplexExpression))
+				.andNot(inStringLiteral);
 
 		extend(CompletionType.BASIC, elementCapture, new CompletionProvider<CompletionParameters>()
 		{
@@ -75,20 +78,14 @@ public class DartKeywordCompletionContributor extends CompletionContributor
 				}
 			}
 		});
-		extend(CompletionType.BASIC, psiElement().inFile(StandardPatterns.instanceOf(DartFile.class)).withParent(DartClassDefinition.class), new CompletionProvider<CompletionParameters>()
-		{
-			@Override
-			protected void addCompletions(@NotNull CompletionParameters parameters, ProcessingContext context, @NotNull CompletionResultSet result)
-			{
-				result.addElement(LookupElementBuilder.create(DartTokenTypes.IMPLEMENTS.toString()));
-			}
-		});
-		extend(CompletionType.BASIC, psiElement().inFile(StandardPatterns.instanceOf(DartFile.class)).andOr(psiElement().withParent(DartClassDefinition.class), psiElement().withParent(DartInterfaceDefinition.class)), new CompletionProvider<CompletionParameters>()
+		extend(CompletionType.BASIC, psiElement().inFile(StandardPatterns.instanceOf(DartFile.class)).withParent(DartClassDefinition.class),
+				new CompletionProvider<CompletionParameters>()
 		{
 			@Override
 			protected void addCompletions(@NotNull CompletionParameters parameters, ProcessingContext context, @NotNull CompletionResultSet result)
 			{
 				result.addElement(LookupElementBuilder.create(DartTokenTypes.EXTENDS.toString()));
+				result.addElement(LookupElementBuilder.create(DartTokenTypes.IMPLEMENTS.toString()));
 			}
 		});
 	}
@@ -99,7 +96,7 @@ public class DartKeywordCompletionContributor extends CompletionContributor
 		final PsiElement posFile = position.getContainingFile();
 
 		final List<PsiElement> pathToBlockStatement = UsefulPsiTreeUtil.getPathToParentOfType(position, DartBlock.class);
-		final DartPsiCompositeElement classInterface = PsiTreeUtil.getParentOfType(position, DartClassMembers.class, DartInterfaceMembers.class);
+		final DartPsiCompositeElement classInterface = PsiTreeUtil.getParentOfType(position, DartClassMembers.class);
 
 		final String text;
 		final int offset;

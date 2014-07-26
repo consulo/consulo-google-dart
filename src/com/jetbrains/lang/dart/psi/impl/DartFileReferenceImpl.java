@@ -1,17 +1,20 @@
 package com.jetbrains.lang.dart.psi.impl;
 
-import java.util.ArrayList;
+import static com.jetbrains.lang.dart.util.DartUrlResolver.DART_PREFIX;
+import static com.jetbrains.lang.dart.util.DartUrlResolver.FILE_PREFIX;
+import static com.jetbrains.lang.dart.util.DartUrlResolver.PACKAGE_PREFIX;
+
 import java.util.Arrays;
-import java.util.List;
+import java.util.Collection;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import com.intellij.lang.ASTNode;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.openapi.util.io.FileUtil;
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.openapi.vfs.VfsUtilCore;
 import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.openapi.vfs.VirtualFileManager;
 import com.intellij.psi.ElementManipulator;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementResolveResult;
@@ -25,8 +28,8 @@ import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.util.ArrayUtil;
 import com.intellij.util.Function;
 import com.intellij.util.IncorrectOperationException;
+import com.intellij.util.SmartList;
 import com.intellij.util.containers.ContainerUtil;
-import com.jetbrains.lang.dart.ide.index.DartLibraryIndex;
 import com.jetbrains.lang.dart.psi.DartPartStatement;
 import com.jetbrains.lang.dart.psi.DartPathOrLibraryReference;
 import com.jetbrains.lang.dart.psi.DartReference;
@@ -34,6 +37,7 @@ import com.jetbrains.lang.dart.psi.DartStringLiteralExpression;
 import com.jetbrains.lang.dart.util.DartClassResolveResult;
 import com.jetbrains.lang.dart.util.DartElementGenerator;
 import com.jetbrains.lang.dart.util.DartResolveUtil;
+import com.jetbrains.lang.dart.util.DartUrlResolver;
 
 public class DartFileReferenceImpl extends DartExpressionImpl implements DartReference, PsiPolyVariantReference
 {
@@ -149,78 +153,98 @@ public class DartFileReferenceImpl extends DartExpressionImpl implements DartRef
 	{
 		final PsiFile psiFile = getContainingFile();
 		final VirtualFile virtualFile = DartResolveUtil.getRealVirtualFile(psiFile);
+		if(virtualFile == null)
+		{
+			return ResolveResult.EMPTY_ARRAY;
+		}
+
 		final String text = StringUtil.unquoteString(getText());
-		if(text.startsWith(DartResolveUtil.PACKAGE_PREFIX))
-		{
-			final VirtualFile packagesFolder = DartResolveUtil.getDartPackagesFolder(getProject(), virtualFile);
-			String relativePath = FileUtil.toSystemIndependentName(text.substring(DartResolveUtil.PACKAGE_PREFIX.length()));
-			final VirtualFile sourceFile = packagesFolder == null ? null : VfsUtilCore.findRelativeFile(relativePath, packagesFolder);
-			final PsiFile sourcePsiFile = sourceFile == null ? null : psiFile.getManager().findFile(sourceFile);
-			return sourcePsiFile == null ? ResolveResult.EMPTY_ARRAY : new ResolveResult[]{new PsiElementResolveResult(sourcePsiFile)};
-		}
-		VirtualFile sourceFile = virtualFile == null ? null : DartResolveUtil.findRelativeFile(virtualFile, text);
-		sourceFile = sourceFile != null ? sourceFile : VirtualFileManager.getInstance().findFileByUrl(text);
+		final VirtualFile result = text.startsWith(PACKAGE_PREFIX) || text.startsWith(DART_PREFIX) || text.startsWith(FILE_PREFIX) ? DartUrlResolver
+				.getInstance(getProject(), virtualFile).findFileByDartUrl(text) : VfsUtilCore.findRelativeFile(text, virtualFile);
 
-		if(sourceFile != null)
-		{
-			final PsiFile sourcePsiFile = psiFile.getManager().findFile(sourceFile);
-			return sourcePsiFile == null ? ResolveResult.EMPTY_ARRAY : new ResolveResult[]{new PsiElementResolveResult(sourcePsiFile)};
-		}
-		return tryResolveLibraries();
-	}
-
-	private ResolveResult[] tryResolveLibraries()
-	{
-		final String libraryName = StringUtil.unquoteString(getText());
-		final List<VirtualFile> virtualFiles = DartLibraryIndex.findLibraryClass(this, libraryName);
-		final List<PsiElementResolveResult> result = new ArrayList<PsiElementResolveResult>();
-		for(VirtualFile virtualFile : virtualFiles)
-		{
-			final PsiFile psiFile = getManager().findFile(virtualFile);
-			if(psiFile == null)
-			{
-				continue;
-			}
-			result.add(new PsiElementResolveResult(psiFile));
-		}
-		return result.toArray(new ResolveResult[result.size()]);
+		final PsiFile sourcePsiFile = result == null ? null : getManager().findFile(result);
+		return sourcePsiFile == null ? ResolveResult.EMPTY_ARRAY : new ResolveResult[]{new PsiElementResolveResult(sourcePsiFile)};
 	}
 
 	@NotNull
 	@Override
 	public PsiReference[] getReferences()
 	{
-		final String path = StringUtil.unquoteString(getText());
-		if(path.startsWith(DartResolveUtil.PACKAGE_PREFIX))
+		final String url = StringUtil.unquoteString(getText());
+		if(url.startsWith(PACKAGE_PREFIX))
 		{
-			int length = DartResolveUtil.PACKAGE_PREFIX.length();
-			return getPackageReferences(path.substring(length), length + 1);
+			final VirtualFile file = DartResolveUtil.getRealVirtualFile(getContainingFile());
+			if(file == null)
+			{
+				return PsiReference.EMPTY_ARRAY;
+			}
+
+			final DartUrlResolver dartUrlResolver = DartUrlResolver.getInstance(getProject(), file);
+
+			final int slashIndex = url.indexOf('/');
+			if(slashIndex > 0)
+			{
+				final String packageName = url.substring(PACKAGE_PREFIX.length(), slashIndex);
+				final VirtualFile packageDir = dartUrlResolver.getPackageDirIfLivePackageOrFromPubListPackageDirs(packageName);
+				if(packageDir != null)
+				{
+					return getPackageReferences(file, packageDir, url.substring(slashIndex + 1), slashIndex + 1);
+				}
+			}
+
+			final String relPath = url.substring(PACKAGE_PREFIX.length());
+			final VirtualFile[] packageRoots = dartUrlResolver.getPackageRoots();
+
+			if(packageRoots.length == 0)
+			{
+				return PsiReference.EMPTY_ARRAY;
+			}
+			if(packageRoots.length == 1)
+			{
+				return getPackageReferences(file, packageRoots[0], relPath, PACKAGE_PREFIX.length());
+			}
+
+			final Collection<PsiReference> result = new SmartList<PsiReference>();
+			for(VirtualFile packageRoot : packageRoots)
+			{
+				if(packageRoot.findFileByRelativePath(relPath) != null)
+				{
+					ContainerUtil.addAll(result, getPackageReferences(file, packageRoot, relPath, PACKAGE_PREFIX.length()));
+				}
+			}
+
+			return result.toArray(new PsiReference[result.size()]);
 		}
-		final FileReferenceSet referenceSet = new FileReferenceSet(path, this, 1, null, false, true);
+
+		final FileReferenceSet referenceSet = new FileReferenceSet(url, this, 1, null, false, true);
 		return ArrayUtil.mergeArrays(super.getReferences(), referenceSet.getAllReferences());
 	}
 
 	@NotNull
-	private PsiReference[] getPackageReferences(String path, int startIndex)
+	private PsiReference[] getPackageReferences(final @NotNull VirtualFile contextFile, final @Nullable VirtualFile packagesFolder,
+			final @NotNull String relPathFromPackagesFolderToReferencedFile, final int startIndex)
 	{
-		VirtualFile file = DartResolveUtil.getRealVirtualFile(getContainingFile());
-		VirtualFile parentFile = file == null ? null : file.getParent();
-		VirtualFile packagesFolder = DartResolveUtil.getDartPackagesFolder(getProject(), file);
+		final VirtualFile parentFile = contextFile.getParent();
 		if(packagesFolder == null || parentFile == null)
 		{
 			return PsiReference.EMPTY_ARRAY;
 		}
-		String prefix = FileUtil.getRelativePath(parentFile.getPath(), packagesFolder.getPath(), '/');
-		if(prefix == null)
+
+		String relPathFromContextFileToPackagesFolder = FileUtil.getRelativePath(parentFile.getPath(), packagesFolder.getPath(), '/');
+		if(relPathFromContextFileToPackagesFolder == null)
 		{
 			return PsiReference.EMPTY_ARRAY;
 		}
-		prefix += "/";
-		int shift = startIndex - prefix.length();
-		final FileReferenceSet referenceSet = new FileReferenceSet(prefix + path, this, 0, null, false, true);
-		FileReference[] references = referenceSet.getAllReferences();
-		int nestedLevel = StringUtil.countChars(prefix, '/');
-		return references.length < nestedLevel ? PsiReference.EMPTY_ARRAY : shiftReferences(Arrays.copyOfRange(references, nestedLevel, references.length), shift);
+
+		relPathFromContextFileToPackagesFolder += "/";
+		final FileReferenceSet referenceSet = new FileReferenceSet(relPathFromContextFileToPackagesFolder +
+				relPathFromPackagesFolderToReferencedFile, this, 0, null, false, true);
+		final FileReference[] references = referenceSet.getAllReferences();
+
+		final int nestedLevel = StringUtil.countChars(relPathFromContextFileToPackagesFolder, '/');
+		final int shift = startIndex - relPathFromContextFileToPackagesFolder.length() + 1;
+		return references.length < nestedLevel ? PsiReference.EMPTY_ARRAY : shiftReferences(Arrays.copyOfRange(references, nestedLevel,
+				references.length), shift);
 	}
 
 	private static FileReference[] shiftReferences(FileReference[] references, final int shift)
@@ -230,7 +254,8 @@ public class DartFileReferenceImpl extends DartExpressionImpl implements DartRef
 			@Override
 			public FileReference fun(FileReference reference)
 			{
-				return new FileReference(reference.getFileReferenceSet(), reference.getRangeInElement().shiftRight(shift), reference.getIndex(), reference.getText());
+				return new FileReference(reference.getFileReferenceSet(), reference.getRangeInElement().shiftRight(shift), reference.getIndex(),
+						reference.getText());
 			}
 		}, FileReference.EMPTY);
 	}
@@ -238,19 +263,22 @@ public class DartFileReferenceImpl extends DartExpressionImpl implements DartRef
 	public static class DartPathOrLibraryManipulator implements ElementManipulator<DartPathOrLibraryReference>
 	{
 		@Override
-		public DartPathOrLibraryReference handleContentChange(DartPathOrLibraryReference element, TextRange range, String newContent) throws IncorrectOperationException
+		public DartPathOrLibraryReference handleContentChange(@NotNull DartPathOrLibraryReference element, @NotNull TextRange range,
+				String newContent) throws IncorrectOperationException
 		{
 			return element;
 		}
 
 		@Override
-		public DartPathOrLibraryReference handleContentChange(DartPathOrLibraryReference element, String newContent) throws IncorrectOperationException
+		public DartPathOrLibraryReference handleContentChange(@NotNull DartPathOrLibraryReference element,
+				String newContent) throws IncorrectOperationException
 		{
 			return element;
 		}
 
+		@NotNull
 		@Override
-		public TextRange getRangeInElement(DartPathOrLibraryReference element)
+		public TextRange getRangeInElement(@NotNull DartPathOrLibraryReference element)
 		{
 			return element.getTextRange();
 		}

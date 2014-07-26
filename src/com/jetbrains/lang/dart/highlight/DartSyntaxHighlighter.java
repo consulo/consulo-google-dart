@@ -13,7 +13,7 @@ import com.intellij.lexer.Lexer;
 import com.intellij.openapi.editor.colors.TextAttributesKey;
 import com.intellij.openapi.fileTypes.SyntaxHighlighterBase;
 import com.intellij.psi.tree.IElementType;
-import com.jetbrains.lang.dart.DartLexer;
+import com.jetbrains.lang.dart.lexer.DartLexer;
 
 public class DartSyntaxHighlighter extends SyntaxHighlighterBase
 {
@@ -21,7 +21,7 @@ public class DartSyntaxHighlighter extends SyntaxHighlighterBase
 
 	static
 	{
-		fillMap(ATTRIBUTES, TOKENS_HIGHLIGHTED_AS_KEYWORDS, DartSyntaxHighlighterColors.KEYWORD);
+		fillMap(ATTRIBUTES, RESERVED_WORDS, DartSyntaxHighlighterColors.KEYWORD);
 
 		fillMap(ATTRIBUTES, BINARY_OPERATORS, DartSyntaxHighlighterColors.OPERATION_SIGN);
 		fillMap(ATTRIBUTES, LOGIC_OPERATORS, DartSyntaxHighlighterColors.OPERATION_SIGN);
@@ -50,9 +50,10 @@ public class DartSyntaxHighlighter extends SyntaxHighlighterBase
 		ATTRIBUTES.put(DOT, DartSyntaxHighlighterColors.DOT);
 		ATTRIBUTES.put(SEMICOLON, DartSyntaxHighlighterColors.SEMICOLON);
 
-		ATTRIBUTES.put(MULTI_LINE_COMMENT, DartSyntaxHighlighterColors.BLOCK_COMMENT);
 		ATTRIBUTES.put(SINGLE_LINE_COMMENT, DartSyntaxHighlighterColors.LINE_COMMENT);
-		ATTRIBUTES.put(DOC_COMMENT, DartSyntaxHighlighterColors.DOC_COMMENT);
+		ATTRIBUTES.put(SINGLE_LINE_DOC_COMMENT, DartSyntaxHighlighterColors.DOC_COMMENT);
+		ATTRIBUTES.put(MULTI_LINE_COMMENT, DartSyntaxHighlighterColors.BLOCK_COMMENT);
+		ATTRIBUTES.put(MULTI_LINE_DOC_COMMENT, DartSyntaxHighlighterColors.DOC_COMMENT);
 
 		ATTRIBUTES.put(BAD_CHARACTER, DartSyntaxHighlighterColors.BAD_CHARACTER);
 
@@ -60,12 +61,14 @@ public class DartSyntaxHighlighter extends SyntaxHighlighterBase
 		XmlFileHighlighter.registerEmbeddedTokenAttributes(ATTRIBUTES, null);
 	}
 
+	@Override
 	@NotNull
 	public Lexer getHighlightingLexer()
 	{
 		return new DartLexer();
 	}
 
+	@Override
 	@NotNull
 	public TextAttributesKey[] getTokenHighlights(IElementType tokenType)
 	{

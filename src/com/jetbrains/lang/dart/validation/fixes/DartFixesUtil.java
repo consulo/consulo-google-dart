@@ -24,7 +24,8 @@ public class DartFixesUtil
 {
 	public static boolean isStaticContext(PsiFile file, int startOffset)
 	{
-		DartReference leftReference = DartResolveUtil.getLeftReference(PsiTreeUtil.getParentOfType(file.findElementAt(startOffset), DartReference.class));
+		DartReference leftReference = DartResolveUtil.getLeftReference(PsiTreeUtil.getParentOfType(file.findElementAt(startOffset),
+				DartReference.class));
 		return leftReference != null && DartComponentType.typeOf(leftReference.resolve()) == DartComponentType.CLASS;
 	}
 
@@ -99,7 +100,6 @@ public class DartFixesUtil
 			{
 				final DartComponentType componentType = info.getType();
 				if(componentType == DartComponentType.CLASS ||
-						componentType == DartComponentType.INTERFACE ||
 						componentType == DartComponentType.FUNCTION ||
 						componentType == DartComponentType.VARIABLE)
 				{

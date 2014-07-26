@@ -11,33 +11,43 @@ import com.intellij.openapi.project.Project;
 import com.jetbrains.lang.dart.psi.DartClass;
 import com.jetbrains.lang.dart.psi.DartComponent;
 
-/**
- * Created by fedorkorotkov.
- */
-public class CreateConstructorFix extends BaseCreateMethodsFix<DartComponent> {
-	public CreateConstructorFix(DartClass dartClass) {
+public class CreateConstructorFix extends BaseCreateMethodsFix<DartComponent>
+{
+	public CreateConstructorFix(DartClass dartClass)
+	{
 		super(dartClass);
 	}
 
 	@Override
-	protected void processElements(@NotNull Project project, @NotNull Editor editor, Set<DartComponent> elementsToProcess) {
+	protected void processElements(@NotNull Project project, @NotNull Editor editor, Set<DartComponent> elementsToProcess)
+	{
 		final TemplateManager templateManager = TemplateManager.getInstance(project);
 		anchor = doAddMethodsForOne(editor, templateManager, buildFunctionsText(templateManager, elementsToProcess), anchor);
 	}
 
-	protected Template buildFunctionsText(TemplateManager templateManager, Set<DartComponent> elementsToProcess) {
+	@Override
+	@NotNull
+	protected String getNothingFoundMessage()
+	{
+		return ""; // can't be called actually because processElements() is overridden
+	}
+
+	protected Template buildFunctionsText(TemplateManager templateManager, Set<DartComponent> elementsToProcess)
+	{
 		final Template template = templateManager.createTemplate(getClass().getName(), DART_TEMPLATE_GROUP);
 		template.setToReformat(true);
 
 		//noinspection ConstantConditions
 		template.addTextSegment(myDartClass.getName());
 		template.addTextSegment("(");
-		for (Iterator<DartComponent> iterator = elementsToProcess.iterator(); iterator.hasNext(); ) {
+		for(Iterator<DartComponent> iterator = elementsToProcess.iterator(); iterator.hasNext(); )
+		{
 			DartComponent component = iterator.next();
 			template.addTextSegment("this.");
 			//noinspection ConstantConditions
 			template.addTextSegment(component.getName());
-			if (iterator.hasNext()) {
+			if(iterator.hasNext())
+			{
 				template.addTextSegment(",");
 			}
 		}
@@ -49,7 +59,8 @@ public class CreateConstructorFix extends BaseCreateMethodsFix<DartComponent> {
 	}
 
 	@Override
-	protected Template buildFunctionsText(TemplateManager templateManager, DartComponent e) {
+	protected Template buildFunctionsText(TemplateManager templateManager, DartComponent e)
+	{
 		// ignore
 		return null;
 	}

@@ -1,86 +1,86 @@
 package com.jetbrains.lang.dart.ide.runner.server;
 
-import com.intellij.execution.Location;
-import com.intellij.execution.PsiLocation;
-import com.intellij.execution.RunnerAndConfigurationSettings;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import com.intellij.execution.actions.ConfigurationContext;
-import com.intellij.execution.configurations.LocatableConfiguration;
-import com.intellij.execution.junit.RuntimeConfigurationProducer;
-import com.intellij.openapi.util.Condition;
-import com.intellij.openapi.util.io.FileUtil;
+import com.intellij.execution.actions.RunConfigurationProducer;
+import com.intellij.openapi.roots.ProjectRootManager;
+import com.intellij.openapi.util.Ref;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
-import com.intellij.util.containers.ContainerUtil;
+import com.intellij.psi.util.PsiTreeUtil;
+import com.jetbrains.lang.dart.ide.DartWritingAccessProvider;
+import com.jetbrains.lang.dart.psi.DartFile;
+import com.jetbrains.lang.dart.psi.DartImportStatement;
 import com.jetbrains.lang.dart.util.DartResolveUtil;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
+public class DartCommandLineRuntimeConfigurationProducer extends RunConfigurationProducer<DartCommandLineRunConfiguration>
+{
+	public DartCommandLineRuntimeConfigurationProducer()
+	{
+		super(DartCommandLineRunConfigurationType.getInstance());
+	}
 
-public class DartCommandLineRuntimeConfigurationProducer extends RuntimeConfigurationProducer {
-  private PsiElement mySourceElement;
+	@Override
+	protected boolean setupConfigurationFromContext(final @NotNull DartCommandLineRunConfiguration configuration,
+			final @NotNull ConfigurationContext context, final @NotNull Ref<PsiElement> sourceElement)
+	{
+		final VirtualFile dartFile = findRunnableDartFile(context);
+		if(dartFile != null)
+		{
+			configuration.getRunnerParameters().setFilePath(dartFile.getPath());
+			configuration.getRunnerParameters().setWorkingDirectory(dartFile.getParent().getPath());
+			configuration.setGeneratedName();
+			return true;
+		}
+		return false;
+	}
 
-  public DartCommandLineRuntimeConfigurationProducer() {
-    super(DartCommandLineRunConfigurationType.getInstance());
-  }
+	@Override
+	public boolean isConfigurationFromContext(final @NotNull DartCommandLineRunConfiguration configuration,
+			final @NotNull ConfigurationContext context)
+	{
+		final VirtualFile dartFile = findRunnableDartFile(context);
+		return dartFile != null && dartFile.getPath().equals(configuration.getRunnerParameters().getFilePath());
+	}
 
-  @Override
-  public PsiElement getSourceElement() {
-    return mySourceElement;
-  }
+	@Nullable
+	public static VirtualFile findRunnableDartFile(final @NotNull ConfigurationContext context)
+	{
+		final PsiElement psiLocation = context.getPsiLocation();
+		final PsiFile psiFile = psiLocation == null ? null : psiLocation.getContainingFile();
+		final VirtualFile virtualFile = DartResolveUtil.getRealVirtualFile(psiFile);
 
-  @Override
-  protected RunnerAndConfigurationSettings createConfigurationByElement(Location location, ConfigurationContext context) {
-    if (!(location instanceof PsiLocation)) return null;
+		if(psiFile instanceof DartFile &&
+				virtualFile != null &&
+				ProjectRootManager.getInstance(context.getProject()).getFileIndex().isInContent(virtualFile) &&
+				!DartWritingAccessProvider.isInDartSdkOrDartPackagesFolder(psiFile.getProject(), virtualFile) &&
+				DartResolveUtil.getMainFunction(psiFile) != null &&
+				!hasImport((DartFile) psiFile, "dart:html"))
+		{
+			return virtualFile;
+		}
 
-    PsiElement element = location.getPsiElement();
-    PsiFile containingFile = element.getContainingFile();
-    if (!DartResolveUtil.isLibraryRoot(containingFile)) return null;
+		return null;
+	}
 
-    final RunnerAndConfigurationSettings settings = cloneTemplateConfiguration(location.getProject(), context);
-    final LocatableConfiguration runConfig = (LocatableConfiguration)settings.getConfiguration();
-    if (!(runConfig instanceof DartCommandLineRunConfiguration)) {
-      return null;
-    }
+	private static boolean hasImport(final @NotNull DartFile psiFile, final @NotNull String importText)
+	{
+		final DartImportStatement[] importStatements = PsiTreeUtil.getChildrenOfType(psiFile, DartImportStatement.class);
+		if(importStatements == null)
+		{
+			return false;
+		}
 
-    final DartCommandLineRunConfiguration commandLineRunConfiguration = ((DartCommandLineRunConfiguration)runConfig);
-    if (!setupRunConfiguration(commandLineRunConfiguration, containingFile)) {
-      return null;
-    }
+		for(DartImportStatement importStatement : importStatements)
+		{
+			if(importText.equals(importStatement.getUri()))
+			{
+				return true;
+			}
+		}
 
-    mySourceElement = location.getPsiElement();
-    settings.setName(containingFile.getName());
-    return settings;
-  }
-
-  private static boolean setupRunConfiguration(DartCommandLineRunConfiguration configuration, PsiFile psiFile) {
-    VirtualFile virtualFile = DartResolveUtil.getRealVirtualFile(psiFile);
-    if (virtualFile == null) {
-      return false;
-    }
-    configuration.setFilePath(FileUtil.toSystemIndependentName(virtualFile.getPath()));
-    return true;
-  }
-
-  @Nullable
-  @Override
-  protected RunnerAndConfigurationSettings findExistingByElement(Location location,
-                                                                 @NotNull List<RunnerAndConfigurationSettings> existingConfigurations,
-                                                                 ConfigurationContext context) {
-    final PsiElement element = location.getPsiElement();
-    final PsiFile containingFile = element.getContainingFile();
-    final String name = containingFile.getName();
-    return ContainerUtil.find(existingConfigurations, new Condition<RunnerAndConfigurationSettings>() {
-      @Override
-      public boolean value(RunnerAndConfigurationSettings settings) {
-        return name.equals(settings.getName());
-      }
-    });
-  }
-
-  @Override
-  public int compareTo(Object o) {
-    return PREFERED;
-  }
+		return false;
+	}
 }

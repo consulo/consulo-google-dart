@@ -11,8 +11,10 @@ import java.util.Set;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import com.intellij.codeInsight.FileModificationService;
+import com.intellij.codeInsight.hint.HintManager;
 import com.intellij.codeInsight.template.Template;
 import com.intellij.codeInsight.template.TemplateManager;
+import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.TextRange;
@@ -28,9 +30,6 @@ import com.jetbrains.lang.dart.util.DartGenericSpecialization;
 import com.jetbrains.lang.dart.util.DartResolveUtil;
 import com.jetbrains.lang.dart.util.UsefulPsiTreeUtil;
 
-/**
- * @author: Fedor.Korotkov
- */
 abstract public class BaseCreateMethodsFix<T extends DartComponent>
 {
 	protected static final String DART_TEMPLATE_GROUP = "Dart";
@@ -107,6 +106,14 @@ abstract public class BaseCreateMethodsFix<T extends DartComponent>
 
 	protected void processElements(@NotNull Project project, @NotNull Editor editor, Set<T> elementsToProcess)
 	{
+		if(elementsToProcess.isEmpty())
+		{
+			if(!ApplicationManager.getApplication().isUnitTestMode())
+			{
+				HintManager.getInstance().showErrorHint(editor, getNothingFoundMessage());
+			}
+			return;
+		}
 		final TemplateManager templateManager = TemplateManager.getInstance(project);
 		for(T e : elementsToProcess)
 		{
@@ -114,16 +121,21 @@ abstract public class BaseCreateMethodsFix<T extends DartComponent>
 		}
 	}
 
+	@NotNull
+	protected abstract String getNothingFoundMessage();
+
 	@Nullable
 	protected abstract Template buildFunctionsText(TemplateManager templateManager, T e);
 
-	public PsiElement doAddMethodsForOne(@NotNull Editor editor, @NotNull TemplateManager templateManager, @Nullable Template functionTemplate, @NotNull PsiElement anchor) throws IncorrectOperationException
+	public PsiElement doAddMethodsForOne(@NotNull Editor editor, @NotNull TemplateManager templateManager, @Nullable Template functionTemplate,
+			@NotNull PsiElement anchor) throws IncorrectOperationException
 	{
 		if(functionTemplate != null)
 		{
 			setCaretSafe(editor, anchor.getTextRange().getEndOffset());
 			templateManager.startTemplate(editor, functionTemplate);
-			final PsiElement dartComponent = PsiTreeUtil.getParentOfType(anchor.findElementAt(editor.getCaretModel().getOffset()), DartComponent.class);
+			final PsiElement dartComponent = PsiTreeUtil.getParentOfType(anchor.findElementAt(editor.getCaretModel().getOffset()),
+					DartComponent.class);
 			return dartComponent != null ? dartComponent : anchor;
 		}
 		return anchor;

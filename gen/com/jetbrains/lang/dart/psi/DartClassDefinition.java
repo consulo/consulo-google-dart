@@ -2,8 +2,9 @@
 package com.jetbrains.lang.dart.psi;
 
 import java.util.List;
-import org.jetbrains.annotations.*;
-import com.intellij.psi.PsiElement;
+
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public interface DartClassDefinition extends DartClass {
 
@@ -15,6 +16,12 @@ public interface DartClassDefinition extends DartClass {
 
   @Nullable
   DartInterfaces getInterfaces();
+
+  @NotNull
+  List<DartMetadata> getMetadataList();
+
+  @Nullable
+  DartMixinApplication getMixinApplication();
 
   @Nullable
   DartMixins getMixins();

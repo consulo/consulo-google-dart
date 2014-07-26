@@ -4,18 +4,13 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 
-import org.consulo.lombok.annotations.Logger;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import com.intellij.execution.DefaultExecutionResult;
 import com.intellij.execution.ExecutionException;
 import com.intellij.execution.ExecutionResult;
 import com.intellij.execution.Executor;
-import com.intellij.execution.configurations.CommandLineState;
-import com.intellij.execution.configurations.GeneralCommandLine;
-import com.intellij.execution.filters.Filter;
-import com.intellij.execution.process.OSProcessHandler;
+import com.intellij.execution.configurations.RuntimeConfigurationError;
 import com.intellij.execution.process.ProcessHandler;
 import com.intellij.execution.runners.ExecutionEnvironment;
 import com.intellij.execution.runners.ProgramRunner;
@@ -28,68 +23,65 @@ import com.intellij.execution.ui.ConsoleView;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.projectRoots.Sdk;
 import com.intellij.openapi.util.Disposer;
+import com.intellij.openapi.util.SystemInfo;
 import com.intellij.openapi.util.io.FileUtil;
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.openapi.vfs.VfsUtilCore;
 import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.openapi.vfs.VirtualFileManager;
-import com.intellij.psi.PsiFile;
-import com.intellij.psi.PsiManager;
 import com.intellij.util.ResourceUtil;
-import com.intellij.util.text.StringTokenizer;
 import com.jetbrains.lang.dart.DartBundle;
-import com.jetbrains.lang.dart.ide.runner.DartStackTraceMessageFilter;
-import com.jetbrains.lang.dart.util.DartResolveUtil;
+import com.jetbrains.lang.dart.ide.runner.DartConsoleFilter;
+import com.jetbrains.lang.dart.ide.runner.server.DartCommandLineRunningState;
 
-/**
- * @author Fedor.Korotkov
- */
-@Logger
-public class DartUnitRunningState extends CommandLineState
+public class DartUnitRunningState extends DartCommandLineRunningState
 {
 	private static final String DART_FRAMEWORK_NAME = "DartTestRunner";
 	private static final String UNIT_CONFIG_FILE_NAME = "jetbrains_unit_config.dart";
-	private final DartUnitRunnerParameters myUnitParameters;
-	@Nullable
-	private final Sdk mySdk;
-	private int myDebuggingPort;
 
-	protected DartUnitRunningState(ExecutionEnvironment environment, DartUnitRunnerParameters parameters, Sdk sdk)
-	{
-		this(environment, parameters, sdk, -1);
-	}
-
-	public DartUnitRunningState(ExecutionEnvironment environment, DartUnitRunnerParameters parameters, @Nullable Sdk sdk, int debuggingPort)
+	public DartUnitRunningState(final @NotNull ExecutionEnvironment environment) throws ExecutionException
 	{
 		super(environment);
-		myUnitParameters = parameters;
-		mySdk = sdk;
-		myDebuggingPort = debuggingPort;
 	}
 
 	@Override
 	@NotNull
-	public ExecutionResult execute(@NotNull Executor executor, @NotNull ProgramRunner runner) throws ExecutionException
+	public ExecutionResult execute(final @NotNull Executor executor, final @NotNull ProgramRunner runner) throws ExecutionException
 	{
-		ProcessHandler processHandler = startProcess();
-		ConsoleView consoleView = createConsole(getEnvironment());
+		final ProcessHandler processHandler = startProcess();
+		final ConsoleView consoleView = createConsole(getEnvironment());
 		consoleView.attachToProcess(processHandler);
 
-		DefaultExecutionResult executionResult = new DefaultExecutionResult(consoleView, processHandler);
+		final DefaultExecutionResult executionResult = new DefaultExecutionResult(consoleView, processHandler);
 		executionResult.setRestartActions(new ToggleAutoTestAction(getEnvironment()));
 		return executionResult;
 	}
 
-	private ConsoleView createConsole(@NotNull ExecutionEnvironment env) throws ExecutionException
+	private static ConsoleView createConsole(@NotNull ExecutionEnvironment env) throws ExecutionException
 	{
-		TestConsoleProperties testConsoleProperties = new SMTRunnerConsoleProperties((DartUnitRunConfiguration) env.getRunProfile(), DART_FRAMEWORK_NAME, env.getExecutor());
+		final Project project = env.getProject();
+		final DartUnitRunConfiguration runConfiguration = (DartUnitRunConfiguration) env.getRunProfile();
+		final DartUnitRunnerParameters runnerParameters = runConfiguration.getRunnerParameters();
 
-		SMTRunnerConsoleView smtConsoleView = SMTestRunnerConnectionUtil.createConsoleWithCustomLocator(DART_FRAMEWORK_NAME, testConsoleProperties, env, new DartTestLocationProvider(), true, null);
+		VirtualFile dartFile = null;
+		Sdk sdk = null;
+		try
+		{
+			dartFile = runnerParameters.getDartFile();
+			sdk = runnerParameters.getSdk(project);
+		}
+		catch(RuntimeConfigurationError ignore)
+		{/**/}
+
+		final DartConsoleFilter filter = new DartConsoleFilter(project, sdk, dartFile);
+
+		final TestConsoleProperties testConsoleProperties = new SMTRunnerConsoleProperties(runConfiguration, DART_FRAMEWORK_NAME, env.getExecutor());
 		testConsoleProperties.setUsePredefinedMessageFilter(false);
-		Filter filter = new DartStackTraceMessageFilter(testConsoleProperties.getProject(), myUnitParameters.getFilePath());
+
+		final SMTRunnerConsoleView smtConsoleView = SMTestRunnerConnectionUtil.createConsoleWithCustomLocator(DART_FRAMEWORK_NAME,
+				testConsoleProperties, env, new DartTestLocationProvider(), true, null);
+
 		smtConsoleView.addMessageFilter(filter);
 
-		final Project project = env.getProject();
 		Disposer.register(project, smtConsoleView);
 		return smtConsoleView;
 	}
@@ -98,129 +90,47 @@ public class DartUnitRunningState extends CommandLineState
 	@Override
 	protected ProcessHandler startProcess() throws ExecutionException
 	{
-		GeneralCommandLine commandLine = getCommand();
-
-		return new OSProcessHandler(commandLine.createProcess(), commandLine.getCommandLineString());
-	}
-
-	public GeneralCommandLine getCommand() throws ExecutionException
-	{
-		final GeneralCommandLine commandLine = new GeneralCommandLine();
-
-		final String path = mySdk == null ? null : mySdk.getHomePath();
-		final String exePath = path == null ? null : com.jetbrains.lang.dart.util.DartSdkUtil.getCompilerPathByFolderPath(path);
-		if(exePath == null)
-		{
-			// todo: fix link
-			throw new ExecutionException(DartBundle.message("dart.invalid.sdk"));
-		}
-
-		Project project = getEnvironment().getProject();
-		assert project != null;
-		VirtualFile realFile = VirtualFileManager.getInstance().findFileByUrl(VfsUtilCore.pathToUrl(myUnitParameters.getFilePath()));
-		PsiFile psiFile = realFile != null ? PsiManager.getInstance(project).findFile(realFile) : null;
-		if(psiFile != null)
-		{
-			String libraryName = DartResolveUtil.getLibraryName(psiFile);
-			if(libraryName == null || libraryName.endsWith(".dart"))
-			{
-				throw new ExecutionException("Missing library statement in " + psiFile.getName());
-			}
-		}
-
-		commandLine.setExePath(exePath);
-		if(realFile != null)
-		{
-			commandLine.setWorkDirectory(realFile.getParent().getPath());
-		}
-		commandLine.setPassParentEnvironment(true);
-
-		setupUserProperties(commandLine);
-
-		return commandLine;
-	}
-
-	private void setupUserProperties(GeneralCommandLine commandLine) throws ExecutionException
-	{
-		if(mySdk != null)
-		{
-			commandLine.getEnvironment().put("com.google.dart.sdk", mySdk.getHomePath());
-		}
-
-		commandLine.addParameter("--ignore-unrecognized-flags");
-
-		StringTokenizer argumentsTokenizer = new StringTokenizer(StringUtil.notNullize(myUnitParameters.getVMOptions()));
-		while(argumentsTokenizer.hasMoreTokens())
-		{
-			commandLine.addParameter(argumentsTokenizer.nextToken());
-		}
-
-		String libUrl = VfsUtilCore.pathToUrl(myUnitParameters.getFilePath());
-		final VirtualFile libraryRoot = VirtualFileManager.getInstance().findFileByUrl(libUrl);
-		final VirtualFile packages = DartResolveUtil.getDartPackagesFolder(getEnvironment().getProject(), libraryRoot);
-		if(packages != null && packages.isDirectory())
-		{
-			commandLine.addParameter("--package-root=" + packages.getPath() + "/");
-		}
-
-		if(myDebuggingPort > 0)
-		{
-			commandLine.addParameter("--debug:" + myDebuggingPort);
-		}
-
+		final String testRunnerPath;
 		try
 		{
-			commandLine.addParameter(createPatchedFile());
+			testRunnerPath = createTestRunnerFile();
 		}
 		catch(IOException e)
 		{
-			LOGGER.debug(e);
-			throw new ExecutionException("Can't create runner!");
+			throw new ExecutionException(DartBundle.message("failed.to.create.test.runner", e.getMessage()));
 		}
 
-		argumentsTokenizer = new StringTokenizer(StringUtil.notNullize(myUnitParameters.getArguments()));
-		while(argumentsTokenizer.hasMoreTokens())
-		{
-			commandLine.addParameter(argumentsTokenizer.nextToken());
-		}
+		return doStartProcess(testRunnerPath);
 	}
 
-	private String createPatchedFile() throws IOException
+	private String createTestRunnerFile() throws IOException
 	{
 		final File file = new File(FileUtil.getTempDirectory(), UNIT_CONFIG_FILE_NAME);
 		if(!file.exists())
 		{
+			//noinspection ResultOfMethodCallIgnored
 			file.createNewFile();
 		}
 
-		final DartUnitRunnerParameters.Scope scope = myUnitParameters.getScope();
-		final String name = myUnitParameters.getTestName();
+		final DartUnitRunnerParameters.Scope scope = ((DartUnitRunnerParameters) myRunnerParameters).getScope();
+		final String name = ((DartUnitRunnerParameters) myRunnerParameters).getTestName();
 
 		String runnerCode = getRunnerCode();
-		runnerCode = runnerCode.replaceFirst("DART_UNITTEST", getUnitPath(myUnitParameters.getFilePath()));
+		runnerCode = runnerCode.replaceFirst("DART_UNITTEST", "package:unittest/unittest.dart");
 		runnerCode = runnerCode.replaceFirst("NAME", StringUtil.notNullize(name));
 		runnerCode = runnerCode.replaceFirst("SCOPE", scope.toString());
-		runnerCode = runnerCode.replaceFirst("TEST_FILE_PATH", pathToDartUrl(myUnitParameters.getFilePath()));
+		final String filePath = myRunnerParameters.getFilePath();
+		runnerCode = runnerCode.replaceFirst("TEST_FILE_PATH", filePath == null ? "" : pathToDartUrl(filePath));
 
 		FileUtil.writeToFile(file, runnerCode);
 
 		return file.getAbsolutePath();
 	}
 
-	private String getUnitPath(String path)
-	{
-		VirtualFile libRoot = VirtualFileManager.getInstance().findFileByUrl(VfsUtilCore.pathToUrl(path));
-		VirtualFile packagesFolder = DartResolveUtil.getDartPackagesFolder(getEnvironment().getProject(), libRoot);
-		if(mySdk == null || (packagesFolder != null && packagesFolder.findChild("unittest") != null))
-		{
-			return "package:unittest/unittest.dart";
-		}
-		return pathToDartUrl(StringUtil.notNullize(mySdk.getHomePath()) + "/pkg/unittest/unittest.dart");
-	}
-
 	private static String pathToDartUrl(@NonNls @NotNull String path)
 	{
-		return VfsUtilCore.pathToUrl(path);
+		final String url = VfsUtilCore.pathToUrl(path);
+		return SystemInfo.isWindows ? url.replace("file://", "file:///") : url;
 	}
 
 	private static String getRunnerCode() throws IOException

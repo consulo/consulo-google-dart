@@ -1,56 +1,52 @@
 package com.jetbrains.lang.dart.ide.runner.unittest;
 
-/**
- * @author: Fedor.Korotkov
- */
-public class DartUnitRunnerParameters {
-  private String myFilePath = null;
-  private String myArguments = null;
-  private String myVMOptions = null;
-  private String myTestName = null;
-  private Scope myScope = Scope.ALL;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import com.jetbrains.lang.dart.ide.runner.server.DartCommandLineRunnerParameters;
 
-  public String getFilePath() {
-    return myFilePath;
-  }
+public class DartUnitRunnerParameters extends DartCommandLineRunnerParameters implements Cloneable
+{
 
-  public void setFilePath(String filePath) {
-    myFilePath = filePath;
-  }
+	public enum Scope
+	{
+		METHOD, GROUP, ALL
+	}
 
-  public String getArguments() {
-    return myArguments;
-  }
+	private
+	@NotNull
+	Scope myScope = Scope.ALL;
+	private
+	@Nullable
+	String myTestName = null;
 
-  public void setArguments(String arguments) {
-    myArguments = arguments;
-  }
+	@NotNull
+	public Scope getScope()
+	{
+		return myScope;
+	}
 
-  public String getVMOptions() {
-    return myVMOptions;
-  }
+	public void setScope(@SuppressWarnings("NullableProblems") final Scope scope)
+	{
+		if(scope != null)
+		{ // null in case of corrupted storage
+			myScope = scope;
+		}
+	}
 
-  public String getTestName() {
-    return myTestName;
-  }
+	@Nullable
+	public String getTestName()
+	{
+		return myTestName;
+	}
 
-  public void setTestName(String name) {
-    myTestName = name;
-  }
+	public void setTestName(final @Nullable String name)
+	{
+		myTestName = name;
+	}
 
-  public void setVMOptions(String VMOptions) {
-    myVMOptions = VMOptions;
-  }
-
-  public Scope getScope() {
-    return myScope;
-  }
-
-  public void setScope(Scope scope) {
-    myScope = scope;
-  }
-
-  public enum Scope {
-    METHOD, GROUP, ALL
-  }
+	@Override
+	protected final DartUnitRunnerParameters clone()
+	{
+		return (DartUnitRunnerParameters) super.clone();
+	}
 }

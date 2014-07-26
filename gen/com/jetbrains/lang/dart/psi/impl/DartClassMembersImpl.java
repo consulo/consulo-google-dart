@@ -24,12 +24,6 @@ public class DartClassMembersImpl extends DartPsiCompositeElementImpl implements
 
   @Override
   @NotNull
-  public List<DartAbstractOperatorDeclaration> getAbstractOperatorDeclarationList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, DartAbstractOperatorDeclaration.class);
-  }
-
-  @Override
-  @NotNull
   public List<DartFactoryConstructorDeclaration> getFactoryConstructorDeclarationList() {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, DartFactoryConstructorDeclaration.class);
   }
@@ -42,8 +36,8 @@ public class DartClassMembersImpl extends DartPsiCompositeElementImpl implements
 
   @Override
   @NotNull
-  public List<DartMetadata> getMetadataList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, DartMetadata.class);
+  public List<DartIncompleteDeclaration> getIncompleteDeclarationList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, DartIncompleteDeclaration.class);
   }
 
   @Override
