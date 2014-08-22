@@ -3,7 +3,7 @@ package com.jetbrains.lang.dart.ide.module;
 import org.consulo.module.extension.impl.ModuleExtensionWithSdkImpl;
 import org.jetbrains.annotations.NotNull;
 import com.intellij.openapi.projectRoots.SdkType;
-import com.intellij.openapi.roots.ModifiableRootModel;
+import com.intellij.openapi.roots.ModuleRootLayer;
 import com.jetbrains.lang.dart.ide.DartSdkType;
 
 /**
@@ -12,7 +12,7 @@ import com.jetbrains.lang.dart.ide.DartSdkType;
  */
 public class DartModuleExtension extends ModuleExtensionWithSdkImpl<DartModuleExtension>
 {
-	public DartModuleExtension(@NotNull String id, @NotNull ModifiableRootModel module)
+	public DartModuleExtension(@NotNull String id, @NotNull ModuleRootLayer module)
 	{
 		super(id, module);
 	}

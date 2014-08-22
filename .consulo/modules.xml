@@ -19,68 +19,60 @@
           <orderEntry type="sourceFolder" forTests="false" />
           <orderEntry type="module-library">
             <library>
-              <CLASSES>
+              <binaries>
                 <root url="jar://$MODULE_DIR$/lib/dartanalyzer.jar!/" />
-              </CLASSES>
-              <DOCUMENTATION />
-              <SOURCES>
+              </binaries>
+              <sources>
                 <root url="zip://$MODULE_DIR$/libSrc/dartanalyzer_src.zip!/" />
-              </SOURCES>
-              <jarDirectory url="zip://$MODULE_DIR$/libSrc/dartanalyzer_src.zip!/" recursive="false" type="SOURCES" />
+              </sources>
+              <jarDirectory url="zip://$MODULE_DIR$/libSrc/dartanalyzer_src.zip!/" recursive="false" type="sources" />
             </library>
           </orderEntry>
           <orderEntry type="module-library">
             <library name="consulo:XML">
-              <CLASSES>
+              <binaries>
                 <root url="jar://$MODULE_DIR$/dep/xml/lib/jsr173_1.0_api.jar!/" />
                 <root url="jar://$MODULE_DIR$/dep/xml/lib/resolver.jar!/" />
                 <root url="jar://$MODULE_DIR$/dep/xml/lib/xerces.jar!/" />
                 <root url="jar://$MODULE_DIR$/dep/xml/lib/xml.jar!/" />
-              </CLASSES>
-              <DOCUMENTATION />
-              <SOURCES />
+              </binaries>
             </library>
           </orderEntry>
           <orderEntry type="module-library">
             <library>
-              <CLASSES>
+              <binaries>
                 <root url="jar://$MODULE_DIR$/lib/snakeyaml-1.13.jar!/" />
-              </CLASSES>
-              <DOCUMENTATION>
+              </binaries>
+              <documentation>
                 <root url="jar://$MODULE_DIR$/lib/snakeyaml-1.13.jar!/" />
-              </DOCUMENTATION>
-              <SOURCES />
+              </documentation>
             </library>
           </orderEntry>
           <orderEntry type="module-library">
             <library>
-              <CLASSES>
+              <binaries>
                 <root url="jar://$MODULE_DIR$/lib/json.jar!/" />
-              </CLASSES>
-              <DOCUMENTATION />
-              <SOURCES />
+              </binaries>
             </library>
           </orderEntry>
           <orderEntry type="module-library">
             <library>
-              <CLASSES>
+              <binaries>
                 <root url="jar://$MODULE_DIR$/lib/commons-lang3-3.2.1.jar!/" />
-              </CLASSES>
-              <DOCUMENTATION>
+              </binaries>
+              <documentation>
                 <root url="jar://$MODULE_DIR$/lib/commons-lang3-3.2.1.jar!/" />
-              </DOCUMENTATION>
-              <SOURCES />
+              </documentation>
             </library>
           </orderEntry>
           <orderEntry type="module-library">
             <library>
-              <CLASSES>
+              <binaries>
                 <root url="jar://$MODULE_DIR$/lib/markdownj-core-0.4.2-SNAPSHOT.jar!/" />
-              </CLASSES>
-              <DOCUMENTATION>
+              </binaries>
+              <documentation>
                 <root url="jar://$MODULE_DIR$/lib/markdownj-core-0.4.2-SNAPSHOT.jar!/" />
-              </DOCUMENTATION>
-              <SOURCES />
+              </documentation>
             </library>
           </orderEntry>
         </module-layer>
