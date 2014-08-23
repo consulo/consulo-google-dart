@@ -5,7 +5,7 @@ import com.intellij.openapi.module.Module;
 import com.intellij.openapi.roots.LibraryOrderEntry;
 import com.intellij.openapi.roots.ModuleRootManager;
 import com.intellij.openapi.roots.OrderEntry;
-import com.intellij.openapi.roots.OrderRootType;
+import com.intellij.openapi.roots.types.BinariesOrderRootType;
 import com.intellij.openapi.vfs.VirtualFile;
 
 public class DartConfigurable
@@ -19,7 +19,7 @@ public class DartConfigurable
 		{
 			if(entry instanceof LibraryOrderEntry && CUSTOM_PACKAGE_ROOTS_LIB_NAME.equals(((LibraryOrderEntry) entry).getLibraryName()))
 			{
-				return ((LibraryOrderEntry) entry).getRootFiles(OrderRootType.CLASSES);
+				return entry.getFiles(BinariesOrderRootType.getInstance());
 			}
 		}
 
