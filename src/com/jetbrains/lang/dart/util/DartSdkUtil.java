@@ -2,7 +2,6 @@ package com.jetbrains.lang.dart.util;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.ServerSocket;
 
 import org.jetbrains.annotations.Nullable;
 import com.intellij.openapi.projectRoots.SdkModificator;
@@ -80,25 +79,5 @@ public class DartSdkUtil {
     if (docRoot != null) {
       modificator.addRoot(docRoot, DocumentationOrderRootType.getInstance());
     }
-  }
-
-  public static int findFreePortForDebugging() {
-    ServerSocket socket = null;
-    try {
-      socket = new ServerSocket(0);
-      return socket.getLocalPort();
-    }
-    catch (IOException e) {
-    }
-    finally {
-      if (socket != null) {
-        try {
-          socket.close();
-        }
-        catch (IOException ignored) {
-        }
-      }
-    }
-    return -1;
   }
 }
