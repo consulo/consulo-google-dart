@@ -61,12 +61,6 @@ public class DartSdkType extends SdkType
 	}
 
 	@Override
-	public String suggestHomePath()
-	{
-		return null;
-	}
-
-	@Override
 	public boolean isValidSdkHome(String path)
 	{
 		return DartSdkUtil.getCompilerPathByFolderPath(path) != null;
