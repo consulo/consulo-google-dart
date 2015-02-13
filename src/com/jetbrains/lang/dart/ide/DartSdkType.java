@@ -10,6 +10,9 @@ import com.intellij.openapi.projectRoots.Sdk;
 import com.intellij.openapi.projectRoots.SdkModificator;
 import com.intellij.openapi.projectRoots.SdkType;
 import com.intellij.openapi.roots.OrderRootType;
+import com.intellij.openapi.roots.types.BinariesOrderRootType;
+import com.intellij.openapi.roots.types.DocumentationOrderRootType;
+import com.intellij.openapi.roots.types.SourcesOrderRootType;
 import com.intellij.openapi.util.SystemInfo;
 import com.jetbrains.lang.dart.util.DartSdkUtil;
 
@@ -69,7 +72,8 @@ public class DartSdkType extends SdkType
 	@Override
 	public boolean isRootTypeApplicable(OrderRootType type)
 	{
-		return type == OrderRootType.BINARIES || type == OrderRootType.SOURCES || type == OrderRootType.DOCUMENTATION;
+		return type == BinariesOrderRootType.getInstance() || type == SourcesOrderRootType.getInstance() || type == DocumentationOrderRootType
+				.getInstance();
 	}
 
 	@Override

@@ -6,7 +6,9 @@ import java.net.ServerSocket;
 
 import org.jetbrains.annotations.Nullable;
 import com.intellij.openapi.projectRoots.SdkModificator;
-import com.intellij.openapi.roots.OrderRootType;
+import com.intellij.openapi.roots.types.BinariesOrderRootType;
+import com.intellij.openapi.roots.types.DocumentationOrderRootType;
+import com.intellij.openapi.roots.types.SourcesOrderRootType;
 import com.intellij.openapi.util.SystemInfo;
 import com.intellij.openapi.util.io.FileUtil;
 import com.intellij.openapi.vfs.VfsUtilCore;
@@ -68,15 +70,15 @@ public class DartSdkUtil {
     if (libRoot != null) {
       for (VirtualFile child : libRoot.getChildren()) {
         if (!"html".equals(child.getName()) && !"_internal".equals(child.getName())) {
-          modificator.addRoot(child, OrderRootType.SOURCES);
-          modificator.addRoot(child, OrderRootType.BINARIES);
+          modificator.addRoot(child, SourcesOrderRootType.getInstance());
+          modificator.addRoot(child, BinariesOrderRootType.getInstance());
         }
       }
     }
 
     final VirtualFile docRoot = sdkRoot.findChild("doc");
     if (docRoot != null) {
-      modificator.addRoot(docRoot, OrderRootType.DOCUMENTATION);
+      modificator.addRoot(docRoot, DocumentationOrderRootType.getInstance());
     }
   }
 
