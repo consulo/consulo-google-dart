@@ -1,71 +1,79 @@
 package com.jetbrains.lang.dart.ide.copyright;
 
+import org.jetbrains.annotations.NotNull;
+import org.mustbe.consulo.copyright.config.CopyrightFileConfig;
 import com.intellij.openapi.fileTypes.FileType;
-import com.intellij.openapi.module.Module;
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiComment;
 import com.intellij.psi.PsiElement;
+import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiWhiteSpace;
 import com.jetbrains.lang.dart.psi.DartFile;
 import com.maddyhome.idea.copyright.CopyrightProfile;
-import com.maddyhome.idea.copyright.psi.UpdateCopyright;
 import com.maddyhome.idea.copyright.psi.UpdateCopyrightsProvider;
 import com.maddyhome.idea.copyright.psi.UpdatePsiFileCopyright;
+import com.maddyhome.idea.copyright.ui.TemplateCommentPanel;
 
 /**
- * @author: Fedor.Korotkov
+ * @author Fedor.Korotkov
  */
-public class UpdateDartCopyrightsProvider extends UpdateCopyrightsProvider {
+public class UpdateDartCopyrightsProvider extends UpdateCopyrightsProvider<CopyrightFileConfig>
+{
+	@NotNull
+	@Override
+	public UpdatePsiFileCopyright<CopyrightFileConfig> createInstance(@NotNull PsiFile file, @NotNull CopyrightProfile copyrightProfile)
+	{
+		return new UpdatePsiFileCopyright<CopyrightFileConfig>(file, copyrightProfile)
+		{
+			@Override
+			protected boolean accept()
+			{
+				return getFile() instanceof DartFile;
+			}
 
-  public UpdateCopyright createInstance(final Project project,
-                                        final Module module,
-                                        final VirtualFile file,
-                                        final FileType base,
-                                        final CopyrightProfile options) {
-    return new UpdateDartFileCopyright(project, module, file, options);
-  }
+			@Override
+			protected void scanFile()
+			{
+				PsiElement first = getFile().getFirstChild();
+				PsiElement last = first;
+				PsiElement next = first;
+				while(next != null)
+				{
+					if(next instanceof PsiComment || next instanceof PsiWhiteSpace)
+					{
+						next = getNextSibling(next);
+					}
+					else
+					{
+						break;
+					}
+					last = next;
+				}
 
-  private static class UpdateDartFileCopyright extends UpdatePsiFileCopyright {
-    public UpdateDartFileCopyright(final Project project,
-                                   final Module module,
-                                   final VirtualFile file,
-                                   final CopyrightProfile options) {
-      super(project, module, file, options);
-    }
+				if(first != null)
+				{
+					checkComments(first, last, true);
+				}
+				else
+				{
+					checkComments(null, null, true);
+				}
+			}
+		};
+	}
 
-    @Override
-    protected void scanFile()
-    {
-      PsiElement first = getFile().getFirstChild();
-      PsiElement last = first;
-      PsiElement next = first;
-      while (next != null)
-      {
-        if (next instanceof PsiComment || next instanceof PsiWhiteSpace)
-        {
-          next = getNextSibling(next);
-        }
-        else
-        {
-          break;
-        }
-        last = next;
-      }
+	@NotNull
+	@Override
+	public CopyrightFileConfig createDefaultOptions()
+	{
+		return new CopyrightFileConfig();
+	}
 
-      if (first != null)
-      {
-        checkComments(first, last, true);
-      }
-      else
-      {
-        checkComments(null, null, true);
-      }
-    }
-
-    protected boolean accept() {
-      return getFile() instanceof DartFile;
-    }
-  }
+	@NotNull
+	@Override
+	public TemplateCommentPanel createConfigurable(@NotNull Project project, @NotNull TemplateCommentPanel parentPane, @NotNull FileType fileType)
+	{
+		return new TemplateCommentPanel(fileType, parentPane, project);
+	}
 }
 
