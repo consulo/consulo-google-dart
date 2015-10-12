@@ -87,7 +87,7 @@ public class DartRunner extends DefaultProgramRunner
 		}
 
 		final XDebuggerManager debuggerManager = XDebuggerManager.getInstance(env.getProject());
-		final XDebugSession debugSession = debuggerManager.startSession(this, env, contentToReuse, new XDebugProcessStarter()
+		final XDebugSession debugSession = debuggerManager.startSession(env, new XDebugProcessStarter()
 		{
 			@Override
 			@NotNull
