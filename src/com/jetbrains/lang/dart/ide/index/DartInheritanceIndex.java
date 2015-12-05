@@ -116,15 +116,16 @@ public class DartInheritanceIndex extends FileBasedIndexExtension<String, List<D
 		return result;
 	}
 
-	public static class DefinitionsSearchExecutor implements QueryExecutor<PsiElement, PsiElement>
+	public static class DefinitionsSearchExecutor implements QueryExecutor<PsiElement, DefinitionsScopedSearch.SearchParameters>
 	{
 		@Override
-		public boolean execute(@NotNull final PsiElement queryParameters, @NotNull final Processor<PsiElement> consumer)
+		public boolean execute(@NotNull final DefinitionsScopedSearch.SearchParameters parameters, @NotNull final Processor<PsiElement> consumer)
 		{
 			return ApplicationManager.getApplication().runReadAction(new Computable<Boolean>()
 			{
 				public Boolean compute()
 				{
+					PsiElement queryParameters = parameters.getElement();
 					final PsiElement queryParametersParent = queryParameters.getParent();
 					DartComponent dartComponent;
 					if(queryParameters instanceof DartClass)

@@ -83,7 +83,7 @@
 		<fileBasedIndex implementation="com.jetbrains.lang.dart.ide.index.DartSymbolIndex"/>
 		<fileBasedIndex implementation="com.jetbrains.lang.dart.ide.index.DartInheritanceIndex"/>
 
-		<definitionsSearch implementation="com.jetbrains.lang.dart.ide.index.DartInheritanceIndex$DefinitionsSearchExecutor"/>
+		<definitionsScopedSearch implementation="com.jetbrains.lang.dart.ide.index.DartInheritanceIndex$DefinitionsSearchExecutor"/>
 
 		<internalFileTemplate name="Dart Class"/>
 		<internalFileTemplate name="Dart Interface"/>
