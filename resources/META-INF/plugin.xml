@@ -127,6 +127,7 @@
 											implementation="com.jetbrains.lang.dart.ide.inspections.analyzer.DartInspectionExtensionsFactory"/>
 
 		<xdebugger.breakpointType implementation="com.jetbrains.lang.dart.ide.runner.DartLineBreakpointType" />
+		<xdebugger.lineBreakpointTypeResolver filetype="Dart" implementationClass="consulo.dart.debugger.breakpoint.DartLineBreakpointTypeResolver" />
 		<programRunner implementation="com.jetbrains.lang.dart.ide.runner.DartRunner" />
 		<!--command line-->
 		<configurationType implementation="com.jetbrains.lang.dart.ide.runner.server.DartCommandLineRunConfigurationType"/>
