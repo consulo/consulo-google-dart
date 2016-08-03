@@ -66,8 +66,6 @@ public class DartExtractMethodHandler implements RefactoringActionHandler
 
 		final DartControlFlow controlFlow = DartControlFlow.analyze(elements);
 
-		selectionModel.isBlockSelectionGuarded();
-
 		if(controlFlow.getReturnValues().size() > 1)
 		{
 			CommonRefactoringUtil.showErrorHint(project, editor, RefactoringBundle.getCannotRefactorMessage(DartBundle.message("dart.refactoring" +
