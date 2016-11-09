@@ -40,7 +40,7 @@ import com.intellij.openapi.vfs.VfsUtilCore;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.util.PairConsumer;
 import com.jetbrains.lang.dart.ide.index.DartLibraryIndex;
-import com.jetbrains.lang.dart.ide.module.DartModuleExtension;
+import consulo.dart.module.extension.DartModuleExtension;
 import com.jetbrains.lang.dart.sdk.DartConfigurable;
 import com.jetbrains.lang.dart.sdk.listPackageDirs.DartListPackageDirsLibraryProperties;
 import com.jetbrains.lang.dart.sdk.listPackageDirs.PubListPackageDirsAction;

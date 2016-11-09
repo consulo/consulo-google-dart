@@ -26,12 +26,12 @@ import com.intellij.psi.impl.source.tree.TreeElement;
 import com.intellij.psi.search.GlobalSearchScope;
 import com.intellij.psi.tree.IFileElementType;
 import com.intellij.testFramework.LightVirtualFile;
-import com.intellij.util.LanguageVersionUtil;
 import com.jetbrains.lang.dart.DartLanguage;
 import com.jetbrains.lang.dart.DartParser;
 import com.jetbrains.lang.dart.DartTokenTypes;
 import com.jetbrains.lang.dart.psi.DartExpressionCodeFragment;
 import com.jetbrains.lang.dart.psi.DartFile;
+import consulo.lang.util.LanguageVersionUtil;
 
 public class DartExpressionCodeFragmentImpl extends DartFile implements DartExpressionCodeFragment
 {

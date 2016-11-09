@@ -1,23 +1,22 @@
-package com.jetbrains.lang.dart.ide.module;
+package consulo.dart.module.extension;
 
 import javax.swing.JComponent;
 
-import org.consulo.module.extension.MutableModuleExtensionWithSdk;
-import org.consulo.module.extension.MutableModuleInheritableNamedPointer;
-import org.consulo.module.extension.ui.ModuleExtensionSdkBoxBuilder;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.mustbe.consulo.RequiredDispatchThread;
 import com.intellij.openapi.projectRoots.Sdk;
-import com.intellij.openapi.roots.ModuleRootLayer;
 import com.intellij.util.ui.JBUI;
+import consulo.annotations.RequiredDispatchThread;
+import consulo.extension.ui.ModuleExtensionSdkBoxBuilder;
+import consulo.module.extension.MutableModuleExtensionWithSdk;
+import consulo.module.extension.MutableModuleInheritableNamedPointer;
+import consulo.roots.ModuleRootLayer;
 
 /**
  * @author VISTALL
  * @since 17:50/08.06.13
  */
-public class DartMutableModuleExtension extends DartModuleExtension implements
-		MutableModuleExtensionWithSdk<DartModuleExtension>
+public class DartMutableModuleExtension extends DartModuleExtension implements MutableModuleExtensionWithSdk<DartModuleExtension>
 {
 	public DartMutableModuleExtension(@NotNull String id, @NotNull ModuleRootLayer module)
 	{
@@ -36,8 +35,7 @@ public class DartMutableModuleExtension extends DartModuleExtension implements
 	@Override
 	public JComponent createConfigurablePanel(@Nullable Runnable runnable)
 	{
-		return JBUI.Panels.verticalPanel().addComponent(ModuleExtensionSdkBoxBuilder.createAndDefine(this,
-				runnable).build());
+		return JBUI.Panels.verticalPanel().addComponent(ModuleExtensionSdkBoxBuilder.createAndDefine(this, runnable).build());
 	}
 
 	@Override

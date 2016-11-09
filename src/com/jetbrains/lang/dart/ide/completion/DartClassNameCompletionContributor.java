@@ -10,7 +10,7 @@ import java.util.Set;
 import org.jetbrains.annotations.NotNull;
 import com.intellij.codeInsight.completion.CompletionContributor;
 import com.intellij.codeInsight.completion.CompletionParameters;
-import com.intellij.codeInsight.completion.CompletionProvider;
+import consulo.codeInsight.completion.CompletionProvider;
 import com.intellij.codeInsight.completion.CompletionResultSet;
 import com.intellij.codeInsight.completion.CompletionType;
 import com.intellij.codeInsight.lookup.LookupElementBuilder;
@@ -47,10 +47,10 @@ public class DartClassNameCompletionContributor extends CompletionContributor
 			}
 		}));
 
-		extend(CompletionType.BASIC, pattern, new CompletionProvider<CompletionParameters>()
+		extend(CompletionType.BASIC, pattern, new CompletionProvider()
 		{
 			@Override
-			protected void addCompletions(@NotNull CompletionParameters parameters, ProcessingContext context, @NotNull CompletionResultSet result)
+			public void addCompletions(@NotNull CompletionParameters parameters, ProcessingContext context, @NotNull CompletionResultSet result)
 			{
 				final Set<DartComponentName> suggestedVariants = new THashSet<DartComponentName>();
 				DartResolveUtil.treeWalkUpAndTopLevelDeclarations(parameters.getPosition(), new ClassNameScopeProcessor(suggestedVariants));

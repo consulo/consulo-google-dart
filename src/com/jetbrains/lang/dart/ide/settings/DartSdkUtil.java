@@ -17,7 +17,7 @@ import com.intellij.psi.PsiFile;
 import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.util.Processor;
 import com.jetbrains.lang.dart.DartFileType;
-import com.jetbrains.lang.dart.ide.module.DartModuleExtension;
+import consulo.dart.module.extension.DartModuleExtension;
 import com.jetbrains.lang.dart.psi.*;
 import gnu.trove.THashMap;
 import org.jetbrains.annotations.NotNull;

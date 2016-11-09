@@ -5,13 +5,13 @@ import static com.jetbrains.lang.dart.DartGeneratedParserUtilBase.*;
 import static com.jetbrains.lang.dart.DartTokenTypes.*;
 
 import com.intellij.lang.ASTNode;
-import com.intellij.lang.LanguageVersion;
 import com.intellij.lang.PsiBuilder;
 import com.intellij.lang.PsiBuilder.Marker;
 import com.intellij.lang.PsiParser;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.tree.TokenSet;
+import consulo.lang.LanguageVersion;
 
 @SuppressWarnings({"SimplifiableIfStatement", "UnusedAssignment"})
 public class DartParser implements PsiParser {

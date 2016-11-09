@@ -26,7 +26,7 @@ import com.intellij.openapi.vfs.VirtualFileManager;
 import com.intellij.psi.PsiFile;
 import com.jetbrains.lang.dart.DartBundle;
 import com.jetbrains.lang.dart.ide.actions.ui.Dart2JSSettingsDialog;
-import com.jetbrains.lang.dart.ide.module.DartModuleExtension;
+import consulo.dart.module.extension.DartModuleExtension;
 import com.jetbrains.lang.dart.ide.settings.DartSdkUtil;
 import com.jetbrains.lang.dart.psi.DartFile;
 import com.jetbrains.lang.dart.util.DartResolveUtil;

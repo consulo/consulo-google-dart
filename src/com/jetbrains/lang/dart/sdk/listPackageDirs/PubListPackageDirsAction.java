@@ -37,7 +37,7 @@ import com.intellij.openapi.ui.DialogWrapper;
 import com.intellij.openapi.util.Disposer;
 import com.intellij.openapi.util.io.FileUtil;
 import com.intellij.openapi.vfs.VfsUtilCore;
-import com.jetbrains.lang.dart.ide.module.DartModuleExtension;
+import consulo.dart.module.extension.DartModuleExtension;
 import icons.DartIcons;
 
 public class PubListPackageDirsAction extends AnAction

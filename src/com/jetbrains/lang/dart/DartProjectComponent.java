@@ -5,7 +5,6 @@ import java.util.Collection;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.mustbe.consulo.roots.impl.ExcludedContentFolderTypeProvider;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.components.AbstractProjectComponent;
 import com.intellij.openapi.module.Module;
@@ -23,6 +22,7 @@ import com.intellij.openapi.vfs.VirtualFileVisitor;
 import com.intellij.psi.search.FilenameIndex;
 import com.intellij.psi.search.GlobalSearchScope;
 import com.intellij.util.containers.ContainerUtil;
+import consulo.roots.impl.ExcludedContentFolderTypeProvider;
 
 public class DartProjectComponent extends AbstractProjectComponent
 {

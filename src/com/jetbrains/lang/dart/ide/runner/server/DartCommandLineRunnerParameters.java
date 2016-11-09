@@ -17,7 +17,7 @@ import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.util.xmlb.annotations.MapAnnotation;
 import com.jetbrains.lang.dart.DartBundle;
 import com.jetbrains.lang.dart.DartFileType;
-import com.jetbrains.lang.dart.ide.module.DartModuleExtension;
+import consulo.dart.module.extension.DartModuleExtension;
 
 public class DartCommandLineRunnerParameters implements Cloneable
 {

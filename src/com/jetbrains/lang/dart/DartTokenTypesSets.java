@@ -19,9 +19,9 @@ import com.intellij.psi.tree.IFileElementType;
 import com.intellij.psi.tree.ILazyParseableElementType;
 import com.intellij.psi.tree.ILightLazyParseableElementType;
 import com.intellij.psi.tree.TokenSet;
-import com.intellij.util.LanguageVersionUtil;
 import com.intellij.util.diff.FlyweightCapableTreeStructure;
 import com.jetbrains.lang.dart.lexer.DartDocLexer;
+import consulo.lang.util.LanguageVersionUtil;
 
 public interface DartTokenTypesSets
 {

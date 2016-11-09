@@ -34,7 +34,7 @@ import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiFile;
 import com.jetbrains.lang.dart.DartBundle;
 import com.jetbrains.lang.dart.DartProjectComponent;
-import com.jetbrains.lang.dart.ide.module.DartModuleExtension;
+import consulo.dart.module.extension.DartModuleExtension;
 import icons.DartIcons;
 
 abstract public class DartPubActionBase extends AnAction
@@ -144,7 +144,7 @@ abstract public class DartPubActionBase extends AnAction
 
 				try
 				{
-					final ProcessOutput processOutput = new CapturingProcessHandler(command.createProcess()).runProcess();
+					final ProcessOutput processOutput = new CapturingProcessHandler(command).runProcess();
 					final String err = processOutput.getStderr().trim();
 
 					LOG.debug("pub " + getPubCommand() + ", exit code: " + processOutput.getExitCode() + ", err:\n" +

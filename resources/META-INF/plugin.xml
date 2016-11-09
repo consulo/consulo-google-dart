@@ -1,4 +1,4 @@
-<idea-plugin version="2">
+<idea-plugin>
 	<id>com.jetbrains.lang.dart</id>
 	<name>Dart</name>
 	<description>Support for Dart programming language</description>
@@ -20,16 +20,15 @@
 	</extensions>
 
 	<extensions defaultExtensionNs="com.intellij">
-		<errorHandler implementation="com.intellij.diagnostic.ITNReporter"/>
 		<fileTypeFactory implementation="com.jetbrains.lang.dart.DartFileTypeFactory"/>
-		<iconDescriptorUpdater implementation="com.jetbrains.lang.dart.DartIconDescriptorUpdater"/>
-		<lang.syntaxHighlighterFactory key="Dart" implementationClass="com.jetbrains.lang.dart.highlight.DartSyntaxHighlighterFactory"/>
+		<iconDescriptorUpdater implementation="consulo.dart.DartIconDescriptorUpdater"/>
+		<lang.syntaxHighlighterFactory language="Dart" implementationClass="com.jetbrains.lang.dart.highlight.DartSyntaxHighlighterFactory"/>
 		<problemFileHighlightFilter implementation="com.jetbrains.lang.dart.highlight.DartProblemFileHighlightFilter"/>
 		<moduleExtensionProvider key="dart"
 								 name="Google Dart"
 								 icon="/icons/dart.png"
-								 immutableClass="com.jetbrains.lang.dart.ide.module.DartModuleExtension"
-								 mutableClass="com.jetbrains.lang.dart.ide.module.DartMutableModuleExtension"/>
+								 immutableClass="consulo.dart.module.extension.DartModuleExtension"
+								 mutableClass="consulo.dart.module.extension.DartMutableModuleExtension"/>
 
 		<lang.braceMatcher language="Dart" implementationClass="com.jetbrains.lang.dart.ide.DartBraceMatcher"/>
 		<typedHandler implementation="com.jetbrains.lang.dart.ide.editor.DartTypeHandler" id="Dart"/>

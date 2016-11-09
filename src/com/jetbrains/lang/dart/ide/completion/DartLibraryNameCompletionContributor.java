@@ -7,7 +7,7 @@ import java.util.Set;
 import org.jetbrains.annotations.NotNull;
 import com.intellij.codeInsight.completion.CompletionContributor;
 import com.intellij.codeInsight.completion.CompletionParameters;
-import com.intellij.codeInsight.completion.CompletionProvider;
+import consulo.codeInsight.completion.CompletionProvider;
 import com.intellij.codeInsight.completion.CompletionResultSet;
 import com.intellij.codeInsight.completion.CompletionType;
 import com.intellij.codeInsight.completion.InsertionContext;
@@ -31,10 +31,10 @@ public class DartLibraryNameCompletionContributor extends CompletionContributor
 	public DartLibraryNameCompletionContributor()
 	{
 		extend(CompletionType.BASIC, psiElement().withSuperParent(2, DartPathOrLibraryReference.class).withParent(DartStringLiteralExpression.class)
-				, new CompletionProvider<CompletionParameters>()
+				, new CompletionProvider()
 		{
 			@Override
-			protected void addCompletions(@NotNull CompletionParameters parameters, ProcessingContext context, @NotNull CompletionResultSet result)
+			public void addCompletions(@NotNull CompletionParameters parameters, ProcessingContext context, @NotNull CompletionResultSet result)
 			{
 				final Project project = parameters.getPosition().getProject();
 				final Set<String> names = DartLibraryIndex.getAllLibraryNames(project);
@@ -58,10 +58,10 @@ public class DartLibraryNameCompletionContributor extends CompletionContributor
 			}
 		});
 		extend(CompletionType.BASIC, psiElement().withSuperParent(1, DartId.class).withSuperParent(2, DartLibraryId.class),
-				new CompletionProvider<CompletionParameters>()
+				new CompletionProvider()
 		{
 			@Override
-			protected void addCompletions(@NotNull CompletionParameters parameters, ProcessingContext context, @NotNull CompletionResultSet result)
+			public void addCompletions(@NotNull CompletionParameters parameters, ProcessingContext context, @NotNull CompletionResultSet result)
 			{
 				for(String libraryName : DartLibraryIndex.getAllLibraryNames(parameters.getPosition().getProject()))
 				{

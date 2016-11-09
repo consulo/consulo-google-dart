@@ -9,7 +9,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import com.intellij.codeInsight.completion.CompletionContributor;
 import com.intellij.codeInsight.completion.CompletionParameters;
-import com.intellij.codeInsight.completion.CompletionProvider;
+import consulo.codeInsight.completion.CompletionProvider;
 import com.intellij.codeInsight.completion.CompletionResultSet;
 import com.intellij.codeInsight.completion.CompletionType;
 import com.intellij.codeInsight.lookup.LookupElementBuilder;
@@ -25,10 +25,10 @@ public class DartArgumentNameContributor extends CompletionContributor
 	{
 		final PsiElementPattern.Capture<PsiElement> idInExpression = psiElement().withSuperParent(1, DartId.class).withSuperParent(2,
 				DartReference.class);
-		extend(CompletionType.BASIC, idInExpression.withSuperParent(3, DartArgumentList.class), new CompletionProvider<CompletionParameters>()
+		extend(CompletionType.BASIC, idInExpression.withSuperParent(3, DartArgumentList.class), new CompletionProvider()
 		{
 			@Override
-			protected void addCompletions(@NotNull CompletionParameters parameters, ProcessingContext context, @NotNull CompletionResultSet result)
+			public void addCompletions(@NotNull CompletionParameters parameters, ProcessingContext context, @NotNull CompletionResultSet result)
 			{
 				DartExpression reference = findExpressionFromCallOrNew(parameters);
 				PsiElement target = reference instanceof DartReference ? ((DartReference) reference).resolve() : null;

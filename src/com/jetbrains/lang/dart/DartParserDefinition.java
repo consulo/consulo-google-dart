@@ -2,11 +2,9 @@ package com.jetbrains.lang.dart;
 
 import org.jetbrains.annotations.NotNull;
 import com.intellij.lang.ASTNode;
-import com.intellij.lang.LanguageVersion;
 import com.intellij.lang.ParserDefinition;
 import com.intellij.lang.PsiParser;
 import com.intellij.lexer.Lexer;
-import com.intellij.openapi.project.Project;
 import com.intellij.psi.FileViewProvider;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
@@ -16,19 +14,20 @@ import com.jetbrains.lang.dart.lexer.DartLexer;
 import com.jetbrains.lang.dart.psi.DartFile;
 import com.jetbrains.lang.dart.psi.impl.DartDocCommentImpl;
 import com.jetbrains.lang.dart.psi.impl.DartEmbeddedContentImpl;
+import consulo.lang.LanguageVersion;
 
 public class DartParserDefinition implements ParserDefinition
 {
 
 	@NotNull
 	@Override
-	public Lexer createLexer(Project project, LanguageVersion languageVersion)
+	public Lexer createLexer( LanguageVersion languageVersion)
 	{
 		return new DartLexer();
 	}
 
 	@Override
-	public PsiParser createParser(Project project, LanguageVersion languageVersion)
+	public PsiParser createParser(LanguageVersion languageVersion)
 	{
 		return new DartParser();
 	}
