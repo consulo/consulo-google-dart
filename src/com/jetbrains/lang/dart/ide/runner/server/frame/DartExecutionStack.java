@@ -39,7 +39,7 @@ public class DartExecutionStack extends XExecutionStack
 	}
 
 	@Override
-	public void computeStackFrames(final int firstFrameIndex, final XStackFrameContainer container)
+	public void computeStackFrames(final XStackFrameContainer container)
 	{
 		final Iterator<VmCallFrame> iterator = myVmCallFrames.iterator();
 		if(iterator.hasNext())
