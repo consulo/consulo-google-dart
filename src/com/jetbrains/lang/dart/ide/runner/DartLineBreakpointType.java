@@ -4,12 +4,10 @@ import org.jetbrains.annotations.NotNull;
 import com.intellij.xdebugger.breakpoints.XLineBreakpointTypeBase;
 import com.jetbrains.lang.dart.DartBundle;
 import com.jetbrains.lang.dart.ide.runner.base.DartDebuggerEditorsProvider;
-import consulo.lombok.annotations.Lazy;
 
 public class DartLineBreakpointType extends XLineBreakpointTypeBase
 {
 	@NotNull
-	@Lazy
 	public static DartLineBreakpointType getInstance()
 	{
 		return EXTENSION_POINT_NAME.findExtension(DartLineBreakpointType.class);
