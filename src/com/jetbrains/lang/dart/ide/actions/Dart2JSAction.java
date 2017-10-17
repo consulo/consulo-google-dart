@@ -44,10 +44,9 @@ public class Dart2JSAction extends AnAction {
 
   @Override
   public void update(AnActionEvent e) {
-    final DataContext dataContext = e.getDataContext();
     final Presentation presentation = e.getPresentation();
 
-    final boolean enabled = LangDataKeys.PSI_FILE.getData(dataContext) instanceof DartFile;
+    final boolean enabled = e.getData(LangDataKeys.PSI_FILE) instanceof DartFile;
 
     presentation.setVisible(enabled);
     presentation.setEnabled(enabled);
@@ -55,7 +54,7 @@ public class Dart2JSAction extends AnAction {
 
   @Override
   public void actionPerformed(final AnActionEvent e) {
-    final PsiFile psiFile = LangDataKeys.PSI_FILE.getData(e.getDataContext());
+    final PsiFile psiFile = e.getData(LangDataKeys.PSI_FILE);
     if (!(psiFile instanceof DartFile)) {
       return;
     }
