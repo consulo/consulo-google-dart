@@ -36,6 +36,7 @@ import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.openapi.vfs.VirtualFileAdapter;
 import com.intellij.openapi.vfs.VirtualFileCopyEvent;
 import com.intellij.openapi.vfs.VirtualFileEvent;
+import com.intellij.openapi.vfs.VirtualFileListener;
 import com.intellij.openapi.vfs.VirtualFileMoveEvent;
 import com.intellij.openapi.vfs.VirtualFilePropertyEvent;
 import com.intellij.reference.SoftReference;
@@ -73,7 +74,7 @@ public class DartAnalyzerService
 	{
 		myProject = project;
 
-		final VirtualFileAdapter listener = new VirtualFileAdapter()
+		final VirtualFileListener listener = new VirtualFileListener()
 		{
 			public void beforePropertyChange(@NotNull final VirtualFilePropertyEvent event)
 			{

@@ -1,14 +1,14 @@
 package com.jetbrains.lang.dart.resolve;
 
-import com.intellij.codeInsight.TargetElementUtilBase;
+import java.io.IOException;
+import java.util.Collection;
+
 import com.intellij.openapi.util.io.FileUtil;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.testFramework.fixtures.CodeInsightFixtureTestCase;
 import com.jetbrains.lang.dart.util.DartTestUtils;
-
-import java.io.IOException;
-import java.util.Collection;
+import consulo.codeInsight.TargetElementUtil;
 
 abstract public class DartGotoDeclarationActionTestBase extends CodeInsightFixtureTestCase {
   @Override
@@ -29,8 +29,7 @@ abstract public class DartGotoDeclarationActionTestBase extends CodeInsightFixtu
   }
 
   protected void doTest(PsiFile myFile, int expectedSize) {
-    final Collection<PsiElement> elements =
-      TargetElementUtilBase.getInstance().getTargetCandidates(myFile.findReferenceAt(myFixture.getCaretOffset()));
+    final Collection<PsiElement> elements = TargetElementUtil.getTargetCandidates(myFile.findReferenceAt(myFixture.getCaretOffset()));
     assertNotNull(elements);
     assertEquals(expectedSize, elements.size());
   }

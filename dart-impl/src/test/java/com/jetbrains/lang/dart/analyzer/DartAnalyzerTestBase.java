@@ -1,32 +1,28 @@
 package com.jetbrains.lang.dart.analyzer;
 
+import java.io.IOException;
+import java.util.List;
+
+import org.jetbrains.annotations.Nullable;
 import com.intellij.codeInsight.daemon.impl.AnnotationHolderImpl;
 import com.intellij.lang.annotation.Annotation;
 import com.intellij.lang.annotation.AnnotationSession;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.util.Condition;
-import com.intellij.openapi.util.io.FileUtil;
-import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.psi.PsiFile;
 import com.intellij.testFramework.fixtures.CodeInsightFixtureTestCase;
 import com.intellij.util.ArrayUtil;
 import com.intellij.util.containers.ContainerUtil;
 import com.jetbrains.lang.dart.ide.settings.DartSdkUtil;
-import com.jetbrains.lang.dart.util.DartTestUtils;
-import org.jetbrains.annotations.Nullable;
-
-import java.io.IOException;
-import java.util.List;
 
 abstract public class DartAnalyzerTestBase extends CodeInsightFixtureTestCase {
 
   @Override
   public void setUp() throws Exception {
     super.setUp();
-    System.setProperty(
+    /*System.setProperty(
       "com.google.dart.sdk",
       getDartSettings().getSdkPath()
-    );
+    );*/
   }
 
   @Override
@@ -36,7 +32,7 @@ abstract public class DartAnalyzerTestBase extends CodeInsightFixtureTestCase {
   }
 
   protected DartSdkUtil getDartSettings() {
-    return new DartSdkUtil(FileUtil.toSystemDependentName(DartTestUtils.BASE_TEST_DATA_PATH + "/sdk"));
+    return new DartSdkUtil(/*FileUtil.toSystemDependentName(DartTestUtils.BASE_TEST_DATA_PATH + "/sdk")*/);
   }
 
   void doTest(String message, String... additionalFiles) throws IOException {
@@ -79,7 +75,7 @@ abstract public class DartAnalyzerTestBase extends CodeInsightFixtureTestCase {
   private Annotation doHighlightingAndFindIntention(final String message) throws IOException {
     final AnnotationHolderImpl annotationHolder = new AnnotationHolderImpl(new AnnotationSession(myFixture.getFile()));
 
-    new DartExternalAnnotator().apply(myFixture.getFile(), getMessagesFromAnalyzer(), annotationHolder);
+   // new DartExternalAnnotator().apply(myFixture.getFile(), getMessagesFromAnalyzer(), annotationHolder);
 
     return ContainerUtil.find(annotationHolder, new Condition<Annotation>() {
       @Override
@@ -89,7 +85,7 @@ abstract public class DartAnalyzerTestBase extends CodeInsightFixtureTestCase {
     });
   }
 
-  private List<AnalyzerMessage> getMessagesFromAnalyzer() throws IOException {
+  /*private List<AnalyzerMessage> getMessagesFromAnalyzer() throws IOException {
     PsiFile file = myFixture.getFile();
     assertNotNull(file);
     VirtualFile virtualFile = file.getVirtualFile();
@@ -99,5 +95,5 @@ abstract public class DartAnalyzerTestBase extends CodeInsightFixtureTestCase {
     assertNotNull(analyzer);
     DartAnalyzerDriver analyzerDriver = new DartAnalyzerDriver(myFixture.getProject(), analyzer, settings.getSdkPath(), virtualFile);
     return analyzerDriver.analyze();
-  }
+  } */
 }

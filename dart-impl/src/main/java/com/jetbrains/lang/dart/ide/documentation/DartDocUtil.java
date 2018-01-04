@@ -1,6 +1,12 @@
 package com.jetbrains.lang.dart.ide.documentation;
 
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.psi.PsiComment;
 import com.intellij.psi.PsiElement;
@@ -12,13 +18,8 @@ import com.jetbrains.lang.dart.psi.*;
 import com.jetbrains.lang.dart.util.DartGenericSpecialization;
 import com.jetbrains.lang.dart.util.DartPresentableUtil;
 import com.jetbrains.lang.dart.util.UsefulPsiTreeUtil;
-import com.petebevin.markdown.MarkdownProcessor;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import com.vladsch.flexmark.html.HtmlRenderer;
+import com.vladsch.flexmark.parser.Parser;
 
 public class DartDocUtil
 {
@@ -76,8 +77,8 @@ public class DartDocUtil
 		if(docText != null)
 		{
 			builder.append("<br/><br/>");
-			final MarkdownProcessor processor = new MarkdownProcessor();
-			builder.append(processor.markdown(docText));
+
+			builder.append(HtmlRenderer.builder().build().render(Parser.builder().build().parse(docText)));
 		}
 
 		return builder.toString();

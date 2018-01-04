@@ -1,6 +1,7 @@
 package com.jetbrains.lang.dart.findUsage;
 
-import com.intellij.openapi.actionSystem.DataProvider;
+import java.util.Collection;
+
 import com.intellij.openapi.editor.ex.EditorEx;
 import com.intellij.openapi.util.io.FileUtil;
 import com.intellij.testFramework.fixtures.CodeInsightFixtureTestCase;
@@ -9,9 +10,6 @@ import com.intellij.usages.PsiElementUsageTarget;
 import com.intellij.usages.UsageTarget;
 import com.intellij.usages.UsageTargetUtil;
 import com.jetbrains.lang.dart.util.DartTestUtils;
-import org.jetbrains.annotations.NonNls;
-
-import java.util.Collection;
 
 abstract public class DartFindUsagesTestBase extends CodeInsightFixtureTestCase {
 
@@ -37,12 +35,7 @@ abstract public class DartFindUsagesTestBase extends CodeInsightFixtureTestCase 
 
   private Collection<UsageInfo> findUsages()
     throws Throwable {
-    final UsageTarget[] targets = UsageTargetUtil.findUsageTargets(new DataProvider() {
-      @Override
-      public Object getData(@NonNls String dataId) {
-        return ((EditorEx)myFixture.getEditor()).getDataContext().getData(dataId);
-      }
-    });
+    final UsageTarget[] targets = UsageTargetUtil.findUsageTargets(dataId -> ((EditorEx)myFixture.getEditor()).getDataContext().getData(dataId));
 
     assert targets != null && targets.length > 0 && targets[0] instanceof PsiElementUsageTarget;
     return myFixture.findUsages(((PsiElementUsageTarget)targets[0]).getElement());

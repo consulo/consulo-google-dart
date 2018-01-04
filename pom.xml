@@ -42,6 +42,7 @@
 	<packaging>pom</packaging>
 
 	<modules>
-	
+		<module>dart-analyzer-server</module>
+		<module>dart-impl</module>
 	</modules>
 </project>

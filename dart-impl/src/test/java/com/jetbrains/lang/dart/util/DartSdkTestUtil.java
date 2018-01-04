@@ -1,14 +1,13 @@
 package com.jetbrains.lang.dart.util;
 
-import com.intellij.ide.util.PropertiesComponent;
+import java.io.File;
+import java.io.IOException;
+
+import org.junit.Assert;
 import com.intellij.openapi.util.io.FileUtil;
 import com.intellij.openapi.vfs.LocalFileSystem;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.testFramework.fixtures.CodeInsightTestFixture;
-import junit.framework.Assert;
-
-import java.io.File;
-import java.io.IOException;
 
 public class DartSdkTestUtil {
   public static void configFakeSdk(CodeInsightTestFixture fixture) {
@@ -26,7 +25,7 @@ public class DartSdkTestUtil {
     Assert.assertNotNull(file);
     file.refresh(false, true);
 
-    final PropertiesComponent propertiesComponent = PropertiesComponent.getInstance();
-    propertiesComponent.setValue(DartSettingsUtil.DART_SDK_PATH, file.getPath());
+    //final PropertiesComponent propertiesComponent = PropertiesComponent.getInstance();
+    //propertiesComponent.setValue(DartSettingsUtil.DART_SDK_PATH, file.getPath());
   }
 }

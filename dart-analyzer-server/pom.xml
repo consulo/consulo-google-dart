@@ -19,7 +19,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>consulo</groupId>
-		<artifactId>arch.ide-provided</artifactId>
+		<artifactId>arch.managment</artifactId>
 		<version>2-SNAPSHOT</version>
 		<relativePath/>
 	</parent>
@@ -27,7 +27,7 @@
 	<groupId>consulo.plugin</groupId>
 	<artifactId>com.jetbrains.lang.dart-dart.analyzer.server</artifactId>
 	<version>2-SNAPSHOT</version>
-	<packaging>consulo-plugin</packaging>
+	<packaging>jar</packaging>
 
 	<repositories>
 		<repository>
@@ -40,38 +40,24 @@
 		</repository>
 	</repositories>
 
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>consulo.maven</groupId>
-				<artifactId>consulo-maven-plugin</artifactId>
-				<version>2-SNAPSHOT</version>
-				<extensions>true</extensions>
-				<configuration>
-					<repositoryChannel>nightly</repositoryChannel>
-					<packaging>
-						<skip>${dev.mode}</skip>
-						<version>${build.number}</version>
-					</packaging>
-				</configuration>
-				<executions>
-					<execution>
-						<phase>package</phase>
-						<goals>
-							<goal>workspace</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
-	</build>
-
 	<dependencies>
 		<dependency>
-			<groupId>${project.parent.groupId}</groupId>
-			<artifactId>consulo-lang-impl-testing</artifactId>
-			<version>${project.parent.version}</version>
-			<scope>test</scope>
+			<groupId>args4j</groupId>
+			<artifactId>args4j</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.json</groupId>
+			<artifactId>json</artifactId>
+			<version>20171018</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.7</version>
 		</dependency>
 	</dependencies>
 </project>

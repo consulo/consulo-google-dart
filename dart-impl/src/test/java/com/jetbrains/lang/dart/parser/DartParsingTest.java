@@ -1,18 +1,16 @@
 package com.jetbrains.lang.dart.parser;
 
-import com.intellij.openapi.application.PathManager;
-import com.intellij.openapi.util.io.FileUtil;
-import com.intellij.testFramework.ParsingTestCase;
 import com.jetbrains.lang.dart.DartFileType;
-import com.jetbrains.lang.dart.DartParserDefinition;
 import com.jetbrains.lang.dart.util.DartTestUtils;
+import consulo.testFramework.ParsingTestCase;
 
 /**
  * @author: Fedor.Korotkov
  */
-public class DartParsingTest extends ParsingTestCase {
+public class DartParsingTest extends ParsingTestCase
+{
   public DartParsingTest() {
-    super("parsing", DartFileType.DEFAULT_EXTENSION, new DartParserDefinition());
+    super("parsing", DartFileType.DEFAULT_EXTENSION/*, new DartParserDefinition()*/);
   }
 
   @Override
