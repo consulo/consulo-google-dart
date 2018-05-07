@@ -37,6 +37,7 @@ import com.intellij.openapi.ui.DialogWrapper;
 import com.intellij.openapi.util.Disposer;
 import com.intellij.openapi.util.io.FileUtil;
 import com.intellij.openapi.vfs.VfsUtilCore;
+import consulo.awt.TargetAWT;
 import consulo.dart.module.extension.DartModuleExtension;
 import icons.DartIcons;
 
@@ -47,7 +48,7 @@ public class PubListPackageDirsAction extends AnAction
 
 	public PubListPackageDirsAction()
 	{
-		super("Configure Dart package roots using 'pub list-package-dirs'", null, DartIcons.Dart);
+		super("Configure Dart package roots using 'pub list-package-dirs'", null, TargetAWT.to(DartIcons.Dart));
 	}
 
 	public void update(final AnActionEvent e)

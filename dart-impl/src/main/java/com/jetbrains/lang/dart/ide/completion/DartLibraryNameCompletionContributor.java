@@ -7,6 +7,7 @@ import java.util.Set;
 import org.jetbrains.annotations.NotNull;
 import com.intellij.codeInsight.completion.CompletionContributor;
 import com.intellij.codeInsight.completion.CompletionParameters;
+import consulo.awt.TargetAWT;
 import consulo.codeInsight.completion.CompletionProvider;
 import com.intellij.codeInsight.completion.CompletionResultSet;
 import com.intellij.codeInsight.completion.CompletionType;
@@ -91,7 +92,7 @@ public class DartLibraryNameCompletionContributor extends CompletionContributor
 		public void renderElement(LookupElementPresentation presentation)
 		{
 			super.renderElement(presentation);
-			presentation.setIcon(DartIcons.Dart);
+			presentation.setIcon(TargetAWT.to(DartIcons.Dart));
 		}
 
 		@Override

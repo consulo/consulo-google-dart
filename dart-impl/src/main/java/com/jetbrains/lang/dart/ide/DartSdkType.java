@@ -1,9 +1,6 @@
 package com.jetbrains.lang.dart.ide;
 
-import javax.swing.Icon;
-
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import com.intellij.openapi.fileChooser.FileChooserDescriptor;
 import com.intellij.openapi.fileChooser.PathChooserDialog;
 import com.intellij.openapi.projectRoots.Sdk;
@@ -15,6 +12,7 @@ import com.jetbrains.lang.dart.util.DartSdkUtil;
 import consulo.roots.types.BinariesOrderRootType;
 import consulo.roots.types.DocumentationOrderRootType;
 import consulo.roots.types.SourcesOrderRootType;
+import consulo.ui.image.Image;
 
 /**
  * @author Fedor.Korotkov
@@ -32,16 +30,9 @@ public class DartSdkType extends SdkType
 	}
 
 	@Override
-	public Icon getIcon()
+	public Image getIcon()
 	{
 		return icons.DartIcons.Dart;
-	}
-
-	@Nullable
-	@Override
-	public Icon getGroupIcon()
-	{
-		return getIcon();
 	}
 
 	@NotNull

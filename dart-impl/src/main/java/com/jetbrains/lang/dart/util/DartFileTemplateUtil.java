@@ -13,6 +13,8 @@ import com.intellij.util.SmartList;
 import com.intellij.util.containers.ContainerUtil;
 import com.jetbrains.lang.dart.DartFileType;
 import consulo.ide.IconDescriptor;
+import consulo.ui.image.Image;
+import consulo.ui.image.ImageEffects;
 import icons.DartIcons;
 
 /**
@@ -45,13 +47,13 @@ public class DartFileTemplateUtil {
   }
 
   @NotNull
-  public static Icon getTemplateIcon(String name) {
+  public static Image getTemplateIcon(String name) {
     name = getTemplateShortName(name);
     if ("Class".equals(name)) {
-      return new IconDescriptor(AllIcons.Nodes.Class).addLayerIcon(DartIcons.DartLang).toIcon();
+      return ImageEffects.folded(AllIcons.Nodes.Class, DartIcons.DartLang);
     }
     else if ("Interface".equals(name)) {
-      return new IconDescriptor(AllIcons.Nodes.Interface).addLayerIcon(DartIcons.DartLang).toIcon();
+      return ImageEffects.folded(AllIcons.Nodes.Interface, DartIcons.DartLang);
     }
     return icons.DartIcons.Dart;
   }

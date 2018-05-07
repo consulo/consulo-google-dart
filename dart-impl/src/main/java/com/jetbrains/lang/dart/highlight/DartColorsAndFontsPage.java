@@ -5,8 +5,6 @@ import static com.jetbrains.lang.dart.highlight.DartSyntaxHighlighterColors.*;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.swing.Icon;
-
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import com.intellij.openapi.editor.colors.TextAttributesKey;
@@ -15,7 +13,6 @@ import com.intellij.openapi.options.colors.AttributesDescriptor;
 import com.intellij.openapi.options.colors.ColorDescriptor;
 import com.intellij.openapi.options.colors.ColorSettingsPage;
 import com.jetbrains.lang.dart.DartBundle;
-import com.jetbrains.lang.dart.DartFileType;
 
 public class DartColorsAndFontsPage implements ColorSettingsPage
 {
@@ -105,12 +102,6 @@ public class DartColorsAndFontsPage implements ColorSettingsPage
 	public String getDisplayName()
 	{
 		return DartBundle.message("dart.title");
-	}
-
-	@Override
-	public Icon getIcon()
-	{
-		return DartFileType.INSTANCE.getIcon();
 	}
 
 	@Override

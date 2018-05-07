@@ -12,6 +12,7 @@ import com.intellij.openapi.roots.libraries.PersistentLibraryKind;
 import com.intellij.openapi.roots.libraries.ui.LibraryEditorComponent;
 import com.intellij.openapi.roots.libraries.ui.LibraryPropertiesEditor;
 import com.intellij.openapi.vfs.VirtualFile;
+import consulo.awt.TargetAWT;
 import icons.DartIcons;
 
 public class DartListPackageDirsLibraryType extends LibraryType<DartListPackageDirsLibraryProperties>
@@ -60,6 +61,6 @@ public class DartListPackageDirsLibraryType extends LibraryType<DartListPackageD
 	@Nullable
 	public Icon getIcon()
 	{
-		return DartIcons.Dart;
+		return TargetAWT.to(DartIcons.Dart);
 	}
 }

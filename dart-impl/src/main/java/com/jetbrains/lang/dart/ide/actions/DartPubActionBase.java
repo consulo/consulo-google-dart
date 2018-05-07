@@ -34,6 +34,7 @@ import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiFile;
 import com.jetbrains.lang.dart.DartBundle;
 import com.jetbrains.lang.dart.DartProjectComponent;
+import consulo.awt.TargetAWT;
 import consulo.dart.module.extension.DartModuleExtension;
 import icons.DartIcons;
 
@@ -44,7 +45,7 @@ abstract public class DartPubActionBase extends AnAction
 
 	public DartPubActionBase()
 	{
-		super(DartIcons.Dart);
+		super(TargetAWT.to(DartIcons.Dart));
 	}
 
 	@Override

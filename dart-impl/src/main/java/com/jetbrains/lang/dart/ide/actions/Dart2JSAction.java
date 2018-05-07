@@ -26,6 +26,7 @@ import com.intellij.openapi.vfs.VirtualFileManager;
 import com.intellij.psi.PsiFile;
 import com.jetbrains.lang.dart.DartBundle;
 import com.jetbrains.lang.dart.ide.actions.ui.Dart2JSSettingsDialog;
+import consulo.awt.TargetAWT;
 import consulo.dart.module.extension.DartModuleExtension;
 import com.jetbrains.lang.dart.ide.settings.DartSdkUtil;
 import com.jetbrains.lang.dart.psi.DartFile;
@@ -39,7 +40,7 @@ public class Dart2JSAction extends AnAction {
   private static final Logger LOG = Logger.getInstance("#com.jetbrains.lang.dart.ide.actions.Dart2JSAction");
 
   public Dart2JSAction() {
-    super(icons.DartIcons.Dart);
+    super(TargetAWT.to(icons.DartIcons.Dart));
   }
 
   @Override
@@ -73,7 +74,7 @@ public class Dart2JSAction extends AnAction {
     if (dart2js == null) {
       Messages.showOkCancelDialog(e.getProject(), DartBundle.message("dart.sdk.bad.dart2js.path", DartSdkUtil.getDart2JSPath(sdk)),
                                   DartBundle.message("dart.warning"),
-                                  icons.DartIcons.Dart);
+                                  TargetAWT.to(icons.DartIcons.Dart));
       return;
     }
 

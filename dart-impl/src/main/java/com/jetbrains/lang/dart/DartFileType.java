@@ -1,10 +1,9 @@
 package com.jetbrains.lang.dart;
 
-import javax.swing.Icon;
-
 import org.jetbrains.annotations.NotNull;
 import com.intellij.openapi.fileTypes.LanguageFileType;
 import com.intellij.openapi.vfs.VirtualFile;
+import consulo.ui.image.Image;
 
 /**
  * Created by IntelliJ IDEA.
@@ -22,7 +21,7 @@ public class DartFileType extends LanguageFileType {
 
   @NotNull
   @Override
-  public String getName() {
+  public String getId() {
     return "Dart";
   }
 
@@ -39,12 +38,7 @@ public class DartFileType extends LanguageFileType {
   }
 
   @Override
-  public Icon getIcon() {
+  public Image getIcon() {
     return icons.DartIcons.Dart;
-  }
-
-  @Override
-  public String getCharset(@NotNull VirtualFile virtualFile, byte[] bytes) {
-    return null;
   }
 }
