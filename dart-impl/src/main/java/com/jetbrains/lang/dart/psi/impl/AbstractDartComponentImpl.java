@@ -5,6 +5,7 @@ import javax.swing.Icon;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import consulo.awt.TargetAWT;
 import consulo.ide.IconDescriptorUpdaters;
 import com.intellij.lang.ASTNode;
 import com.intellij.navigation.ItemPresentation;
@@ -186,7 +187,7 @@ abstract public class AbstractDartComponentImpl extends DartPsiCompositeElementI
 			@Override
 			public Icon getIcon(boolean open)
 			{
-				return IconDescriptorUpdaters.getIcon(AbstractDartComponentImpl.this, 0);
+				return TargetAWT.to(IconDescriptorUpdaters.getIcon(AbstractDartComponentImpl.this, 0));
 			}
 		};
 	}

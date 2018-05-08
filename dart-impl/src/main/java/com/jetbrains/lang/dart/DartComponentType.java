@@ -1,12 +1,11 @@
 package com.jetbrains.lang.dart;
 
-import javax.swing.Icon;
-
 import org.jetbrains.annotations.Nullable;
 import com.intellij.icons.AllIcons;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.util.PsiTreeUtil;
 import com.jetbrains.lang.dart.psi.*;
+import consulo.ui.image.Image;
 
 public enum DartComponentType
 {
@@ -21,9 +20,9 @@ public enum DartComponentType
 	OPERATOR(AllIcons.Nodes.ClassInitializer),
 	LABEL(AllIcons.Nodes.Variable);
 
-	private final Icon myIcon;
+	private final Image myIcon;
 
-	DartComponentType(final Icon icon)
+	DartComponentType(Image icon)
 	{
 		myIcon = icon;
 	}
@@ -33,7 +32,7 @@ public enum DartComponentType
 		return ordinal();
 	}
 
-	public Icon getIcon()
+	public Image getIcon()
 	{
 		return myIcon;
 	}

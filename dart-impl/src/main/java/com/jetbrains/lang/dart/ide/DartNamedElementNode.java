@@ -1,22 +1,23 @@
 package com.jetbrains.lang.dart.ide;
 
+import org.jetbrains.annotations.Nullable;
 import com.intellij.codeInsight.generation.ClassMember;
 import com.intellij.codeInsight.generation.MemberChooserObject;
 import com.intellij.codeInsight.generation.PsiElementMemberChooserObject;
-import consulo.ide.IconDescriptorUpdaters;
 import com.intellij.navigation.ItemPresentation;
 import com.intellij.openapi.util.Iconable;
 import com.intellij.psi.util.PsiTreeUtil;
 import com.jetbrains.lang.dart.psi.DartClass;
 import com.jetbrains.lang.dart.psi.DartComponent;
-import org.jetbrains.annotations.Nullable;
+import consulo.awt.TargetAWT;
+import consulo.ide.IconDescriptorUpdaters;
 
 /**
  * @author: Fedor.Korotkov
  */
 public class DartNamedElementNode extends PsiElementMemberChooserObject implements ClassMember {
   public DartNamedElementNode(final DartComponent haxeNamedComponent) {
-    super(haxeNamedComponent, buildPresentationText(haxeNamedComponent), IconDescriptorUpdaters.getIcon(haxeNamedComponent, Iconable.ICON_FLAG_VISIBILITY));
+    super(haxeNamedComponent, buildPresentationText(haxeNamedComponent), TargetAWT.to(IconDescriptorUpdaters.getIcon(haxeNamedComponent, Iconable.ICON_FLAG_VISIBILITY)));
   }
 
   @Nullable
