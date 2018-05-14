@@ -1,17 +1,18 @@
 package com.jetbrains.lang.dart.validation.fixes;
 
+import javax.annotation.Nonnull;
+
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.util.PsiTreeUtil;
 import com.jetbrains.lang.dart.DartBundle;
 import com.jetbrains.lang.dart.psi.DartExecutionScope;
-import org.jetbrains.annotations.NotNull;
 
 public class CreateGlobalDartFunctionAction extends CreateDartFunctionActionBase {
-  public CreateGlobalDartFunctionAction(@NotNull String name) {
+  public CreateGlobalDartFunctionAction(@Nonnull String name) {
     super(name);
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public String getName() {
     return DartBundle.message("dart.create.global.function.fix.name", myFunctionName);

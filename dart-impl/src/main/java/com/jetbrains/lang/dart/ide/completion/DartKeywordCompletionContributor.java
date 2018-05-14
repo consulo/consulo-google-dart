@@ -11,8 +11,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import com.intellij.codeInsight.completion.CompletionContributor;
 import com.intellij.codeInsight.completion.CompletionParameters;
 import consulo.codeInsight.completion.CompletionProvider;
@@ -68,7 +68,7 @@ public class DartKeywordCompletionContributor extends CompletionContributor
 		extend(CompletionType.BASIC, elementCapture, new CompletionProvider()
 		{
 			@Override
-			public void addCompletions(@NotNull CompletionParameters parameters, ProcessingContext context, @NotNull CompletionResultSet result)
+			public void addCompletions(@Nonnull CompletionParameters parameters, ProcessingContext context, @Nonnull CompletionResultSet result)
 			{
 				final Collection<String> suggestedKeywords = suggestKeywords(parameters.getPosition());
 				suggestedKeywords.retainAll(allowedKeywords);
@@ -82,7 +82,7 @@ public class DartKeywordCompletionContributor extends CompletionContributor
 				new CompletionProvider()
 		{
 			@Override
-			public void addCompletions(@NotNull CompletionParameters parameters, ProcessingContext context, @NotNull CompletionResultSet result)
+			public void addCompletions(@Nonnull CompletionParameters parameters, ProcessingContext context, @Nonnull CompletionResultSet result)
 			{
 				result.addElement(LookupElementBuilder.create(DartTokenTypes.EXTENDS.toString()));
 				result.addElement(LookupElementBuilder.create(DartTokenTypes.IMPLEMENTS.toString()));
@@ -135,7 +135,7 @@ public class DartKeywordCompletionContributor extends CompletionContributor
 		return result;
 	}
 
-	@NotNull
+	@Nonnull
 	private static Collection<? extends String> suggestBySibling(@Nullable PsiElement sibling)
 	{
 		if(DartIfStatement.class.isInstance(sibling))

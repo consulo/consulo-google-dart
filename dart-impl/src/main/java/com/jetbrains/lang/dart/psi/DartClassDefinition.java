@@ -3,21 +3,21 @@ package com.jetbrains.lang.dart.psi;
 
 import java.util.List;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public interface DartClassDefinition extends DartClass {
 
   @Nullable
   DartClassBody getClassBody();
 
-  @NotNull
+  @Nonnull
   DartComponentName getComponentName();
 
   @Nullable
   DartInterfaces getInterfaces();
 
-  @NotNull
+  @Nonnull
   List<DartMetadata> getMetadataList();
 
   @Nullable

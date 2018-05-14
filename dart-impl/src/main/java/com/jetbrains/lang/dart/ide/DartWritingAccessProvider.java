@@ -5,7 +5,8 @@ import static com.jetbrains.lang.dart.util.PubspecYamlUtil.PUBSPEC_YAML;
 import java.util.Collection;
 import java.util.Collections;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
+
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.roots.ProjectFileIndex;
 import com.intellij.openapi.roots.ProjectRootManager;
@@ -26,7 +27,7 @@ public class DartWritingAccessProvider extends WritingAccessProvider
 		myProject = project;
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public Collection<VirtualFile> requestWriting(VirtualFile... files)
 	{
@@ -34,7 +35,7 @@ public class DartWritingAccessProvider extends WritingAccessProvider
 	}
 
 	@Override
-	public boolean isPotentiallyWritable(@NotNull VirtualFile file)
+	public boolean isPotentiallyWritable(@Nonnull VirtualFile file)
 	{
 		if(DartFileType.INSTANCE != file.getFileType())
 		{
@@ -43,13 +44,13 @@ public class DartWritingAccessProvider extends WritingAccessProvider
 		return !isInDartSdkOrDartPackagesFolder(myProject, file);
 	}
 
-	public static boolean isInDartSdkOrDartPackagesFolder(final @NotNull PsiFile psiFile)
+	public static boolean isInDartSdkOrDartPackagesFolder(final @Nonnull PsiFile psiFile)
 	{
 		final VirtualFile vFile = psiFile.getOriginalFile().getVirtualFile();
 		return vFile != null && isInDartSdkOrDartPackagesFolder(psiFile.getProject(), vFile);
 	}
 
-	public static boolean isInDartSdkOrDartPackagesFolder(final @NotNull Project project, final @NotNull VirtualFile file)
+	public static boolean isInDartSdkOrDartPackagesFolder(final @Nonnull Project project, final @Nonnull VirtualFile file)
 	{
 		final ProjectFileIndex fileIndex = ProjectRootManager.getInstance(project).getFileIndex();
 

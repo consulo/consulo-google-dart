@@ -10,7 +10,7 @@ import com.jetbrains.lang.dart.ide.refactoring.introduce.DartIntroduceHandler;
 import com.jetbrains.lang.dart.ide.refactoring.introduce.DartIntroduceOperation;
 import com.jetbrains.lang.dart.psi.DartExpression;
 import com.jetbrains.lang.dart.util.DartNameSuggesterUtil;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nullable;
 
 import java.util.Collection;
 

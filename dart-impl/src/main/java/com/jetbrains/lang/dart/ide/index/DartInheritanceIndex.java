@@ -9,7 +9,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
+
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.util.Computable;
 import com.intellij.openapi.vfs.VirtualFile;
@@ -44,7 +45,7 @@ public class DartInheritanceIndex extends FileBasedIndexExtension<String, List<D
 	private final DataIndexer<String, List<DartComponentInfo>, FileContent> myIndexer = new MyDataIndexer();
 	private final DataExternalizer<List<DartComponentInfo>> myExternalizer = new DartComponentInfoListExternalizer();
 
-	@NotNull
+	@Nonnull
 	@Override
 	public ID<String, List<DartComponentInfo>> getName()
 	{
@@ -81,7 +82,7 @@ public class DartInheritanceIndex extends FileBasedIndexExtension<String, List<D
 		return DartInputFilter.INSTANCE;
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public DataIndexer<String, List<DartComponentInfo>, FileContent> getIndexer()
 	{
@@ -91,7 +92,7 @@ public class DartInheritanceIndex extends FileBasedIndexExtension<String, List<D
 	private static class MyDataIndexer implements DataIndexer<String, List<DartComponentInfo>, FileContent>
 	{
 		@Override
-		@NotNull
+		@Nonnull
 		public Map<String, List<DartComponentInfo>> map(final FileContent inputData)
 		{
 			return DartIndexUtil.indexFile(inputData).getInheritorsMap();
@@ -119,7 +120,7 @@ public class DartInheritanceIndex extends FileBasedIndexExtension<String, List<D
 	public static class DefinitionsSearchExecutor implements QueryExecutor<PsiElement, DefinitionsScopedSearch.SearchParameters>
 	{
 		@Override
-		public boolean execute(@NotNull final DefinitionsScopedSearch.SearchParameters parameters, @NotNull final Processor<PsiElement> consumer)
+		public boolean execute(@Nonnull final DefinitionsScopedSearch.SearchParameters parameters, @Nonnull final Processor<PsiElement> consumer)
 		{
 			return ApplicationManager.getApplication().runReadAction(new Computable<Boolean>()
 			{

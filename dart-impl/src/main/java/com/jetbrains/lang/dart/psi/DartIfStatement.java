@@ -2,60 +2,60 @@
 package com.jetbrains.lang.dart.psi;
 
 import java.util.List;
-import org.jetbrains.annotations.*;
-import com.intellij.psi.PsiElement;
+
+import javax.annotation.Nonnull;
 
 public interface DartIfStatement extends DartPsiCompositeElement {
 
-  @NotNull
+  @Nonnull
   List<DartAssertStatement> getAssertStatementList();
 
-  @NotNull
+  @Nonnull
   List<DartBlock> getBlockList();
 
-  @NotNull
+  @Nonnull
   List<DartBreakStatement> getBreakStatementList();
 
-  @NotNull
+  @Nonnull
   List<DartContinueStatement> getContinueStatementList();
 
-  @NotNull
+  @Nonnull
   List<DartDoWhileStatement> getDoWhileStatementList();
 
-  @NotNull
+  @Nonnull
   List<DartExpression> getExpressionList();
 
-  @NotNull
+  @Nonnull
   List<DartForStatement> getForStatementList();
 
-  @NotNull
+  @Nonnull
   List<DartFunctionDeclarationWithBody> getFunctionDeclarationWithBodyList();
 
-  @NotNull
+  @Nonnull
   List<DartIfStatement> getIfStatementList();
 
-  @NotNull
+  @Nonnull
   List<DartLabel> getLabelList();
 
-  @NotNull
+  @Nonnull
   List<DartRethrowStatement> getRethrowStatementList();
 
-  @NotNull
+  @Nonnull
   List<DartReturnStatement> getReturnStatementList();
 
-  @NotNull
+  @Nonnull
   List<DartSwitchStatement> getSwitchStatementList();
 
-  @NotNull
+  @Nonnull
   List<DartThrowStatement> getThrowStatementList();
 
-  @NotNull
+  @Nonnull
   List<DartTryStatement> getTryStatementList();
 
-  @NotNull
+  @Nonnull
   List<DartVarDeclarationList> getVarDeclarationListList();
 
-  @NotNull
+  @Nonnull
   List<DartWhileStatement> getWhileStatementList();
 
 }

@@ -1,6 +1,6 @@
 package com.jetbrains.lang.dart;
 
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nullable;
 import com.intellij.icons.AllIcons;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.util.PsiTreeUtil;

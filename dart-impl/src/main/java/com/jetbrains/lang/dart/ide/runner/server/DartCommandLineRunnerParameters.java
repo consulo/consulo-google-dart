@@ -3,8 +3,8 @@ package com.jetbrains.lang.dart.ide.runner.server;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import com.intellij.execution.configurations.RuntimeConfigurationError;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.module.ModuleUtilCore;
@@ -34,7 +34,7 @@ public class DartCommandLineRunnerParameters implements Cloneable
 	@Nullable
 	String myWorkingDirectory = null;
 	private
-	@NotNull
+	@Nonnull
 	Map<String, String> myEnvs = new LinkedHashMap<String, String>();
 	private boolean myIncludeParentEnvs = true;
 
@@ -82,7 +82,7 @@ public class DartCommandLineRunnerParameters implements Cloneable
 		myWorkingDirectory = workingDirectory;
 	}
 
-	@NotNull
+	@Nonnull
 	@MapAnnotation(surroundWithTag = false, surroundKeyWithTag = false, surroundValueWithTag = false)
 	public Map<String, String> getEnvs()
 	{
@@ -107,7 +107,7 @@ public class DartCommandLineRunnerParameters implements Cloneable
 		myIncludeParentEnvs = includeParentEnvs;
 	}
 
-	@NotNull
+	@Nonnull
 	public VirtualFile getDartFile() throws RuntimeConfigurationError
 	{
 		final String filePath = getFilePath();
@@ -147,7 +147,7 @@ public class DartCommandLineRunnerParameters implements Cloneable
 		return sdk;
 	}
 
-	public void check(final @NotNull Project project) throws RuntimeConfigurationError
+	public void check(final @Nonnull Project project) throws RuntimeConfigurationError
 	{
 		// check main dart file  and sdk
 		getSdk(project);

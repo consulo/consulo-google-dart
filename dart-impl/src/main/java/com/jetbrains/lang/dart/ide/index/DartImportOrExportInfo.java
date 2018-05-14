@@ -2,8 +2,8 @@ package com.jetbrains.lang.dart.ide.index;
 
 import java.util.Set;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class DartImportOrExportInfo implements DartShowHideInfo
 {
@@ -13,23 +13,23 @@ public class DartImportOrExportInfo implements DartShowHideInfo
 	}
 
 	private final
-	@NotNull
+	@Nonnull
 	Kind myKind;
 	private final
-	@NotNull
+	@Nonnull
 	String myUri;
 	private final
 	@Nullable
 	String myImportPrefix;
 	private final
-	@NotNull
+	@Nonnull
 	Set<String> myShowComponents;
 	private final
-	@NotNull
+	@Nonnull
 	Set<String> myHideComponents;
 
-	public DartImportOrExportInfo(final @NotNull Kind kind, final @NotNull String uri, final @Nullable String importPrefix,
-			final @NotNull Set<String> showComponents, final @NotNull Set<String> hideComponents)
+	public DartImportOrExportInfo(final @Nonnull Kind kind, final @Nonnull String uri, final @Nullable String importPrefix,
+			final @Nonnull Set<String> showComponents, final @Nonnull Set<String> hideComponents)
 	{
 		myKind = kind;
 		myUri = uri;
@@ -38,13 +38,13 @@ public class DartImportOrExportInfo implements DartShowHideInfo
 		myHideComponents = hideComponents;
 	}
 
-	@NotNull
+	@Nonnull
 	public String getUri()
 	{
 		return myUri;
 	}
 
-	@NotNull
+	@Nonnull
 	public Kind getKind()
 	{
 		return myKind;
@@ -56,13 +56,13 @@ public class DartImportOrExportInfo implements DartShowHideInfo
 		return myImportPrefix;
 	}
 
-	@NotNull
+	@Nonnull
 	public Set<String> getShowComponents()
 	{
 		return myShowComponents;
 	}
 
-	@NotNull
+	@Nonnull
 	public Set<String> getHideComponents()
 	{
 		return myHideComponents;

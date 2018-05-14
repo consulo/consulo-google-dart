@@ -8,8 +8,8 @@ import com.intellij.util.ArrayUtil;
 import com.intellij.util.Function;
 import com.intellij.util.SmartList;
 import com.jetbrains.lang.dart.DartTokenTypes;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -63,7 +63,7 @@ public class UsefulPsiTreeUtil {
 
   @Nullable
   public static List<PsiElement> getPathToParentOfType(@Nullable PsiElement element,
-                                                       @NotNull Class<? extends PsiElement> aClass) {
+                                                       @Nonnull Class<? extends PsiElement> aClass) {
     if (element == null) return null;
     final List<PsiElement> result = new ArrayList<PsiElement>();
     while (element != null) {
@@ -156,7 +156,7 @@ public class UsefulPsiTreeUtil {
 
   @Nullable
   public static <T extends PsiElement> T[] getChildrenOfType(@Nullable PsiElement element,
-                                                             @NotNull Class<T> aClass,
+                                                             @Nonnull Class<T> aClass,
                                                              @Nullable PsiElement lastParent) {
     if (element == null) return null;
 
@@ -174,7 +174,7 @@ public class UsefulPsiTreeUtil {
     return result == null ? null : ArrayUtil.toObjectArray(result, aClass);
   }
 
-  public static boolean isAncestor(@NotNull PsiElement element, List<PsiElement> children, boolean strict) {
+  public static boolean isAncestor(@Nonnull PsiElement element, List<PsiElement> children, boolean strict) {
     for (PsiElement child : children) {
       if (child != null && !PsiTreeUtil.isAncestor(element, child, strict)) {
         return false;

@@ -7,7 +7,7 @@ import gnu.trove.THashSet;
 
 import java.util.Set;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import com.intellij.codeInsight.completion.CompletionContributor;
 import com.intellij.codeInsight.completion.CompletionParameters;
 import consulo.codeInsight.completion.CompletionProvider;
@@ -40,7 +40,7 @@ public class DartClassNameCompletionContributor extends CompletionContributor
 		final ElementPattern<PsiElement> pattern = or(idInComponentName.withSuperParent(4, DartNormalFormalParameter.class),
 				idInComponentName.withSuperParent(3, DartVarAccessDeclaration.class).with(new PatternCondition<PsiElement>("not after DartType")
 		{
-			public boolean accepts(@NotNull final PsiElement element, final ProcessingContext context)
+			public boolean accepts(@Nonnull final PsiElement element, final ProcessingContext context)
 			{
 				// no class name completion must be here: const type name<caret>;
 				return !(UsefulPsiTreeUtil.getPrevSiblingSkipWhiteSpacesAndComments(element.getParent().getParent(), true) instanceof DartType);
@@ -50,7 +50,7 @@ public class DartClassNameCompletionContributor extends CompletionContributor
 		extend(CompletionType.BASIC, pattern, new CompletionProvider()
 		{
 			@Override
-			public void addCompletions(@NotNull CompletionParameters parameters, ProcessingContext context, @NotNull CompletionResultSet result)
+			public void addCompletions(@Nonnull CompletionParameters parameters, ProcessingContext context, @Nonnull CompletionResultSet result)
 			{
 				final Set<DartComponentName> suggestedVariants = new THashSet<DartComponentName>();
 				DartResolveUtil.treeWalkUpAndTopLevelDeclarations(parameters.getPosition(), new ClassNameScopeProcessor(suggestedVariants));

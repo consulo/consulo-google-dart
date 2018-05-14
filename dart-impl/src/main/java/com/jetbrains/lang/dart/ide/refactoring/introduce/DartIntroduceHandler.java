@@ -7,8 +7,8 @@ import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.List;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import com.intellij.codeInsight.CodeInsightUtilCore;
 import com.intellij.codeInsight.template.impl.TemplateManagerImpl;
 import com.intellij.codeInsight.template.impl.TemplateState;
@@ -102,19 +102,19 @@ public abstract class DartIntroduceHandler implements RefactoringActionHandler
 
 	protected final String myDialogTitle;
 
-	public DartIntroduceHandler(@NotNull final String dialogTitle)
+	public DartIntroduceHandler(@Nonnull final String dialogTitle)
 	{
 		myDialogTitle = dialogTitle;
 	}
 
 	@Override
-	public void invoke(@NotNull Project project, Editor editor, PsiFile file, DataContext dataContext)
+	public void invoke(@Nonnull Project project, Editor editor, PsiFile file, DataContext dataContext)
 	{
 		performAction(new DartIntroduceOperation(project, editor, file, null));
 	}
 
 	@Override
-	public void invoke(@NotNull Project project, @NotNull PsiElement[] elements, DataContext dataContext)
+	public void invoke(@Nonnull Project project, @Nonnull PsiElement[] elements, DataContext dataContext)
 	{
 	}
 
@@ -336,7 +336,7 @@ public abstract class DartIntroduceHandler implements RefactoringActionHandler
 	}
 
 
-	protected List<PsiElement> getOccurrences(PsiElement element, @NotNull final DartExpression expression)
+	protected List<PsiElement> getOccurrences(PsiElement element, @Nonnull final DartExpression expression)
 	{
 		PsiElement context = element;
 		DartComponentType type = null;
@@ -402,7 +402,7 @@ public abstract class DartIntroduceHandler implements RefactoringActionHandler
 	}
 
 	@Nullable
-	protected PsiElement performRefactoring(@NotNull DartIntroduceOperation operation)
+	protected PsiElement performRefactoring(@Nonnull DartIntroduceOperation operation)
 	{
 		PsiElement anchor = operation.isReplaceAll() ? findAnchor(operation.getOccurrences()) : findAnchor(operation.getInitializer());
 		if(anchor == null)
@@ -440,7 +440,7 @@ public abstract class DartIntroduceHandler implements RefactoringActionHandler
 	abstract protected String getDeclarationString(DartIntroduceOperation operation, String initExpression);
 
 	@Nullable
-	private PsiElement performReplace(@NotNull final PsiElement declaration, final DartIntroduceOperation operation)
+	private PsiElement performReplace(@Nonnull final PsiElement declaration, final DartIntroduceOperation operation)
 	{
 		final DartExpression expression = operation.getInitializer();
 		final Project project = operation.getProject();
@@ -481,7 +481,7 @@ public abstract class DartIntroduceHandler implements RefactoringActionHandler
 		}.execute().getResultObject();
 	}
 
-	protected void modifyDeclaration(@NotNull PsiElement declaration)
+	protected void modifyDeclaration(@Nonnull PsiElement declaration)
 	{
 		final PsiElement parent = declaration.getParent();
 

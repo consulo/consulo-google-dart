@@ -6,8 +6,8 @@ import com.jetbrains.lang.dart.psi.DartClass;
 import com.jetbrains.lang.dart.psi.DartComponent;
 import com.jetbrains.lang.dart.psi.DartTypeArguments;
 import gnu.trove.THashMap;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import java.util.Map;
 
@@ -62,7 +62,7 @@ public class DartGenericSpecialization implements Cloneable {
     return new DartGenericSpecialization(result);
   }
 
-  public static String getGenericKey(@Nullable PsiElement element, @NotNull String genericName) {
+  public static String getGenericKey(@Nullable PsiElement element, @Nonnull String genericName) {
     final StringBuilder result = new StringBuilder();
     final DartComponent dartComponent = PsiTreeUtil.getParentOfType(element, DartComponent.class, false);
     if (dartComponent instanceof DartClass) {

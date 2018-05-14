@@ -1,6 +1,7 @@
 package com.jetbrains.lang.dart;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
+
 import com.intellij.lang.ASTNode;
 import com.intellij.lang.ParserDefinition;
 import com.intellij.lang.PsiParser;
@@ -19,7 +20,7 @@ import consulo.lang.LanguageVersion;
 public class DartParserDefinition implements ParserDefinition
 {
 
-	@NotNull
+	@Nonnull
 	@Override
 	public Lexer createLexer( LanguageVersion languageVersion)
 	{
@@ -38,21 +39,21 @@ public class DartParserDefinition implements ParserDefinition
 		return DartTokenTypesSets.DART_FILE;
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public TokenSet getWhitespaceTokens(LanguageVersion languageVersion)
 	{
 		return DartTokenTypesSets.WHITE_SPACES;
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public TokenSet getCommentTokens(LanguageVersion languageVersion)
 	{
 		return DartTokenTypesSets.COMMENTS;
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public TokenSet getStringLiteralElements(LanguageVersion languageVersion)
 	{
@@ -60,7 +61,7 @@ public class DartParserDefinition implements ParserDefinition
 				DartTokenTypes.CLOSING_QUOTE, DartTokenTypes.REGULAR_STRING_PART);
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public PsiElement createElement(ASTNode node)
 	{

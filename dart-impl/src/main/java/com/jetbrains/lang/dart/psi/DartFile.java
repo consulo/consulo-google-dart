@@ -1,5 +1,7 @@
 package com.jetbrains.lang.dart.psi;
 
+import javax.annotation.Nonnull;
+
 import com.intellij.extapi.psi.PsiFileBase;
 import com.intellij.openapi.fileTypes.FileType;
 import com.intellij.psi.FileViewProvider;
@@ -10,17 +12,16 @@ import com.intellij.psi.tree.IElementType;
 import com.jetbrains.lang.dart.DartFileType;
 import com.jetbrains.lang.dart.DartLanguage;
 import com.jetbrains.lang.dart.psi.impl.DartPsiCompositeElementImpl;
-import org.jetbrains.annotations.NotNull;
 
 /**
  * @author: Fedor.Korotkov
  */
 public class DartFile extends PsiFileBase implements DartExecutionScope {
-  public DartFile(@NotNull FileViewProvider viewProvider) {
+  public DartFile(@Nonnull FileViewProvider viewProvider) {
     super(viewProvider, DartLanguage.INSTANCE);
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public FileType getFileType() {
     return DartFileType.INSTANCE;
@@ -32,10 +33,10 @@ public class DartFile extends PsiFileBase implements DartExecutionScope {
   }
 
   @Override
-  public boolean processDeclarations(@NotNull PsiScopeProcessor processor,
-                                     @NotNull ResolveState state,
+  public boolean processDeclarations(@Nonnull PsiScopeProcessor processor,
+                                     @Nonnull ResolveState state,
                                      PsiElement lastParent,
-                                     @NotNull PsiElement place) {
+                                     @Nonnull PsiElement place) {
     return DartPsiCompositeElementImpl.processDeclarationsImpl(this, processor, state, lastParent)
            && super.processDeclarations(processor, state, lastParent, place);
   }

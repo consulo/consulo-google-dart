@@ -4,8 +4,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import com.intellij.openapi.roots.libraries.LibraryProperties;
 import com.intellij.util.xmlb.XmlSerializerUtil;
 import com.intellij.util.xmlb.annotations.MapAnnotation;
@@ -14,7 +14,7 @@ public class DartListPackageDirsLibraryProperties extends LibraryProperties<Dart
 {
 
 	private
-	@NotNull
+	@Nonnull
 	Map<String, Set<String>> myPackageNameToDirsMap;
 
 	public DartListPackageDirsLibraryProperties()
@@ -22,14 +22,14 @@ public class DartListPackageDirsLibraryProperties extends LibraryProperties<Dart
 		myPackageNameToDirsMap = new TreeMap<String, Set<String>>();
 	}
 
-	@NotNull
+	@Nonnull
 	@MapAnnotation(surroundWithTag = false, surroundKeyWithTag = false)
 	public Map<String, Set<String>> getPackageNameToDirsMap()
 	{
 		return myPackageNameToDirsMap;
 	}
 
-	public void setPackageNameToDirsMap(@NotNull final Map<String, Set<String>> packageNameToDirsMap)
+	public void setPackageNameToDirsMap(@Nonnull final Map<String, Set<String>> packageNameToDirsMap)
 	{
 		myPackageNameToDirsMap = packageNameToDirsMap;
 	}

@@ -1,5 +1,7 @@
 package com.jetbrains.lang.dart.validation.fixes;
 
+import javax.annotation.Nonnull;
+
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.util.PsiTreeUtil;
 import com.jetbrains.lang.dart.DartBundle;
@@ -7,15 +9,15 @@ import com.jetbrains.lang.dart.psi.DartClass;
 import com.jetbrains.lang.dart.psi.DartExecutionScope;
 import com.jetbrains.lang.dart.psi.DartReference;
 import com.jetbrains.lang.dart.util.DartResolveUtil;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+
+import javax.annotation.Nullable;
 
 public class CreateFieldAction extends CreateVariableActionBase {
   public CreateFieldAction(String name, boolean isStatic) {
     super(name, isStatic);
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public String getName() {
     return DartBundle.message("dart.create.field", myName);

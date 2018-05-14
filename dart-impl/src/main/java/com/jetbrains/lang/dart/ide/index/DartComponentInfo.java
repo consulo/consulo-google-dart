@@ -1,7 +1,7 @@
 package com.jetbrains.lang.dart.ide.index;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import com.jetbrains.lang.dart.DartComponentType;
 
 /**
@@ -9,21 +9,21 @@ import com.jetbrains.lang.dart.DartComponentType;
  */
 public class DartComponentInfo
 {
-	@NotNull
+	@Nonnull
 	private final String value;
 	@Nullable
 	private final DartComponentType type;
 	@Nullable
 	private final String libraryId;
 
-	public DartComponentInfo(@NotNull String value, @Nullable DartComponentType type, @Nullable String libraryId)
+	public DartComponentInfo(@Nonnull String value, @Nullable DartComponentType type, @Nullable String libraryId)
 	{
 		this.value = value;
 		this.type = type;
 		this.libraryId = libraryId;
 	}
 
-	@NotNull
+	@Nonnull
 	public String getValue()
 	{
 		return value;

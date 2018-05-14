@@ -3,8 +3,8 @@ package com.jetbrains.lang.dart;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.components.AbstractProjectComponent;
 import com.intellij.openapi.module.Module;
@@ -102,8 +102,8 @@ public class DartProjectComponent extends AbstractProjectComponent
 		VfsUtilCore.visitChildrenRecursively(folder, new VirtualFileVisitor()
 		{
 			@Override
-			@NotNull
-			public Result visitFileEx(@NotNull final VirtualFile file)
+			@Nonnull
+			public Result visitFileEx(@Nonnull final VirtualFile file)
 			{
 				if(file.isDirectory() && "packages".equals(file.getName()))
 				{

@@ -8,14 +8,14 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.codeStyle.CodeStyleSettings;
 import com.jetbrains.lang.dart.psi.DartFile;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /**
  * @author fedor.korotkov
  */
 public class DartFormattingModelBuilder implements FormattingModelBuilder {
-  @NotNull
+  @Nonnull
   @Override
   public FormattingModel createModel(PsiElement element, CodeStyleSettings settings) {
     final PsiFile psiFile = element.getContainingFile();

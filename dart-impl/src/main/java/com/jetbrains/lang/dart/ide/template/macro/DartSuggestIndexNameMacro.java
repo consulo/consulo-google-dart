@@ -3,7 +3,7 @@ package com.jetbrains.lang.dart.ide.template.macro;
 import com.intellij.codeInsight.template.*;
 import com.intellij.psi.PsiElement;
 import com.jetbrains.lang.dart.util.DartRefactoringUtil;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.util.Set;
 
@@ -21,14 +21,14 @@ public class DartSuggestIndexNameMacro extends Macro {
     return "dartSuggestIndexName()";
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public String getDefaultValue() {
     return "i";
   }
 
   @Override
-  public Result calculateResult(@NotNull Expression[] params, ExpressionContext context) {
+  public Result calculateResult(@Nonnull Expression[] params, ExpressionContext context) {
     final PsiElement at = context.getPsiElementAtStartOffset();
     final Set<String> names = DartRefactoringUtil.collectUsedNames(at);
     for (char i = 'i'; i < 'z'; ++i) {

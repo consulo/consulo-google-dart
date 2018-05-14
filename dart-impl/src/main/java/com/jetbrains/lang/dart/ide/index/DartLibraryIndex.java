@@ -11,8 +11,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.module.ModuleUtilCore;
 import com.intellij.openapi.project.Project;
@@ -57,7 +58,7 @@ public class DartLibraryIndex extends ScalarIndexExtension<String>
 
 	private DataIndexer<String, Void, FileContent> myDataIndexer = new MyDataIndexer();
 
-	@NotNull
+	@Nonnull
 	@Override
 	public ID<String, Void> getName()
 	{
@@ -70,21 +71,21 @@ public class DartLibraryIndex extends ScalarIndexExtension<String>
 		return DartIndexUtil.BASE_VERSION + INDEX_VERSION;
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public DataIndexer<String, Void, FileContent> getIndexer()
 	{
 		return myDataIndexer;
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public KeyDescriptor<String> getKeyDescriptor()
 	{
 		return new EnumeratorStringDescriptor();
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public FileBasedIndex.InputFilter getInputFilter()
 	{
@@ -97,7 +98,7 @@ public class DartLibraryIndex extends ScalarIndexExtension<String>
 		return true;
 	}
 
-	public static List<VirtualFile> findLibraryClass(@NotNull PsiElement context, String libraryName)
+	public static List<VirtualFile> findLibraryClass(@Nonnull PsiElement context, String libraryName)
 	{
 		if(libraryName.startsWith("dart:"))
 		{
@@ -121,7 +122,7 @@ public class DartLibraryIndex extends ScalarIndexExtension<String>
 		return FileBasedIndex.getInstance().getContainingFiles(DART_LIBRARY_INDEX, libraryName, scope);
 	}
 
-	@NotNull
+	@Nonnull
 	public static Set<String> getAllLibraryNames(Project project)
 	{
 		final Collection<String> allKeys = FileBasedIndex.getInstance().getAllKeys(DART_LIBRARY_INDEX, project);
@@ -131,8 +132,8 @@ public class DartLibraryIndex extends ScalarIndexExtension<String>
 	private static class MyDataIndexer implements DataIndexer<String, Void, FileContent>
 	{
 		@Override
-		@NotNull
-		public Map<String, Void> map(@NotNull final FileContent inputData)
+		@Nonnull
+		public Map<String, Void> map(@Nonnull final FileContent inputData)
 		{
 			final String libraryName = DartIndexUtil.indexFile(inputData).getLibraryName();
 			return libraryName == null ? Collections.<String, Void>emptyMap() : Collections.<String, Void>singletonMap(libraryName, null);
@@ -140,14 +141,14 @@ public class DartLibraryIndex extends ScalarIndexExtension<String>
 	}
 
 	@Nullable
-	public static String getStandardLibraryNameByRelativePath(final @NotNull Project project, Sdk sdk, final @NotNull String relativePath)
+	public static String getStandardLibraryNameByRelativePath(final @Nonnull Project project, Sdk sdk, final @Nonnull String relativePath)
 	{
 		final List<String> libNames = sdk == null ? null : getLibraryNameToRelativePathMap(project, sdk).getKeysByValue(relativePath);
 		return libNames == null || libNames.isEmpty() ? null : libNames.get(0);
 	}
 
 	@Nullable
-	public static VirtualFile getStandardLibraryFromSdk(final @NotNull PsiElement element, final @NotNull String libraryName)
+	public static VirtualFile getStandardLibraryFromSdk(final @Nonnull PsiElement element, final @Nonnull String libraryName)
 	{
 		Project project = element.getProject();
 		Sdk sdk = ModuleUtilCore.getSdk(element, DartModuleExtension.class);
@@ -156,20 +157,20 @@ public class DartLibraryIndex extends ScalarIndexExtension<String>
 	}
 
 	@Nullable
-	public static VirtualFile getStandardLibraryFromSdk(final @NotNull Project project, Sdk sdk, final @NotNull String libraryName)
+	public static VirtualFile getStandardLibraryFromSdk(final @Nonnull Project project, Sdk sdk, final @Nonnull String libraryName)
 	{
 		final String relativeLibPath = sdk == null ? null : getLibraryNameToRelativePathMap(project, sdk).get(libraryName);
 		return relativeLibPath == null ? null : LocalFileSystem.getInstance().findFileByPath(sdk.getHomePath() + "/lib/" + relativeLibPath);
 	}
 
-	public static Collection<String> getAllStandardLibrariesFromSdk(final @NotNull PsiElement e)
+	public static Collection<String> getAllStandardLibrariesFromSdk(final @Nonnull PsiElement e)
 	{
 		Sdk sdk = ModuleUtilCore.getSdk(e, DartModuleExtension.class);
 		return sdk == null ? Collections.<String>emptyList() : getLibraryNameToRelativePathMap(e.getProject(), sdk).keySet();
 	}
 
-	@NotNull
-	private static BidirectionalMap<String, String> getLibraryNameToRelativePathMap(final @NotNull Project project, final @NotNull Sdk sdk)
+	@Nonnull
+	private static BidirectionalMap<String, String> getLibraryNameToRelativePathMap(final @Nonnull Project project, final @Nonnull Sdk sdk)
 	{
 		final VirtualFile librariesDartFile = LocalFileSystem.getInstance().findFileByPath(sdk.getHomePath() + "/lib/_internal/libraries.dart");
 		if(librariesDartFile == null)
@@ -213,7 +214,7 @@ public class DartLibraryIndex extends ScalarIndexExtension<String>
 		});
 	}
 
-	private static BidirectionalMap<String, String> computeLibraryNameToRelativePathMap(final @NotNull DartFile librariesDartFile)
+	private static BidirectionalMap<String, String> computeLibraryNameToRelativePathMap(final @Nonnull DartFile librariesDartFile)
 	{
 /*
 const Map<String, LibraryInfo> LIBRARIES = const {
@@ -233,7 +234,7 @@ const Map<String, LibraryInfo> LIBRARIES = const {
 
 		librariesDartFile.acceptChildren(new DartRecursiveVisitor()
 		{
-			public void visitMapLiteralEntry(final @NotNull DartMapLiteralEntry mapLiteralEntry)
+			public void visitMapLiteralEntry(final @Nonnull DartMapLiteralEntry mapLiteralEntry)
 			{
 				final List<DartExpression> expressions = mapLiteralEntry.getExpressionList();
 				if(expressions.size() != 2 ||

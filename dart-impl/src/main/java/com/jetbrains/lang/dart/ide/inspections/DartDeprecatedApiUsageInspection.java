@@ -1,7 +1,7 @@
 package com.jetbrains.lang.dart.ide.inspections;
 
 import org.jetbrains.annotations.Nls;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import com.intellij.codeHighlighting.HighlightDisplayLevel;
 import com.intellij.codeInspection.LocalInspectionTool;
 import com.intellij.codeInspection.LocalQuickFix;
@@ -25,31 +25,31 @@ public class DartDeprecatedApiUsageInspection extends LocalInspectionTool
 
 	private static final String DEPRECATED_METADATA = "deprecated";
 
-	@NotNull
+	@Nonnull
 	public String getGroupDisplayName()
 	{
 		return DartBundle.message("inspections.group.name");
 	}
 
 	@Nls
-	@NotNull
+	@Nonnull
 	public String getDisplayName()
 	{
 		return DartBundle.message("dart.deprecated.api.usage");
 	}
 
-	@NotNull
+	@Nonnull
 	public HighlightDisplayLevel getDefaultLevel()
 	{
 		return HighlightDisplayLevel.WEAK_WARNING;
 	}
 
-	@NotNull
-	public PsiElementVisitor buildVisitor(@NotNull final ProblemsHolder holder, final boolean isOnTheFly)
+	@Nonnull
+	public PsiElementVisitor buildVisitor(@Nonnull final ProblemsHolder holder, final boolean isOnTheFly)
 	{
 		return new DartVisitor()
 		{
-			public void visitReferenceExpression(@NotNull final DartReferenceExpression referenceExpression)
+			public void visitReferenceExpression(@Nonnull final DartReferenceExpression referenceExpression)
 			{
 				if(PsiTreeUtil.getChildOfType(referenceExpression, DartReferenceExpression.class) != null)
 				{

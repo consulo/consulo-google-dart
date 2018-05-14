@@ -3,7 +3,7 @@ package com.jetbrains.lang.dart.util;
 import java.io.File;
 import java.io.IOException;
 
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nullable;
 import com.intellij.openapi.projectRoots.SdkModificator;
 import com.intellij.openapi.util.SystemInfo;
 import com.intellij.openapi.util.io.FileUtil;

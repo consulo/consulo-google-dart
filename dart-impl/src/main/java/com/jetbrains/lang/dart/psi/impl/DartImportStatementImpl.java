@@ -3,8 +3,9 @@ package com.jetbrains.lang.dart.psi.impl;
 
 import java.util.List;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
@@ -23,25 +24,25 @@ public class DartImportStatementImpl extends DartPsiCompositeElementImpl impleme
     super(node);
   }
 
-  public void accept(@NotNull PsiElementVisitor visitor) {
+  public void accept(@Nonnull PsiElementVisitor visitor) {
     if (visitor instanceof DartVisitor) ((DartVisitor)visitor).visitImportStatement(this);
     else super.accept(visitor);
   }
 
   @Override
-  @NotNull
+  @Nonnull
   public List<DartHideCombinator> getHideCombinatorList() {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, DartHideCombinator.class);
   }
 
   @Override
-  @NotNull
+  @Nonnull
   public List<DartMetadata> getMetadataList() {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, DartMetadata.class);
   }
 
   @Override
-  @NotNull
+  @Nonnull
   public List<DartShowCombinator> getShowCombinatorList() {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, DartShowCombinator.class);
   }
@@ -51,7 +52,7 @@ public class DartImportStatementImpl extends DartPsiCompositeElementImpl impleme
   }
 
   @Override
-  @NotNull
+  @Nonnull
   public DartPathOrLibraryReference getLibraryExpression() {
     return findNotNullChildByClass(DartPathOrLibraryReference.class);
   }

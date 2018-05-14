@@ -3,8 +3,8 @@ package com.jetbrains.lang.dart.psi.impl;
 import java.util.Collections;
 import java.util.List;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import com.intellij.lang.ASTNode;
 import com.intellij.openapi.util.Condition;
 import com.intellij.psi.PsiElement;
@@ -16,7 +16,7 @@ import com.jetbrains.lang.dart.util.DartResolveUtil;
 
 abstract public class AbstractDartPsiClass extends AbstractDartComponentImpl implements DartClass
 {
-	public AbstractDartPsiClass(@NotNull ASTNode node)
+	public AbstractDartPsiClass(@Nonnull ASTNode node)
 	{
 		super(node);
 	}
@@ -40,7 +40,7 @@ abstract public class AbstractDartPsiClass extends AbstractDartComponentImpl imp
 		return null;
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public List<DartType> getImplementsList()
 	{
@@ -54,7 +54,7 @@ abstract public class AbstractDartPsiClass extends AbstractDartComponentImpl imp
 		return Collections.emptyList();
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public List<DartType> getMixinsList()
 	{
@@ -74,7 +74,7 @@ abstract public class AbstractDartPsiClass extends AbstractDartComponentImpl imp
 		return getTypeParameters() != null;
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public List<DartComponent> getMethods()
 	{
@@ -82,7 +82,7 @@ abstract public class AbstractDartPsiClass extends AbstractDartComponentImpl imp
 		return DartResolveUtil.filterComponentsByType(components, DartComponentType.METHOD);
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public List<DartComponent> getFields()
 	{
@@ -90,7 +90,7 @@ abstract public class AbstractDartPsiClass extends AbstractDartComponentImpl imp
 		return DartResolveUtil.filterComponentsByType(components, DartComponentType.FIELD);
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public List<DartComponent> getConstructors()
 	{
@@ -139,7 +139,7 @@ abstract public class AbstractDartPsiClass extends AbstractDartComponentImpl imp
 	}
 
 	@Override
-	public DartComponent findFieldByName(@NotNull final String name)
+	public DartComponent findFieldByName(@Nonnull final String name)
 	{
 		return ContainerUtil.find(getFields(), new Condition<DartComponent>()
 		{
@@ -152,7 +152,7 @@ abstract public class AbstractDartPsiClass extends AbstractDartComponentImpl imp
 	}
 
 	@Override
-	public DartComponent findMethodByName(@NotNull final String name)
+	public DartComponent findMethodByName(@Nonnull final String name)
 	{
 		return ContainerUtil.find(getMethods(), new Condition<DartComponent>()
 		{
@@ -165,15 +165,15 @@ abstract public class AbstractDartPsiClass extends AbstractDartComponentImpl imp
 	}
 
 	@Override
-	public DartComponent findMemberByName(@NotNull String name)
+	public DartComponent findMemberByName(@Nonnull String name)
 	{
 		final List<DartComponent> membersByName = findMembersByName(name);
 		return membersByName.isEmpty() ? null : membersByName.iterator().next();
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
-	public List<DartComponent> findMembersByName(@NotNull final String name)
+	public List<DartComponent> findMembersByName(@Nonnull final String name)
 	{
 		return ContainerUtil.filter(DartResolveUtil.findNamedSubComponents(false, this), new Condition<DartComponent>()
 		{

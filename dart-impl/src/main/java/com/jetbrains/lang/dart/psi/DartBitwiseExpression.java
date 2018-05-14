@@ -2,15 +2,15 @@
 package com.jetbrains.lang.dart.psi;
 
 import java.util.List;
-import org.jetbrains.annotations.*;
-import com.intellij.psi.PsiElement;
+
+import javax.annotation.Nonnull;
 
 public interface DartBitwiseExpression extends DartExpression, DartReference {
 
-  @NotNull
+  @Nonnull
   DartBitwiseOperator getBitwiseOperator();
 
-  @NotNull
+  @Nonnull
   List<DartExpression> getExpressionList();
 
 }

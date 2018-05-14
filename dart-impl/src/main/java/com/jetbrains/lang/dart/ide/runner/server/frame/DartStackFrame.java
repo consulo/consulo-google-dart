@@ -15,18 +15,18 @@ import com.jetbrains.lang.dart.ide.runner.server.google.DebuggerUtils;
 import com.jetbrains.lang.dart.ide.runner.server.google.VmCallFrame;
 import com.jetbrains.lang.dart.ide.runner.server.google.VmLocation;
 import com.jetbrains.lang.dart.ide.runner.server.google.VmVariable;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import java.util.List;
 
 public class DartStackFrame extends XStackFrame
 {
 	private final
-	@NotNull
+	@Nonnull
 	DartCommandLineDebugProcess myDebugProcess;
 	private final
-	@NotNull
+	@Nonnull
 	VmCallFrame myVmCallFrame;
 	private final
 	@Nullable
@@ -35,7 +35,7 @@ public class DartStackFrame extends XStackFrame
 	@Nullable
 	String myLocationUrl;
 
-	public DartStackFrame(@NotNull final DartCommandLineDebugProcess debugProcess, final @NotNull VmCallFrame vmCallFrame)
+	public DartStackFrame(@Nonnull final DartCommandLineDebugProcess debugProcess, final @Nonnull VmCallFrame vmCallFrame)
 	{
 		myDebugProcess = debugProcess;
 		myVmCallFrame = vmCallFrame;
@@ -76,7 +76,7 @@ public class DartStackFrame extends XStackFrame
 	}
 
 	@Override
-	public void computeChildren(final @NotNull XCompositeNode node)
+	public void computeChildren(final @Nonnull XCompositeNode node)
 	{
 		final List<VmVariable> locals = myVmCallFrame.getLocals();
 
@@ -100,7 +100,7 @@ public class DartStackFrame extends XStackFrame
 	}
 
 	@Override
-	public void customizePresentation(@NotNull ColoredTextContainer component)
+	public void customizePresentation(@Nonnull ColoredTextContainer component)
 	{
 		final XSourcePosition position = getSourcePosition();
 

@@ -8,8 +8,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import com.intellij.lang.annotation.AnnotationHolder;
 import com.intellij.lang.annotation.Annotator;
 import com.intellij.openapi.editor.colors.TextAttributesKey;
@@ -38,7 +38,7 @@ public class DartColorAnnotator implements Annotator
 	private static final Set<String> BUILT_IN_TYPES_HIGHLIGHTED_AS_KEYWORDS = new THashSet<String>(Arrays.asList("int", "num", "bool", "double"));
 
 	@Override
-	public void annotate(final @NotNull PsiElement element, final @NotNull AnnotationHolder holder)
+	public void annotate(final @Nonnull PsiElement element, final @Nonnull AnnotationHolder holder)
 	{
 		if(holder.isBatchMode())
 		{
@@ -231,7 +231,7 @@ public class DartColorAnnotator implements Annotator
 		return PsiTreeUtil.getParentOfType(reference, DartClass.class);
 	}
 
-	private static void highlightDeclarationsAndInvocations(final @NotNull PsiElement element, final @NotNull AnnotationHolder holder)
+	private static void highlightDeclarationsAndInvocations(final @Nonnull PsiElement element, final @Nonnull AnnotationHolder holder)
 	{
 		if(element instanceof DartNewExpression)
 		{
@@ -291,8 +291,8 @@ public class DartColorAnnotator implements Annotator
 		}
 	}
 
-	private static void createInfoAnnotation(final @NotNull AnnotationHolder holder, final @Nullable PsiElement element,
-			final @NotNull String attributeKey)
+	private static void createInfoAnnotation(final @Nonnull AnnotationHolder holder, final @Nullable PsiElement element,
+			final @Nonnull String attributeKey)
 	{
 		if(element != null)
 		{
@@ -300,7 +300,7 @@ public class DartColorAnnotator implements Annotator
 		}
 	}
 
-	private static void createInfoAnnotation(final @NotNull AnnotationHolder holder, final @Nullable PsiElement element,
+	private static void createInfoAnnotation(final @Nonnull AnnotationHolder holder, final @Nullable PsiElement element,
 			final @Nullable TextAttributesKey attributeKey)
 	{
 		if(element != null && attributeKey != null)
@@ -309,14 +309,14 @@ public class DartColorAnnotator implements Annotator
 		}
 	}
 
-	private static void createInfoAnnotation(final @NotNull AnnotationHolder holder, final @NotNull TextRange textRange,
-			final @NotNull String attributeKey)
+	private static void createInfoAnnotation(final @Nonnull AnnotationHolder holder, final @Nonnull TextRange textRange,
+			final @Nonnull String attributeKey)
 	{
 		holder.createInfoAnnotation(textRange, null).setTextAttributes(TextAttributesKey.find(attributeKey));
 	}
 
 
-	private static boolean isInSdkCore(final @NotNull Sdk sdk, final @NotNull PsiFile psiFile)
+	private static boolean isInSdkCore(final @Nonnull Sdk sdk, final @Nonnull PsiFile psiFile)
 	{
 		final VirtualFile virtualFile = psiFile.getVirtualFile();
 		final VirtualFile parentFolder = virtualFile == null ? null : virtualFile.getParent();
@@ -405,7 +405,7 @@ public class DartColorAnnotator implements Annotator
 		}
 	}
 
-	@NotNull
+	@Nonnull
 	private static List<Pair<TextRange, Boolean>> getEscapeSequenceRangesAndValidity(final @Nullable String text)
 	{
 		// \\xFF                 2 hex digits

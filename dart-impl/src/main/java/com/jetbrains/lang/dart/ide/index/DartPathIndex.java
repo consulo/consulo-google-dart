@@ -7,7 +7,7 @@ import com.intellij.util.indexing.*;
 import com.intellij.util.io.DataExternalizer;
 import com.intellij.util.io.EnumeratorStringDescriptor;
 import com.intellij.util.io.KeyDescriptor;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.io.DataInput;
 import java.io.DataOutput;
@@ -25,7 +25,7 @@ public class DartPathIndex extends FileBasedIndexExtension<String, List<String>>
   private static final int INDEX_VERSION = 2;
   private DataIndexer<String, List<String>, FileContent> myDataIndexer = new MyDataIndexer();
 
-  @NotNull
+  @Nonnull
   @Override
   public ID<String, List<String>> getName() {
     return DART_PATH_INDEX;
@@ -36,7 +36,7 @@ public class DartPathIndex extends FileBasedIndexExtension<String, List<String>>
     return DartIndexUtil.BASE_VERSION + INDEX_VERSION;
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public DataIndexer<String, List<String>, FileContent> getIndexer() {
     return myDataIndexer;
@@ -91,7 +91,7 @@ public class DartPathIndex extends FileBasedIndexExtension<String, List<String>>
 
   private static class MyDataIndexer implements DataIndexer<String, List<String>, FileContent> {
     @Override
-    @NotNull
+    @Nonnull
     public Map<String, List<String>> map(final FileContent inputData) {
       return Collections.singletonMap(inputData.getFileName(), DartIndexUtil.indexFile(inputData).getPaths());
     }

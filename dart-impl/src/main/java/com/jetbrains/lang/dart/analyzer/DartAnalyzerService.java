@@ -9,8 +9,9 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import com.google.dart.engine.AnalysisEngine;
 import com.google.dart.engine.context.AnalysisContext;
 import com.google.dart.engine.context.ChangeSet;
@@ -33,7 +34,6 @@ import com.intellij.openapi.util.Disposer;
 import com.intellij.openapi.util.io.FileUtilRt;
 import com.intellij.openapi.vfs.LocalFileSystem;
 import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.openapi.vfs.VirtualFileAdapter;
 import com.intellij.openapi.vfs.VirtualFileCopyEvent;
 import com.intellij.openapi.vfs.VirtualFileEvent;
 import com.intellij.openapi.vfs.VirtualFileListener;
@@ -55,7 +55,7 @@ public class DartAnalyzerService
 	String mySdkPath;
 	private long myPubspecYamlTimestamp;
 	private
-	@NotNull
+	@Nonnull
 	VirtualFile[] myDartPackageRoots;
 	private
 	@Nullable
@@ -76,7 +76,7 @@ public class DartAnalyzerService
 
 		final VirtualFileListener listener = new VirtualFileListener()
 		{
-			public void beforePropertyChange(@NotNull final VirtualFilePropertyEvent event)
+			public void beforePropertyChange(@Nonnull final VirtualFilePropertyEvent event)
 			{
 				if(VirtualFile.PROP_NAME.equals(event.getPropertyName()))
 				{
@@ -84,12 +84,12 @@ public class DartAnalyzerService
 				}
 			}
 
-			public void beforeFileMovement(@NotNull final VirtualFileMoveEvent event)
+			public void beforeFileMovement(@Nonnull final VirtualFileMoveEvent event)
 			{
 				fileDeleted(event);
 			}
 
-			public void fileDeleted(@NotNull final VirtualFileEvent event)
+			public void fileDeleted(@Nonnull final VirtualFileEvent event)
 			{
 				if(FileUtilRt.extensionEquals(event.getFileName(), DartFileType.DEFAULT_EXTENSION))
 				{
@@ -97,7 +97,7 @@ public class DartAnalyzerService
 				}
 			}
 
-			public void propertyChanged(@NotNull final VirtualFilePropertyEvent event)
+			public void propertyChanged(@Nonnull final VirtualFilePropertyEvent event)
 			{
 				if(VirtualFile.PROP_NAME.equals(event.getPropertyName()))
 				{
@@ -105,17 +105,17 @@ public class DartAnalyzerService
 				}
 			}
 
-			public void fileMoved(@NotNull final VirtualFileMoveEvent event)
+			public void fileMoved(@Nonnull final VirtualFileMoveEvent event)
 			{
 				fileCreated(event);
 			}
 
-			public void fileCopied(@NotNull final VirtualFileCopyEvent event)
+			public void fileCopied(@Nonnull final VirtualFileCopyEvent event)
 			{
 				fileCreated(event);
 			}
 
-			public void fileCreated(@NotNull final VirtualFileEvent event)
+			public void fileCreated(@Nonnull final VirtualFileEvent event)
 			{
 				if(FileUtilRt.extensionEquals(event.getFileName(), DartFileType.DEFAULT_EXTENSION))
 				{
@@ -135,14 +135,14 @@ public class DartAnalyzerService
 		});
 	}
 
-	@NotNull
-	public static DartAnalyzerService getInstance(final @NotNull Project project)
+	@Nonnull
+	public static DartAnalyzerService getInstance(final @Nonnull Project project)
 	{
 		return ServiceManager.getService(project, DartAnalyzerService.class);
 	}
 
-	@NotNull
-	public AnalysisContext getAnalysisContext(final @NotNull VirtualFile annotatedFile, final @NotNull String sdkPath)
+	@Nonnull
+	public AnalysisContext getAnalysisContext(final @Nonnull VirtualFile annotatedFile, final @Nonnull String sdkPath)
 	{
 		AnalysisContext analysisContext = SoftReference.dereference(myAnalysisContextRef);
 
@@ -245,8 +245,8 @@ public class DartAnalyzerService
 	 * Do not use this method directly, use {@link com.jetbrains.lang.dart.analyzer.DartFileBasedSource#getSource(com.intellij.openapi.project
 	 * .Project, com.intellij.openapi.vfs.VirtualFile)}
 	 */
-	@NotNull
-	DartFileBasedSource getOrCreateSource(final @NotNull VirtualFile file, final @NotNull Function<VirtualFile, DartFileBasedSource> creator)
+	@Nonnull
+	DartFileBasedSource getOrCreateSource(final @Nonnull VirtualFile file, final @Nonnull Function<VirtualFile, DartFileBasedSource> creator)
 	{
 		DartFileBasedSource source = myFileToSourceMap.get(file);
 		if(source == null)

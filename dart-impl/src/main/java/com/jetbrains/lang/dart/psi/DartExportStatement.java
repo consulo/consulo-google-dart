@@ -3,22 +3,22 @@ package com.jetbrains.lang.dart.psi;
 
 import java.util.List;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 public interface DartExportStatement extends DartImportOrExportStatement {
 
-  @NotNull
+  @Nonnull
   List<DartHideCombinator> getHideCombinatorList();
 
-  @NotNull
+  @Nonnull
   List<DartMetadata> getMetadataList();
 
-  @NotNull
+  @Nonnull
   List<DartShowCombinator> getShowCombinatorList();
 
 	String getUri();
 
-  @NotNull
+  @Nonnull
   DartPathOrLibraryReference getLibraryExpression();
 
 }

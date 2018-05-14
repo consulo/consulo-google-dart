@@ -2,8 +2,8 @@
 package com.jetbrains.lang.dart.psi;
 
 import java.util.List;
-import org.jetbrains.annotations.*;
-import com.intellij.psi.PsiElement;
+
+import javax.annotation.*;
 
 public interface DartOperatorDeclaration extends DartOperator {
 
@@ -13,7 +13,7 @@ public interface DartOperatorDeclaration extends DartOperator {
   @Nullable
   DartFunctionBody getFunctionBody();
 
-  @NotNull
+  @Nonnull
   List<DartMetadata> getMetadataList();
 
   @Nullable
@@ -22,7 +22,7 @@ public interface DartOperatorDeclaration extends DartOperator {
   @Nullable
   DartStringLiteralExpression getStringLiteralExpression();
 
-  @NotNull
+  @Nonnull
   DartUserDefinableOperator getUserDefinableOperator();
 
 }

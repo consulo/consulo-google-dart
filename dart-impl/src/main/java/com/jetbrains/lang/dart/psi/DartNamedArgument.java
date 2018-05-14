@@ -2,12 +2,12 @@
 package com.jetbrains.lang.dart.psi;
 
 import java.util.List;
-import org.jetbrains.annotations.*;
-import com.intellij.psi.PsiElement;
+
+import javax.annotation.Nonnull;
 
 public interface DartNamedArgument extends DartPsiCompositeElement {
 
-  @NotNull
+  @Nonnull
   List<DartExpression> getExpressionList();
 
   DartExpression getParameterReferenceExpression();

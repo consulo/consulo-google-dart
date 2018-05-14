@@ -3,11 +3,11 @@ package com.jetbrains.lang.dart.ide.runner.server.ui;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.annotation.Nonnull;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import org.jetbrains.annotations.NotNull;
 import com.intellij.execution.ExecutionBundle;
 import com.intellij.execution.configuration.EnvironmentVariablesComponent;
 import com.intellij.ide.util.TreeFileChooser;
@@ -55,7 +55,7 @@ public class DartCommandLineConfigurationEditorForm extends SettingsEditor<DartC
 		myEnvironmentVariables.setAnchor(myDartFileLabel);
 	}
 
-	public static void initDartFileTextWithBrowse(final @NotNull Project project, final @NotNull TextFieldWithBrowseButton textWithBrowse)
+	public static void initDartFileTextWithBrowse(final @Nonnull Project project, final @Nonnull TextFieldWithBrowseButton textWithBrowse)
 	{
 		textWithBrowse.getButton().addActionListener(new ActionListener()
 		{
@@ -115,7 +115,7 @@ public class DartCommandLineConfigurationEditorForm extends SettingsEditor<DartC
 		parameters.setIncludeParentEnvs(myEnvironmentVariables.isPassParentEnvs());
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	protected JComponent createEditor()
 	{

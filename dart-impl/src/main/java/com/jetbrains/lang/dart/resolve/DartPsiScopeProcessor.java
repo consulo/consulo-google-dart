@@ -7,8 +7,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.util.Key;
 import com.intellij.openapi.util.Pair;
@@ -26,19 +26,19 @@ public abstract class DartPsiScopeProcessor implements PsiScopeProcessor
 	private final List<Pair<VirtualFile, DartShowHideInfo>> myShowHideFilters = new ArrayList<Pair<VirtualFile, DartShowHideInfo>>();
 	private final Map<VirtualFile, Collection<PsiElement>> myFilteredOutElements = new THashMap<VirtualFile, Collection<PsiElement>>();
 
-	public void importedFileProcessingStarted(final @NotNull VirtualFile importedFile, final @NotNull DartShowHideInfo showHideInfo)
+	public void importedFileProcessingStarted(final @Nonnull VirtualFile importedFile, final @Nonnull DartShowHideInfo showHideInfo)
 	{
 		myShowHideFilters.add(Pair.create(importedFile, showHideInfo));
 	}
 
-	public void importedFileProcessingFinished(final @NotNull VirtualFile importedFile)
+	public void importedFileProcessingFinished(final @Nonnull VirtualFile importedFile)
 	{
 		LOG.assertTrue(myShowHideFilters.size() > 0, importedFile.getPath());
 		final Pair<VirtualFile, DartShowHideInfo> removed = myShowHideFilters.remove(myShowHideFilters.size() - 1);
 		LOG.assertTrue(importedFile.equals(removed.first), "expected: " + removed.first.getPath() + ", actual: " + importedFile.getPath());
 	}
 
-	public void processFilteredOutElementsForImportedFile(final @NotNull VirtualFile importedFile)
+	public void processFilteredOutElementsForImportedFile(final @Nonnull VirtualFile importedFile)
 	{
 		// removed now, but may be added again in execute();
 		final Collection<PsiElement> elements = myFilteredOutElements.remove(importedFile);
@@ -52,7 +52,7 @@ public abstract class DartPsiScopeProcessor implements PsiScopeProcessor
 	}
 
 	@Override
-	public final boolean execute(final @NotNull PsiElement element, final @NotNull ResolveState state)
+	public final boolean execute(final @Nonnull PsiElement element, final @Nonnull ResolveState state)
 	{
 		if(!(element instanceof DartComponentName))
 		{
@@ -76,16 +76,16 @@ public abstract class DartPsiScopeProcessor implements PsiScopeProcessor
 		return doExecute((DartComponentName) element);
 	}
 
-	protected abstract boolean doExecute(final @NotNull DartComponentName dartComponentName);
+	protected abstract boolean doExecute(final @Nonnull DartComponentName dartComponentName);
 
 	@Override
-	public <T> T getHint(@NotNull Key<T> hintKey)
+	public <T> T getHint(@Nonnull Key<T> hintKey)
 	{
 		return null;
 	}
 
 	@Override
-	public void handleEvent(@NotNull Event event, @Nullable Object associated)
+	public void handleEvent(@Nonnull Event event, @Nullable Object associated)
 	{
 	}
 
@@ -101,7 +101,7 @@ public abstract class DartPsiScopeProcessor implements PsiScopeProcessor
 		return false;
 	}
 
-	private static boolean isFilteredOut(final @Nullable String name, final @NotNull DartShowHideInfo showHideInfo)
+	private static boolean isFilteredOut(final @Nullable String name, final @Nonnull DartShowHideInfo showHideInfo)
 	{
 		if(showHideInfo.getHideComponents().contains(name))
 		{

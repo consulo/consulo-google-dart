@@ -6,9 +6,10 @@ import static com.intellij.lang.parser.GeneratedParserUtilBase.adapt_builder_;
 import static com.intellij.lang.parser.GeneratedParserUtilBase.enter_section_;
 import static com.intellij.lang.parser.GeneratedParserUtilBase.exit_section_;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import com.intellij.lang.ASTNode;
 import com.intellij.lang.Language;
 import com.intellij.lang.PsiBuilder;
@@ -46,7 +47,7 @@ public class DartExpressionCodeFragmentImpl extends DartFile implements DartExpr
 				FileTypeManager.getInstance().getFileTypeByFileName(name), text), isPhysical)
 		{
 			@Override
-			public boolean supportsIncrementalReparse(@NotNull Language rootLanguage)
+			public boolean supportsIncrementalReparse(@Nonnull Language rootLanguage)
 			{
 				return false;
 			}
@@ -64,7 +65,7 @@ public class DartExpressionCodeFragmentImpl extends DartFile implements DartExpr
 		return myContext;
 	}
 
-	@NotNull
+	@Nonnull
 	public FileViewProvider getViewProvider()
 	{
 		if(myViewProvider != null)
@@ -139,7 +140,7 @@ public class DartExpressionCodeFragmentImpl extends DartFile implements DartExpr
 		}
 
 		@Override
-		protected ASTNode doParseContents(@NotNull ASTNode chameleon, @NotNull PsiElement psi)
+		protected ASTNode doParseContents(@Nonnull ASTNode chameleon, @Nonnull PsiElement psi)
 		{
 			final PsiBuilderFactory factory = PsiBuilderFactory.getInstance();
 			final PsiBuilder psiBuilder = factory.createBuilder(((TreeElement) chameleon).getManager().getProject(), chameleon,

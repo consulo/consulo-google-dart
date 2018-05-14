@@ -4,8 +4,8 @@ import static com.jetbrains.lang.dart.ide.runner.unittest.DartUnitRunnerParamete
 
 import java.util.List;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import com.intellij.execution.actions.ConfigurationContext;
 import com.intellij.execution.actions.RunConfigurationProducer;
 import com.intellij.openapi.util.Comparing;
@@ -34,8 +34,8 @@ public class DartUnitRuntimeConfigurationProducer extends RunConfigurationProduc
 	}
 
 	@Override
-	protected boolean setupConfigurationFromContext(final @NotNull DartUnitRunConfiguration configuration,
-			final @NotNull ConfigurationContext context, final @NotNull Ref<PsiElement> sourceElement)
+	protected boolean setupConfigurationFromContext(final @Nonnull DartUnitRunConfiguration configuration,
+			final @Nonnull ConfigurationContext context, final @Nonnull Ref<PsiElement> sourceElement)
 	{
 		final VirtualFile dartFile = DartCommandLineRuntimeConfigurationProducer.findRunnableDartFile(context);
 		if(dartFile == null)
@@ -72,7 +72,7 @@ public class DartUnitRuntimeConfigurationProducer extends RunConfigurationProduc
 	}
 
 	@Override
-	public boolean isConfigurationFromContext(final @NotNull DartUnitRunConfiguration configuration, final @NotNull ConfigurationContext context)
+	public boolean isConfigurationFromContext(final @Nonnull DartUnitRunConfiguration configuration, final @Nonnull ConfigurationContext context)
 	{
 		final PsiElement testElement = findTestElement(context.getPsiLocation());
 		if(testElement == null)
@@ -93,7 +93,7 @@ public class DartUnitRuntimeConfigurationProducer extends RunConfigurationProduc
 				(existingParams.getScope() == Scope.ALL || Comparing.equal(existingParams.getTestName(), paramsFromContext.getTestName()));
 	}
 
-	private static boolean setupRunConfiguration(final @NotNull DartUnitRunnerParameters runnerParams, final @NotNull PsiElement psiElement)
+	private static boolean setupRunConfiguration(final @Nonnull DartUnitRunnerParameters runnerParams, final @Nonnull PsiElement psiElement)
 	{
 		if(psiElement instanceof DartCallExpression)
 		{

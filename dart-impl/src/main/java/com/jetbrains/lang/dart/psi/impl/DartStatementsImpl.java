@@ -2,14 +2,14 @@
 package com.jetbrains.lang.dart.psi.impl;
 
 import java.util.List;
-import org.jetbrains.annotations.*;
+
 import com.intellij.lang.ASTNode;
-import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
-import static com.jetbrains.lang.dart.DartTokenTypes.*;
+
+import javax.annotation.Nonnull;
+
 import com.jetbrains.lang.dart.psi.*;
-import com.jetbrains.lang.dart.util.DartPsiImplUtil;
 
 public class DartStatementsImpl extends DartPsiCompositeElementImpl implements DartStatements {
 
@@ -17,109 +17,109 @@ public class DartStatementsImpl extends DartPsiCompositeElementImpl implements D
     super(node);
   }
 
-  public void accept(@NotNull PsiElementVisitor visitor) {
+  public void accept(@Nonnull PsiElementVisitor visitor) {
     if (visitor instanceof DartVisitor) ((DartVisitor)visitor).visitStatements(this);
     else super.accept(visitor);
   }
 
   @Override
-  @NotNull
+  @Nonnull
   public List<DartAssertStatement> getAssertStatementList() {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, DartAssertStatement.class);
   }
 
   @Override
-  @NotNull
+  @Nonnull
   public List<DartBlock> getBlockList() {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, DartBlock.class);
   }
 
   @Override
-  @NotNull
+  @Nonnull
   public List<DartBreakStatement> getBreakStatementList() {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, DartBreakStatement.class);
   }
 
   @Override
-  @NotNull
+  @Nonnull
   public List<DartContinueStatement> getContinueStatementList() {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, DartContinueStatement.class);
   }
 
   @Override
-  @NotNull
+  @Nonnull
   public List<DartDoWhileStatement> getDoWhileStatementList() {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, DartDoWhileStatement.class);
   }
 
   @Override
-  @NotNull
+  @Nonnull
   public List<DartExpression> getExpressionList() {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, DartExpression.class);
   }
 
   @Override
-  @NotNull
+  @Nonnull
   public List<DartForStatement> getForStatementList() {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, DartForStatement.class);
   }
 
   @Override
-  @NotNull
+  @Nonnull
   public List<DartFunctionDeclarationWithBody> getFunctionDeclarationWithBodyList() {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, DartFunctionDeclarationWithBody.class);
   }
 
   @Override
-  @NotNull
+  @Nonnull
   public List<DartIfStatement> getIfStatementList() {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, DartIfStatement.class);
   }
 
   @Override
-  @NotNull
+  @Nonnull
   public List<DartLabel> getLabelList() {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, DartLabel.class);
   }
 
   @Override
-  @NotNull
+  @Nonnull
   public List<DartRethrowStatement> getRethrowStatementList() {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, DartRethrowStatement.class);
   }
 
   @Override
-  @NotNull
+  @Nonnull
   public List<DartReturnStatement> getReturnStatementList() {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, DartReturnStatement.class);
   }
 
   @Override
-  @NotNull
+  @Nonnull
   public List<DartSwitchStatement> getSwitchStatementList() {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, DartSwitchStatement.class);
   }
 
   @Override
-  @NotNull
+  @Nonnull
   public List<DartThrowStatement> getThrowStatementList() {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, DartThrowStatement.class);
   }
 
   @Override
-  @NotNull
+  @Nonnull
   public List<DartTryStatement> getTryStatementList() {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, DartTryStatement.class);
   }
 
   @Override
-  @NotNull
+  @Nonnull
   public List<DartVarDeclarationList> getVarDeclarationListList() {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, DartVarDeclarationList.class);
   }
 
   @Override
-  @NotNull
+  @Nonnull
   public List<DartWhileStatement> getWhileStatementList() {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, DartWhileStatement.class);
   }

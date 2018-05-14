@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.jetbrains.annotations.Nls;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
@@ -91,7 +91,7 @@ public class DartFixesUtil
 		return result;
 	}
 
-	public static void suggestImports(final List<BaseCreateFix> result, @NotNull PsiElement context, @Nls final String name)
+	public static void suggestImports(final List<BaseCreateFix> result, @Nonnull PsiElement context, @Nls final String name)
 	{
 		DartComponentIndex.processComponentsByName(context, new Processor<DartComponentInfo>()
 		{

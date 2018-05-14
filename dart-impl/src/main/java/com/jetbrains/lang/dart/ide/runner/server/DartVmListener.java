@@ -7,8 +7,8 @@ import com.intellij.xdebugger.XExpression;
 import com.intellij.xdebugger.breakpoints.XLineBreakpoint;
 import com.jetbrains.lang.dart.ide.runner.server.frame.DartSuspendContext;
 import com.jetbrains.lang.dart.ide.runner.server.google.*;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import java.io.IOException;
 import java.util.List;
@@ -134,7 +134,7 @@ public class DartVmListener implements VmListener
 	}
 
 	@Nullable
-	private String evaluateExpression(final @NotNull VmIsolate isolate, final @NotNull VmCallFrame topFrame, final @Nullable XExpression xExpression)
+	private String evaluateExpression(final @Nonnull VmIsolate isolate, final @Nonnull VmCallFrame topFrame, final @Nullable XExpression xExpression)
 	{
 		final String evalText = xExpression == null ? null : xExpression.getExpression();
 		if(StringUtil.isEmptyOrSpaces(evalText))

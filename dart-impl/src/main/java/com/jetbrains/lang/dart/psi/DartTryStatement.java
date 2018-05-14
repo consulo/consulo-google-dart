@@ -2,8 +2,8 @@
 package com.jetbrains.lang.dart.psi;
 
 import java.util.List;
-import org.jetbrains.annotations.*;
-import com.intellij.psi.PsiElement;
+
+import javax.annotation.*;
 
 public interface DartTryStatement extends DartPsiCompositeElement {
 
@@ -13,7 +13,7 @@ public interface DartTryStatement extends DartPsiCompositeElement {
   @Nullable
   DartFinallyPart getFinallyPart();
 
-  @NotNull
+  @Nonnull
   List<DartOnPart> getOnPartList();
 
 }

@@ -1,8 +1,7 @@
 package com.jetbrains.lang.dart;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import com.intellij.openapi.fileTypes.LanguageFileType;
-import com.intellij.openapi.vfs.VirtualFile;
 import consulo.ui.image.Image;
 
 /**
@@ -19,19 +18,19 @@ public class DartFileType extends LanguageFileType {
     super(DartLanguage.INSTANCE);
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public String getId() {
     return "Dart";
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public String getDescription() {
     return "Dart files";
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public String getDefaultExtension() {
     return DEFAULT_EXTENSION;

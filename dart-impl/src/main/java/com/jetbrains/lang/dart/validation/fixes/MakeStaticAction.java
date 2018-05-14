@@ -9,17 +9,17 @@ import com.jetbrains.lang.dart.DartBundle;
 import com.jetbrains.lang.dart.DartComponentType;
 import com.jetbrains.lang.dart.DartTokenTypes;
 import com.jetbrains.lang.dart.psi.DartComponent;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class MakeStaticAction extends BaseCreateFix {
   private final DartComponent myComponent;
 
-  public MakeStaticAction(@NotNull DartComponent component) {
+  public MakeStaticAction(@Nonnull DartComponent component) {
     myComponent = component;
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public String getName() {
     DartComponentType componentType = DartComponentType.typeOf(myComponent);
@@ -28,7 +28,7 @@ public class MakeStaticAction extends BaseCreateFix {
   }
 
   @Override
-  protected void applyFix(Project project, @NotNull PsiElement psiElement, @Nullable Editor editor) {
+  protected void applyFix(Project project, @Nonnull PsiElement psiElement, @Nullable Editor editor) {
     ASTNode node = myComponent.getNode();
     ASTNode anchor = node.getFirstChildNode();
     node.addLeaf(DartTokenTypes.STATIC, DartTokenTypes.STATIC.toString(), anchor);

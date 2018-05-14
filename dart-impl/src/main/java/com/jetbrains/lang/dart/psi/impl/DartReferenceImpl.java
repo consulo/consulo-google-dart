@@ -2,7 +2,8 @@ package com.jetbrains.lang.dart.psi.impl;
 
 import java.util.List;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
+
 import com.intellij.codeInsight.lookup.LookupElement;
 import com.intellij.lang.ASTNode;
 import com.intellij.openapi.util.TextRange;
@@ -56,7 +57,7 @@ public class DartReferenceImpl extends DartExpressionImpl implements DartReferen
 		return new UnfairTextRange(0, textRange.getEndOffset() - textRange.getStartOffset());
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public String getCanonicalText()
 	{
@@ -83,7 +84,7 @@ public class DartReferenceImpl extends DartExpressionImpl implements DartReferen
 	}
 
 	@Override
-	public PsiElement bindToElement(@NotNull PsiElement element) throws IncorrectOperationException
+	public PsiElement bindToElement(@Nonnull PsiElement element) throws IncorrectOperationException
 	{
 		return this;
 	}
@@ -123,7 +124,7 @@ public class DartReferenceImpl extends DartExpressionImpl implements DartReferen
 				!resolveResults[0].isValidResult() ? null : resolveResults[0].getElement();
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public ResolveResult[] multiResolve(boolean incompleteCode)
 	{
@@ -132,7 +133,7 @@ public class DartReferenceImpl extends DartExpressionImpl implements DartReferen
 		return DartResolveUtil.toCandidateInfoArray(elements);
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public DartClassResolveResult resolveDartClass()
 	{
@@ -170,7 +171,7 @@ public class DartReferenceImpl extends DartExpressionImpl implements DartReferen
 		return DartResolveUtil.getDartClassResolveResult(resolve(), tryGetLeftResolveResult(this).getSpecialization());
 	}
 
-	@NotNull
+	@Nonnull
 	private static DartClassResolveResult tryGetLeftResolveResult(DartExpression expression)
 	{
 		final DartReference[] childReferences = PsiTreeUtil.getChildrenOfType(expression, DartReference.class);
@@ -179,7 +180,7 @@ public class DartReferenceImpl extends DartExpressionImpl implements DartReferen
 				DartClass.class));
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public Object[] getVariants()
 	{

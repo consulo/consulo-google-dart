@@ -1,7 +1,7 @@
 package com.jetbrains.lang.dart.util;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.projectRoots.Sdk;
 import com.intellij.openapi.vfs.LocalFileSystem;
@@ -29,8 +29,8 @@ public abstract class DartUrlResolver
 	 *                       resolve this must be an analyzed file
 	 * @return
 	 */
-	@NotNull
-	public static DartUrlResolver getInstance(final @NotNull Project project, final @NotNull VirtualFile contextFile)
+	@Nonnull
+	public static DartUrlResolver getInstance(final @Nonnull Project project, final @Nonnull VirtualFile contextFile)
 	{
 		return new DartUrlResolverImpl(project, contextFile);
 	}
@@ -38,26 +38,26 @@ public abstract class DartUrlResolver
 	@Nullable
 	public abstract VirtualFile getPubspecYamlFile();
 
-	@NotNull
+	@Nonnull
 	public abstract VirtualFile[] getPackageRoots();
 
 	/**
 	 * Process 'Path Packages' (https://www.dartlang.org/tools/pub/dependencies.html#path-packages) and this package itself (symlink to local 'lib'
 	 * folder)
 	 */
-	public abstract void processLivePackages(final @NotNull PairConsumer<String, VirtualFile> packageNameAndDirConsumer);
+	public abstract void processLivePackages(final @Nonnull PairConsumer<String, VirtualFile> packageNameAndDirConsumer);
 
 	@Nullable
-	public abstract VirtualFile getPackageDirIfLivePackageOrFromPubListPackageDirs(final @NotNull String packageName);
+	public abstract VirtualFile getPackageDirIfLivePackageOrFromPubListPackageDirs(final @Nonnull String packageName);
 
 	/**
 	 * Dart url has <code>dart:</code>, <code>package:</code> or <code>file:</code> scheme
 	 */
 	@Nullable
-	public abstract VirtualFile findFileByDartUrl(@NotNull String url);
+	public abstract VirtualFile findFileByDartUrl(@Nonnull String url);
 
 	@Nullable
-	public static VirtualFile findFileInDartSdkLibFolder(final @NotNull Project project, final @Nullable Sdk dartSdk,
+	public static VirtualFile findFileInDartSdkLibFolder(final @Nonnull Project project, final @Nullable Sdk dartSdk,
 			final @Nullable String dartUrl)
 	{
 		if(dartSdk == null || dartUrl == null || !dartUrl.startsWith(DART_PREFIX))
@@ -77,6 +77,6 @@ public abstract class DartUrlResolver
 		return LocalFileSystem.getInstance().findFileByPath(path);
 	}
 
-	@NotNull
-	public abstract String getDartUrlForFile(final @NotNull VirtualFile file);
+	@Nonnull
+	public abstract String getDartUrlForFile(final @Nonnull VirtualFile file);
 }

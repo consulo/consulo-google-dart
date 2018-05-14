@@ -6,7 +6,8 @@ import static com.jetbrains.lang.dart.DartTokenTypesSets.*;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
+
 import com.intellij.ide.highlighter.HtmlFileHighlighter;
 import com.intellij.ide.highlighter.XmlFileHighlighter;
 import com.intellij.lexer.Lexer;
@@ -62,14 +63,14 @@ public class DartSyntaxHighlighter extends SyntaxHighlighterBase
 	}
 
 	@Override
-	@NotNull
+	@Nonnull
 	public Lexer getHighlightingLexer()
 	{
 		return new DartLexer();
 	}
 
 	@Override
-	@NotNull
+	@Nonnull
 	public TextAttributesKey[] getTokenHighlights(IElementType tokenType)
 	{
 		return pack(ATTRIBUTES.get(tokenType));

@@ -10,8 +10,8 @@ import com.intellij.psi.formatter.common.AbstractBlock;
 import com.intellij.psi.tree.IElementType;
 import com.jetbrains.lang.dart.DartLanguage;
 import com.jetbrains.lang.dart.DartTokenTypes;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,7 +49,7 @@ public class DartBlock extends AbstractBlock implements BlockWithParent {
   }
 
   @Override
-  public Spacing getSpacing(Block child1, @NotNull Block child2) {
+  public Spacing getSpacing(Block child1, @Nonnull Block child2) {
     return mySpacingProcessor.getSpacing(child1, child2);
   }
 
@@ -87,7 +87,7 @@ public class DartBlock extends AbstractBlock implements BlockWithParent {
     return null;
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public ChildAttributes getChildAttributes(final int newIndex) {
     int index = newIndex;

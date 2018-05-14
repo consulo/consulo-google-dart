@@ -3,8 +3,8 @@ package com.jetbrains.lang.dart.analyzer;
 import java.util.Collections;
 import java.util.List;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import com.google.dart.engine.context.AnalysisContext;
 import com.google.dart.engine.context.AnalysisException;
 import com.google.dart.engine.error.AnalysisError;
@@ -46,7 +46,7 @@ public class DartInProcessAnnotator extends ExternalAnnotator<Pair<DartFileBased
 
 	@Override
 	@Nullable
-	public Pair<DartFileBasedSource, AnalysisContext> collectInformation(@NotNull final PsiFile psiFile)
+	public Pair<DartFileBasedSource, AnalysisContext> collectInformation(@Nonnull final PsiFile psiFile)
 	{
 		final Project project = psiFile.getProject();
 
@@ -123,7 +123,7 @@ public class DartInProcessAnnotator extends ExternalAnnotator<Pair<DartFileBased
 	}
 
 	@Override
-	public void apply(@NotNull PsiFile psiFile, @Nullable AnalysisContext analysisContext, @NotNull AnnotationHolder holder)
+	public void apply(@Nonnull PsiFile psiFile, @Nullable AnalysisContext analysisContext, @Nonnull AnnotationHolder holder)
 	{
 		if(analysisContext == null || !psiFile.isValid())
 		{
@@ -167,7 +167,7 @@ public class DartInProcessAnnotator extends ExternalAnnotator<Pair<DartFileBased
 		}
 	}
 
-	public static boolean shouldIgnoreMessageFromDartAnalyzer(final @NotNull AnalysisError message)
+	public static boolean shouldIgnoreMessageFromDartAnalyzer(final @Nonnull AnalysisError message)
 	{
 		if(message.getErrorCode() == TodoCode.TODO)
 		{

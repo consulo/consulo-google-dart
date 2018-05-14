@@ -3,7 +3,8 @@ package com.jetbrains.lang.dart.ide.refactoring.extract;
 import java.util.List;
 import java.util.Set;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
+
 import com.intellij.lang.ASTNode;
 import com.intellij.openapi.actionSystem.DataContext;
 import com.intellij.openapi.application.AccessToken;
@@ -40,12 +41,12 @@ import com.jetbrains.lang.dart.util.DartResolveUtil;
 public class DartExtractMethodHandler implements RefactoringActionHandler
 {
 	@Override
-	public void invoke(@NotNull Project project, @NotNull PsiElement[] elements, DataContext dataContext)
+	public void invoke(@Nonnull Project project, @Nonnull PsiElement[] elements, DataContext dataContext)
 	{
 	}
 
 	@Override
-	public void invoke(@NotNull Project project, Editor editor, PsiFile file, DataContext dataContext)
+	public void invoke(@Nonnull Project project, Editor editor, PsiFile file, DataContext dataContext)
 	{
 		final SelectionModel selectionModel = editor.getSelectionModel();
 		if(!selectionModel.hasSelection())

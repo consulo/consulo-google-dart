@@ -1,18 +1,20 @@
 package com.jetbrains.lang.dart.validation.fixes;
 
+import javax.annotation.Nonnull;
+
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.util.PsiTreeUtil;
 import com.jetbrains.lang.dart.DartBundle;
 import com.jetbrains.lang.dart.psi.DartExecutionScope;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+
+import javax.annotation.Nullable;
 
 public class CreateGlobalDartGetterSetterAction extends CreateDartGetterSetterAction {
-  public CreateGlobalDartGetterSetterAction(@NotNull String name, boolean isGetter) {
+  public CreateGlobalDartGetterSetterAction(@Nonnull String name, boolean isGetter) {
     super(name, isGetter, false);
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public String getName() {
     return myGetter ? DartBundle.message("dart.create.global.getter.fix.name", myFunctionName)

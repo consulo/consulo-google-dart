@@ -2,7 +2,7 @@ package com.jetbrains.lang.dart.ide.surroundWith.statement;
 
 import com.intellij.psi.PsiElement;
 import com.jetbrains.lang.dart.psi.DartForLoopPartsInBraces;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nullable;
 
 /**
  * @author: Fedor.Korotkov

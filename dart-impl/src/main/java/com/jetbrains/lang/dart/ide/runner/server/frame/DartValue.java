@@ -3,10 +3,10 @@ package com.jetbrains.lang.dart.ide.runner.server.frame;
 import java.io.IOException;
 import java.util.List;
 
+import javax.annotation.Nonnull;
 import javax.swing.Icon;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nullable;
 import com.intellij.icons.AllIcons;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.util.text.StringUtil;
@@ -31,7 +31,7 @@ import com.jetbrains.lang.dart.ide.runner.server.google.VmVariable;
 public class DartValue extends XNamedValue
 {
 	private final
-	@NotNull
+	@Nonnull
 	DartCommandLineDebugProcess myDebugProcess;
 	private final
 	@Nullable
@@ -42,14 +42,14 @@ public class DartValue extends XNamedValue
 
 	private static final String OBJECT_OF_TYPE_PREFIX = "object of type ";
 
-	public DartValue(final @NotNull DartCommandLineDebugProcess debugProcess, final @NotNull VmVariable vmVariable)
+	public DartValue(final @Nonnull DartCommandLineDebugProcess debugProcess, final @Nonnull VmVariable vmVariable)
 	{
 		super(StringUtil.notNullize(DebuggerUtils.demangleVmName(vmVariable.getName()), "<unknown>"));
 		myDebugProcess = debugProcess;
 		myVmVariable = vmVariable;
 	}
 
-	public DartValue(@NotNull final DartCommandLineDebugProcess debugProcess, @NotNull @SuppressWarnings("NullableProblems") final VmValue vmValue)
+	public DartValue(@Nonnull final DartCommandLineDebugProcess debugProcess, @Nonnull @SuppressWarnings("NullableProblems") final VmValue vmValue)
 	{
 		super("result");
 		myDebugProcess = debugProcess;
@@ -58,7 +58,7 @@ public class DartValue extends XNamedValue
 	}
 
 	@Override
-	public void computePresentation(final @NotNull XValueNode node, final @NotNull XValuePlace place)
+	public void computePresentation(final @Nonnull XValueNode node, final @Nonnull XValuePlace place)
 	{
 		ApplicationManager.getApplication().executeOnPooledThread(new Runnable()
 		{
@@ -116,7 +116,7 @@ public class DartValue extends XNamedValue
 		});
 	}
 
-	private static Icon getIcon(final @NotNull VmValue vmValue)
+	private static Icon getIcon(final @Nonnull VmValue vmValue)
 	{
 		if(vmValue.isList())
 		{
@@ -135,7 +135,7 @@ public class DartValue extends XNamedValue
 	}
 
 	@Override
-	public void computeChildren(final @NotNull XCompositeNode node)
+	public void computeChildren(final @Nonnull XCompositeNode node)
 	{
 		// myVmValue is already calculated in computePresentation()
 		if(myVmValue == null)

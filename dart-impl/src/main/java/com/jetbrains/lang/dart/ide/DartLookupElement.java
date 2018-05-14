@@ -12,7 +12,7 @@ import com.jetbrains.lang.dart.DartComponentType;
 import com.jetbrains.lang.dart.psi.*;
 import com.jetbrains.lang.dart.util.DartPresentableUtil;
 import gnu.trove.THashMap;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.util.Collection;
 import java.util.Map;
@@ -24,7 +24,7 @@ public class DartLookupElement extends LookupElement {
   private final DartComponentName myComponentName;
   private final boolean myConstructorCompletion;
 
-  public static Collection<DartLookupElement> convert(@NotNull Collection<DartComponentName> componentNames,
+  public static Collection<DartLookupElement> convert(@Nonnull Collection<DartComponentName> componentNames,
                                                       boolean constructorCompletion) {
     final Map<String, DartLookupElement> result = new THashMap<String, DartLookupElement>();
     for (DartComponentName componentName : componentNames) {
@@ -39,7 +39,7 @@ public class DartLookupElement extends LookupElement {
     myConstructorCompletion = constructorCompletion;
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public String getLookupString() {
     final boolean completeConstructor = isCompleteConstructorComponent();
@@ -102,7 +102,7 @@ public class DartLookupElement extends LookupElement {
     }
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public Object getObject() {
     return myComponentName;

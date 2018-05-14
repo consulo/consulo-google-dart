@@ -1,7 +1,8 @@
 package com.jetbrains.lang.dart.ide.template.macro;
 
+import javax.annotation.Nonnull;
+
 import com.jetbrains.lang.dart.psi.DartClass;
-import org.jetbrains.annotations.NotNull;
 
 /**
  * @author: Fedor.Korotkov
@@ -18,7 +19,7 @@ public class DartIterableVariableMacro extends DartFilterByClassMacro {
   }
 
   @Override
-  protected boolean filter(@NotNull DartClass dartClass) {
+  protected boolean filter(@Nonnull DartClass dartClass) {
     return dartClass.findMemberByName("iterator") != null;
   }
 }

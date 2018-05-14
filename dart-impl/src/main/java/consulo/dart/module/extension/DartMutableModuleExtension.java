@@ -2,8 +2,8 @@ package consulo.dart.module.extension;
 
 import javax.swing.JComponent;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import com.intellij.openapi.projectRoots.Sdk;
 import com.intellij.util.ui.JBUI;
 import consulo.annotations.RequiredDispatchThread;
@@ -18,12 +18,12 @@ import consulo.roots.ModuleRootLayer;
  */
 public class DartMutableModuleExtension extends DartModuleExtension implements MutableModuleExtensionWithSdk<DartModuleExtension>
 {
-	public DartMutableModuleExtension(@NotNull String id, @NotNull ModuleRootLayer module)
+	public DartMutableModuleExtension(@Nonnull String id, @Nonnull ModuleRootLayer module)
 	{
 		super(id, module);
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public MutableModuleInheritableNamedPointer<Sdk> getInheritableSdk()
 	{
@@ -45,7 +45,7 @@ public class DartMutableModuleExtension extends DartModuleExtension implements M
 	}
 
 	@Override
-	public boolean isModified(@NotNull DartModuleExtension extension)
+	public boolean isModified(@Nonnull DartModuleExtension extension)
 	{
 		return isModifiedImpl(extension);
 	}

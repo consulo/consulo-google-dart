@@ -2,15 +2,15 @@
 package com.jetbrains.lang.dart.psi;
 
 import java.util.List;
-import org.jetbrains.annotations.*;
-import com.intellij.psi.PsiElement;
+
+import javax.annotation.*;
 
 public interface DartCompareExpression extends DartExpression, DartReference {
 
   @Nullable
   DartEqualityOperator getEqualityOperator();
 
-  @NotNull
+  @Nonnull
   List<DartExpression> getExpressionList();
 
   @Nullable

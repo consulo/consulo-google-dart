@@ -14,7 +14,7 @@ import com.jetbrains.lang.dart.util.DartResolveUtil;
 import gnu.trove.THashSet;
 
 import org.jetbrains.annotations.Nls;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -72,7 +72,7 @@ public class DartDocumentationProvider implements DocumentationProvider
 	}
 
 	@Nls
-	private static String constructDocUrl(DartComponent namedComponent, String componentName, @NotNull String libName)
+	private static String constructDocUrl(DartComponent namedComponent, String componentName, @Nonnull String libName)
 	{
 		// class:     http://api.dartlang.org/docs/releases/latest/args/ArgParser.html
 		// method:    http://api.dartlang.org/docs/releases/latest/args/ArgParser.html#addCommand

@@ -4,8 +4,9 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 
+import javax.annotation.Nonnull;
+
 import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
 import com.intellij.execution.DefaultExecutionResult;
 import com.intellij.execution.ExecutionException;
 import com.intellij.execution.ExecutionResult;
@@ -38,14 +39,14 @@ public class DartUnitRunningState extends DartCommandLineRunningState
 	private static final String DART_FRAMEWORK_NAME = "DartTestRunner";
 	private static final String UNIT_CONFIG_FILE_NAME = "jetbrains_unit_config.dart";
 
-	public DartUnitRunningState(final @NotNull ExecutionEnvironment environment) throws ExecutionException
+	public DartUnitRunningState(final @Nonnull ExecutionEnvironment environment) throws ExecutionException
 	{
 		super(environment);
 	}
 
 	@Override
-	@NotNull
-	public ExecutionResult execute(final @NotNull Executor executor, final @NotNull ProgramRunner runner) throws ExecutionException
+	@Nonnull
+	public ExecutionResult execute(final @Nonnull Executor executor, final @Nonnull ProgramRunner runner) throws ExecutionException
 	{
 		final ProcessHandler processHandler = startProcess();
 		final ConsoleView consoleView = createConsole(getEnvironment());
@@ -56,7 +57,7 @@ public class DartUnitRunningState extends DartCommandLineRunningState
 		return executionResult;
 	}
 
-	private static ConsoleView createConsole(@NotNull ExecutionEnvironment env) throws ExecutionException
+	private static ConsoleView createConsole(@Nonnull ExecutionEnvironment env) throws ExecutionException
 	{
 		final Project project = env.getProject();
 		final DartUnitRunConfiguration runConfiguration = (DartUnitRunConfiguration) env.getRunProfile();
@@ -86,7 +87,7 @@ public class DartUnitRunningState extends DartCommandLineRunningState
 		return smtConsoleView;
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	protected ProcessHandler startProcess() throws ExecutionException
 	{
@@ -127,7 +128,7 @@ public class DartUnitRunningState extends DartCommandLineRunningState
 		return file.getAbsolutePath();
 	}
 
-	private static String pathToDartUrl(@NonNls @NotNull String path)
+	private static String pathToDartUrl(@NonNls @Nonnull String path)
 	{
 		final String url = VfsUtilCore.pathToUrl(path);
 		return SystemInfo.isWindows ? url.replace("file://", "file:///") : url;

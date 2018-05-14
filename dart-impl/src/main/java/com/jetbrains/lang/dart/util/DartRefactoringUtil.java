@@ -14,8 +14,8 @@ import com.intellij.util.containers.ContainerUtil;
 import com.jetbrains.lang.dart.DartComponentType;
 import com.jetbrains.lang.dart.psi.*;
 import gnu.trove.THashSet;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -43,10 +43,10 @@ public class DartRefactoringUtil {
   }
 
   @Nullable
-  public static DartExpression getSelectedExpression(@NotNull final Project project,
-                                                     @NotNull PsiFile file,
-                                                     @NotNull final PsiElement element1,
-                                                     @NotNull final PsiElement element2) {
+  public static DartExpression getSelectedExpression(@Nonnull final Project project,
+                                                     @Nonnull PsiFile file,
+                                                     @Nonnull final PsiElement element1,
+                                                     @Nonnull final PsiElement element2) {
     PsiElement parent = PsiTreeUtil.findCommonParent(element1, element2);
     if (parent == null) {
       return null;
@@ -57,14 +57,14 @@ public class DartRefactoringUtil {
     return PsiTreeUtil.getParentOfType(parent, DartExpression.class);
   }
 
-  @NotNull
-  public static List<PsiElement> getOccurrences(@NotNull final PsiElement pattern, @Nullable final PsiElement context) {
+  @Nonnull
+  public static List<PsiElement> getOccurrences(@Nonnull final PsiElement pattern, @Nullable final PsiElement context) {
     if (context == null) {
       return Collections.emptyList();
     }
     final List<PsiElement> occurrences = new ArrayList<PsiElement>();
     context.acceptChildren(new DartRecursiveVisitor() {
-      public void visitElement(@NotNull final PsiElement element) {
+      public void visitElement(@Nonnull final PsiElement element) {
         if (DartComponentType.typeOf(element) == DartComponentType.PARAMETER) {
           return;
         }

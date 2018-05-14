@@ -9,19 +9,19 @@ import com.jetbrains.lang.dart.psi.DartClass;
 import com.jetbrains.lang.dart.psi.DartExpression;
 import com.jetbrains.lang.dart.psi.DartReference;
 import com.jetbrains.lang.dart.util.DartResolveUtil;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class CreateDartMethodAction extends CreateDartFunctionActionBase {
 
   private final boolean myStatic;
 
-  public CreateDartMethodAction(@NotNull String name, boolean isStatic) {
+  public CreateDartMethodAction(@Nonnull String name, boolean isStatic) {
     super(name);
     myStatic = isStatic;
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public String getName() {
     return myStatic ? DartBundle.message("dart.create.static.method.fix.name", myFunctionName)
@@ -29,7 +29,7 @@ public class CreateDartMethodAction extends CreateDartFunctionActionBase {
   }
 
   @Override
-  protected void buildFunctionText(Template template, @NotNull DartCallExpression callExpression) {
+  protected void buildFunctionText(Template template, @Nonnull DartCallExpression callExpression) {
     if (myStatic) {
       template.addTextSegment("static ");
     }

@@ -2,7 +2,8 @@ package com.jetbrains.lang.dart.resolve;
 
 import java.util.Set;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
+
 import com.jetbrains.lang.dart.psi.DartClass;
 import com.jetbrains.lang.dart.psi.DartComponentName;
 
@@ -10,16 +11,16 @@ public class ClassNameScopeProcessor extends DartPsiScopeProcessor
 {
 
 	private final
-	@NotNull
+	@Nonnull
 	Set<DartComponentName> myResult;
 
-	public ClassNameScopeProcessor(final @NotNull Set<DartComponentName> result)
+	public ClassNameScopeProcessor(final @Nonnull Set<DartComponentName> result)
 	{
 		this.myResult = result;
 	}
 
 	@Override
-	protected boolean doExecute(final @NotNull DartComponentName componentName)
+	protected boolean doExecute(final @Nonnull DartComponentName componentName)
 	{
 		if(componentName.getParent() instanceof DartClass)
 		{

@@ -2,8 +2,8 @@
 package com.jetbrains.lang.dart.psi;
 
 import java.util.List;
-import org.jetbrains.annotations.*;
-import com.intellij.psi.PsiElement;
+
+import javax.annotation.*;
 
 public interface DartWhileStatement extends DartPsiCompositeElement {
 
@@ -22,7 +22,7 @@ public interface DartWhileStatement extends DartPsiCompositeElement {
   @Nullable
   DartDoWhileStatement getDoWhileStatement();
 
-  @NotNull
+  @Nonnull
   List<DartExpression> getExpressionList();
 
   @Nullable
@@ -34,7 +34,7 @@ public interface DartWhileStatement extends DartPsiCompositeElement {
   @Nullable
   DartIfStatement getIfStatement();
 
-  @NotNull
+  @Nonnull
   List<DartLabel> getLabelList();
 
   @Nullable

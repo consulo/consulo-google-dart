@@ -2,13 +2,13 @@ package com.jetbrains.lang.dart.ide.index;
 
 import java.util.Set;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 public interface DartShowHideInfo
 {
-	@NotNull
+	@Nonnull
 	Set<String> getShowComponents();
 
-	@NotNull
+	@Nonnull
 	Set<String> getHideComponents();
 }

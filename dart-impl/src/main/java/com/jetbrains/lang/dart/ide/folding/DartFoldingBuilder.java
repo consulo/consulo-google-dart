@@ -6,8 +6,8 @@ import com.intellij.lang.folding.FoldingDescriptor;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.util.TextRange;
 import com.jetbrains.lang.dart.DartTokenTypes;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,9 +16,9 @@ import java.util.List;
  * Created by fedorkorotkov.
  */
 public class DartFoldingBuilder implements FoldingBuilder {
-  @NotNull
+  @Nonnull
   @Override
-  public FoldingDescriptor[] buildFoldRegions(@NotNull ASTNode node, @NotNull Document document) {
+  public FoldingDescriptor[] buildFoldRegions(@Nonnull ASTNode node, @Nonnull Document document) {
     List<FoldingDescriptor> list = new ArrayList<FoldingDescriptor>();
     buildFolding(node, list);
     FoldingDescriptor[] descriptors = new FoldingDescriptor[list.size()];
@@ -38,7 +38,7 @@ public class DartFoldingBuilder implements FoldingBuilder {
 
   @Nullable
   @Override
-  public String getPlaceholderText(@NotNull ASTNode node) {
+  public String getPlaceholderText(@Nonnull ASTNode node) {
     if (node.getElementType() == DartTokenTypes.CLASS_BODY) {
       return "...";
     }
@@ -46,7 +46,7 @@ public class DartFoldingBuilder implements FoldingBuilder {
   }
 
   @Override
-  public boolean isCollapsedByDefault(@NotNull ASTNode node) {
+  public boolean isCollapsedByDefault(@Nonnull ASTNode node) {
     return false;
   }
 }

@@ -3,7 +3,8 @@ package com.jetbrains.lang.dart.ide.generation;
 import java.util.Iterator;
 import java.util.Set;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
+
 import com.intellij.codeInsight.template.Template;
 import com.intellij.codeInsight.template.TemplateManager;
 import com.intellij.openapi.editor.Editor;
@@ -19,14 +20,14 @@ public class CreateConstructorFix extends BaseCreateMethodsFix<DartComponent>
 	}
 
 	@Override
-	protected void processElements(@NotNull Project project, @NotNull Editor editor, Set<DartComponent> elementsToProcess)
+	protected void processElements(@Nonnull Project project, @Nonnull Editor editor, Set<DartComponent> elementsToProcess)
 	{
 		final TemplateManager templateManager = TemplateManager.getInstance(project);
 		anchor = doAddMethodsForOne(editor, templateManager, buildFunctionsText(templateManager, elementsToProcess), anchor);
 	}
 
 	@Override
-	@NotNull
+	@Nonnull
 	protected String getNothingFoundMessage()
 	{
 		return ""; // can't be called actually because processElements() is overridden

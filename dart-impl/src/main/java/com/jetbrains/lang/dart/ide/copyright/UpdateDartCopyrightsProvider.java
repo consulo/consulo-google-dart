@@ -1,6 +1,7 @@
 package com.jetbrains.lang.dart.ide.copyright;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
+
 import com.intellij.openapi.fileTypes.FileType;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiComment;
@@ -19,9 +20,9 @@ import consulo.copyright.config.CopyrightFileConfig;
  */
 public class UpdateDartCopyrightsProvider extends UpdateCopyrightsProvider<CopyrightFileConfig>
 {
-	@NotNull
+	@Nonnull
 	@Override
-	public UpdatePsiFileCopyright<CopyrightFileConfig> createInstance(@NotNull PsiFile file, @NotNull CopyrightProfile copyrightProfile)
+	public UpdatePsiFileCopyright<CopyrightFileConfig> createInstance(@Nonnull PsiFile file, @Nonnull CopyrightProfile copyrightProfile)
 	{
 		return new UpdatePsiFileCopyright<CopyrightFileConfig>(file, copyrightProfile)
 		{
@@ -62,16 +63,16 @@ public class UpdateDartCopyrightsProvider extends UpdateCopyrightsProvider<Copyr
 		};
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public CopyrightFileConfig createDefaultOptions()
 	{
 		return new CopyrightFileConfig();
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
-	public TemplateCommentPanel createConfigurable(@NotNull Project project, @NotNull TemplateCommentPanel parentPane, @NotNull FileType fileType)
+	public TemplateCommentPanel createConfigurable(@Nonnull Project project, @Nonnull TemplateCommentPanel parentPane, @Nonnull FileType fileType)
 	{
 		return new TemplateCommentPanel(fileType, parentPane, project);
 	}

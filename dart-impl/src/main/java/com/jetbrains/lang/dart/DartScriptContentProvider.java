@@ -1,11 +1,12 @@
 package com.jetbrains.lang.dart;
 
+import javax.annotation.Nullable;
+
 import com.intellij.lang.HtmlScriptContentProvider;
 import com.intellij.lexer.Lexer;
 import com.intellij.openapi.fileTypes.SyntaxHighlighter;
 import com.intellij.openapi.fileTypes.SyntaxHighlighterFactory;
 import com.intellij.psi.tree.IElementType;
-import org.jetbrains.annotations.Nullable;
 
 public class DartScriptContentProvider implements HtmlScriptContentProvider {
   @Override

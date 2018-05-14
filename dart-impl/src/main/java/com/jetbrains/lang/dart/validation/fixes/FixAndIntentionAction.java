@@ -1,5 +1,7 @@
 package com.jetbrains.lang.dart.validation.fixes;
 
+import javax.annotation.Nonnull;
+
 import com.intellij.codeInsight.FileModificationService;
 import com.intellij.codeInsight.intention.IntentionAction;
 import com.intellij.codeInspection.LocalQuickFix;
@@ -9,23 +11,23 @@ import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.util.IncorrectOperationException;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+
+import javax.annotation.Nullable;
 
 public abstract class FixAndIntentionAction implements LocalQuickFix, IntentionAction {
   @Nullable
   protected PsiElement myElement = null;
 
-  public void applyFix(@NotNull Project project, @NotNull ProblemDescriptor descriptor) {
+  public void applyFix(@Nonnull Project project, @Nonnull ProblemDescriptor descriptor) {
     applyFix(project, descriptor.getPsiElement(), null);
   }
 
-  @NotNull
+  @Nonnull
   public String getFamilyName() {
     return getName();
   }
 
-  @NotNull
+  @Nonnull
   public String getText() {
     return getName();
   }
@@ -38,7 +40,7 @@ public abstract class FixAndIntentionAction implements LocalQuickFix, IntentionA
     myElement = element;
   }
 
-  public boolean isAvailable(@NotNull Project project, Editor editor, PsiFile file) {
+  public boolean isAvailable(@Nonnull Project project, Editor editor, PsiFile file) {
     if (myElement == null) return false;
     return isAvailable(project, myElement, editor, file);
   }
@@ -47,11 +49,11 @@ public abstract class FixAndIntentionAction implements LocalQuickFix, IntentionA
     return true;
   }
 
-  public void invoke(@NotNull final Project project, final Editor editor, final PsiFile file) throws IncorrectOperationException {
+  public void invoke(@Nonnull final Project project, final Editor editor, final PsiFile file) throws IncorrectOperationException {
     if (!FileModificationService.getInstance().prepareFileForWrite(file)) return;
     if (myElement == null) return;
     applyFix(project, myElement, editor);
   }
 
-  protected abstract void applyFix(Project project, @NotNull PsiElement psiElement, @Nullable Editor editor);
+  protected abstract void applyFix(Project project, @Nonnull PsiElement psiElement, @Nullable Editor editor);
 }

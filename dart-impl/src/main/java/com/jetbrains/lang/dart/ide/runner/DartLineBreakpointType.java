@@ -1,13 +1,14 @@
 package com.jetbrains.lang.dart.ide.runner;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
+
 import com.intellij.xdebugger.breakpoints.XLineBreakpointTypeBase;
 import com.jetbrains.lang.dart.DartBundle;
 import com.jetbrains.lang.dart.ide.runner.base.DartDebuggerEditorsProvider;
 
 public class DartLineBreakpointType extends XLineBreakpointTypeBase
 {
-	@NotNull
+	@Nonnull
 	public static DartLineBreakpointType getInstance()
 	{
 		return EXTENSION_POINT_NAME.findExtension(DartLineBreakpointType.class);

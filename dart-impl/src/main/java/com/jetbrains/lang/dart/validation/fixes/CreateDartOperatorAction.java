@@ -12,15 +12,15 @@ import com.jetbrains.lang.dart.psi.DartReference;
 import com.jetbrains.lang.dart.psi.impl.DartOperatorExpressionImpl;
 import com.jetbrains.lang.dart.util.DartPresentableUtil;
 import com.jetbrains.lang.dart.util.DartResolveUtil;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class CreateDartOperatorAction extends CreateDartMethodAction {
-  public CreateDartOperatorAction(@NotNull String operator) {
+  public CreateDartOperatorAction(@Nonnull String operator) {
     super(operator, false);
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public String getName() {
     return DartBundle.message("dart.create.operator.fix.name", myFunctionName);

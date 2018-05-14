@@ -8,8 +8,8 @@ import com.jetbrains.lang.dart.psi.DartFormalParameterList;
 import com.jetbrains.lang.dart.psi.DartNamedFormalParameters;
 import com.jetbrains.lang.dart.util.DartGenericSpecialization;
 import com.jetbrains.lang.dart.util.DartPresentableUtil;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import java.util.List;
 
@@ -21,7 +21,7 @@ public class DartNamedParameterDescription {
   @Nullable
   private final String myValue;
 
-  public DartNamedParameterDescription(@NotNull String text, @Nullable String value) {
+  public DartNamedParameterDescription(@Nonnull String text, @Nullable String value) {
     myText = text;
     myValue = value;
   }

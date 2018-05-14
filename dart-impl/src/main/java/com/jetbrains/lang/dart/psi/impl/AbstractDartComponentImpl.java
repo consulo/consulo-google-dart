@@ -1,10 +1,11 @@
 package com.jetbrains.lang.dart.psi.impl;
 
+import javax.annotation.Nonnull;
 import javax.swing.Icon;
 
 import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+
+import javax.annotation.Nullable;
 import consulo.awt.TargetAWT;
 import consulo.ide.IconDescriptorUpdaters;
 import com.intellij.lang.ASTNode;
@@ -27,7 +28,7 @@ import com.jetbrains.lang.dart.util.DartPresentableUtil;
 
 abstract public class AbstractDartComponentImpl extends DartPsiCompositeElementImpl implements DartComponent
 {
-	public AbstractDartComponentImpl(@NotNull ASTNode node)
+	public AbstractDartComponentImpl(@Nonnull ASTNode node)
 	{
 		super(node);
 	}
@@ -44,7 +45,7 @@ abstract public class AbstractDartComponentImpl extends DartPsiCompositeElementI
 	}
 
 	@Override
-	public PsiElement setName(@NonNls @NotNull String name) throws IncorrectOperationException
+	public PsiElement setName(@NonNls @Nonnull String name) throws IncorrectOperationException
 	{
 		final DartComponentName componentName = getComponentName();
 		if(componentName != null)

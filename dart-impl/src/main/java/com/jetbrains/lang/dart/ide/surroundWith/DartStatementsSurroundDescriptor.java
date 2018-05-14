@@ -6,20 +6,20 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.jetbrains.lang.dart.ide.surroundWith.statement.*;
 import com.jetbrains.lang.dart.util.DartRefactoringUtil;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 /**
  * @author: Fedor.Korotkov
  */
 public class DartStatementsSurroundDescriptor implements SurroundDescriptor {
-  @NotNull
+  @Nonnull
   public PsiElement[] getElementsToSurround(PsiFile file, int startOffset, int endOffset) {
     final PsiElement[] statements = DartRefactoringUtil.findStatementsInRange(file, startOffset, endOffset);
     if (statements == null) return PsiElement.EMPTY_ARRAY;
     return statements;
   }
 
-  @NotNull
+  @Nonnull
   public Surrounder[] getSurrounders() {
     return new Surrounder[]{
       new DartWithIfSurrounder(),

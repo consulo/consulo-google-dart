@@ -7,7 +7,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
+
 import com.intellij.codeInsight.intention.IntentionAction;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
@@ -17,9 +18,9 @@ public enum DartTypeErrorCode
 {
 	UNDEFINED_FUNCTION
 			{
-				@NotNull
+				@Nonnull
 				@Override
-				public List<? extends IntentionAction> getFixes(@NotNull PsiFile file, int startOffset, @NotNull String message)
+				public List<? extends IntentionAction> getFixes(@Nonnull PsiFile file, int startOffset, @Nonnull String message)
 				{
 					// cannot resolve %s
 					return findFixesForUnresolved(file, startOffset);
@@ -27,9 +28,9 @@ public enum DartTypeErrorCode
 			},
 	NOT_A_MEMBER_OF
 			{
-				@NotNull
+				@Nonnull
 				@Override
-				public List<? extends IntentionAction> getFixes(@NotNull PsiFile file, int startOffset, @NotNull String message)
+				public List<? extends IntentionAction> getFixes(@Nonnull PsiFile file, int startOffset, @Nonnull String message)
 				{
 					// "%s" is not a member of %s
 					return findFixesForUnresolved(file, startOffset);
@@ -37,18 +38,18 @@ public enum DartTypeErrorCode
 			},
 	EXTRA_ARGUMENT
 			{
-				@NotNull
+				@Nonnull
 				@Override
-				public List<? extends IntentionAction> getFixes(@NotNull PsiFile file, int startOffset, @NotNull String message)
+				public List<? extends IntentionAction> getFixes(@Nonnull PsiFile file, int startOffset, @Nonnull String message)
 				{
 					// todo: extra argument
 					return Collections.emptyList();
 				}
 			}, UNDEFINED_GETTER
 		{
-			@NotNull
+			@Nonnull
 			@Override
-			public List<? extends IntentionAction> getFixes(@NotNull PsiFile file, int startOffset, @NotNull String message)
+			public List<? extends IntentionAction> getFixes(@Nonnull PsiFile file, int startOffset, @Nonnull String message)
 			{
 				// Field '%s' has no getter
 				PsiElement elementAt = file.findElementAt(startOffset);
@@ -56,9 +57,9 @@ public enum DartTypeErrorCode
 			}
 		}, UNDEFINED_SETTER
 		{
-			@NotNull
+			@Nonnull
 			@Override
-			public List<? extends IntentionAction> getFixes(@NotNull PsiFile file, int startOffset, @NotNull String message)
+			public List<? extends IntentionAction> getFixes(@Nonnull PsiFile file, int startOffset, @Nonnull String message)
 			{
 				// Field '%s' has no setter
 				PsiElement elementAt = file.findElementAt(startOffset);
@@ -66,9 +67,9 @@ public enum DartTypeErrorCode
 			}
 		}, UNDEFINED_METHOD
 		{
-			@NotNull
+			@Nonnull
 			@Override
-			public List<? extends IntentionAction> getFixes(@NotNull PsiFile file, int startOffset, @NotNull String message)
+			public List<? extends IntentionAction> getFixes(@Nonnull PsiFile file, int startOffset, @Nonnull String message)
 			{
 				// The method '%s' is not defined for the class '%s'
 				String functionName = DartPresentableUtil.findFirstQuotedWord(message);
@@ -80,27 +81,27 @@ public enum DartTypeErrorCode
 			}
 		}, NO_SUCH_NAMED_PARAMETER
 		{
-			@NotNull
+			@Nonnull
 			@Override
-			public List<? extends IntentionAction> getFixes(@NotNull PsiFile file, int startOffset, @NotNull String message)
+			public List<? extends IntentionAction> getFixes(@Nonnull PsiFile file, int startOffset, @Nonnull String message)
 			{
 				// todo:  no such named parameter %s defined
 				return Collections.emptyList();
 			}
 		}, PLUS_CANNOT_BE_USED_FOR_STRING_CONCAT
 		{
-			@NotNull
+			@Nonnull
 			@Override
-			public List<? extends IntentionAction> getFixes(@NotNull PsiFile file, int startOffset, @NotNull String message)
+			public List<? extends IntentionAction> getFixes(@Nonnull PsiFile file, int startOffset, @Nonnull String message)
 			{
 				// todo:  '%s' cannot be used for string concatentation, use string interpolation or a StringBuffer instead
 				return Collections.emptyList();
 			}
 		}, STATIC_MEMBER_ACCESSED_THROUGH_INSTANCE
 		{
-			@NotNull
+			@Nonnull
 			@Override
-			public List<? extends IntentionAction> getFixes(@NotNull PsiFile file, int startOffset, @NotNull String message)
+			public List<? extends IntentionAction> getFixes(@Nonnull PsiFile file, int startOffset, @Nonnull String message)
 			{
 				// todo:  static member %s of %s cannot be accessed through an instance
 				return Collections.emptyList();
@@ -108,9 +109,9 @@ public enum DartTypeErrorCode
 		},
 	UNDEFINED_OPERATOR
 			{
-				@NotNull
+				@Nonnull
 				@Override
-				public List<? extends IntentionAction> getFixes(@NotNull PsiFile file, int startOffset, @NotNull String message)
+				public List<? extends IntentionAction> getFixes(@Nonnull PsiFile file, int startOffset, @Nonnull String message)
 				{
 					// There is no such operator '%s' in '%s'
 					String operator = DartPresentableUtil.findFirstQuotedWord(message);
@@ -118,8 +119,8 @@ public enum DartTypeErrorCode
 				}
 			};
 
-	@NotNull
-	public abstract List<? extends IntentionAction> getFixes(@NotNull PsiFile file, int startOffset, @NotNull String message);
+	@Nonnull
+	public abstract List<? extends IntentionAction> getFixes(@Nonnull PsiFile file, int startOffset, @Nonnull String message);
 
 	public static DartTypeErrorCode findError(String code)
 	{

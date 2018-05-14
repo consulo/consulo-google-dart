@@ -2,8 +2,8 @@
 package com.jetbrains.lang.dart.psi;
 
 import java.util.List;
-import org.jetbrains.annotations.*;
-import com.intellij.psi.PsiElement;
+
+import javax.annotation.*;
 
 public interface DartForStatement extends DartPsiCompositeElement {
 
@@ -37,7 +37,7 @@ public interface DartForStatement extends DartPsiCompositeElement {
   @Nullable
   DartIfStatement getIfStatement();
 
-  @NotNull
+  @Nonnull
   List<DartLabel> getLabelList();
 
   @Nullable

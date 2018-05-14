@@ -2,12 +2,12 @@ package com.jetbrains.lang.dart.psi;
 
 import com.intellij.psi.PsiReference;
 import com.jetbrains.lang.dart.util.DartClassResolveResult;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 /**
  * @author: Fedor.Korotkov
  */
 public interface DartReference extends DartExpression, PsiReference {
-  @NotNull
+  @Nonnull
   DartClassResolveResult resolveDartClass();
 }

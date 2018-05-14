@@ -2,7 +2,8 @@ package com.jetbrains.lang.dart.util;
 
 import java.util.List;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
+
 import com.intellij.icons.AllIcons;
 import com.intellij.ide.fileTemplates.FileTemplate;
 import com.intellij.ide.fileTemplates.FileTemplateManager;
@@ -43,7 +44,7 @@ public class DartFileTemplateUtil {
     return templateName;
   }
 
-  @NotNull
+  @Nonnull
   public static Image getTemplateIcon(String name) {
     name = getTemplateShortName(name);
     if ("Class".equals(name)) {

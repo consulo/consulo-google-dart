@@ -11,7 +11,7 @@ import com.jetbrains.lang.dart.psi.DartComponent;
 import com.jetbrains.lang.dart.psi.DartReturnType;
 import com.jetbrains.lang.dart.psi.DartType;
 import com.jetbrains.lang.dart.util.DartPresentableUtil;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.util.List;
 
@@ -79,17 +79,17 @@ public class CreateGetterSetterFix extends BaseCreateMethodsFix<DartComponent>
 	}
 
 	private final
-	@NotNull
+	@Nonnull
 	Strategy myStrategy;
 
-	public CreateGetterSetterFix(final DartClass dartClass, @NotNull Strategy strategy)
+	public CreateGetterSetterFix(final DartClass dartClass, @Nonnull Strategy strategy)
 	{
 		super(dartClass);
 		myStrategy = strategy;
 	}
 
 	@Override
-	@NotNull
+	@Nonnull
 	protected String getNothingFoundMessage()
 	{
 		return myStrategy.myNothingFoundMessage;

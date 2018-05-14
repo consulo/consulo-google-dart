@@ -1,6 +1,7 @@
 package com.jetbrains.lang.dart.validation.fixes;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
+
 import com.intellij.codeInsight.template.Template;
 import com.intellij.codeInsight.template.TemplateManager;
 import com.intellij.openapi.diagnostic.Logger;
@@ -29,7 +30,7 @@ abstract public class CreateVariableActionBase extends BaseCreateFix
 		myStatic = isStatic;
 	}
 
-	@NotNull
+	@Nonnull
 	public String getFamilyName()
 	{
 		return DartBundle.message("dart.create.function.intention.family");
@@ -47,7 +48,7 @@ abstract public class CreateVariableActionBase extends BaseCreateFix
 	}
 
 	@Override
-	protected void applyFix(Project project, @NotNull PsiElement psiElement, Editor editor)
+	protected void applyFix(Project project, @Nonnull PsiElement psiElement, Editor editor)
 	{
 		final TemplateManager templateManager = TemplateManager.getInstance(project);
 		Template template = templateManager.createTemplate("", "");

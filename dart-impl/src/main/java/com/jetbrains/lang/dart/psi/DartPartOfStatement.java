@@ -2,18 +2,18 @@
 package com.jetbrains.lang.dart.psi;
 
 import java.util.List;
-import org.jetbrains.annotations.*;
-import com.intellij.psi.PsiElement;
+
+import javax.annotation.Nonnull;
 
 public interface DartPartOfStatement extends DartPsiCompositeElement {
 
-  @NotNull
+  @Nonnull
   DartLibraryId getLibraryId();
 
-  @NotNull
+  @Nonnull
   List<DartMetadata> getMetadataList();
 
-  @NotNull
+  @Nonnull
   String getLibraryName();
 
 }

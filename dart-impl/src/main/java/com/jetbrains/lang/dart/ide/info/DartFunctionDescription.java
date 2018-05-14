@@ -1,13 +1,14 @@
 package com.jetbrains.lang.dart.ide.info;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.util.PsiTreeUtil;
 import com.jetbrains.lang.dart.psi.*;
 import com.jetbrains.lang.dart.util.DartClassResolveResult;
 import com.jetbrains.lang.dart.util.DartPresentableUtil;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 /**
  * @author: Fedor.Korotkov
@@ -15,13 +16,15 @@ import org.jetbrains.annotations.Nullable;
 public class DartFunctionDescription {
   private final String name;
   private final String returnType;
-  @NotNull private final DartParameterDescription[] myParameters;
-  @NotNull private final DartNamedParameterDescription[] myNamedParameters;
+  @Nonnull
+  private final DartParameterDescription[] myParameters;
+  @Nonnull
+  private final DartNamedParameterDescription[] myNamedParameters;
 
   public DartFunctionDescription(String name,
                                  String type,
-                                 @NotNull DartParameterDescription[] parameters,
-                                 @NotNull DartNamedParameterDescription[] namedParameters) {
+                                 @Nonnull DartParameterDescription[] parameters,
+                                 @Nonnull DartNamedParameterDescription[] namedParameters) {
     this.name = name;
     returnType = type;
     myParameters = parameters;
@@ -36,7 +39,7 @@ public class DartFunctionDescription {
     return returnType;
   }
 
-  @NotNull
+  @Nonnull
   public DartParameterDescription[] getParameters() {
     return myParameters;
   }

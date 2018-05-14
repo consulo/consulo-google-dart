@@ -2,8 +2,8 @@ package com.jetbrains.lang.dart.resolve;
 
 import java.util.List;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import com.intellij.psi.PsiElement;
 import com.jetbrains.lang.dart.DartComponentType;
 import com.jetbrains.lang.dart.psi.DartComponent;
@@ -16,12 +16,12 @@ public class DartResolveProcessor extends DartPsiScopeProcessor
 	private final String myName;
 	private final boolean myLValue;
 
-	public DartResolveProcessor(List<DartComponentName> result, @NotNull String name)
+	public DartResolveProcessor(List<DartComponentName> result, @Nonnull String name)
 	{
 		this(result, name, false);
 	}
 
-	public DartResolveProcessor(List<DartComponentName> result, @NotNull String name, boolean lookForLValue)
+	public DartResolveProcessor(List<DartComponentName> result, @Nonnull String name, boolean lookForLValue)
 	{
 		this.myResult = result;
 		this.myName = name;
@@ -29,7 +29,7 @@ public class DartResolveProcessor extends DartPsiScopeProcessor
 	}
 
 	@Override
-	protected boolean doExecute(final @NotNull DartComponentName componentName)
+	protected boolean doExecute(final @Nonnull DartComponentName componentName)
 	{
 		final PsiElement parentElement = componentName.getParent();
 

@@ -7,8 +7,8 @@ import static com.jetbrains.lang.dart.util.DartUrlResolver.PACKAGE_PREFIX;
 import java.util.Arrays;
 import java.util.Collection;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import com.intellij.lang.ASTNode;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.openapi.util.io.FileUtil;
@@ -65,7 +65,7 @@ public class DartFileReferenceImpl extends DartExpressionImpl implements DartRef
 		return new TextRange(0, textRange.getEndOffset() - textRange.getStartOffset());
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public String getCanonicalText()
 	{
@@ -98,7 +98,7 @@ public class DartFileReferenceImpl extends DartExpressionImpl implements DartRef
 	}
 
 	@Override
-	public PsiElement bindToElement(@NotNull PsiElement element) throws IncorrectOperationException
+	public PsiElement bindToElement(@Nonnull PsiElement element) throws IncorrectOperationException
 	{
 		final VirtualFile virtualFile = DartResolveUtil.getRealVirtualFile(getContainingFile());
 		final VirtualFile parentFolder = virtualFile == null ? null : virtualFile.getParent();
@@ -116,7 +116,7 @@ public class DartFileReferenceImpl extends DartExpressionImpl implements DartRef
 		return resolve() == element;
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public Object[] getVariants()
 	{
@@ -140,14 +140,14 @@ public class DartFileReferenceImpl extends DartExpressionImpl implements DartRef
 				!resolveResults[0].isValidResult() ? null : resolveResults[0].getElement();
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public DartClassResolveResult resolveDartClass()
 	{
 		return DartClassResolveResult.EMPTY;
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public ResolveResult[] multiResolve(boolean incompleteCode)
 	{
@@ -166,7 +166,7 @@ public class DartFileReferenceImpl extends DartExpressionImpl implements DartRef
 		return sourcePsiFile == null ? ResolveResult.EMPTY_ARRAY : new ResolveResult[]{new PsiElementResolveResult(sourcePsiFile)};
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public PsiReference[] getReferences()
 	{
@@ -220,9 +220,9 @@ public class DartFileReferenceImpl extends DartExpressionImpl implements DartRef
 		return ArrayUtil.mergeArrays(super.getReferences(), referenceSet.getAllReferences());
 	}
 
-	@NotNull
-	private PsiReference[] getPackageReferences(final @NotNull VirtualFile contextFile, final @Nullable VirtualFile packagesFolder,
-			final @NotNull String relPathFromPackagesFolderToReferencedFile, final int startIndex)
+	@Nonnull
+	private PsiReference[] getPackageReferences(final @Nonnull VirtualFile contextFile, final @Nullable VirtualFile packagesFolder,
+			final @Nonnull String relPathFromPackagesFolderToReferencedFile, final int startIndex)
 	{
 		final VirtualFile parentFile = contextFile.getParent();
 		if(packagesFolder == null || parentFile == null)
@@ -263,22 +263,22 @@ public class DartFileReferenceImpl extends DartExpressionImpl implements DartRef
 	public static class DartPathOrLibraryManipulator implements ElementManipulator<DartPathOrLibraryReference>
 	{
 		@Override
-		public DartPathOrLibraryReference handleContentChange(@NotNull DartPathOrLibraryReference element, @NotNull TextRange range,
+		public DartPathOrLibraryReference handleContentChange(@Nonnull DartPathOrLibraryReference element, @Nonnull TextRange range,
 				String newContent) throws IncorrectOperationException
 		{
 			return element;
 		}
 
 		@Override
-		public DartPathOrLibraryReference handleContentChange(@NotNull DartPathOrLibraryReference element,
+		public DartPathOrLibraryReference handleContentChange(@Nonnull DartPathOrLibraryReference element,
 				String newContent) throws IncorrectOperationException
 		{
 			return element;
 		}
 
-		@NotNull
+		@Nonnull
 		@Override
-		public TextRange getRangeInElement(@NotNull DartPathOrLibraryReference element)
+		public TextRange getRangeInElement(@Nonnull DartPathOrLibraryReference element)
 		{
 			return element.getTextRange();
 		}

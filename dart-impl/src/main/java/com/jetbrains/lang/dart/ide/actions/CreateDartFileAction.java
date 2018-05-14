@@ -17,10 +17,9 @@ import com.jetbrains.lang.dart.DartBundle;
 import com.jetbrains.lang.dart.util.DartFileTemplateUtil;
 import consulo.awt.TargetAWT;
 import consulo.ui.image.Image;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
-import javax.swing.*;
 import java.util.Properties;
 
 /**
@@ -77,7 +76,7 @@ public class CreateDartFileAction extends CreateFromTemplateAction<PsiFile> {
     }
   }
 
-  private static PsiElement createFile(String className, @NotNull PsiDirectory directory, final String templateName)
+  private static PsiElement createFile(String className, @Nonnull PsiDirectory directory, final String templateName)
     throws Exception {
     final Properties props = new Properties(FileTemplateManager.getInstance().getDefaultProperties(directory.getProject()));
     props.setProperty(FileTemplate.ATTRIBUTE_NAME, className);

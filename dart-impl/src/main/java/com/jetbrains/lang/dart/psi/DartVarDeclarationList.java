@@ -2,15 +2,15 @@
 package com.jetbrains.lang.dart.psi;
 
 import java.util.List;
-import org.jetbrains.annotations.*;
-import com.intellij.psi.PsiElement;
+
+import javax.annotation.*;
 
 public interface DartVarDeclarationList extends DartPsiCompositeElement {
 
-  @NotNull
+  @Nonnull
   DartVarAccessDeclaration getVarAccessDeclaration();
 
-  @NotNull
+  @Nonnull
   List<DartVarDeclarationListPart> getVarDeclarationListPartList();
 
   @Nullable

@@ -7,8 +7,8 @@ import com.jetbrains.lang.dart.DartBundle;
 import com.jetbrains.lang.dart.DartComponentType;
 import com.jetbrains.lang.dart.ide.index.DartComponentInfo;
 import com.jetbrains.lang.dart.util.DartImportUtil;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /**
  * Created by fedorkorotkov.
@@ -24,14 +24,14 @@ public class DartImportFix extends BaseCreateFix {
 
 
 	@Override
-	protected void applyFix(Project project, @NotNull PsiElement psiElement, @Nullable Editor editor) {
+	protected void applyFix(Project project, @Nonnull PsiElement psiElement, @Nullable Editor editor) {
 		final String libraryId = myInfo.getLibraryId();
 		if (libraryId != null) {
 			DartImportUtil.insertImport(psiElement.getContainingFile(), myComponentName, libraryId);
 		}
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public String getName() {
 		final DartComponentType type = myInfo.getType();

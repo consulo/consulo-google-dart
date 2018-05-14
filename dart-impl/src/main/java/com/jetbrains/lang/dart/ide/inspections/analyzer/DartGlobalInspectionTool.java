@@ -2,8 +2,8 @@ package com.jetbrains.lang.dart.ide.inspections.analyzer;
 
 import java.util.Map;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import com.google.dart.engine.error.AnalysisError;
 import com.intellij.analysis.AnalysisScope;
 import com.intellij.codeInspection.GlobalInspectionContext;
@@ -23,7 +23,7 @@ import com.intellij.psi.PsiManager;
 public class DartGlobalInspectionTool extends GlobalInspectionTool
 {
 	@Override
-	public void runInspection(@NotNull AnalysisScope scope, @NotNull final InspectionManager manager, @NotNull final GlobalInspectionContext globalContext, @NotNull final ProblemDescriptionsProcessor problemDescriptionsProcessor)
+	public void runInspection(@Nonnull AnalysisScope scope, @Nonnull final InspectionManager manager, @Nonnull final GlobalInspectionContext globalContext, @Nonnull final ProblemDescriptionsProcessor problemDescriptionsProcessor)
 	{
 		final DartGlobalInspectionContext inspectionContext = globalContext.getExtension(DartGlobalInspectionContext.KEY);
 		if(inspectionContext == null)
@@ -71,7 +71,7 @@ public class DartGlobalInspectionTool extends GlobalInspectionTool
 	}
 
 	@Nullable
-	private static ProblemDescriptor computeProblemDescriptor(final @NotNull InspectionManager manager, final @NotNull PsiFile psiFile, final @NotNull AnalysisError analysisError)
+	private static ProblemDescriptor computeProblemDescriptor(final @Nonnull InspectionManager manager, final @Nonnull PsiFile psiFile, final @Nonnull AnalysisError analysisError)
 	{
 
 		final int startOffset = analysisError.getOffset();

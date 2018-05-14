@@ -19,8 +19,8 @@ import com.jetbrains.lang.dart.ide.runner.base.DartDebuggerEditorsProvider;
 import com.jetbrains.lang.dart.ide.runner.server.google.VmConnection;
 import com.jetbrains.lang.dart.ide.runner.server.google.VmIsolate;
 import com.jetbrains.lang.dart.util.DartUrlResolver;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import java.io.IOException;
 
@@ -34,15 +34,15 @@ public class DartCommandLineDebugProcess extends XDebugProcess
 	private final VmConnection myVmConnection;
 	private final DartCommandLineBreakpointsHandler myBreakpointsHandler;
 	private final
-	@NotNull
+	@Nonnull
 	DartUrlResolver myDartUrlResolver;
 	private boolean myVmConnected;
 	private
 	@Nullable
 	VmIsolate myMainIsolate;
 
-	public DartCommandLineDebugProcess(final @NotNull XDebugSession session, final int debuggingPort,
-			final @Nullable ExecutionResult executionResult, final @NotNull VirtualFile dartFile)
+	public DartCommandLineDebugProcess(final @Nonnull XDebugSession session, final int debuggingPort,
+			final @Nullable ExecutionResult executionResult, final @Nonnull VirtualFile dartFile)
 	{
 		super(session);
 
@@ -113,7 +113,7 @@ public class DartCommandLineDebugProcess extends XDebugProcess
 		return myExecutionResult != null ? myExecutionResult.getProcessHandler() : null;
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public ExecutionConsole createConsole()
 	{
@@ -124,21 +124,21 @@ public class DartCommandLineDebugProcess extends XDebugProcess
 		return super.createConsole();
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public XDebuggerEditorsProvider getEditorsProvider()
 	{
 		return new DartDebuggerEditorsProvider();
 	}
 
-	@NotNull
+	@Nonnull
 	public DartCommandLineBreakpointsHandler getDartBreakpointsHandler()
 	{
 		return myBreakpointsHandler;
 	}
 
 	@Override
-	@NotNull
+	@Nonnull
 	public XBreakpointHandler<?>[] getBreakpointHandlers()
 	{
 		return myBreakpointsHandler.getBreakpointHandlers();
@@ -239,12 +239,12 @@ public class DartCommandLineDebugProcess extends XDebugProcess
 	}
 
 	@Override
-	public void runToPosition(@NotNull XSourcePosition position)
+	public void runToPosition(@Nonnull XSourcePosition position)
 	{
 		// todo implement
 	}
 
-	@NotNull
+	@Nonnull
 	public DartUrlResolver getDartUrlResolver()
 	{
 		return myDartUrlResolver;

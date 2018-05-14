@@ -8,9 +8,9 @@ import com.intellij.ui.EditorComboBoxRenderer;
 import com.intellij.ui.StringComboboxEditor;
 import com.jetbrains.lang.dart.DartFileType;
 import com.jetbrains.lang.dart.psi.DartExpression;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
 
+import javax.annotation.Nullable;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -30,8 +30,8 @@ public class DartIntroduceDialog extends DialogWrapper {
   private final int myOccurrencesCount;
   private final DartExpression myExpression;
 
-  public DartIntroduceDialog(@NotNull final Project project,
-                             @NotNull final String caption,
+  public DartIntroduceDialog(@Nonnull final Project project,
+                             @Nonnull final String caption,
                              final DartIntroduceOperation operation) {
     super(project, true);
     myOccurrencesCount = operation.getOccurrences().size();

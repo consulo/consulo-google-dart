@@ -1,6 +1,6 @@
 package com.jetbrains.lang.dart.ide.runner.unittest;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import com.intellij.execution.configurations.ConfigurationFactory;
 import com.intellij.execution.configurations.ConfigurationTypeBase;
 import com.intellij.execution.configurations.RunConfiguration;
@@ -35,7 +35,7 @@ public class DartUnitRunConfigurationType extends ConfigurationTypeBase
 		}
 
 		@Override
-		public boolean isApplicable(@NotNull Project project)
+		public boolean isApplicable(@Nonnull Project project)
 		{
 			return ModuleExtensionHelper.getInstance(project).hasModuleExtension(DartModuleExtension.class);
 		}

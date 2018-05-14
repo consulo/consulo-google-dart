@@ -1,5 +1,7 @@
 package com.jetbrains.lang.dart.ide.surroundWith.statement;
 
+import javax.annotation.Nonnull;
+
 import com.intellij.lang.ASTNode;
 import com.intellij.lang.surroundWith.Surrounder;
 import com.intellij.openapi.editor.Editor;
@@ -9,19 +11,19 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiParserFacade;
 import com.intellij.util.IncorrectOperationException;
 import com.jetbrains.lang.dart.util.DartElementGenerator;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+
+import javax.annotation.Nullable;
 
 /**
  * @author: Fedor.Korotkov
  */
 public abstract class DartStatementSurrounder implements Surrounder {
-  public boolean isApplicable(@NotNull PsiElement[] elements) {
+  public boolean isApplicable(@Nonnull PsiElement[] elements) {
     return true;
   }
 
   @Nullable
-  protected PsiElement createSurrounder(@NotNull Project project) {
+  protected PsiElement createSurrounder(@Nonnull Project project) {
     return DartElementGenerator.createStatementFromText(
       project,
       getTemplateText()
@@ -29,7 +31,7 @@ public abstract class DartStatementSurrounder implements Surrounder {
   }
 
   @Nullable
-  public TextRange surroundElements(@NotNull Project project, @NotNull Editor editor, @NotNull PsiElement[] elements)
+  public TextRange surroundElements(@Nonnull Project project, @Nonnull Editor editor, @Nonnull PsiElement[] elements)
     throws IncorrectOperationException {
     PsiElement parent = elements[0].getParent();
 
@@ -68,8 +70,8 @@ public abstract class DartStatementSurrounder implements Surrounder {
   protected abstract String getTemplateText();
 
   @Nullable
-  protected abstract PsiElement findElementToAdd(@NotNull final PsiElement surrounder);
+  protected abstract PsiElement findElementToAdd(@Nonnull final PsiElement surrounder);
 
-  protected abstract int cleanUpAndGetPlaceForCaret(@NotNull PsiElement surrounder);
+  protected abstract int cleanUpAndGetPlaceForCaret(@Nonnull PsiElement surrounder);
 }
 

@@ -1,15 +1,16 @@
 package com.jetbrains.lang.dart.psi.impl;
 
+import javax.annotation.Nonnull;
+
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.search.PsiElementProcessor;
 import com.intellij.psi.xml.XmlTag;
 import com.intellij.psi.xml.XmlTagChild;
 import com.jetbrains.lang.dart.psi.DartEmbeddedContent;
-import org.jetbrains.annotations.NotNull;
 
 public class DartEmbeddedContentImpl extends DartPsiCompositeElementImpl implements DartEmbeddedContent {
-  public DartEmbeddedContentImpl(@NotNull ASTNode node) {
+  public DartEmbeddedContentImpl(@Nonnull ASTNode node) {
     super(node);
   }
 

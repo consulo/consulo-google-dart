@@ -1,6 +1,7 @@
 package com.jetbrains.lang.dart.validation.fixes;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
+
 import com.intellij.codeInsight.template.Template;
 import com.intellij.codeInsight.template.TemplateManager;
 import com.intellij.openapi.editor.Editor;
@@ -20,7 +21,7 @@ public class CreateDartClassAction extends BaseCreateFix
 		myClassName = name;
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public String getName()
 	{
@@ -34,7 +35,7 @@ public class CreateDartClassAction extends BaseCreateFix
 	}
 
 	@Override
-	protected void applyFix(Project project, @NotNull PsiElement psiElement, Editor editor)
+	protected void applyFix(Project project, @Nonnull PsiElement psiElement, Editor editor)
 	{
 		PsiElement anchor = findAnchor(psiElement);
 		if(anchor == null)

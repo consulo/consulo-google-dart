@@ -1,6 +1,6 @@
 package com.jetbrains.lang.dart.ide;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import com.intellij.openapi.fileChooser.FileChooserDescriptor;
 import com.intellij.openapi.fileChooser.PathChooserDialog;
 import com.intellij.openapi.projectRoots.Sdk;
@@ -35,7 +35,7 @@ public class DartSdkType extends SdkType
 		return icons.DartIcons.Dart;
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public String getPresentableName()
 	{

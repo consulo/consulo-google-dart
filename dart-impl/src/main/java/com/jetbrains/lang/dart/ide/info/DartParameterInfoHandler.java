@@ -1,5 +1,7 @@
 package com.jetbrains.lang.dart.ide.info;
 
+import javax.annotation.Nonnull;
+
 import com.intellij.codeInsight.lookup.LookupElement;
 import com.intellij.lang.parameterInfo.*;
 import com.intellij.psi.PsiElement;
@@ -9,7 +11,6 @@ import com.jetbrains.lang.dart.DartComponentType;
 import com.jetbrains.lang.dart.psi.*;
 import com.jetbrains.lang.dart.util.DartClassResolveResult;
 import com.jetbrains.lang.dart.util.DartResolveUtil;
-import org.jetbrains.annotations.NotNull;
 
 /**
  * @author: Fedor.Korotkov
@@ -53,7 +54,7 @@ public class DartParameterInfoHandler implements ParameterInfoHandler<PsiElement
   }
 
   @Override
-  public void showParameterInfo(@NotNull PsiElement element, CreateParameterInfoContext context) {
+  public void showParameterInfo(@Nonnull PsiElement element, CreateParameterInfoContext context) {
     DartFunctionDescription functionDescription = null;
     if (element instanceof DartCallExpression) {
       functionDescription = DartFunctionDescription.tryGetDescription((DartCallExpression)element);
@@ -77,7 +78,7 @@ public class DartParameterInfoHandler implements ParameterInfoHandler<PsiElement
   }
 
   @Override
-  public void updateParameterInfo(@NotNull PsiElement place, UpdateParameterInfoContext context) {
+  public void updateParameterInfo(@Nonnull PsiElement place, UpdateParameterInfoContext context) {
     int parameterIndex = DartResolveUtil.getArgumentIndex(place);
     context.setCurrentParameter(parameterIndex);
 

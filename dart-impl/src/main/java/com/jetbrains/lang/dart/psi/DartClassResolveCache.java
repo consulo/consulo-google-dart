@@ -2,8 +2,9 @@ package com.jetbrains.lang.dart.psi;
 
 import gnu.trove.TObjectHashingStrategy;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.progress.ProgressIndicatorProvider;
 import com.intellij.openapi.project.Project;
@@ -24,7 +25,7 @@ public class DartClassResolveCache {
     return ServiceManager.getService(project, DartClassResolveCache.class);
   }
 
-  public DartClassResolveCache(@NotNull MessageBus messageBus) {
+  public DartClassResolveCache(@Nonnull MessageBus messageBus) {
     messageBus.connect().subscribe(PsiManagerImpl.ANY_PSI_CHANGE_TOPIC, new AnyPsiChangeListener() {
       @Override
       public void beforePsiChanged(boolean isPhysical) {
@@ -42,7 +43,7 @@ public class DartClassResolveCache {
                                            TObjectHashingStrategy.CANONICAL);
   }
 
-  public void put(@NotNull DartClass dartClass, @NotNull DartClassResolveResult result) {
+  public void put(@Nonnull DartClass dartClass, @Nonnull DartClassResolveResult result) {
     myMap.put(dartClass, result);
   }
 

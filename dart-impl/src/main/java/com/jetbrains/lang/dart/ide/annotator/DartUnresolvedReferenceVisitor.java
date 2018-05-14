@@ -1,6 +1,7 @@
 package com.jetbrains.lang.dart.ide.annotator;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
+
 import com.intellij.lang.annotation.AnnotationHolder;
 import com.intellij.lang.annotation.Annotator;
 import com.intellij.psi.PsiElement;
@@ -14,7 +15,7 @@ public class DartUnresolvedReferenceVisitor extends DartVisitor implements Annot
 	private AnnotationHolder myHolder = null;
 
 	@Override
-	public void annotate(@NotNull PsiElement element, @NotNull AnnotationHolder holder)
+	public void annotate(@Nonnull PsiElement element, @Nonnull AnnotationHolder holder)
 	{
 		assert myHolder == null;
 		myHolder = holder;
@@ -29,7 +30,7 @@ public class DartUnresolvedReferenceVisitor extends DartVisitor implements Annot
 	}
 
 	@Override
-	public void visitReferenceExpression(@NotNull DartReferenceExpression reference)
+	public void visitReferenceExpression(@Nonnull DartReferenceExpression reference)
 	{
 		final String referenceText = reference.getText();
 		final boolean isSimpleReference = referenceText != null && !"void".equals(referenceText) && !referenceText.contains(".");

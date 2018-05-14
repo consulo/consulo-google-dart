@@ -3,8 +3,8 @@ package com.jetbrains.lang.dart.util;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.util.PsiTreeUtil;
 import com.jetbrains.lang.dart.psi.*;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import java.util.List;
 
@@ -32,12 +32,12 @@ public class DartClassResolveResult implements Cloneable {
     return new DartClassResolveResult(dartClass, specialization.clone());
   }
 
-  @NotNull
+  @Nonnull
   public static DartClassResolveResult create(@Nullable DartClass dartClass) {
     return create(dartClass, new DartGenericSpecialization());
   }
 
-  @NotNull
+  @Nonnull
   public static DartClassResolveResult create(@Nullable DartClass dartClass, DartGenericSpecialization specialization) {
     if (dartClass == null) {
       return new DartClassResolveResult(null);

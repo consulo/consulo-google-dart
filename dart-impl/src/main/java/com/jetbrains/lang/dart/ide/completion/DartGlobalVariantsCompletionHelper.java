@@ -3,8 +3,8 @@ package com.jetbrains.lang.dart.ide.completion;
 import java.util.List;
 import java.util.Set;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import com.intellij.codeInsight.completion.CompletionResultSet;
 import com.intellij.codeInsight.completion.InsertHandler;
 import com.intellij.codeInsight.completion.InsertionContext;
@@ -31,7 +31,7 @@ public class DartGlobalVariantsCompletionHelper
 	{
 	}
 
-	public static void addAdditionalGlobalVariants(final CompletionResultSet result, @NotNull PsiElement context, Set<DartComponentName> variants,
+	public static void addAdditionalGlobalVariants(final CompletionResultSet result, @Nonnull PsiElement context, Set<DartComponentName> variants,
 			@Nullable final Condition<DartComponentInfo> infoFilter)
 	{
 		final List<String> addedNames = ContainerUtil.skipNulls(ContainerUtil.mapNotNull(variants, new Function<DartComponentName, String>()
@@ -64,7 +64,7 @@ public class DartGlobalVariantsCompletionHelper
 		);
 	}
 
-	@NotNull
+	@Nonnull
 	private static LookupElement buildElement(String componentName, DartComponentInfo info)
 	{
 		LookupElementBuilder builder = LookupElementBuilder.create(info, componentName);

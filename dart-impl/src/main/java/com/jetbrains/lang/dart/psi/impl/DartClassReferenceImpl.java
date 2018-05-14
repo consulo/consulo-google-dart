@@ -1,6 +1,7 @@
 package com.jetbrains.lang.dart.psi.impl;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
+
 import com.intellij.lang.ASTNode;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.PsiElement;
@@ -46,7 +47,7 @@ public class DartClassReferenceImpl extends DartExpressionImpl implements DartRe
 		return new TextRange(0, textRange.getEndOffset() - textRange.getStartOffset());
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public String getCanonicalText()
 	{
@@ -60,7 +61,7 @@ public class DartClassReferenceImpl extends DartExpressionImpl implements DartRe
 	}
 
 	@Override
-	public PsiElement bindToElement(@NotNull PsiElement element) throws IncorrectOperationException
+	public PsiElement bindToElement(@Nonnull PsiElement element) throws IncorrectOperationException
 	{
 		return this;
 	}
@@ -83,14 +84,14 @@ public class DartClassReferenceImpl extends DartExpressionImpl implements DartRe
 		return null;
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public Object[] getVariants()
 	{
 		return ArrayUtil.EMPTY_OBJECT_ARRAY;
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public DartClassResolveResult resolveDartClass()
 	{

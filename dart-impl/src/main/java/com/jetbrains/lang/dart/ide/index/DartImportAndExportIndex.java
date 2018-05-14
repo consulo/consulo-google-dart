@@ -11,7 +11,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
+
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.openapi.vfs.VirtualFile;
@@ -31,7 +32,7 @@ public class DartImportAndExportIndex extends FileBasedIndexExtension<String, Li
 	private static final int INDEX_VERSION = 2;
 	private DataIndexer<String, List<DartImportOrExportInfo>, FileContent> myDataIndexer = new MyDataIndexer();
 
-	@NotNull
+	@Nonnull
 	@Override
 	public ID<String, List<DartImportOrExportInfo>> getName()
 	{
@@ -44,28 +45,28 @@ public class DartImportAndExportIndex extends FileBasedIndexExtension<String, Li
 		return DartIndexUtil.BASE_VERSION + INDEX_VERSION;
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public DataIndexer<String, List<DartImportOrExportInfo>, FileContent> getIndexer()
 	{
 		return myDataIndexer;
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public KeyDescriptor<String> getKeyDescriptor()
 	{
 		return new EnumeratorStringDescriptor();
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public DataExternalizer<List<DartImportOrExportInfo>> getValueExternalizer()
 	{
 		return new DataExternalizer<List<DartImportOrExportInfo>>()
 		{
 			@Override
-			public void save(final @NotNull DataOutput out, final @NotNull List<DartImportOrExportInfo> value) throws IOException
+			public void save(final @Nonnull DataOutput out, final @Nonnull List<DartImportOrExportInfo> value) throws IOException
 			{
 				out.writeInt(value.size());
 				for(DartImportOrExportInfo importOrExportInfo : value)
@@ -87,8 +88,8 @@ public class DartImportAndExportIndex extends FileBasedIndexExtension<String, Li
 			}
 
 			@Override
-			@NotNull
-			public List<DartImportOrExportInfo> read(final @NotNull DataInput in) throws IOException
+			@Nonnull
+			public List<DartImportOrExportInfo> read(final @Nonnull DataInput in) throws IOException
 			{
 				final int size = in.readInt();
 				final List<DartImportOrExportInfo> result = new ArrayList<DartImportOrExportInfo>(size);
@@ -116,7 +117,7 @@ public class DartImportAndExportIndex extends FileBasedIndexExtension<String, Li
 		};
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public FileBasedIndex.InputFilter getInputFilter()
 	{
@@ -129,8 +130,8 @@ public class DartImportAndExportIndex extends FileBasedIndexExtension<String, Li
 		return true;
 	}
 
-	@NotNull
-	public static List<DartImportOrExportInfo> getImportAndExportInfos(final @NotNull Project project, final @NotNull VirtualFile virtualFile)
+	@Nonnull
+	public static List<DartImportOrExportInfo> getImportAndExportInfos(final @Nonnull Project project, final @Nonnull VirtualFile virtualFile)
 	{
 		final List<DartImportOrExportInfo> result = new ArrayList<DartImportOrExportInfo>();
 		for(List<DartImportOrExportInfo> list : FileBasedIndex.getInstance().getValues(DART_IMPORT_EXPORT_INDEX, virtualFile.getName(),
@@ -144,8 +145,8 @@ public class DartImportAndExportIndex extends FileBasedIndexExtension<String, Li
 	private static class MyDataIndexer implements DataIndexer<String, List<DartImportOrExportInfo>, FileContent>
 	{
 		@Override
-		@NotNull
-		public Map<String, List<DartImportOrExportInfo>> map(@NotNull final FileContent inputData)
+		@Nonnull
+		public Map<String, List<DartImportOrExportInfo>> map(@Nonnull final FileContent inputData)
 		{
 			return Collections.singletonMap(inputData.getFileName(), DartIndexUtil.indexFile(inputData).getImportAndExportInfos());
 		}

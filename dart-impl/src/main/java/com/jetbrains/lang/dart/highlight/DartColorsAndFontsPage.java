@@ -5,8 +5,9 @@ import static com.jetbrains.lang.dart.highlight.DartSyntaxHighlighterColors.*;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.annotation.Nonnull;
+
 import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
 import com.intellij.openapi.editor.colors.TextAttributesKey;
 import com.intellij.openapi.fileTypes.SyntaxHighlighter;
 import com.intellij.openapi.options.colors.AttributesDescriptor;
@@ -98,35 +99,35 @@ public class DartColorsAndFontsPage implements ColorSettingsPage
 	}
 
 	@Override
-	@NotNull
+	@Nonnull
 	public String getDisplayName()
 	{
 		return DartBundle.message("dart.title");
 	}
 
 	@Override
-	@NotNull
+	@Nonnull
 	public AttributesDescriptor[] getAttributeDescriptors()
 	{
 		return ATTRS;
 	}
 
 	@Override
-	@NotNull
+	@Nonnull
 	public ColorDescriptor[] getColorDescriptors()
 	{
 		return ColorDescriptor.EMPTY_ARRAY;
 	}
 
 	@Override
-	@NotNull
+	@Nonnull
 	public SyntaxHighlighter getHighlighter()
 	{
 		return new DartSyntaxHighlighter();
 	}
 
 	@Override
-	@NotNull
+	@Nonnull
 	public String getDemoText()
 	{
 		return "/**\n" +

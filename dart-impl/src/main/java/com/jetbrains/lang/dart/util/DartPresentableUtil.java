@@ -7,8 +7,8 @@ import java.util.List;
 import java.util.Set;
 
 import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import com.intellij.codeInsight.lookup.LookupElement;
 import com.intellij.codeInsight.template.Expression;
 import com.intellij.codeInsight.template.ExpressionContext;
@@ -33,19 +33,19 @@ public class DartPresentableUtil
 		return name.startsWith("_") ? name.substring(1) : name;
 	}
 
-	@NotNull
+	@Nonnull
 	public static String getPresentableParameterList(DartComponent element)
 	{
 		return getPresentableParameterList(element, new DartGenericSpecialization());
 	}
 
-	@NotNull
+	@Nonnull
 	public static String getPresentableParameterList(DartComponent element, DartGenericSpecialization specialization)
 	{
 		return getPresentableParameterList(element, specialization, false);
 	}
 
-	@NotNull
+	@Nonnull
 	public static String getPresentableParameterList(DartComponent element, DartGenericSpecialization specialization,
 			boolean functionalStyleSignatures)
 	{
@@ -91,7 +91,7 @@ public class DartPresentableUtil
 		return result.toString();
 	}
 
-	private static boolean isOptionalParameterList(final @NotNull DartNamedFormalParameters parameters)
+	private static boolean isOptionalParameterList(final @Nonnull DartNamedFormalParameters parameters)
 	{
 		// Workaround for the lack of distinction between named and optional params in the grammar
 		final PsiElement firstChild = parameters.getFirstChild();
@@ -205,7 +205,7 @@ public class DartPresentableUtil
 		return result.toString();
 	}
 
-	public static void appendArgumentList(@NotNull Template result, @NotNull DartArgumentList argumentList)
+	public static void appendArgumentList(@Nonnull Template result, @Nonnull DartArgumentList argumentList)
 	{
 		final List<DartNamedArgument> namedArgumentList = argumentList.getNamedArgumentList();
 		final Set<String> additionalUsedNamed = new THashSet<String>();
@@ -282,7 +282,7 @@ public class DartPresentableUtil
 		return new DartTemplateExpression(parameterName);
 	}
 
-	public static String buildClassText(@NotNull DartClass dartClass, DartGenericSpecialization specialization)
+	public static String buildClassText(@Nonnull DartClass dartClass, DartGenericSpecialization specialization)
 	{
 		StringBuilder result = new StringBuilder();
 		result.append(dartClass.getName());
@@ -342,19 +342,19 @@ public class DartPresentableUtil
 	}
 
 	@Nullable
-	public static String findLastQuotedWord(@NotNull String text)
+	public static String findLastQuotedWord(@Nonnull String text)
 	{
 		return findLastQuotedWord(text, '\'');
 	}
 
 	@Nullable
-	public static String findLastDoubleQuotedWord(@NotNull String text)
+	public static String findLastDoubleQuotedWord(@Nonnull String text)
 	{
 		return findLastQuotedWord(text, '"');
 	}
 
 	@Nullable
-	public static String findLastQuotedWord(@NotNull String text, char quote)
+	public static String findLastQuotedWord(@Nonnull String text, char quote)
 	{
 		int j = text.lastIndexOf(quote);
 		if(j == -1)
@@ -371,13 +371,13 @@ public class DartPresentableUtil
 	}
 
 	@Nullable
-	public static String findFirstQuotedWord(@NotNull String text)
+	public static String findFirstQuotedWord(@Nonnull String text)
 	{
 		return findFirstQuotedWord(text, '\'');
 	}
 
 	@Nullable
-	public static String findFirstQuotedWord(@NotNull String text, char quote)
+	public static String findFirstQuotedWord(@Nonnull String text, char quote)
 	{
 		int i = text.indexOf(quote);
 		if(i == -1)

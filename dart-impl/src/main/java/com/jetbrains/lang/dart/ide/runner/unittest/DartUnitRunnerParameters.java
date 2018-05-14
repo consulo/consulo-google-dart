@@ -1,7 +1,7 @@
 package com.jetbrains.lang.dart.ide.runner.unittest;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import com.jetbrains.lang.dart.ide.runner.server.DartCommandLineRunnerParameters;
 
 public class DartUnitRunnerParameters extends DartCommandLineRunnerParameters implements Cloneable
@@ -13,13 +13,13 @@ public class DartUnitRunnerParameters extends DartCommandLineRunnerParameters im
 	}
 
 	private
-	@NotNull
+	@Nonnull
 	Scope myScope = Scope.ALL;
 	private
 	@Nullable
 	String myTestName = null;
 
-	@NotNull
+	@Nonnull
 	public Scope getScope()
 	{
 		return myScope;

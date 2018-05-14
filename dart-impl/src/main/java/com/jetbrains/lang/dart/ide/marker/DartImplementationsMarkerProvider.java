@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import com.intellij.codeHighlighting.Pass;
 import com.intellij.codeInsight.daemon.DaemonBundle;
 import com.intellij.codeInsight.daemon.GutterIconNavigationHandler;
@@ -31,13 +31,13 @@ public class DartImplementationsMarkerProvider implements LineMarkerProvider
 {
 
 	@Override
-	public LineMarkerInfo getLineMarkerInfo(@NotNull PsiElement element)
+	public LineMarkerInfo getLineMarkerInfo(@Nonnull PsiElement element)
 	{
 		return null;
 	}
 
 	@Override
-	public void collectSlowLineMarkers(@NotNull List<PsiElement> elements, @NotNull Collection<LineMarkerInfo> result)
+	public void collectSlowLineMarkers(@Nonnull List<PsiElement> elements, @Nonnull Collection<LineMarkerInfo> result)
 	{
 		elements = ContainerUtil.filter(elements, new Condition<PsiElement>()
 		{

@@ -2,42 +2,42 @@ package com.jetbrains.lang.dart.psi;
 
 import java.util.List;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public interface DartClass extends DartComponent
 {
 	@Nullable
 	DartType getSuperClass();
 
-	@NotNull
+	@Nonnull
 	List<DartType> getImplementsList();
 
-	@NotNull
+	@Nonnull
 	List<DartType> getMixinsList();
 
 	boolean isGeneric();
 
-	@NotNull
+	@Nonnull
 	List<DartComponent> getMethods();
 
-	@NotNull
+	@Nonnull
 	List<DartComponent> getFields();
 
-	@NotNull
+	@Nonnull
 	List<DartComponent> getConstructors();
 
 	@Nullable
-	DartComponent findFieldByName(@NotNull final String name);
+	DartComponent findFieldByName(@Nonnull final String name);
 
 	@Nullable
-	DartComponent findMethodByName(@NotNull final String name);
+	DartComponent findMethodByName(@Nonnull final String name);
 
 	@Nullable
-	DartComponent findMemberByName(@NotNull final String name);
+	DartComponent findMemberByName(@Nonnull final String name);
 
-	@NotNull
-	List<DartComponent> findMembersByName(@NotNull final String name);
+	@Nonnull
+	List<DartComponent> findMembersByName(@Nonnull final String name);
 
 	@Nullable
 	DartTypeParameters getTypeParameters();

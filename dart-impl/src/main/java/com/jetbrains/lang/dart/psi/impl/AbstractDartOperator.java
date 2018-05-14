@@ -3,17 +3,17 @@ package com.jetbrains.lang.dart.psi.impl;
 import com.intellij.lang.ASTNode;
 import com.jetbrains.lang.dart.psi.DartOperator;
 import com.jetbrains.lang.dart.util.DartResolveUtil;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 /**
  * @author: Fedor.Korotkov
  */
 abstract public class AbstractDartOperator extends DartPsiCompositeElementImpl implements DartOperator {
-  public AbstractDartOperator(@NotNull ASTNode node) {
+  public AbstractDartOperator(@Nonnull ASTNode node) {
     super(node);
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public String getOperatorString() {
     return DartResolveUtil.getOperatorString(getUserDefinableOperator());

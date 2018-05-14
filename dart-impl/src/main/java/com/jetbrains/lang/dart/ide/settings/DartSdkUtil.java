@@ -20,8 +20,8 @@ import com.jetbrains.lang.dart.DartFileType;
 import consulo.dart.module.extension.DartModuleExtension;
 import com.jetbrains.lang.dart.psi.*;
 import gnu.trove.THashMap;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -128,7 +128,7 @@ public class DartSdkUtil {
     return sdk.getHomePath() + "/lib/";
   }
 
-  @NotNull
+  @Nonnull
   private static Map<String, String> getLibrariesMap(@Nullable Sdk sdk, @Nullable PsiElement context) {
     if(sdk == null) {
       return Collections.emptyMap();
@@ -156,7 +156,7 @@ public class DartSdkUtil {
     final Map<String, String> result = new THashMap<String, String>();
     file.acceptChildren(new DartRecursiveVisitor() {
       @Override
-      public void visitConstConstructorExpression(@NotNull DartConstConstructorExpression constructorExpression) {
+      public void visitConstConstructorExpression(@Nonnull DartConstConstructorExpression constructorExpression) {
         Pair<String, String> libInfo = extractLibraryInfo(constructorExpression);
         if (libInfo != null) {
           result.put(libInfo.getFirst(), libInfo.getSecond());
@@ -194,7 +194,7 @@ public class DartSdkUtil {
     return module == null ? null : ModuleUtilCore.getSdk(module, DartModuleExtension.class);
   }
 
-  private static List<File> findDartFiles(@NotNull File rootDir) {
+  private static List<File> findDartFiles(@Nonnull File rootDir) {
     final File libRoot = new File(rootDir, "lib");
     if (!libRoot.exists()) {
       return Collections.emptyList();

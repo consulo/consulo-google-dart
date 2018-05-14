@@ -14,8 +14,9 @@
 
 package com.jetbrains.lang.dart.ide.runner.server.google;
 
+import javax.annotation.Nullable;
+
 import com.intellij.util.io.URLUtil;
-import org.jetbrains.annotations.Nullable;
 import org.json.JSONException;
 import org.json.JSONObject;
 

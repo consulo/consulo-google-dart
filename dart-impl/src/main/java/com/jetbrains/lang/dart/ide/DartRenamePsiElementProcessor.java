@@ -8,7 +8,7 @@ import com.jetbrains.lang.dart.psi.DartClass;
 import com.jetbrains.lang.dart.psi.DartComponent;
 import com.jetbrains.lang.dart.psi.DartComponentName;
 import com.jetbrains.lang.dart.psi.DartNamedConstructorDeclaration;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.util.Map;
 
@@ -17,7 +17,7 @@ import java.util.Map;
  */
 public class DartRenamePsiElementProcessor extends RenamePsiElementProcessor {
   @Override
-  public boolean canProcessElement(@NotNull PsiElement element) {
+  public boolean canProcessElement(@Nonnull PsiElement element) {
     return element instanceof DartComponentName;
   }
 

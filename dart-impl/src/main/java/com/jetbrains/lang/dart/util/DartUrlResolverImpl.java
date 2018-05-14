@@ -18,8 +18,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.module.ModuleUtilCore;
 import com.intellij.openapi.project.Project;
@@ -49,7 +49,7 @@ class DartUrlResolverImpl extends DartUrlResolver
 {
 
 	private final
-	@NotNull
+	@Nonnull
 	Project myProject;
 	private final
 	@Nullable
@@ -58,16 +58,16 @@ class DartUrlResolverImpl extends DartUrlResolver
 	@Nullable
 	VirtualFile myPubspecYamlFile;
 	private final
-	@NotNull
+	@Nonnull
 	List<VirtualFile> myPackageRoots = new ArrayList<VirtualFile>();
 	private final
-	@NotNull
+	@Nonnull
 	Map<String, VirtualFile> myLivePackageNameToDirMap = new THashMap<String, VirtualFile>();
 	private final
-	@NotNull
+	@Nonnull
 	Map<String, Set<String>> myPubListPackageDirsMap = new THashMap<String, Set<String>>();
 
-	DartUrlResolverImpl(final @NotNull Project project, final @NotNull VirtualFile contextFile)
+	DartUrlResolverImpl(final @Nonnull Project project, final @Nonnull VirtualFile contextFile)
 	{
 		myProject = project;
 		Module moduleForFile = ModuleUtilCore.findModuleForFile(contextFile, project);
@@ -85,14 +85,14 @@ class DartUrlResolverImpl extends DartUrlResolver
 	}
 
 	@Override
-	@NotNull
+	@Nonnull
 	public VirtualFile[] getPackageRoots()
 	{
 		return myPackageRoots.toArray(new VirtualFile[myPackageRoots.size()]);
 	}
 
 	@Override
-	public void processLivePackages(final @NotNull PairConsumer<String, VirtualFile> packageNameAndDirConsumer)
+	public void processLivePackages(final @Nonnull PairConsumer<String, VirtualFile> packageNameAndDirConsumer)
 	{
 		for(Map.Entry<String, VirtualFile> entry : myLivePackageNameToDirMap.entrySet())
 		{
@@ -102,7 +102,7 @@ class DartUrlResolverImpl extends DartUrlResolver
 
 	@Override
 	@Nullable
-	public VirtualFile getPackageDirIfLivePackageOrFromPubListPackageDirs(final @NotNull String packageName)
+	public VirtualFile getPackageDirIfLivePackageOrFromPubListPackageDirs(final @Nonnull String packageName)
 	{
 		final VirtualFile dir = myLivePackageNameToDirMap.get(packageName);
 		if(dir != null)
@@ -128,7 +128,7 @@ class DartUrlResolverImpl extends DartUrlResolver
 
 	@Override
 	@Nullable
-	public VirtualFile findFileByDartUrl(final @NotNull String url)
+	public VirtualFile findFileByDartUrl(final @Nonnull String url)
 	{
 		if(url.startsWith(DART_PREFIX))
 		{
@@ -182,8 +182,8 @@ class DartUrlResolverImpl extends DartUrlResolver
 	}
 
 	@Override
-	@NotNull
-	public String getDartUrlForFile(final @NotNull VirtualFile file)
+	@Nonnull
+	public String getDartUrlForFile(final @Nonnull VirtualFile file)
 	{
 		String result = null;
 
@@ -219,7 +219,7 @@ class DartUrlResolverImpl extends DartUrlResolver
 	}
 
 	@Nullable
-	private static String getUrlIfFileFromSdkLib(final @NotNull Project project, final @NotNull VirtualFile file, final @NotNull Sdk sdk)
+	private static String getUrlIfFileFromSdkLib(final @Nonnull Project project, final @Nonnull VirtualFile file, final @Nonnull Sdk sdk)
 	{
 		final VirtualFile sdkLibFolder = LocalFileSystem.getInstance().findFileByPath(sdk.getHomePath() + "/lib");
 		final String relativeToSdkLibFolder = sdkLibFolder == null ? null : VfsUtilCore.getRelativePath(file, sdkLibFolder, '/');
@@ -229,7 +229,7 @@ class DartUrlResolverImpl extends DartUrlResolver
 	}
 
 	@Nullable
-	private static String getUrlIfFileFromLivePackage(final @NotNull VirtualFile file, final @NotNull Map<String,
+	private static String getUrlIfFileFromLivePackage(final @Nonnull VirtualFile file, final @Nonnull Map<String,
 			VirtualFile> livePackageNameToDirMap)
 	{
 		for(Map.Entry<String, VirtualFile> entry : livePackageNameToDirMap.entrySet())
@@ -246,7 +246,7 @@ class DartUrlResolverImpl extends DartUrlResolver
 	}
 
 	@Nullable
-	private static String getUrlIfFileFromPackageRoot(final @NotNull VirtualFile file, final @NotNull List<VirtualFile> packageRoots)
+	private static String getUrlIfFileFromPackageRoot(final @Nonnull VirtualFile file, final @Nonnull List<VirtualFile> packageRoots)
 	{
 		for(VirtualFile packageRoot : packageRoots)
 		{
@@ -260,8 +260,8 @@ class DartUrlResolverImpl extends DartUrlResolver
 	}
 
 	@Nullable
-	private static String getUrlIfFileFromPubListPackageDirs(final @NotNull Project project, final @NotNull VirtualFile file,
-			final @NotNull Map<String, Set<String>> pubListPackageDirsMap)
+	private static String getUrlIfFileFromPubListPackageDirs(final @Nonnull Project project, final @Nonnull VirtualFile file,
+			final @Nonnull Map<String, Set<String>> pubListPackageDirsMap)
 	{
 		final String filePath = file.getPath();
 
@@ -289,7 +289,7 @@ class DartUrlResolverImpl extends DartUrlResolver
 	}
 
 	@Nullable
-	private VirtualFile initPackageRootsAndReturnPubspecYamlFile(final @NotNull VirtualFile contextFile)
+	private VirtualFile initPackageRootsAndReturnPubspecYamlFile(final @Nonnull VirtualFile contextFile)
 	{
 		final Module module = ModuleUtilCore.findModuleForFile(contextFile, myProject);
 		if(module == null)
@@ -315,7 +315,7 @@ class DartUrlResolverImpl extends DartUrlResolver
 		return pubspecYamlFile;
 	}
 
-	private static VirtualFile findPubspecYamlFile(final @NotNull Project project, final @NotNull VirtualFile contextFile)
+	private static VirtualFile findPubspecYamlFile(final @Nonnull Project project, final @Nonnull VirtualFile contextFile)
 	{
 		final ProjectFileIndex fileIndex = ProjectRootManager.getInstance(project).getFileIndex();
 		VirtualFile parent = contextFile;
@@ -346,8 +346,8 @@ class DartUrlResolverImpl extends DartUrlResolver
 		}
 	}
 
-	private static void fillLivePackageNameToDirMap(final @NotNull Project project, final @NotNull Map<String, VirtualFile> packageNameToDirMap,
-			final @NotNull VirtualFile baseDir, final @NotNull Map<String, Object> yamlInfo)
+	private static void fillLivePackageNameToDirMap(final @Nonnull Project project, final @Nonnull Map<String, VirtualFile> packageNameToDirMap,
+			final @Nonnull VirtualFile baseDir, final @Nonnull Map<String, Object> yamlInfo)
 	{
 		final Object name = yamlInfo.get(NAME);
 		final VirtualFile libFolder = baseDir.findChild(LIB_DIRECTORY_NAME);
@@ -361,8 +361,8 @@ class DartUrlResolverImpl extends DartUrlResolver
 	}
 
 	// Path packages: https://www.dartlang.org/tools/pub/dependencies.html#path-packages
-	private static void addPathPackagesToMap(final @NotNull Project project, final @NotNull Map<String, VirtualFile> packageNameToDirMap,
-			final @Nullable Object yamlDep, final @NotNull VirtualFile baseDir)
+	private static void addPathPackagesToMap(final @Nonnull Project project, final @Nonnull Map<String, VirtualFile> packageNameToDirMap,
+			final @Nullable Object yamlDep, final @Nonnull VirtualFile baseDir)
 	{
 		// see com.google.dart.tools.core.pub.PubspecModel#processDependencies
 		if(!(yamlDep instanceof Map))
@@ -392,7 +392,7 @@ class DartUrlResolverImpl extends DartUrlResolver
 		}
 	}
 
-	private void initPubListPackageDirsMap(final @NotNull VirtualFile contextFile)
+	private void initPubListPackageDirsMap(final @Nonnull VirtualFile contextFile)
 	{
 		final Module module = ModuleUtilCore.findModuleForFile(contextFile, myProject);
 

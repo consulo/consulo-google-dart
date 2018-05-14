@@ -2,33 +2,33 @@
 package com.jetbrains.lang.dart.psi;
 
 import java.util.List;
-import org.jetbrains.annotations.*;
-import com.intellij.psi.PsiElement;
+
+import javax.annotation.Nonnull;
 
 public interface DartClassMembers extends DartExecutionScope {
 
-  @NotNull
+  @Nonnull
   List<DartFactoryConstructorDeclaration> getFactoryConstructorDeclarationList();
 
-  @NotNull
+  @Nonnull
   List<DartGetterDeclaration> getGetterDeclarationList();
 
-  @NotNull
+  @Nonnull
   List<DartIncompleteDeclaration> getIncompleteDeclarationList();
 
-  @NotNull
+  @Nonnull
   List<DartMethodDeclaration> getMethodDeclarationList();
 
-  @NotNull
+  @Nonnull
   List<DartNamedConstructorDeclaration> getNamedConstructorDeclarationList();
 
-  @NotNull
+  @Nonnull
   List<DartOperatorDeclaration> getOperatorDeclarationList();
 
-  @NotNull
+  @Nonnull
   List<DartSetterDeclaration> getSetterDeclarationList();
 
-  @NotNull
+  @Nonnull
   List<DartVarDeclarationList> getVarDeclarationListList();
 
 }

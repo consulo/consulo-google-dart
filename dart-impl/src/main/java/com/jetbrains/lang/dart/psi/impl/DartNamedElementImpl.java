@@ -14,19 +14,19 @@ import com.jetbrains.lang.dart.psi.DartId;
 import com.jetbrains.lang.dart.psi.DartNamedElement;
 import com.jetbrains.lang.dart.util.DartElementGenerator;
 import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /**
  * @author: Fedor.Korotkov
  */
 public abstract class DartNamedElementImpl extends DartPsiCompositeElementImpl implements DartNamedElement {
-  public DartNamedElementImpl(@NotNull ASTNode node) {
+  public DartNamedElementImpl(@Nonnull ASTNode node) {
     super(node);
   }
 
   @Override
-  public PsiElement setName(@NonNls @NotNull String newElementName) throws IncorrectOperationException {
+  public PsiElement setName(@NonNls @Nonnull String newElementName) throws IncorrectOperationException {
     final DartId identifier = getId();
     final DartId identifierNew = DartElementGenerator.createIdentifierFromText(getProject(), newElementName);
 
@@ -56,7 +56,7 @@ public abstract class DartNamedElementImpl extends DartPsiCompositeElementImpl i
     return this;
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public SearchScope getUseScope() {
     final DartComponentType type = DartComponentType.typeOf(getParent());
@@ -70,7 +70,7 @@ public abstract class DartNamedElementImpl extends DartPsiCompositeElementImpl i
     return super.getUseScope();
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public DartId getId() {
     return PsiTreeUtil.getChildOfType(this, DartId.class);

@@ -9,7 +9,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
+
 import com.intellij.openapi.util.Key;
 import com.intellij.openapi.util.io.FileUtil;
 import com.intellij.openapi.util.text.StringUtil;
@@ -103,7 +104,7 @@ public class DartIndexUtil
 		return result;
 	}
 
-	private static void processInheritors(DartFileIndexData result, @NotNull String dartClassName, DartClass dartClass, String libraryId)
+	private static void processInheritors(DartFileIndexData result, @Nonnull String dartClassName, DartClass dartClass, String libraryId)
 	{
 		final DartComponentInfo value = new DartComponentInfo(dartClassName, DartComponentType.typeOf(dartClass), libraryId);
 		final DartType superClass = dartClass.getSuperClass();
@@ -121,7 +122,7 @@ public class DartIndexUtil
 		}
 	}
 
-	private static void processImportOrExportStatement(final @NotNull DartFileIndexData result, final @NotNull DartImportOrExportStatement
+	private static void processImportOrExportStatement(final @Nonnull DartFileIndexData result, final @Nonnull DartImportOrExportStatement
 			importOrExportStatement)
 	{
 		final String uri = importOrExportStatement.getUri();

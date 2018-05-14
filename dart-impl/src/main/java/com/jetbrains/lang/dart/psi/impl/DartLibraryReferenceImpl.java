@@ -15,7 +15,7 @@ import com.jetbrains.lang.dart.psi.DartReference;
 import com.jetbrains.lang.dart.util.DartClassResolveResult;
 import com.jetbrains.lang.dart.util.DartElementGenerator;
 import com.jetbrains.lang.dart.util.DartResolveUtil;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +44,7 @@ public class DartLibraryReferenceImpl extends DartExpressionImpl implements Dart
     return new TextRange(0, textRange.getEndOffset() - textRange.getStartOffset());
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public String getCanonicalText() {
     return getText();
@@ -60,7 +60,7 @@ public class DartLibraryReferenceImpl extends DartExpressionImpl implements Dart
   }
 
   @Override
-  public PsiElement bindToElement(@NotNull PsiElement element) throws IncorrectOperationException {
+  public PsiElement bindToElement(@Nonnull PsiElement element) throws IncorrectOperationException {
     return this;
   }
 
@@ -83,13 +83,13 @@ public class DartLibraryReferenceImpl extends DartExpressionImpl implements Dart
            !resolveResults[0].isValidResult() ? null : resolveResults[0].getElement();
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public ResolveResult[] multiResolve(boolean incompleteCode) {
     return tryResolveLibraries();
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public DartClassResolveResult resolveDartClass() {
     return DartClassResolveResult.EMPTY;
@@ -118,7 +118,7 @@ public class DartLibraryReferenceImpl extends DartExpressionImpl implements Dart
     return result.toArray(new ResolveResult[result.size()]);
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public Object[] getVariants() {
     // handled by DartLibraryNameCompletionContributor

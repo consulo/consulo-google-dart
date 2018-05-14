@@ -8,8 +8,8 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import com.intellij.codeInsight.FileModificationService;
 import com.intellij.codeInsight.hint.HintManager;
 import com.intellij.codeInsight.template.Template;
@@ -90,11 +90,11 @@ abstract public class BaseCreateMethodsFix<T extends DartComponent>
 	/**
 	 * must be called not in write action
 	 */
-	public void beforeInvoke(@NotNull final Project project, final Editor editor, final PsiElement file)
+	public void beforeInvoke(@Nonnull final Project project, final Editor editor, final PsiElement file)
 	{
 	}
 
-	public void invoke(@NotNull final Project project, final Editor editor, final PsiElement context) throws IncorrectOperationException
+	public void invoke(@Nonnull final Project project, final Editor editor, final PsiElement context) throws IncorrectOperationException
 	{
 		if(!FileModificationService.getInstance().prepareFileForWrite(context.getContainingFile()))
 		{
@@ -104,7 +104,7 @@ abstract public class BaseCreateMethodsFix<T extends DartComponent>
 		processElements(project, editor, getElementsToProcess());
 	}
 
-	protected void processElements(@NotNull Project project, @NotNull Editor editor, Set<T> elementsToProcess)
+	protected void processElements(@Nonnull Project project, @Nonnull Editor editor, Set<T> elementsToProcess)
 	{
 		if(elementsToProcess.isEmpty())
 		{
@@ -121,14 +121,14 @@ abstract public class BaseCreateMethodsFix<T extends DartComponent>
 		}
 	}
 
-	@NotNull
+	@Nonnull
 	protected abstract String getNothingFoundMessage();
 
 	@Nullable
 	protected abstract Template buildFunctionsText(TemplateManager templateManager, T e);
 
-	public PsiElement doAddMethodsForOne(@NotNull Editor editor, @NotNull TemplateManager templateManager, @Nullable Template functionTemplate,
-			@NotNull PsiElement anchor) throws IncorrectOperationException
+	public PsiElement doAddMethodsForOne(@Nonnull Editor editor, @Nonnull TemplateManager templateManager, @Nullable Template functionTemplate,
+			@Nonnull PsiElement anchor) throws IncorrectOperationException
 	{
 		if(functionTemplate != null)
 		{

@@ -1,7 +1,7 @@
 package consulo.dart.debugger.breakpoint;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.xdebugger.breakpoints.XLineBreakpointType;
@@ -16,7 +16,7 @@ public class DartLineBreakpointTypeResolver implements XLineBreakpointTypeResolv
 {
 	@Nullable
 	@Override
-	public XLineBreakpointType<?> resolveBreakpointType(@NotNull Project project, @NotNull VirtualFile virtualFile, int line)
+	public XLineBreakpointType<?> resolveBreakpointType(@Nonnull Project project, @Nonnull VirtualFile virtualFile, int line)
 	{
 		return DartLineBreakpointType.getInstance();
 	}

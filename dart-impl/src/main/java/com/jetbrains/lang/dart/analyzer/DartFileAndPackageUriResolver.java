@@ -5,7 +5,8 @@ import static com.jetbrains.lang.dart.util.DartUrlResolver.PACKAGE_SCHEME;
 
 import java.net.URI;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
+
 import com.google.dart.engine.source.Source;
 import com.google.dart.engine.source.UriKind;
 import com.google.dart.engine.source.UriResolver;
@@ -17,13 +18,13 @@ public class DartFileAndPackageUriResolver extends UriResolver
 {
 
 	private final
-	@NotNull
+	@Nonnull
 	Project myProject;
 	private final
-	@NotNull
+	@Nonnull
 	DartUrlResolver myDartUrlResolver;
 
-	public DartFileAndPackageUriResolver(final @NotNull Project project, final @NotNull DartUrlResolver dartUrlResolver)
+	public DartFileAndPackageUriResolver(final @Nonnull Project project, final @Nonnull DartUrlResolver dartUrlResolver)
 	{
 		myProject = project;
 		myDartUrlResolver = dartUrlResolver;

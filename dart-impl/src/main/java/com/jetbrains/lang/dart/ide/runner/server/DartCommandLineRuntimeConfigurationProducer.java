@@ -1,7 +1,8 @@
 package com.jetbrains.lang.dart.ide.runner.server;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import com.intellij.execution.actions.ConfigurationContext;
 import com.intellij.execution.actions.RunConfigurationProducer;
 import com.intellij.openapi.roots.ProjectRootManager;
@@ -23,8 +24,8 @@ public class DartCommandLineRuntimeConfigurationProducer extends RunConfiguratio
 	}
 
 	@Override
-	protected boolean setupConfigurationFromContext(final @NotNull DartCommandLineRunConfiguration configuration,
-			final @NotNull ConfigurationContext context, final @NotNull Ref<PsiElement> sourceElement)
+	protected boolean setupConfigurationFromContext(final @Nonnull DartCommandLineRunConfiguration configuration,
+			final @Nonnull ConfigurationContext context, final @Nonnull Ref<PsiElement> sourceElement)
 	{
 		final VirtualFile dartFile = findRunnableDartFile(context);
 		if(dartFile != null)
@@ -38,15 +39,15 @@ public class DartCommandLineRuntimeConfigurationProducer extends RunConfiguratio
 	}
 
 	@Override
-	public boolean isConfigurationFromContext(final @NotNull DartCommandLineRunConfiguration configuration,
-			final @NotNull ConfigurationContext context)
+	public boolean isConfigurationFromContext(final @Nonnull DartCommandLineRunConfiguration configuration,
+			final @Nonnull ConfigurationContext context)
 	{
 		final VirtualFile dartFile = findRunnableDartFile(context);
 		return dartFile != null && dartFile.getPath().equals(configuration.getRunnerParameters().getFilePath());
 	}
 
 	@Nullable
-	public static VirtualFile findRunnableDartFile(final @NotNull ConfigurationContext context)
+	public static VirtualFile findRunnableDartFile(final @Nonnull ConfigurationContext context)
 	{
 		final PsiElement psiLocation = context.getPsiLocation();
 		final PsiFile psiFile = psiLocation == null ? null : psiLocation.getContainingFile();
@@ -65,7 +66,7 @@ public class DartCommandLineRuntimeConfigurationProducer extends RunConfiguratio
 		return null;
 	}
 
-	private static boolean hasImport(final @NotNull DartFile psiFile, final @NotNull String importText)
+	private static boolean hasImport(final @Nonnull DartFile psiFile, final @Nonnull String importText)
 	{
 		final DartImportStatement[] importStatements = PsiTreeUtil.getChildrenOfType(psiFile, DartImportStatement.class);
 		if(importStatements == null)

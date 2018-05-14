@@ -1,7 +1,8 @@
 package com.jetbrains.lang.dart.ide.runner.server;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import com.intellij.execution.ExecutionException;
 import com.intellij.execution.Executor;
 import com.intellij.execution.configurations.RunConfiguration;
@@ -16,7 +17,7 @@ import com.jetbrains.lang.dart.ide.runner.server.ui.DartCommandLineConfiguration
 public class DartCommandLineRunConfiguration extends DartRunConfigurationBase
 {
 	private
-	@NotNull
+	@Nonnull
 	DartCommandLineRunnerParameters myRunnerParameters = new DartCommandLineRunnerParameters();
 
 	public DartCommandLineRunConfiguration(String name, Project project, DartCommandLineRunConfigurationType configurationType)
@@ -25,21 +26,21 @@ public class DartCommandLineRunConfiguration extends DartRunConfigurationBase
 	}
 
 	@Override
-	@NotNull
+	@Nonnull
 	public DartCommandLineRunnerParameters getRunnerParameters()
 	{
 		return myRunnerParameters;
 	}
 
 	@Override
-	@NotNull
+	@Nonnull
 	public SettingsEditor<? extends RunConfiguration> getConfigurationEditor()
 	{
 		return new DartCommandLineConfigurationEditorForm(getProject());
 	}
 
 	@Override
-	public RunProfileState getState(@NotNull Executor executor, @NotNull ExecutionEnvironment env) throws ExecutionException
+	public RunProfileState getState(@Nonnull Executor executor, @Nonnull ExecutionEnvironment env) throws ExecutionException
 	{
 		return new DartCommandLineRunningState(env);
 	}

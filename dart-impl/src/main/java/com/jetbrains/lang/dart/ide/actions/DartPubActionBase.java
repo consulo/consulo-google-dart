@@ -2,9 +2,11 @@ package com.jetbrains.lang.dart.ide.actions;
 
 import java.io.File;
 
+import javax.annotation.Nonnull;
+
 import org.jetbrains.annotations.Nls;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+
+import javax.annotation.Nullable;
 import com.intellij.execution.ExecutionException;
 import com.intellij.execution.configurations.GeneralCommandLine;
 import com.intellij.execution.process.CapturingProcessHandler;
@@ -123,7 +125,7 @@ abstract public class DartPubActionBase extends AnAction
 	{
 		final Task.Backgroundable task = new Task.Backgroundable(module.getProject(), getPresentableText(), true)
 		{
-			public void run(@NotNull ProgressIndicator indicator)
+			public void run(@Nonnull ProgressIndicator indicator)
 			{
 				indicator.setText(DartBundle.message("dart.pub.0.in.progress", getPubCommand()));
 				indicator.setIndeterminate(true);

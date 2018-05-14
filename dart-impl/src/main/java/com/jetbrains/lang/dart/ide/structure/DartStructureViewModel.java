@@ -1,7 +1,8 @@
 package com.jetbrains.lang.dart.ide.structure;
 
+import javax.annotation.Nonnull;
+
 import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
 import com.intellij.icons.AllIcons;
 import com.intellij.ide.IdeBundle;
 import com.intellij.ide.structureView.StructureViewModel;
@@ -21,7 +22,7 @@ import com.jetbrains.lang.dart.psi.DartComponent;
  * @author: Fedor.Korotkov
  */
 public class DartStructureViewModel extends StructureViewModelBase implements StructureViewModel.ElementInfoProvider {
-  public DartStructureViewModel(@NotNull PsiFile psiFile) {
+  public DartStructureViewModel(@Nonnull PsiFile psiFile) {
     super(psiFile, new DartStructureViewElement(psiFile));
     withSuitableClasses(DartComponent.class, DartClass.class);
   }
@@ -31,7 +32,7 @@ public class DartStructureViewModel extends StructureViewModelBase implements St
     return false;
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public Filter[] getFilters() {
     return new Filter[]{ourFieldsFilter};
@@ -75,7 +76,7 @@ public class DartStructureViewModel extends StructureViewModelBase implements St
     }
 
     @Override
-	@NotNull
+	@Nonnull
     public ActionPresentation getPresentation() {
       return new ActionPresentationData(
         IdeBundle.message("action.structureview.show.fields"),
@@ -84,7 +85,7 @@ public class DartStructureViewModel extends StructureViewModelBase implements St
     }
 
     @Override
-	@NotNull
+	@Nonnull
     public String getName() {
       return ID;
     }

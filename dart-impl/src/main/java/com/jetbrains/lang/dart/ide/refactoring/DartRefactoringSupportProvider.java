@@ -1,5 +1,7 @@
 package com.jetbrains.lang.dart.ide.refactoring;
 
+import javax.annotation.Nullable;
+
 import com.intellij.lang.refactoring.RefactoringSupportProvider;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.search.LocalSearchScope;
@@ -8,7 +10,6 @@ import com.jetbrains.lang.dart.ide.refactoring.extract.DartExtractMethodHandler;
 import com.jetbrains.lang.dart.ide.refactoring.introduce.DartIntroduceFinalVariableHandler;
 import com.jetbrains.lang.dart.ide.refactoring.introduce.DartIntroduceVariableHandler;
 import com.jetbrains.lang.dart.psi.DartNamedElement;
-import org.jetbrains.annotations.Nullable;
 
 /**
  * @author: Fedor.Korotkov

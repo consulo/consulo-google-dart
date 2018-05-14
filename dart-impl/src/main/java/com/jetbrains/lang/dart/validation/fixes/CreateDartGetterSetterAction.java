@@ -1,5 +1,7 @@
 package com.jetbrains.lang.dart.validation.fixes;
 
+import javax.annotation.Nonnull;
+
 import com.intellij.codeInsight.template.Template;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.Project;
@@ -11,21 +13,21 @@ import com.jetbrains.lang.dart.psi.DartClass;
 import com.jetbrains.lang.dart.psi.DartExecutionScope;
 import com.jetbrains.lang.dart.psi.DartReference;
 import com.jetbrains.lang.dart.util.DartResolveUtil;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+
+import javax.annotation.Nullable;
 
 public class CreateDartGetterSetterAction extends CreateDartFunctionActionBase {
 
   protected final boolean myStatic;
   protected final boolean myGetter;
 
-  public CreateDartGetterSetterAction(@NotNull String name, boolean isGetter, boolean isStatic) {
+  public CreateDartGetterSetterAction(@Nonnull String name, boolean isGetter, boolean isStatic) {
     super(name);
     myGetter = isGetter;
     myStatic = isStatic;
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public String getName() {
     if (myGetter) {
@@ -42,7 +44,7 @@ public class CreateDartGetterSetterAction extends CreateDartFunctionActionBase {
   }
 
   @Override
-  protected boolean buildTemplate(Template template, @NotNull PsiElement element) {
+  protected boolean buildTemplate(Template template, @Nonnull PsiElement element) {
     if (myStatic) {
       template.addTextSegment("static ");
     }

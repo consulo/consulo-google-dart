@@ -31,7 +31,7 @@ import consulo.dart.module.extension.DartModuleExtension;
 import com.jetbrains.lang.dart.ide.settings.DartSdkUtil;
 import com.jetbrains.lang.dart.psi.DartFile;
 import com.jetbrains.lang.dart.util.DartResolveUtil;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 /**
  * @author: Fedor.Korotkov
@@ -86,7 +86,7 @@ public class Dart2JSAction extends AnAction {
     }
 
     new Task.Backgroundable(psiFile.getProject(), "dart2js", true) {
-      public void run(@NotNull ProgressIndicator indicator) {
+      public void run(@Nonnull ProgressIndicator indicator) {
         indicator.setText("Running dart2js...");
         indicator.setFraction(0.0);
         final GeneralCommandLine command = new GeneralCommandLine();

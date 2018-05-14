@@ -2,12 +2,12 @@
 package com.jetbrains.lang.dart.psi;
 
 import java.util.List;
-import org.jetbrains.annotations.*;
-import com.intellij.psi.PsiElement;
+
+import javax.annotation.*;
 
 public interface DartSetterDeclaration extends DartComponent {
 
-  @NotNull
+  @Nonnull
   DartComponentName getComponentName();
 
   @Nullable
@@ -16,7 +16,7 @@ public interface DartSetterDeclaration extends DartComponent {
   @Nullable
   DartFunctionBody getFunctionBody();
 
-  @NotNull
+  @Nonnull
   List<DartMetadata> getMetadataList();
 
   @Nullable

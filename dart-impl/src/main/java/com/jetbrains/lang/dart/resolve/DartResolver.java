@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import com.intellij.openapi.util.Condition;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiElement;
@@ -26,7 +26,7 @@ public class DartResolver implements ResolveCache.AbstractResolver<DartReference
 
 	@Nullable
 	@Override
-	public List<? extends PsiElement> resolve(@NotNull DartReference reference, boolean incompleteCode)
+	public List<? extends PsiElement> resolve(@Nonnull DartReference reference, boolean incompleteCode)
 	{
 		if(reference instanceof DartThisExpression)
 		{
@@ -126,7 +126,7 @@ public class DartResolver implements ResolveCache.AbstractResolver<DartReference
 		});
 	}
 
-	private static List<? extends PsiElement> resolveSimpleReference(@NotNull DartReference reference)
+	private static List<? extends PsiElement> resolveSimpleReference(@Nonnull DartReference reference)
 	{
 		final List<? extends PsiElement> result = resolveSimpleReference(reference, reference.getCanonicalText());
 		final PsiElement parent = reference.getParent();

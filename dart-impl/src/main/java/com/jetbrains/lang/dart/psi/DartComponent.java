@@ -1,6 +1,7 @@
 package com.jetbrains.lang.dart.psi;
 
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nullable;
+
 import com.intellij.psi.PsiNameIdentifierOwner;
 
 public interface DartComponent extends DartPsiCompositeElement, PsiNameIdentifierOwner

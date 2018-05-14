@@ -3,8 +3,8 @@ package com.jetbrains.lang.dart.util;
 import java.io.IOException;
 import java.util.Map;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.yaml.snakeyaml.Dumper;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Loader;
@@ -35,7 +35,7 @@ public class PubspecYamlUtil
 	private static final Key<Pair<Long, Map<String, Object>>> MOD_STAMP_TO_PUBSPEC_NAME = Key.create("MOD_STAMP_TO_PUBSPEC_NAME");
 
 	@Nullable
-	public static Map<String, Object> getPubspecYamlInfo(final @NotNull VirtualFile pubspecYamlFile)
+	public static Map<String, Object> getPubspecYamlInfo(final @Nonnull VirtualFile pubspecYamlFile)
 	{
 		// do not use Yaml plugin here - IntelliJ IDEA Community Edition doesn't contain it.
 		Pair<Long, Map<String, Object>> data = pubspecYamlFile.getUserData(MOD_STAMP_TO_PUBSPEC_NAME);
@@ -75,7 +75,7 @@ public class PubspecYamlUtil
 	}
 
 	@Nullable
-	private static Map<String, Object> loadPubspecYamlInfo(final @NotNull String pubspecYamlFileContents)
+	private static Map<String, Object> loadPubspecYamlInfo(final @Nonnull String pubspecYamlFileContents)
 	{
 		// see com.google.dart.tools.core.utilities.yaml.PubYamlUtils#parsePubspecYamlToMap()
 		// deprecated constructor used to be compatible with old snakeyaml version in testng.jar (it wins when running from sources or tests)

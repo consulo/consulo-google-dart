@@ -9,7 +9,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
+
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiElement;
@@ -33,7 +34,7 @@ public class DartClassIndex extends ScalarIndexExtension<String>
 	private static final int INDEX_VERSION = 2;
 	private DataIndexer<String, Void, FileContent> myDataIndexer = new MyDataIndexer();
 
-	@NotNull
+	@Nonnull
 	@Override
 	public ID<String, Void> getName()
 	{
@@ -46,7 +47,7 @@ public class DartClassIndex extends ScalarIndexExtension<String>
 		return DartIndexUtil.BASE_VERSION + INDEX_VERSION;
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public DataIndexer<String, Void, FileContent> getIndexer()
 	{
@@ -100,7 +101,7 @@ public class DartClassIndex extends ScalarIndexExtension<String>
 	private static class MyDataIndexer implements DataIndexer<String, Void, FileContent>
 	{
 		@Override
-		@NotNull
+		@Nonnull
 		public Map<String, Void> map(final FileContent inputData)
 		{
 			DartFileIndexData indexData = DartIndexUtil.indexFile(inputData);

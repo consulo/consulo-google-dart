@@ -2,15 +2,15 @@
 package com.jetbrains.lang.dart.psi;
 
 import java.util.List;
-import org.jetbrains.annotations.*;
-import com.intellij.psi.PsiElement;
+
+import javax.annotation.Nonnull;
 
 public interface DartStringLiteralExpression extends DartExpression, DartReference {
 
-  @NotNull
+  @Nonnull
   List<DartLongTemplateEntry> getLongTemplateEntryList();
 
-  @NotNull
+  @Nonnull
   List<DartShortTemplateEntry> getShortTemplateEntryList();
 
 }

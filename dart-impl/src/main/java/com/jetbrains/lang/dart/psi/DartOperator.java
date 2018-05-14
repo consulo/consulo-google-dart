@@ -1,8 +1,10 @@
 package com.jetbrains.lang.dart.psi;
 
+import javax.annotation.Nonnull;
+
 import com.intellij.navigation.NavigationItem;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+
+import javax.annotation.Nullable;
 
 /**
  * @author: Fedor.Korotkov
@@ -17,6 +19,6 @@ public interface DartOperator extends DartPsiCompositeElement, NavigationItem {
   @Nullable
   DartUserDefinableOperator getUserDefinableOperator();
 
-  @NotNull
+  @Nonnull
   String getOperatorString();
 }

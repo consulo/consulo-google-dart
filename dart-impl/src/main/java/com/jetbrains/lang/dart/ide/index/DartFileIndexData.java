@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class DartFileIndexData
 {
@@ -51,7 +51,7 @@ public class DartFileIndexData
 		return myImportAndExportInfos;
 	}
 
-	public void addImportInfo(final @NotNull DartImportOrExportInfo importInfo)
+	public void addImportInfo(final @Nonnull DartImportOrExportInfo importInfo)
 	{
 		myImportAndExportInfos.add(importInfo);
 	}
@@ -61,7 +61,7 @@ public class DartFileIndexData
 		return myInheritorsMap;
 	}
 
-	public void addInheritor(@NotNull String className, DartComponentInfo inheritor)
+	public void addInheritor(@Nonnull String className, DartComponentInfo inheritor)
 	{
 		List<DartComponentInfo> list = myInheritorsMap.get(className);
 		if(list == null)

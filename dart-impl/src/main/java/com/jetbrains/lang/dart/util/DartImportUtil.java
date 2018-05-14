@@ -2,9 +2,10 @@ package com.jetbrains.lang.dart.util;
 
 import java.util.List;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import org.jetbrains.annotations.Nls;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
@@ -26,7 +27,7 @@ public class DartImportUtil
 	{
 	}
 
-	public static void insertImport(@NotNull PsiFile context, @Nls String componentName, @NotNull String libraryId)
+	public static void insertImport(@Nonnull PsiFile context, @Nls String componentName, @Nonnull String libraryId)
 	{
 		final PsiManager psiManager = context.getManager();
 		libraryRootLoop:
@@ -72,7 +73,7 @@ public class DartImportUtil
 		}
 	}
 
-	private static void addShowOrRemoveHide(@NotNull DartImportStatement importStatement, String componentName)
+	private static void addShowOrRemoveHide(@Nonnull DartImportStatement importStatement, String componentName)
 	{
 		// try to remove hide
 		for(DartHideCombinator hideCombinator : importStatement.getHideCombinatorList())
@@ -108,7 +109,7 @@ public class DartImportUtil
 		}
 	}
 
-	private static PsiElement findAnchorForImportStatement(@NotNull PsiFile psiFile, @Nullable DartImportStatement[] importStatements)
+	private static PsiElement findAnchorForImportStatement(@Nonnull PsiFile psiFile, @Nullable DartImportStatement[] importStatements)
 	{
 		if(importStatements != null && importStatements.length > 0)
 		{

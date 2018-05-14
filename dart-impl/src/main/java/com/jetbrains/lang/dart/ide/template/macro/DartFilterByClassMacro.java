@@ -9,7 +9,7 @@ import com.jetbrains.lang.dart.psi.DartComponentName;
 import com.jetbrains.lang.dart.util.DartClassResolveResult;
 import com.jetbrains.lang.dart.util.DartRefactoringUtil;
 import com.jetbrains.lang.dart.util.DartResolveUtil;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.util.List;
 import java.util.Set;
@@ -19,7 +19,7 @@ import java.util.Set;
  */
 public abstract class DartFilterByClassMacro extends Macro {
   @Override
-  public Result calculateResult(@NotNull Expression[] params, ExpressionContext context) {
+  public Result calculateResult(@Nonnull Expression[] params, ExpressionContext context) {
     final PsiElement at = context.getPsiElementAtStartOffset();
     final Set<DartComponentName> variables = DartRefactoringUtil.collectUsedComponents(at);
     final List<DartComponentName> filtered = ContainerUtil.filter(variables, new Condition<DartComponentName>() {
@@ -37,5 +37,5 @@ public abstract class DartFilterByClassMacro extends Macro {
     return filtered.isEmpty() ? null : new PsiElementResult(filtered.iterator().next());
   }
 
-  protected abstract boolean filter(@NotNull DartClass dartClass);
+  protected abstract boolean filter(@Nonnull DartClass dartClass);
 }

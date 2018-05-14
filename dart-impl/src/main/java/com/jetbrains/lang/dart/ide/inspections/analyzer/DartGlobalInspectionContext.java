@@ -6,8 +6,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import com.google.dart.engine.context.AnalysisContext;
 import com.google.dart.engine.error.AnalysisError;
 import com.intellij.analysis.AnalysisScope;
@@ -43,7 +43,7 @@ public class DartGlobalInspectionContext implements GlobalInspectionContextExten
 		return libraryRoot2Errors;
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public Key<DartGlobalInspectionContext> getID()
 	{
@@ -51,7 +51,7 @@ public class DartGlobalInspectionContext implements GlobalInspectionContextExten
 	}
 
 	@Override
-	public void performPreRunActivities(@NotNull List<Tools> globalTools, @NotNull List<Tools> localTools, @NotNull GlobalInspectionContext context)
+	public void performPreRunActivities(@Nonnull List<Tools> globalTools, @Nonnull List<Tools> localTools, @Nonnull GlobalInspectionContext context)
 	{
 		final AnalysisScope analysisScope = context.getRefManager().getScope();
 		if(analysisScope == null)
@@ -69,7 +69,7 @@ public class DartGlobalInspectionContext implements GlobalInspectionContextExten
 		}
 	}
 
-	private void analyzeFile(@NotNull final VirtualFile virtualFile, @NotNull final Project project)
+	private void analyzeFile(@Nonnull final VirtualFile virtualFile, @Nonnull final Project project)
 	{
 		final DartInProcessAnnotator annotator = new DartInProcessAnnotator();
 
@@ -115,7 +115,7 @@ public class DartGlobalInspectionContext implements GlobalInspectionContextExten
 	}
 
 	@Override
-	public void performPostRunActivities(@NotNull List<InspectionToolWrapper> inspections, @NotNull GlobalInspectionContext context)
+	public void performPostRunActivities(@Nonnull List<InspectionToolWrapper> inspections, @Nonnull GlobalInspectionContext context)
 	{
 	}
 

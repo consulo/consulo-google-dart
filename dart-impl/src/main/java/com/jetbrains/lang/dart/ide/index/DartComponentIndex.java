@@ -6,8 +6,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.Condition;
 import com.intellij.openapi.vfs.VirtualFile;
@@ -34,14 +35,14 @@ public class DartComponentIndex extends FileBasedIndexExtension<String, DartComp
 	private final DataIndexer<String, DartComponentInfo, FileContent> myIndexer = new MyDataIndexer();
 	private final DataExternalizer<DartComponentInfo> myExternalizer = new DartComponentInfoExternalizer();
 
-	@NotNull
+	@Nonnull
 	@Override
 	public ID<String, DartComponentInfo> getName()
 	{
 		return DART_COMPONENT_INDEX;
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public DataIndexer<String, DartComponentInfo, FileContent> getIndexer()
 	{
@@ -78,7 +79,7 @@ public class DartComponentIndex extends FileBasedIndexExtension<String, DartComp
 		return DartIndexUtil.BASE_VERSION + INDEX_VERSION;
 	}
 
-	public static List<VirtualFile> getAllFiles(@NotNull Project project, @Nullable String componentName)
+	public static List<VirtualFile> getAllFiles(@Nonnull Project project, @Nullable String componentName)
 	{
 		if(componentName == null)
 		{
@@ -87,7 +88,7 @@ public class DartComponentIndex extends FileBasedIndexExtension<String, DartComp
 		return new ArrayList<VirtualFile>(FileBasedIndex.getInstance().getContainingFiles(DART_COMPONENT_INDEX, componentName, GlobalSearchScope.allScope(project)));
 	}
 
-	public static void processAllComponents(@NotNull PsiElement contex, final PairProcessor<String, DartComponentInfo> processor, Condition<String> nameFilter)
+	public static void processAllComponents(@Nonnull PsiElement contex, final PairProcessor<String, DartComponentInfo> processor, Condition<String> nameFilter)
 	{
 		final Collection<String> allKeys = FileBasedIndex.getInstance().getAllKeys(DART_COMPONENT_INDEX, contex.getProject());
 		for(final String componentName : allKeys)
@@ -125,7 +126,7 @@ public class DartComponentIndex extends FileBasedIndexExtension<String, DartComp
 
 	private static class MyDataIndexer implements DataIndexer<String, DartComponentInfo, FileContent>
 	{
-		@NotNull
+		@Nonnull
 		@Override
 		public Map<String, DartComponentInfo> map(FileContent inputData)
 		{

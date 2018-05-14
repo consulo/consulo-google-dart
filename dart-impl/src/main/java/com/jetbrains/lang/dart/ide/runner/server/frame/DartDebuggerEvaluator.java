@@ -2,8 +2,8 @@ package com.jetbrains.lang.dart.ide.runner.server.frame;
 
 import java.io.IOException;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import com.intellij.xdebugger.XSourcePosition;
 import com.intellij.xdebugger.evaluation.XDebuggerEvaluator;
 import com.jetbrains.lang.dart.ide.runner.server.DartCommandLineDebugProcess;
@@ -14,12 +14,12 @@ import com.jetbrains.lang.dart.ide.runner.server.google.VmValue;
 
 class DartDebuggerEvaluator extends XDebuggerEvaluator
 {
-	@NotNull
+	@Nonnull
 	private final DartCommandLineDebugProcess myDebugProcess;
-	@NotNull
+	@Nonnull
 	private final VmCallFrame myVmCallFrame;
 
-	public DartDebuggerEvaluator(final @NotNull DartCommandLineDebugProcess debugProcess, final @NotNull VmCallFrame vmCallFrame)
+	public DartDebuggerEvaluator(final @Nonnull DartCommandLineDebugProcess debugProcess, final @Nonnull VmCallFrame vmCallFrame)
 	{
 		myDebugProcess = debugProcess;
 		myVmCallFrame = vmCallFrame;
@@ -32,7 +32,7 @@ class DartDebuggerEvaluator extends XDebuggerEvaluator
 	}
 
 	@Override
-	public void evaluate(@NotNull final String expression, @NotNull final XEvaluationCallback callback,
+	public void evaluate(@Nonnull final String expression, @Nonnull final XEvaluationCallback callback,
 			@Nullable final XSourcePosition expressionPosition)
 	{
 		try

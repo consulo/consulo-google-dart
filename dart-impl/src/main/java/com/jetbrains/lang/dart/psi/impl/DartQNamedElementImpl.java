@@ -1,5 +1,8 @@
 package com.jetbrains.lang.dart.psi.impl;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import com.intellij.lang.ASTNode;
 import com.intellij.navigation.ItemPresentation;
 import com.intellij.navigation.NavigationItem;
@@ -15,19 +18,17 @@ import com.jetbrains.lang.dart.psi.DartQNamedElement;
 import com.jetbrains.lang.dart.psi.DartQualifiedComponentName;
 import com.jetbrains.lang.dart.util.DartElementGenerator;
 import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 /**
  * @author: Fedor.Korotkov
  */
 public abstract class DartQNamedElementImpl extends DartPsiCompositeElementImpl implements DartQNamedElement {
-  public DartQNamedElementImpl(@NotNull ASTNode node) {
+  public DartQNamedElementImpl(@Nonnull ASTNode node) {
     super(node);
   }
 
   @Override
-  public PsiElement setName(@NonNls @NotNull String newElementName) throws IncorrectOperationException {
+  public PsiElement setName(@NonNls @Nonnull String newElementName) throws IncorrectOperationException {
     final DartQualifiedComponentName identifierNew = DartElementGenerator.createQIdentifierFromText(getProject(), newElementName);
 
     if (identifierNew != null) {
@@ -63,7 +64,7 @@ public abstract class DartQNamedElementImpl extends DartPsiCompositeElementImpl 
     return this;
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public SearchScope getUseScope() {
     final DartComponentType type = DartComponentType.typeOf(getParent());
@@ -77,7 +78,7 @@ public abstract class DartQNamedElementImpl extends DartPsiCompositeElementImpl 
     return super.getUseScope();
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public DartId[] getIds() {
     final DartId[] ids = PsiTreeUtil.getChildrenOfType(this, DartId.class);

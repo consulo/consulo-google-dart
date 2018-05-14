@@ -4,8 +4,9 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import com.intellij.xdebugger.frame.XExecutionStack;
 import com.intellij.xdebugger.frame.XStackFrame;
 import com.jetbrains.lang.dart.ide.runner.server.DartCommandLineDebugProcess;
@@ -14,16 +15,16 @@ import com.jetbrains.lang.dart.ide.runner.server.google.VmCallFrame;
 public class DartExecutionStack extends XExecutionStack
 {
 	private final
-	@NotNull
+	@Nonnull
 	DartCommandLineDebugProcess myDebugProcess;
 	private
 	@Nullable
 	DartStackFrame myTopFrame;
 	private final
-	@NotNull
+	@Nonnull
 	List<VmCallFrame> myVmCallFrames;
 
-	public DartExecutionStack(final @NotNull DartCommandLineDebugProcess debugProcess, final @NotNull List<VmCallFrame> vmCallFrames)
+	public DartExecutionStack(final @Nonnull DartCommandLineDebugProcess debugProcess, final @Nonnull List<VmCallFrame> vmCallFrames)
 	{
 		super("");
 		myDebugProcess = debugProcess;

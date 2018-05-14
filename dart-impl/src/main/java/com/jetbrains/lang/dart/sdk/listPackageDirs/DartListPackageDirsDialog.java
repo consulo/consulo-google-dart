@@ -4,14 +4,14 @@ import java.awt.event.ActionEvent;
 import java.util.Map;
 import java.util.Set;
 
+import javax.annotation.Nonnull;
 import javax.swing.Action;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nullable;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.DialogWrapper;
 import com.intellij.openapi.util.SystemInfo;
@@ -28,10 +28,10 @@ public class DartListPackageDirsDialog extends DialogWrapper
 	private JBTable myTable;
 
 	private
-	@NotNull
+	@Nonnull
 	final Map<String, Set<String>> myPackageMap;
 
-	protected DartListPackageDirsDialog(final @NotNull Project project, final @NotNull Map<String, Set<String>> packageMap)
+	protected DartListPackageDirsDialog(final @Nonnull Project project, final @Nonnull Map<String, Set<String>> packageMap)
 	{
 		super(project);
 		myPackageMap = packageMap;
@@ -79,7 +79,7 @@ public class DartListPackageDirsDialog extends DialogWrapper
 	}
 
 	@Override
-	@NotNull
+	@Nonnull
 	protected Action[] createActions()
 	{
 		if(SystemInfo.isMac)

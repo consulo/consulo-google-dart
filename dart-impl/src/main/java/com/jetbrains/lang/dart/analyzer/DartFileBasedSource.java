@@ -3,8 +3,8 @@ package com.jetbrains.lang.dart.analyzer;
 import java.io.IOException;
 import java.net.URI;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import com.google.dart.engine.internal.context.TimestampedData;
 import com.google.dart.engine.source.Source;
 import com.google.dart.engine.source.UriKind;
@@ -24,24 +24,24 @@ public class DartFileBasedSource implements Source
 {
 
 	private final
-	@NotNull
+	@Nonnull
 	Project myProject;
 	private final
-	@NotNull
+	@Nonnull
 	VirtualFile myFile;
 	private final
-	@NotNull
+	@Nonnull
 	UriKind myUriKind;
 	private long myModificationStampWhenFileContentWasRead = -1;
 
-	private DartFileBasedSource(final @NotNull Project project, final @NotNull VirtualFile file, final @NotNull UriKind uriKind)
+	private DartFileBasedSource(final @Nonnull Project project, final @Nonnull VirtualFile file, final @Nonnull UriKind uriKind)
 	{
 		myProject = project;
 		myFile = file;
 		myUriKind = uriKind;
 	}
 
-	@NotNull
+	@Nonnull
 	public VirtualFile getFile()
 	{
 		return myFile;
@@ -112,7 +112,7 @@ public class DartFileBasedSource implements Source
 		return myFile.getName();
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public UriKind getUriKind()
 	{
@@ -186,7 +186,7 @@ public class DartFileBasedSource implements Source
 		return Pair.create(contentsRef.get(), timestampRef.get());
 	}
 
-	public static DartFileBasedSource getSource(final @NotNull Project project, final @NotNull VirtualFile file)
+	public static DartFileBasedSource getSource(final @Nonnull Project project, final @Nonnull VirtualFile file)
 	{
 		return DartAnalyzerService.getInstance(project).getOrCreateSource(file, new Function<VirtualFile, DartFileBasedSource>()
 		{

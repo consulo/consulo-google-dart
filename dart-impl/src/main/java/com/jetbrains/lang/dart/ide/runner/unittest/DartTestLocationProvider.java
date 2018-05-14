@@ -3,7 +3,7 @@ package com.jetbrains.lang.dart.ide.runner.unittest;
 import com.intellij.execution.Location;
 import com.intellij.openapi.project.Project;
 import com.intellij.testIntegration.TestLocationProvider;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.util.List;
 
@@ -11,9 +11,9 @@ import java.util.List;
  * @author: Fedor.Korotkov
  */
 public class DartTestLocationProvider implements TestLocationProvider {
-  @NotNull
+  @Nonnull
   @Override
-  public List<Location> getLocation(@NotNull String protocolId, @NotNull String locationData, Project project) {
+  public List<Location> getLocation(@Nonnull String protocolId, @Nonnull String locationData, Project project) {
     return null;
   }
 }

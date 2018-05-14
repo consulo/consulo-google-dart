@@ -4,8 +4,8 @@ import com.intellij.lang.BracePair;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.tree.IElementType;
 import com.jetbrains.lang.dart.DartTokenTypes;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /**
  * Created by IntelliJ IDEA.
@@ -27,7 +27,7 @@ public class DartBraceMatcher implements com.intellij.lang.PairedBraceMatcher {
   }
 
   @Override
-  public boolean isPairedBracesAllowedBeforeType(@NotNull IElementType lbraceType, @Nullable IElementType contextType) {
+  public boolean isPairedBracesAllowedBeforeType(@Nonnull IElementType lbraceType, @Nullable IElementType contextType) {
     return true;
   }
 

@@ -1,6 +1,6 @@
 package com.jetbrains.lang.dart.validation.fixes;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import com.intellij.codeInsight.template.Template;
 import com.intellij.codeInsight.template.TemplateManager;
 import com.intellij.openapi.diagnostic.Logger;
@@ -22,12 +22,12 @@ abstract public class CreateDartFunctionActionBase extends BaseCreateFix
 
 	protected final String myFunctionName;
 
-	public CreateDartFunctionActionBase(@NotNull String name)
+	public CreateDartFunctionActionBase(@Nonnull String name)
 	{
 		myFunctionName = name;
 	}
 
-	@NotNull
+	@Nonnull
 	public String getFamilyName()
 	{
 		return DartBundle.message("dart.create.function.intention.family");
@@ -45,7 +45,7 @@ abstract public class CreateDartFunctionActionBase extends BaseCreateFix
 	}
 
 	@Override
-	protected void applyFix(Project project, @NotNull PsiElement psiElement, Editor editor)
+	protected void applyFix(Project project, @Nonnull PsiElement psiElement, Editor editor)
 	{
 		final TemplateManager templateManager = TemplateManager.getInstance(project);
 		Template template = templateManager.createTemplate("", "");
@@ -84,7 +84,7 @@ abstract public class CreateDartFunctionActionBase extends BaseCreateFix
 		return true;
 	}
 
-	protected void buildFunctionText(Template template, @NotNull DartCallExpression callExpression)
+	protected void buildFunctionText(Template template, @Nonnull DartCallExpression callExpression)
 	{
 		template.addTextSegment(myFunctionName);
 		template.addTextSegment("(");

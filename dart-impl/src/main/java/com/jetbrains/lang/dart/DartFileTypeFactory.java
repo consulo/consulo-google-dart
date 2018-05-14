@@ -2,7 +2,7 @@ package com.jetbrains.lang.dart;
 
 import com.intellij.openapi.fileTypes.FileTypeConsumer;
 import com.intellij.openapi.fileTypes.FileTypeFactory;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 /**
  * Created by IntelliJ IDEA.
@@ -12,7 +12,7 @@ import org.jetbrains.annotations.NotNull;
  */
 public class DartFileTypeFactory extends FileTypeFactory {
   @Override
-  public void createFileTypes(@NotNull FileTypeConsumer fileTypeConsumer) {
+  public void createFileTypes(@Nonnull FileTypeConsumer fileTypeConsumer) {
     fileTypeConsumer.consume(DartFileType.INSTANCE, DartFileType.INSTANCE.getDefaultExtension());
   }
 }

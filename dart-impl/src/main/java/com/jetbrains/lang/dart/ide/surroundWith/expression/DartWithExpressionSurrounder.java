@@ -1,5 +1,7 @@
 package com.jetbrains.lang.dart.ide.surroundWith.expression;
 
+import javax.annotation.Nonnull;
+
 import com.intellij.lang.surroundWith.Surrounder;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.Project;
@@ -8,19 +10,19 @@ import com.intellij.psi.PsiElement;
 import com.intellij.util.IncorrectOperationException;
 import com.jetbrains.lang.dart.psi.DartExpression;
 import com.jetbrains.lang.dart.util.DartElementGenerator;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+
+import javax.annotation.Nullable;
 
 /**
  * @author: Fedor.Korotkov
  */
 public abstract class DartWithExpressionSurrounder implements Surrounder {
-  public boolean isApplicable(@NotNull PsiElement[] elements) {
+  public boolean isApplicable(@Nonnull PsiElement[] elements) {
     return elements.length == 1 && elements[0] instanceof DartExpression;
   }
 
   @Nullable
-  protected DartExpression getSurroundedNode(@NotNull final PsiElement element) {
+  protected DartExpression getSurroundedNode(@Nonnull final PsiElement element) {
     return DartElementGenerator.createExpressionFromText(
       element.getProject(),
       getTemplateText(element)
@@ -28,7 +30,7 @@ public abstract class DartWithExpressionSurrounder implements Surrounder {
   }
 
   @Nullable
-  public TextRange surroundElements(@NotNull Project project, @NotNull Editor editor, @NotNull PsiElement[] elements)
+  public TextRange surroundElements(@Nonnull Project project, @Nonnull Editor editor, @Nonnull PsiElement[] elements)
     throws IncorrectOperationException {
     PsiElement source = elements[0];
 

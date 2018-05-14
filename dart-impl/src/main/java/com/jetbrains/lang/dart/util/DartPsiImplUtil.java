@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import com.intellij.openapi.util.io.FileUtil;
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.openapi.vfs.VirtualFile;
@@ -19,36 +19,36 @@ import com.jetbrains.lang.dart.resolve.DartResolveProcessor;
 public class DartPsiImplUtil
 {
 
-	@NotNull
-	public static String getPath(@NotNull DartPartStatement partStatement)
+	@Nonnull
+	public static String getPath(@Nonnull DartPartStatement partStatement)
 	{
 		final DartExpression expression = partStatement.getPathOrLibraryReference();
 		return FileUtil.toSystemIndependentName(StringUtil.unquoteString(expression.getText()));
 	}
 
-	@NotNull
-	public static String getLibraryName(@NotNull DartLibraryStatement libraryStatement)
+	@Nonnull
+	public static String getLibraryName(@Nonnull DartLibraryStatement libraryStatement)
 	{
 		final DartQualifiedComponentName componentName = libraryStatement.getQualifiedComponentName();
 		return StringUtil.notNullize(componentName.getName());
 	}
 
-	@NotNull
-	public static String getUri(@NotNull DartImportOrExportStatement importStatement)
+	@Nonnull
+	public static String getUri(@Nonnull DartImportOrExportStatement importStatement)
 	{
 		final DartExpression expression = importStatement.getLibraryExpression();
 		return StringUtil.unquoteString(expression.getText());
 	}
 
-	@NotNull
-	public static String getLibraryName(@NotNull DartPartOfStatement importStatement)
+	@Nonnull
+	public static String getLibraryName(@Nonnull DartPartOfStatement importStatement)
 	{
 		final DartLibraryId expression = importStatement.getLibraryId();
 		return FileUtil.toSystemIndependentName(StringUtil.unquoteString(expression.getText()));
 	}
 
 	@Nullable
-	public static PsiElement resolveReference(@NotNull DartType dartType)
+	public static PsiElement resolveReference(@Nonnull DartType dartType)
 	{
 		final DartExpression expression = dartType.getReferenceExpression();
 		final String typeName = expression.getText();
@@ -92,7 +92,7 @@ public class DartPsiImplUtil
 	}
 
 	@Nullable
-	public static DartComponentName findComponentName(final @NotNull DartNormalFormalParameter normalFormalParameter)
+	public static DartComponentName findComponentName(final @Nonnull DartNormalFormalParameter normalFormalParameter)
 	{
 		final DartFunctionSignature functionDeclaration = normalFormalParameter.getFunctionSignature();
 		final DartFieldFormalParameter fieldFormalParameter = normalFormalParameter.getFieldFormalParameter();

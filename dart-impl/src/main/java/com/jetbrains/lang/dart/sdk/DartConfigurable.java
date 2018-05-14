@@ -1,6 +1,7 @@
 package com.jetbrains.lang.dart.sdk;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
+
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.roots.LibraryOrderEntry;
 import com.intellij.openapi.roots.ModuleRootManager;
@@ -12,8 +13,8 @@ public class DartConfigurable
 {
 	private static final String CUSTOM_PACKAGE_ROOTS_LIB_NAME = "Dart custom package roots";
 
-	@NotNull
-	public static VirtualFile[] getCustomPackageRoots(final @NotNull Module module)
+	@Nonnull
+	public static VirtualFile[] getCustomPackageRoots(final @Nonnull Module module)
 	{
 		for(OrderEntry entry : ModuleRootManager.getInstance(module).getOrderEntries())
 		{
@@ -26,7 +27,7 @@ public class DartConfigurable
 		return VirtualFile.EMPTY_ARRAY;
 	}
 
-	public static boolean isCustomPackageRootSet(final @NotNull Module module)
+	public static boolean isCustomPackageRootSet(final @Nonnull Module module)
 	{
 		for(OrderEntry entry : ModuleRootManager.getInstance(module).getOrderEntries())
 		{

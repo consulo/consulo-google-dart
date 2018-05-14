@@ -6,7 +6,7 @@ import com.jetbrains.lang.dart.psi.DartFormalParameterList;
 import com.jetbrains.lang.dart.psi.DartNormalFormalParameter;
 import com.jetbrains.lang.dart.util.DartGenericSpecialization;
 import com.jetbrains.lang.dart.util.DartPresentableUtil;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.util.List;
 
@@ -16,7 +16,7 @@ import java.util.List;
 public class DartParameterDescription {
   private final String myText;
 
-  public DartParameterDescription(@NotNull String text) {
+  public DartParameterDescription(@Nonnull String text) {
     myText = text;
   }
 

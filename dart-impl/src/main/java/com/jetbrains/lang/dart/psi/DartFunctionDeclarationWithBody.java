@@ -2,21 +2,21 @@
 package com.jetbrains.lang.dart.psi;
 
 import java.util.List;
-import org.jetbrains.annotations.*;
-import com.intellij.psi.PsiElement;
+
+import javax.annotation.*;
 
 public interface DartFunctionDeclarationWithBody extends DartComponent {
 
-  @NotNull
+  @Nonnull
   DartComponentName getComponentName();
 
-  @NotNull
+  @Nonnull
   DartFormalParameterList getFormalParameterList();
 
-  @NotNull
+  @Nonnull
   DartFunctionBody getFunctionBody();
 
-  @NotNull
+  @Nonnull
   List<DartMetadata> getMetadataList();
 
   @Nullable

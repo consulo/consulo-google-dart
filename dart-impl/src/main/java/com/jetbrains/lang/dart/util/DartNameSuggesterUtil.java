@@ -7,8 +7,8 @@ import com.jetbrains.lang.dart.psi.DartCallExpression;
 import com.jetbrains.lang.dart.psi.DartClass;
 import com.jetbrains.lang.dart.psi.DartExpression;
 import com.jetbrains.lang.dart.psi.DartReference;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import java.util.*;
 import java.util.regex.Matcher;
@@ -21,7 +21,7 @@ public class DartNameSuggesterUtil {
   private DartNameSuggesterUtil() {
   }
 
-  private static String deleteNonLetterFromString(@NotNull final String string) {
+  private static String deleteNonLetterFromString(@Nonnull final String string) {
     Pattern pattern = Pattern.compile("[^a-zA-Z_]+");
     Matcher matcher = pattern.matcher(string);
     return matcher.replaceAll("_");
@@ -74,8 +74,8 @@ public class DartNameSuggesterUtil {
     return result;
   }
 
-  @NotNull
-  public static Collection<String> generateNames(@NotNull String name) {
+  @Nonnull
+  public static Collection<String> generateNames(@Nonnull String name) {
     name = StringUtil.decapitalize(deleteNonLetterFromString(StringUtil.unquoteString(name.replace('.', '_'))));
     if (name.startsWith("get")) {
       name = name.substring(3);

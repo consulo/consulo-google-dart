@@ -1,7 +1,7 @@
 package com.jetbrains.lang.dart.validation.fixes;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.ScrollType;
 import com.intellij.openapi.fileEditor.FileEditor;
@@ -22,7 +22,7 @@ public abstract class BaseCreateFix extends FixAndIntentionAction
 		return true;
 	}
 
-	protected static boolean isInDartSdkOrDartPackagesFolder(final @NotNull PsiFile psiFile)
+	protected static boolean isInDartSdkOrDartPackagesFolder(final @Nonnull PsiFile psiFile)
 	{
 		final VirtualFile vFile = psiFile.getOriginalFile().getVirtualFile();
 		return vFile != null && DartWritingAccessProvider.isInDartSdkOrDartPackagesFolder(psiFile.getProject(), vFile);

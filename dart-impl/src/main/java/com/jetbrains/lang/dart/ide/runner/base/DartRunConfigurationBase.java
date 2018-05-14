@@ -1,8 +1,9 @@
 package com.jetbrains.lang.dart.ide.runner.base;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import org.jdom.Element;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import com.intellij.execution.configurations.ConfigurationFactory;
 import com.intellij.execution.configurations.LocatableConfigurationBase;
 import com.intellij.execution.configurations.RefactoringListenerProvider;
@@ -30,7 +31,7 @@ public abstract class DartRunConfigurationBase extends LocatableConfigurationBas
 		super(project, factory, name);
 	}
 
-	@NotNull
+	@Nonnull
 	public abstract DartCommandLineRunnerParameters getRunnerParameters();
 
 	@Override
@@ -91,15 +92,15 @@ public abstract class DartRunConfigurationBase extends LocatableConfigurationBas
 	private class RenameRefactoringListener extends UndoRefactoringElementAdapter
 	{
 		private
-		@NotNull
+		@Nonnull
 		String myAffectedPath;
 
-		private RenameRefactoringListener(final @NotNull String affectedPath)
+		private RenameRefactoringListener(final @Nonnull String affectedPath)
 		{
 			myAffectedPath = affectedPath;
 		}
 
-		private String getNewPathAndUpdateAffectedPath(final @NotNull PsiElement newElement)
+		private String getNewPathAndUpdateAffectedPath(final @Nonnull PsiElement newElement)
 		{
 			final String oldPath = getRunnerParameters().getFilePath();
 
@@ -115,7 +116,7 @@ public abstract class DartRunConfigurationBase extends LocatableConfigurationBas
 		}
 
 		@Override
-		protected void refactored(@NotNull final PsiElement element, @Nullable final String oldQualifiedName)
+		protected void refactored(@Nonnull final PsiElement element, @Nullable final String oldQualifiedName)
 		{
 			final boolean generatedName = getName().equals(suggestedName());
 			final String filePath = getRunnerParameters().getFilePath();

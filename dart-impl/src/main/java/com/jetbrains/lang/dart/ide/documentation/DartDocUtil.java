@@ -5,8 +5,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.psi.PsiComment;
 import com.intellij.psi.PsiElement;
@@ -135,8 +136,8 @@ public class DartDocUtil
 		return null;
 	}
 
-	@NotNull
-	private static String getMultilineDocCommentText(final @NotNull DartDocComment docComment)
+	@Nonnull
+	private static String getMultilineDocCommentText(final @Nonnull DartDocComment docComment)
 	{
 		final StringBuilder buf = new StringBuilder();
 		boolean afterAsterisk = false;
@@ -175,7 +176,7 @@ public class DartDocUtil
 	}
 
 	@Nullable
-	private static String getSingleLineDocCommentsText(final @NotNull PsiComment[] comments)
+	private static String getSingleLineDocCommentsText(final @Nonnull PsiComment[] comments)
 	{
 		StringBuilder buf = null;
 

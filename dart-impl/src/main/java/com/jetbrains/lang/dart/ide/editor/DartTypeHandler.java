@@ -1,5 +1,7 @@
 package com.jetbrains.lang.dart.ide.editor;
 
+import javax.annotation.Nonnull;
+
 import com.intellij.codeInsight.editorActions.TypedHandlerDelegate;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.fileTypes.FileType;
@@ -11,7 +13,6 @@ import com.jetbrains.lang.dart.psi.DartComponentName;
 import com.jetbrains.lang.dart.psi.DartPsiCompositeElement;
 import com.jetbrains.lang.dart.psi.DartType;
 import com.jetbrains.lang.dart.util.UsefulPsiTreeUtil;
-import org.jetbrains.annotations.NotNull;
 
 public class DartTypeHandler extends TypedHandlerDelegate {
   private boolean myAfterTypeOrComponentName = false;
@@ -46,7 +47,7 @@ public class DartTypeHandler extends TypedHandlerDelegate {
   }
 
   @Override
-  public Result charTyped(char c, Project project, Editor editor, @NotNull PsiFile file) {
+  public Result charTyped(char c, Project project, Editor editor, @Nonnull PsiFile file) {
     String textToInsert = null;
     if (c == '<' && myAfterTypeOrComponentName) {
       myAfterTypeOrComponentName = false;

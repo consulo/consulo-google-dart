@@ -2,15 +2,15 @@
 package com.jetbrains.lang.dart.psi;
 
 import java.util.List;
-import org.jetbrains.annotations.*;
-import com.intellij.psi.PsiElement;
+
+import javax.annotation.*;
 
 public interface DartFactoryConstructorDeclaration extends DartComponent {
 
   @Nullable
   DartComponentName getComponentName();
 
-  @NotNull
+  @Nonnull
   List<DartExpression> getExpressionList();
 
   @Nullable
@@ -19,7 +19,7 @@ public interface DartFactoryConstructorDeclaration extends DartComponent {
   @Nullable
   DartFunctionBody getFunctionBody();
 
-  @NotNull
+  @Nonnull
   List<DartMetadata> getMetadataList();
 
   @Nullable

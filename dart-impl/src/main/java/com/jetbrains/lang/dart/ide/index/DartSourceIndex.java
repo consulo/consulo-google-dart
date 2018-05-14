@@ -6,7 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
+
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.search.GlobalSearchScope;
@@ -27,7 +28,7 @@ public class DartSourceIndex extends ScalarIndexExtension<String>
 	private static final int INDEX_VERSION = 2;
 	private DataIndexer<String, Void, FileContent> myDataIndexer = new MyDataIndexer();
 
-	@NotNull
+	@Nonnull
 	@Override
 	public ID<String, Void> getName()
 	{
@@ -40,7 +41,7 @@ public class DartSourceIndex extends ScalarIndexExtension<String>
 		return DartIndexUtil.BASE_VERSION + INDEX_VERSION;
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public DataIndexer<String, Void, FileContent> getIndexer()
 	{
@@ -65,7 +66,7 @@ public class DartSourceIndex extends ScalarIndexExtension<String>
 		return true;
 	}
 
-	public static List<VirtualFile> findLibraries(final PsiElement context, @NotNull String fileName, @NotNull final GlobalSearchScope scope)
+	public static List<VirtualFile> findLibraries(final PsiElement context, @Nonnull String fileName, @Nonnull final GlobalSearchScope scope)
 	{
 		return new ArrayList<VirtualFile>(FileBasedIndex.getInstance().getContainingFiles(DART_SOURCE_INDEX, fileName, scope));
 	}
@@ -73,7 +74,7 @@ public class DartSourceIndex extends ScalarIndexExtension<String>
 	private static class MyDataIndexer implements DataIndexer<String, Void, FileContent>
 	{
 		@Override
-		@NotNull
+		@Nonnull
 		public Map<String, Void> map(final FileContent inputData)
 		{
 			final Map<String, Void> result = new THashMap<String, Void>();

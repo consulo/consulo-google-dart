@@ -1,7 +1,8 @@
 package com.jetbrains.lang.dart.ide.runner.unittest;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import com.intellij.execution.ExecutionException;
 import com.intellij.execution.Executor;
 import com.intellij.execution.configurations.ConfigurationFactory;
@@ -19,7 +20,7 @@ public class DartUnitRunConfiguration extends DartRunConfigurationBase
 {
 
 	private
-	@NotNull
+	@Nonnull
 	DartUnitRunnerParameters myRunnerParameters = new DartUnitRunnerParameters();
 
 	protected DartUnitRunConfiguration(final Project project, final ConfigurationFactory factory, final String name)
@@ -28,13 +29,13 @@ public class DartUnitRunConfiguration extends DartRunConfigurationBase
 	}
 
 	@Override
-	@NotNull
+	@Nonnull
 	public DartUnitRunnerParameters getRunnerParameters()
 	{
 		return myRunnerParameters;
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public SettingsEditor<? extends RunConfiguration> getConfigurationEditor()
 	{
@@ -43,7 +44,7 @@ public class DartUnitRunConfiguration extends DartRunConfigurationBase
 
 	@Override
 	@Nullable
-	public RunProfileState getState(@NotNull Executor executor, @NotNull ExecutionEnvironment env) throws ExecutionException
+	public RunProfileState getState(@Nonnull Executor executor, @Nonnull ExecutionEnvironment env) throws ExecutionException
 	{
 		return new DartUnitRunningState(env);
 	}

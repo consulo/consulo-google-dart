@@ -1,573 +1,574 @@
 // This is a generated file. Not intended for manual editing.
 package com.jetbrains.lang.dart.psi;
 
-import org.jetbrains.annotations.*;
+import javax.annotation.Nonnull;
+
 import com.intellij.psi.PsiElementVisitor;
 
 public class DartVisitor extends PsiElementVisitor {
 
-  public void visitAdditiveExpression(@NotNull DartAdditiveExpression o) {
+  public void visitAdditiveExpression(@Nonnull DartAdditiveExpression o) {
     visitExpression(o);
     // visitReference(o);
   }
 
-  public void visitAdditiveOperator(@NotNull DartAdditiveOperator o) {
+  public void visitAdditiveOperator(@Nonnull DartAdditiveOperator o) {
     visitPsiCompositeElement(o);
   }
 
-  public void visitArgumentList(@NotNull DartArgumentList o) {
+  public void visitArgumentList(@Nonnull DartArgumentList o) {
     visitPsiCompositeElement(o);
   }
 
-  public void visitArguments(@NotNull DartArguments o) {
+  public void visitArguments(@Nonnull DartArguments o) {
     visitPsiCompositeElement(o);
   }
 
-  public void visitArrayAccessExpression(@NotNull DartArrayAccessExpression o) {
+  public void visitArrayAccessExpression(@Nonnull DartArrayAccessExpression o) {
     visitExpression(o);
     // visitReference(o);
   }
 
-  public void visitAsExpression(@NotNull DartAsExpression o) {
+  public void visitAsExpression(@Nonnull DartAsExpression o) {
     visitExpression(o);
     // visitReference(o);
   }
 
-  public void visitAssertStatement(@NotNull DartAssertStatement o) {
+  public void visitAssertStatement(@Nonnull DartAssertStatement o) {
     visitPsiCompositeElement(o);
   }
 
-  public void visitAssignExpression(@NotNull DartAssignExpression o) {
+  public void visitAssignExpression(@Nonnull DartAssignExpression o) {
     visitExpression(o);
   }
 
-  public void visitAssignmentOperator(@NotNull DartAssignmentOperator o) {
+  public void visitAssignmentOperator(@Nonnull DartAssignmentOperator o) {
     visitPsiCompositeElement(o);
   }
 
-  public void visitBitwiseExpression(@NotNull DartBitwiseExpression o) {
-    visitExpression(o);
-    // visitReference(o);
-  }
-
-  public void visitBitwiseOperator(@NotNull DartBitwiseOperator o) {
-    visitPsiCompositeElement(o);
-  }
-
-  public void visitBlock(@NotNull DartBlock o) {
-    visitPsiCompositeElement(o);
-  }
-
-  public void visitBreakStatement(@NotNull DartBreakStatement o) {
-    visitPsiCompositeElement(o);
-  }
-
-  public void visitCallExpression(@NotNull DartCallExpression o) {
+  public void visitBitwiseExpression(@Nonnull DartBitwiseExpression o) {
     visitExpression(o);
     // visitReference(o);
   }
 
-  public void visitCascadeReferenceExpression(@NotNull DartCascadeReferenceExpression o) {
+  public void visitBitwiseOperator(@Nonnull DartBitwiseOperator o) {
+    visitPsiCompositeElement(o);
+  }
+
+  public void visitBlock(@Nonnull DartBlock o) {
+    visitPsiCompositeElement(o);
+  }
+
+  public void visitBreakStatement(@Nonnull DartBreakStatement o) {
+    visitPsiCompositeElement(o);
+  }
+
+  public void visitCallExpression(@Nonnull DartCallExpression o) {
     visitExpression(o);
     // visitReference(o);
   }
 
-  public void visitCatchPart(@NotNull DartCatchPart o) {
+  public void visitCascadeReferenceExpression(@Nonnull DartCascadeReferenceExpression o) {
+    visitExpression(o);
+    // visitReference(o);
+  }
+
+  public void visitCatchPart(@Nonnull DartCatchPart o) {
     visitPsiCompositeElement(o);
   }
 
-  public void visitClassBody(@NotNull DartClassBody o) {
+  public void visitClassBody(@Nonnull DartClassBody o) {
     visitPsiCompositeElement(o);
   }
 
-  public void visitClassDefinition(@NotNull DartClassDefinition o) {
+  public void visitClassDefinition(@Nonnull DartClassDefinition o) {
     visitClass(o);
   }
 
-  public void visitClassMembers(@NotNull DartClassMembers o) {
+  public void visitClassMembers(@Nonnull DartClassMembers o) {
     visitExecutionScope(o);
   }
 
-  public void visitCompareExpression(@NotNull DartCompareExpression o) {
+  public void visitCompareExpression(@Nonnull DartCompareExpression o) {
     visitExpression(o);
     // visitReference(o);
   }
 
-  public void visitComponentName(@NotNull DartComponentName o) {
+  public void visitComponentName(@Nonnull DartComponentName o) {
     visitNamedElement(o);
   }
 
-  public void visitConstConstructorExpression(@NotNull DartConstConstructorExpression o) {
+  public void visitConstConstructorExpression(@Nonnull DartConstConstructorExpression o) {
     visitExpression(o);
     // visitReference(o);
   }
 
-  public void visitContinueStatement(@NotNull DartContinueStatement o) {
+  public void visitContinueStatement(@Nonnull DartContinueStatement o) {
     visitPsiCompositeElement(o);
   }
 
-  public void visitDefaultCase(@NotNull DartDefaultCase o) {
+  public void visitDefaultCase(@Nonnull DartDefaultCase o) {
     visitPsiCompositeElement(o);
   }
 
-  public void visitDefaultFormalNamedParameter(@NotNull DartDefaultFormalNamedParameter o) {
+  public void visitDefaultFormalNamedParameter(@Nonnull DartDefaultFormalNamedParameter o) {
     visitPsiCompositeElement(o);
   }
 
-  public void visitDoWhileStatement(@NotNull DartDoWhileStatement o) {
+  public void visitDoWhileStatement(@Nonnull DartDoWhileStatement o) {
     visitPsiCompositeElement(o);
   }
 
-  public void visitEqualityOperator(@NotNull DartEqualityOperator o) {
+  public void visitEqualityOperator(@Nonnull DartEqualityOperator o) {
     visitPsiCompositeElement(o);
   }
 
-  public void visitExportStatement(@NotNull DartExportStatement o) {
+  public void visitExportStatement(@Nonnull DartExportStatement o) {
     visitImportOrExportStatement(o);
   }
 
-  public void visitExpression(@NotNull DartExpression o) {
+  public void visitExpression(@Nonnull DartExpression o) {
     visitPsiCompositeElement(o);
   }
 
-  public void visitExpressionList(@NotNull DartExpressionList o) {
+  public void visitExpressionList(@Nonnull DartExpressionList o) {
     visitPsiCompositeElement(o);
   }
 
-  public void visitFactoryConstructorDeclaration(@NotNull DartFactoryConstructorDeclaration o) {
+  public void visitFactoryConstructorDeclaration(@Nonnull DartFactoryConstructorDeclaration o) {
     visitComponent(o);
   }
 
-  public void visitFieldFormalParameter(@NotNull DartFieldFormalParameter o) {
+  public void visitFieldFormalParameter(@Nonnull DartFieldFormalParameter o) {
     visitPsiCompositeElement(o);
   }
 
-  public void visitFieldInitializer(@NotNull DartFieldInitializer o) {
+  public void visitFieldInitializer(@Nonnull DartFieldInitializer o) {
     visitPsiCompositeElement(o);
   }
 
-  public void visitFinallyPart(@NotNull DartFinallyPart o) {
+  public void visitFinallyPart(@Nonnull DartFinallyPart o) {
     visitPsiCompositeElement(o);
   }
 
-  public void visitForInPart(@NotNull DartForInPart o) {
+  public void visitForInPart(@Nonnull DartForInPart o) {
     visitPsiCompositeElement(o);
   }
 
-  public void visitForLoopParts(@NotNull DartForLoopParts o) {
+  public void visitForLoopParts(@Nonnull DartForLoopParts o) {
     visitPsiCompositeElement(o);
   }
 
-  public void visitForLoopPartsInBraces(@NotNull DartForLoopPartsInBraces o) {
+  public void visitForLoopPartsInBraces(@Nonnull DartForLoopPartsInBraces o) {
     visitPsiCompositeElement(o);
   }
 
-  public void visitForStatement(@NotNull DartForStatement o) {
+  public void visitForStatement(@Nonnull DartForStatement o) {
     visitPsiCompositeElement(o);
   }
 
-  public void visitFormalParameterList(@NotNull DartFormalParameterList o) {
+  public void visitFormalParameterList(@Nonnull DartFormalParameterList o) {
     visitPsiCompositeElement(o);
   }
 
-  public void visitFunctionBody(@NotNull DartFunctionBody o) {
+  public void visitFunctionBody(@Nonnull DartFunctionBody o) {
     visitPsiCompositeElement(o);
   }
 
-  public void visitFunctionDeclarationWithBody(@NotNull DartFunctionDeclarationWithBody o) {
+  public void visitFunctionDeclarationWithBody(@Nonnull DartFunctionDeclarationWithBody o) {
     visitComponent(o);
   }
 
-  public void visitFunctionDeclarationWithBodyOrNative(@NotNull DartFunctionDeclarationWithBodyOrNative o) {
+  public void visitFunctionDeclarationWithBodyOrNative(@Nonnull DartFunctionDeclarationWithBodyOrNative o) {
     visitComponent(o);
   }
 
-  public void visitFunctionExpression(@NotNull DartFunctionExpression o) {
+  public void visitFunctionExpression(@Nonnull DartFunctionExpression o) {
     visitExpression(o);
   }
 
-  public void visitFunctionExpressionBody(@NotNull DartFunctionExpressionBody o) {
+  public void visitFunctionExpressionBody(@Nonnull DartFunctionExpressionBody o) {
     visitPsiCompositeElement(o);
   }
 
-  public void visitFunctionSignature(@NotNull DartFunctionSignature o) {
+  public void visitFunctionSignature(@Nonnull DartFunctionSignature o) {
     visitComponent(o);
   }
 
-  public void visitFunctionTypeAlias(@NotNull DartFunctionTypeAlias o) {
+  public void visitFunctionTypeAlias(@Nonnull DartFunctionTypeAlias o) {
     visitComponent(o);
   }
 
-  public void visitGetterDeclaration(@NotNull DartGetterDeclaration o) {
+  public void visitGetterDeclaration(@Nonnull DartGetterDeclaration o) {
     visitComponent(o);
   }
 
-  public void visitHideCombinator(@NotNull DartHideCombinator o) {
+  public void visitHideCombinator(@Nonnull DartHideCombinator o) {
     visitPsiCompositeElement(o);
   }
 
-  public void visitId(@NotNull DartId o) {
+  public void visitId(@Nonnull DartId o) {
     visitPsiCompositeElement(o);
   }
 
-  public void visitIfStatement(@NotNull DartIfStatement o) {
+  public void visitIfStatement(@Nonnull DartIfStatement o) {
     visitPsiCompositeElement(o);
   }
 
-  public void visitImportStatement(@NotNull DartImportStatement o) {
+  public void visitImportStatement(@Nonnull DartImportStatement o) {
     visitImportOrExportStatement(o);
   }
 
-  public void visitIncompleteDeclaration(@NotNull DartIncompleteDeclaration o) {
+  public void visitIncompleteDeclaration(@Nonnull DartIncompleteDeclaration o) {
     visitPsiCompositeElement(o);
   }
 
-  public void visitInitializers(@NotNull DartInitializers o) {
+  public void visitInitializers(@Nonnull DartInitializers o) {
     visitPsiCompositeElement(o);
   }
 
-  public void visitInterfaces(@NotNull DartInterfaces o) {
+  public void visitInterfaces(@Nonnull DartInterfaces o) {
     visitPsiCompositeElement(o);
   }
 
-  public void visitIsExpression(@NotNull DartIsExpression o) {
+  public void visitIsExpression(@Nonnull DartIsExpression o) {
     visitExpression(o);
   }
 
-  public void visitLabel(@NotNull DartLabel o) {
+  public void visitLabel(@Nonnull DartLabel o) {
     visitComponent(o);
   }
 
-  public void visitLibraryComponentReferenceExpression(@NotNull DartLibraryComponentReferenceExpression o) {
+  public void visitLibraryComponentReferenceExpression(@Nonnull DartLibraryComponentReferenceExpression o) {
     visitExpression(o);
     // visitReference(o);
   }
 
-  public void visitLibraryId(@NotNull DartLibraryId o) {
+  public void visitLibraryId(@Nonnull DartLibraryId o) {
     visitReference(o);
   }
 
-  public void visitLibraryReferenceList(@NotNull DartLibraryReferenceList o) {
+  public void visitLibraryReferenceList(@Nonnull DartLibraryReferenceList o) {
     visitPsiCompositeElement(o);
   }
 
-  public void visitLibraryStatement(@NotNull DartLibraryStatement o) {
+  public void visitLibraryStatement(@Nonnull DartLibraryStatement o) {
     visitPsiCompositeElement(o);
   }
 
-  public void visitListLiteralExpression(@NotNull DartListLiteralExpression o) {
+  public void visitListLiteralExpression(@Nonnull DartListLiteralExpression o) {
     visitExpression(o);
     // visitReference(o);
   }
 
-  public void visitLiteralExpression(@NotNull DartLiteralExpression o) {
+  public void visitLiteralExpression(@Nonnull DartLiteralExpression o) {
     visitExpression(o);
     // visitReference(o);
   }
 
-  public void visitLogicAndExpression(@NotNull DartLogicAndExpression o) {
+  public void visitLogicAndExpression(@Nonnull DartLogicAndExpression o) {
     visitExpression(o);
     // visitReference(o);
   }
 
-  public void visitLogicOrExpression(@NotNull DartLogicOrExpression o) {
+  public void visitLogicOrExpression(@Nonnull DartLogicOrExpression o) {
     visitExpression(o);
     // visitReference(o);
   }
 
-  public void visitLongTemplateEntry(@NotNull DartLongTemplateEntry o) {
+  public void visitLongTemplateEntry(@Nonnull DartLongTemplateEntry o) {
     visitPsiCompositeElement(o);
   }
 
-  public void visitMapLiteralEntry(@NotNull DartMapLiteralEntry o) {
+  public void visitMapLiteralEntry(@Nonnull DartMapLiteralEntry o) {
     visitPsiCompositeElement(o);
   }
 
-  public void visitMapLiteralExpression(@NotNull DartMapLiteralExpression o) {
+  public void visitMapLiteralExpression(@Nonnull DartMapLiteralExpression o) {
     visitExpression(o);
     // visitReference(o);
   }
 
-  public void visitMetadata(@NotNull DartMetadata o) {
+  public void visitMetadata(@Nonnull DartMetadata o) {
     visitPsiCompositeElement(o);
   }
 
-  public void visitMethodDeclaration(@NotNull DartMethodDeclaration o) {
+  public void visitMethodDeclaration(@Nonnull DartMethodDeclaration o) {
     visitComponent(o);
   }
 
-  public void visitMixinApplication(@NotNull DartMixinApplication o) {
+  public void visitMixinApplication(@Nonnull DartMixinApplication o) {
     visitPsiCompositeElement(o);
   }
 
-  public void visitMixins(@NotNull DartMixins o) {
+  public void visitMixins(@Nonnull DartMixins o) {
     visitPsiCompositeElement(o);
   }
 
-  public void visitMultiplicativeExpression(@NotNull DartMultiplicativeExpression o) {
+  public void visitMultiplicativeExpression(@Nonnull DartMultiplicativeExpression o) {
     visitExpression(o);
     // visitReference(o);
   }
 
-  public void visitMultiplicativeOperator(@NotNull DartMultiplicativeOperator o) {
+  public void visitMultiplicativeOperator(@Nonnull DartMultiplicativeOperator o) {
     visitPsiCompositeElement(o);
   }
 
-  public void visitNamedArgument(@NotNull DartNamedArgument o) {
+  public void visitNamedArgument(@Nonnull DartNamedArgument o) {
     visitPsiCompositeElement(o);
   }
 
-  public void visitNamedConstructorDeclaration(@NotNull DartNamedConstructorDeclaration o) {
+  public void visitNamedConstructorDeclaration(@Nonnull DartNamedConstructorDeclaration o) {
     visitComponent(o);
   }
 
-  public void visitNamedFormalParameters(@NotNull DartNamedFormalParameters o) {
+  public void visitNamedFormalParameters(@Nonnull DartNamedFormalParameters o) {
     visitPsiCompositeElement(o);
   }
 
-  public void visitNewExpression(@NotNull DartNewExpression o) {
+  public void visitNewExpression(@Nonnull DartNewExpression o) {
     visitExpression(o);
     // visitReference(o);
   }
 
-  public void visitNormalFormalParameter(@NotNull DartNormalFormalParameter o) {
+  public void visitNormalFormalParameter(@Nonnull DartNormalFormalParameter o) {
     visitPsiCompositeElement(o);
   }
 
-  public void visitOnPart(@NotNull DartOnPart o) {
+  public void visitOnPart(@Nonnull DartOnPart o) {
     visitPsiCompositeElement(o);
   }
 
-  public void visitOperatorDeclaration(@NotNull DartOperatorDeclaration o) {
+  public void visitOperatorDeclaration(@Nonnull DartOperatorDeclaration o) {
     visitOperator(o);
   }
 
-  public void visitParameterNameReferenceExpression(@NotNull DartParameterNameReferenceExpression o) {
+  public void visitParameterNameReferenceExpression(@Nonnull DartParameterNameReferenceExpression o) {
     visitExpression(o);
     // visitReference(o);
   }
 
-  public void visitParenthesizedExpression(@NotNull DartParenthesizedExpression o) {
+  public void visitParenthesizedExpression(@Nonnull DartParenthesizedExpression o) {
     visitExpression(o);
     // visitReference(o);
   }
 
-  public void visitPartOfStatement(@NotNull DartPartOfStatement o) {
+  public void visitPartOfStatement(@Nonnull DartPartOfStatement o) {
     visitPsiCompositeElement(o);
   }
 
-  public void visitPartStatement(@NotNull DartPartStatement o) {
+  public void visitPartStatement(@Nonnull DartPartStatement o) {
     visitPsiCompositeElement(o);
   }
 
-  public void visitPathOrLibraryReference(@NotNull DartPathOrLibraryReference o) {
+  public void visitPathOrLibraryReference(@Nonnull DartPathOrLibraryReference o) {
     visitReference(o);
   }
 
-  public void visitPrefixExpression(@NotNull DartPrefixExpression o) {
+  public void visitPrefixExpression(@Nonnull DartPrefixExpression o) {
     visitExpression(o);
     // visitReference(o);
   }
 
-  public void visitPrefixOperator(@NotNull DartPrefixOperator o) {
+  public void visitPrefixOperator(@Nonnull DartPrefixOperator o) {
     visitPsiCompositeElement(o);
   }
 
-  public void visitQualifiedComponentName(@NotNull DartQualifiedComponentName o) {
+  public void visitQualifiedComponentName(@Nonnull DartQualifiedComponentName o) {
     visitQNamedElement(o);
   }
 
-  public void visitRedirection(@NotNull DartRedirection o) {
+  public void visitRedirection(@Nonnull DartRedirection o) {
     visitPsiCompositeElement(o);
   }
 
-  public void visitReferenceExpression(@NotNull DartReferenceExpression o) {
+  public void visitReferenceExpression(@Nonnull DartReferenceExpression o) {
     visitExpression(o);
     // visitReference(o);
   }
 
-  public void visitRelationalOperator(@NotNull DartRelationalOperator o) {
+  public void visitRelationalOperator(@Nonnull DartRelationalOperator o) {
     visitPsiCompositeElement(o);
   }
 
-  public void visitRethrowStatement(@NotNull DartRethrowStatement o) {
+  public void visitRethrowStatement(@Nonnull DartRethrowStatement o) {
     visitPsiCompositeElement(o);
   }
 
-  public void visitReturnStatement(@NotNull DartReturnStatement o) {
+  public void visitReturnStatement(@Nonnull DartReturnStatement o) {
     visitPsiCompositeElement(o);
   }
 
-  public void visitReturnType(@NotNull DartReturnType o) {
+  public void visitReturnType(@Nonnull DartReturnType o) {
     visitPsiCompositeElement(o);
   }
 
-  public void visitSetterDeclaration(@NotNull DartSetterDeclaration o) {
+  public void visitSetterDeclaration(@Nonnull DartSetterDeclaration o) {
     visitComponent(o);
   }
 
-  public void visitShiftExpression(@NotNull DartShiftExpression o) {
+  public void visitShiftExpression(@Nonnull DartShiftExpression o) {
     visitExpression(o);
     // visitReference(o);
   }
 
-  public void visitShiftOperator(@NotNull DartShiftOperator o) {
+  public void visitShiftOperator(@Nonnull DartShiftOperator o) {
     visitPsiCompositeElement(o);
   }
 
-  public void visitShiftRightOperator(@NotNull DartShiftRightOperator o) {
+  public void visitShiftRightOperator(@Nonnull DartShiftRightOperator o) {
     visitPsiCompositeElement(o);
   }
 
-  public void visitShortTemplateEntry(@NotNull DartShortTemplateEntry o) {
+  public void visitShortTemplateEntry(@Nonnull DartShortTemplateEntry o) {
     visitPsiCompositeElement(o);
   }
 
-  public void visitShowCombinator(@NotNull DartShowCombinator o) {
+  public void visitShowCombinator(@Nonnull DartShowCombinator o) {
     visitPsiCompositeElement(o);
   }
 
-  public void visitSimpleFormalParameter(@NotNull DartSimpleFormalParameter o) {
+  public void visitSimpleFormalParameter(@Nonnull DartSimpleFormalParameter o) {
     visitComponent(o);
   }
 
-  public void visitStatements(@NotNull DartStatements o) {
+  public void visitStatements(@Nonnull DartStatements o) {
     visitExecutionScope(o);
   }
 
-  public void visitStringLiteralExpression(@NotNull DartStringLiteralExpression o) {
+  public void visitStringLiteralExpression(@Nonnull DartStringLiteralExpression o) {
     visitExpression(o);
     // visitReference(o);
   }
 
-  public void visitSuffixExpression(@NotNull DartSuffixExpression o) {
+  public void visitSuffixExpression(@Nonnull DartSuffixExpression o) {
     visitExpression(o);
     // visitReference(o);
   }
 
-  public void visitSuperCallOrFieldInitializer(@NotNull DartSuperCallOrFieldInitializer o) {
+  public void visitSuperCallOrFieldInitializer(@Nonnull DartSuperCallOrFieldInitializer o) {
     visitPsiCompositeElement(o);
   }
 
-  public void visitSuperExpression(@NotNull DartSuperExpression o) {
+  public void visitSuperExpression(@Nonnull DartSuperExpression o) {
     visitExpression(o);
     // visitReference(o);
   }
 
-  public void visitSuperclass(@NotNull DartSuperclass o) {
+  public void visitSuperclass(@Nonnull DartSuperclass o) {
     visitPsiCompositeElement(o);
   }
 
-  public void visitSwitchCase(@NotNull DartSwitchCase o) {
+  public void visitSwitchCase(@Nonnull DartSwitchCase o) {
     visitPsiCompositeElement(o);
   }
 
-  public void visitSwitchStatement(@NotNull DartSwitchStatement o) {
+  public void visitSwitchStatement(@Nonnull DartSwitchStatement o) {
     visitPsiCompositeElement(o);
   }
 
-  public void visitSymbolLiteralExpression(@NotNull DartSymbolLiteralExpression o) {
+  public void visitSymbolLiteralExpression(@Nonnull DartSymbolLiteralExpression o) {
     visitExpression(o);
   }
 
-  public void visitTernaryExpression(@NotNull DartTernaryExpression o) {
+  public void visitTernaryExpression(@Nonnull DartTernaryExpression o) {
     visitExpression(o);
   }
 
-  public void visitThisExpression(@NotNull DartThisExpression o) {
+  public void visitThisExpression(@Nonnull DartThisExpression o) {
     visitExpression(o);
     // visitReference(o);
   }
 
-  public void visitThrowStatement(@NotNull DartThrowStatement o) {
+  public void visitThrowStatement(@Nonnull DartThrowStatement o) {
     visitPsiCompositeElement(o);
   }
 
-  public void visitTryStatement(@NotNull DartTryStatement o) {
+  public void visitTryStatement(@Nonnull DartTryStatement o) {
     visitPsiCompositeElement(o);
   }
 
-  public void visitType(@NotNull DartType o) {
+  public void visitType(@Nonnull DartType o) {
     visitPsiCompositeElement(o);
   }
 
-  public void visitTypeArguments(@NotNull DartTypeArguments o) {
+  public void visitTypeArguments(@Nonnull DartTypeArguments o) {
     visitPsiCompositeElement(o);
   }
 
-  public void visitTypeList(@NotNull DartTypeList o) {
+  public void visitTypeList(@Nonnull DartTypeList o) {
     visitPsiCompositeElement(o);
   }
 
-  public void visitTypeParameter(@NotNull DartTypeParameter o) {
+  public void visitTypeParameter(@Nonnull DartTypeParameter o) {
     visitComponent(o);
   }
 
-  public void visitTypeParameters(@NotNull DartTypeParameters o) {
+  public void visitTypeParameters(@Nonnull DartTypeParameters o) {
     visitPsiCompositeElement(o);
   }
 
-  public void visitUserDefinableOperator(@NotNull DartUserDefinableOperator o) {
+  public void visitUserDefinableOperator(@Nonnull DartUserDefinableOperator o) {
     visitPsiCompositeElement(o);
   }
 
-  public void visitValueExpression(@NotNull DartValueExpression o) {
+  public void visitValueExpression(@Nonnull DartValueExpression o) {
     visitExpression(o);
   }
 
-  public void visitVarAccessDeclaration(@NotNull DartVarAccessDeclaration o) {
+  public void visitVarAccessDeclaration(@Nonnull DartVarAccessDeclaration o) {
     visitComponent(o);
   }
 
-  public void visitVarDeclarationList(@NotNull DartVarDeclarationList o) {
+  public void visitVarDeclarationList(@Nonnull DartVarDeclarationList o) {
     visitPsiCompositeElement(o);
   }
 
-  public void visitVarDeclarationListPart(@NotNull DartVarDeclarationListPart o) {
+  public void visitVarDeclarationListPart(@Nonnull DartVarDeclarationListPart o) {
     visitComponent(o);
   }
 
-  public void visitVarInit(@NotNull DartVarInit o) {
+  public void visitVarInit(@Nonnull DartVarInit o) {
     visitPsiCompositeElement(o);
   }
 
-  public void visitWhileStatement(@NotNull DartWhileStatement o) {
+  public void visitWhileStatement(@Nonnull DartWhileStatement o) {
     visitPsiCompositeElement(o);
   }
 
-  public void visitClass(@NotNull DartClass o) {
+  public void visitClass(@Nonnull DartClass o) {
     visitPsiCompositeElement(o);
   }
 
-  public void visitComponent(@NotNull DartComponent o) {
+  public void visitComponent(@Nonnull DartComponent o) {
     visitPsiCompositeElement(o);
   }
 
-  public void visitExecutionScope(@NotNull DartExecutionScope o) {
+  public void visitExecutionScope(@Nonnull DartExecutionScope o) {
     visitPsiCompositeElement(o);
   }
 
-  public void visitImportOrExportStatement(@NotNull DartImportOrExportStatement o) {
+  public void visitImportOrExportStatement(@Nonnull DartImportOrExportStatement o) {
     visitPsiCompositeElement(o);
   }
 
-  public void visitNamedElement(@NotNull DartNamedElement o) {
+  public void visitNamedElement(@Nonnull DartNamedElement o) {
     visitPsiCompositeElement(o);
   }
 
-  public void visitOperator(@NotNull DartOperator o) {
+  public void visitOperator(@Nonnull DartOperator o) {
     visitPsiCompositeElement(o);
   }
 
-  public void visitQNamedElement(@NotNull DartQNamedElement o) {
+  public void visitQNamedElement(@Nonnull DartQNamedElement o) {
     visitPsiCompositeElement(o);
   }
 
-  public void visitReference(@NotNull DartReference o) {
+  public void visitReference(@Nonnull DartReference o) {
     visitPsiCompositeElement(o);
   }
 
-  public void visitPsiCompositeElement(@NotNull DartPsiCompositeElement o) {
+  public void visitPsiCompositeElement(@Nonnull DartPsiCompositeElement o) {
     visitElement(o);
   }
 

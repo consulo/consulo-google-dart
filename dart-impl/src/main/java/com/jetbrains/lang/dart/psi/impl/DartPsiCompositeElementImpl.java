@@ -3,8 +3,8 @@ package com.jetbrains.lang.dart.psi.impl;
 import java.util.List;
 import java.util.Set;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
@@ -18,7 +18,7 @@ import com.jetbrains.lang.dart.util.DartControlFlowUtil;
 
 public class DartPsiCompositeElementImpl extends ASTWrapperPsiElement implements DartPsiCompositeElement
 {
-	public DartPsiCompositeElementImpl(@NotNull ASTNode node)
+	public DartPsiCompositeElementImpl(@Nonnull ASTNode node)
 	{
 		super(node);
 	}
@@ -34,8 +34,8 @@ public class DartPsiCompositeElementImpl extends ASTWrapperPsiElement implements
 	}
 
 	@Override
-	public boolean processDeclarations(@NotNull PsiScopeProcessor processor, @NotNull ResolveState state, PsiElement lastParent,
-			@NotNull PsiElement place)
+	public boolean processDeclarations(@Nonnull PsiScopeProcessor processor, @Nonnull ResolveState state, PsiElement lastParent,
+			@Nonnull PsiElement place)
 	{
 		return processDeclarationsImpl(this, processor, state, lastParent) && super.processDeclarations(processor, state, lastParent, place);
 	}
@@ -57,7 +57,7 @@ public class DartPsiCompositeElementImpl extends ASTWrapperPsiElement implements
 		return true;
 	}
 
-	private static Set<DartComponentName> getDeclarationElementToProcess(@NotNull PsiElement context, @Nullable PsiElement lastParent)
+	private static Set<DartComponentName> getDeclarationElementToProcess(@Nonnull PsiElement context, @Nullable PsiElement lastParent)
 	{
 		final PsiElement[] children = context.getChildren();
 		final Set<DartComponentName> result = DartControlFlowUtil.getSimpleDeclarations(children, lastParent, context instanceof DartStatements);

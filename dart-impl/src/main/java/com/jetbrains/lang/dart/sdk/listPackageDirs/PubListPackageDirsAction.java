@@ -9,7 +9,8 @@ import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
+
 import com.google.dart.engine.sdk.DirectoryBasedDartSdk;
 import com.google.dart.engine.source.ExplicitPackageUriResolver;
 import com.intellij.openapi.actionSystem.AnAction;
@@ -145,7 +146,7 @@ public class PubListPackageDirsAction extends AnAction
 		}
 	}
 
-	private static void addResults(final @NotNull Map<String, Set<String>> packageNameToDirMap, final @NotNull Map<String, List<File>> map)
+	private static void addResults(final @Nonnull Map<String, Set<String>> packageNameToDirMap, final @Nonnull Map<String, List<File>> map)
 	{
 		for(Map.Entry<String, List<File>> entry : map.entrySet())
 		{
@@ -165,7 +166,7 @@ public class PubListPackageDirsAction extends AnAction
 		}
 	}
 
-	static void configurePubListPackageDirsLibrary(final @NotNull Project project, final @NotNull Set<Module> modules, final @NotNull Map<String,
+	static void configurePubListPackageDirsLibrary(final @Nonnull Project project, final @Nonnull Set<Module> modules, final @Nonnull Map<String,
 			Set<String>> packageMap)
 	{
 		if(modules.isEmpty() || packageMap.isEmpty())
@@ -279,7 +280,7 @@ public class PubListPackageDirsAction extends AnAction
 		return library;
 	}
 
-	static void removePubListPackageDirsLibrary(final @NotNull Project project)
+	static void removePubListPackageDirsLibrary(final @Nonnull Project project)
 	{
 		ApplicationManager.getApplication().runWriteAction(new Runnable()
 		{

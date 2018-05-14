@@ -2,14 +2,14 @@
 package com.jetbrains.lang.dart.psi.impl;
 
 import java.util.List;
-import org.jetbrains.annotations.*;
+
 import com.intellij.lang.ASTNode;
-import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
-import static com.jetbrains.lang.dart.DartTokenTypes.*;
+
+import javax.annotation.*;
+
 import com.jetbrains.lang.dart.psi.*;
-import com.jetbrains.lang.dart.util.DartPsiImplUtil;
 
 public class DartWhileStatementImpl extends DartPsiCompositeElementImpl implements DartWhileStatement {
 
@@ -17,7 +17,7 @@ public class DartWhileStatementImpl extends DartPsiCompositeElementImpl implemen
     super(node);
   }
 
-  public void accept(@NotNull PsiElementVisitor visitor) {
+  public void accept(@Nonnull PsiElementVisitor visitor) {
     if (visitor instanceof DartVisitor) ((DartVisitor)visitor).visitWhileStatement(this);
     else super.accept(visitor);
   }
@@ -53,7 +53,7 @@ public class DartWhileStatementImpl extends DartPsiCompositeElementImpl implemen
   }
 
   @Override
-  @NotNull
+  @Nonnull
   public List<DartExpression> getExpressionList() {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, DartExpression.class);
   }
@@ -77,7 +77,7 @@ public class DartWhileStatementImpl extends DartPsiCompositeElementImpl implemen
   }
 
   @Override
-  @NotNull
+  @Nonnull
   public List<DartLabel> getLabelList() {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, DartLabel.class);
   }

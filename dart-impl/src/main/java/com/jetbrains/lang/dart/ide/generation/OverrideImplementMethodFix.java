@@ -1,6 +1,6 @@
 package com.jetbrains.lang.dart.ide.generation;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import com.intellij.codeInsight.template.Template;
 import com.intellij.codeInsight.template.TemplateManager;
 import com.intellij.psi.util.PsiTreeUtil;
@@ -22,7 +22,7 @@ public class OverrideImplementMethodFix extends BaseCreateMethodsFix<DartCompone
 	}
 
 	@Override
-	@NotNull
+	@Nonnull
 	protected String getNothingFoundMessage()
 	{
 		return myImplementNotOverride ? DartBundle.message("dart.fix.implement.none.found") : DartBundle.message("dart.fix.override.none.found");

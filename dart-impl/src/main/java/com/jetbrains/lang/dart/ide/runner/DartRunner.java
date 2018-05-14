@@ -1,6 +1,7 @@
 package com.jetbrains.lang.dart.ide.runner;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
+
 import com.intellij.execution.ExecutionException;
 import com.intellij.execution.ExecutionResult;
 import com.intellij.execution.configurations.RunProfile;
@@ -28,7 +29,7 @@ public class DartRunner extends DefaultProgramRunner
 
 	private static final Logger LOG = Logger.getInstance(DartRunner.class.getName());
 
-	@NotNull
+	@Nonnull
 	@Override
 	public String getRunnerId()
 	{
@@ -36,12 +37,12 @@ public class DartRunner extends DefaultProgramRunner
 	}
 
 	@Override
-	public boolean canRun(final @NotNull String executorId, final @NotNull RunProfile profile)
+	public boolean canRun(final @Nonnull String executorId, final @Nonnull RunProfile profile)
 	{
 		return profile instanceof DartRunConfigurationBase && (DefaultRunExecutor.EXECUTOR_ID.equals(executorId) || DefaultDebugExecutor.EXECUTOR_ID.equals(executorId));
 	}
 
-	protected RunContentDescriptor doExecute(final @NotNull RunProfileState state, final @NotNull ExecutionEnvironment env) throws ExecutionException
+	protected RunContentDescriptor doExecute(final @Nonnull RunProfileState state, final @Nonnull ExecutionEnvironment env) throws ExecutionException
 	{
 		final String executorId = env.getExecutor().getId();
 
@@ -66,7 +67,7 @@ public class DartRunner extends DefaultProgramRunner
 		return null;
 	}
 
-	private RunContentDescriptor doExecuteDartDebug(final @NotNull RunProfileState state, final @NotNull ExecutionEnvironment env) throws RuntimeConfigurationError, ExecutionException
+	private RunContentDescriptor doExecuteDartDebug(final @Nonnull RunProfileState state, final @Nonnull ExecutionEnvironment env) throws RuntimeConfigurationError, ExecutionException
 	{
 		FileDocumentManager.getInstance().saveAllDocuments();
 
@@ -85,8 +86,8 @@ public class DartRunner extends DefaultProgramRunner
 		final XDebugSession debugSession = debuggerManager.startSession(env, new XDebugProcessStarter()
 		{
 			@Override
-			@NotNull
-			public XDebugProcess start(@NotNull final XDebugSession session) throws ExecutionException
+			@Nonnull
+			public XDebugProcess start(@Nonnull final XDebugSession session) throws ExecutionException
 			{
 				return new DartCommandLineDebugProcess(session, debuggingPort, executionResult, mainDartFile);
 			}

@@ -4,7 +4,8 @@ import static com.intellij.patterns.PlatformPatterns.psiElement;
 
 import java.util.Set;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
+
 import com.intellij.codeInsight.completion.CompletionContributor;
 import com.intellij.codeInsight.completion.CompletionParameters;
 import consulo.awt.TargetAWT;
@@ -35,7 +36,7 @@ public class DartLibraryNameCompletionContributor extends CompletionContributor
 				, new CompletionProvider()
 		{
 			@Override
-			public void addCompletions(@NotNull CompletionParameters parameters, ProcessingContext context, @NotNull CompletionResultSet result)
+			public void addCompletions(@Nonnull CompletionParameters parameters, ProcessingContext context, @Nonnull CompletionResultSet result)
 			{
 				final Project project = parameters.getPosition().getProject();
 				final Set<String> names = DartLibraryIndex.getAllLibraryNames(project);
@@ -62,7 +63,7 @@ public class DartLibraryNameCompletionContributor extends CompletionContributor
 				new CompletionProvider()
 		{
 			@Override
-			public void addCompletions(@NotNull CompletionParameters parameters, ProcessingContext context, @NotNull CompletionResultSet result)
+			public void addCompletions(@Nonnull CompletionParameters parameters, ProcessingContext context, @Nonnull CompletionResultSet result)
 			{
 				for(String libraryName : DartLibraryIndex.getAllLibraryNames(parameters.getPosition().getProject()))
 				{
@@ -81,7 +82,7 @@ public class DartLibraryNameCompletionContributor extends CompletionContributor
 			myName = name;
 		}
 
-		@NotNull
+		@Nonnull
 		@Override
 		public String getLookupString()
 		{

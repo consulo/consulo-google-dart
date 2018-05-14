@@ -13,7 +13,7 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import com.intellij.execution.ExecutionBundle;
 import com.intellij.execution.configuration.EnvironmentVariablesComponent;
 import com.intellij.openapi.fileChooser.FileChooserDescriptorFactory;
@@ -119,7 +119,7 @@ public class DartUnitConfigurationEditorForm extends SettingsEditor<DartUnitRunC
 		myTestNameLabel.setText(scope == Scope.GROUP ? DartBundle.message("dart.unit.group.name") : DartBundle.message("dart.unit.method.name"));
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	protected JComponent createEditor()
 	{

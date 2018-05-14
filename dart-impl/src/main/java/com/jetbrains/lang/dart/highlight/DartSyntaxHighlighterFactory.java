@@ -4,7 +4,7 @@ import com.intellij.openapi.fileTypes.SyntaxHighlighter;
 import com.intellij.openapi.fileTypes.SyntaxHighlighterFactory;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 /**
  * Created by IntelliJ IDEA.
@@ -13,7 +13,7 @@ import org.jetbrains.annotations.NotNull;
  * Time: 9:01 PM
  */
 public class DartSyntaxHighlighterFactory extends SyntaxHighlighterFactory {
-  @NotNull
+  @Nonnull
   @Override
   public SyntaxHighlighter getSyntaxHighlighter(Project project, VirtualFile virtualFile) {
     return new DartSyntaxHighlighter();

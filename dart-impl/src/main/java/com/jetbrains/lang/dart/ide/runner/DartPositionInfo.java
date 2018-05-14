@@ -2,8 +2,8 @@ package com.jetbrains.lang.dart.ide.runner;
 
 import java.util.Locale;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import com.intellij.openapi.util.Couple;
 import com.intellij.openapi.util.Pair;
 import com.intellij.openapi.util.SystemInfo;
@@ -35,17 +35,17 @@ public class DartPositionInfo
 	}
 
 	public final
-	@NotNull
+	@Nonnull
 	Type type;
 	public final
-	@NotNull
+	@Nonnull
 	String path;
 	public final int highlightingStartIndex;
 	public final int highlightingEndIndex;
 	public final int line;
 	public final int column;
 
-	public DartPositionInfo(final @NotNull Type type, final @NotNull String path, final int highlightingStartIndex, final int highlightingEndIndex,
+	public DartPositionInfo(final @Nonnull Type type, final @Nonnull String path, final int highlightingStartIndex, final int highlightingEndIndex,
 			final int line, final int column)
 	{
 		this.type = type;
@@ -72,7 +72,7 @@ public class DartPositionInfo
 	   inside WHATEVER_ELSE_STARTING_NOT_FROM_PATH_SYMBOL look for ':4:28' at the beginning or for 'line 3 pos 1' at any place
 	  */
 	@Nullable
-	public static DartPositionInfo parsePositionInfo(final @NotNull String text)
+	public static DartPositionInfo parsePositionInfo(final @Nonnull String text)
 	{
 		Couple<Integer> pathStartAndEnd = parseUrlStartAndEnd(text, "package:");
 		if(pathStartAndEnd == null)
@@ -187,7 +187,7 @@ public class DartPositionInfo
 	}
 
 	@Nullable
-	private static Couple<Integer> parseLineAndColumnInColonFormat(final @NotNull String text)
+	private static Couple<Integer> parseLineAndColumnInColonFormat(final @Nonnull String text)
 	{
 		// "12 whatever, ":12 whatever", "12:34 whatever" or ":12:34 whatever"
 		final Pair<Integer, String> lineAndRemainingText = parseNextIntSkippingColon(text);
@@ -208,7 +208,7 @@ public class DartPositionInfo
 	}
 
 	@Nullable
-	private static Couple<Integer> parseLineAndColumnInTextFormat(final @NotNull String text)
+	private static Couple<Integer> parseLineAndColumnInTextFormat(final @Nonnull String text)
 	{
 		// "whatever line 12 pos 34 whatever"
 		int index = text.indexOf("line ");
@@ -243,7 +243,7 @@ public class DartPositionInfo
 	}
 
 	@Nullable
-	private static Pair<Integer, String> parseNextIntSkippingColon(final @NotNull String text)
+	private static Pair<Integer, String> parseNextIntSkippingColon(final @Nonnull String text)
 	{
 		// "12 whatever or ": 12 whatever"
 		int index = 0;
@@ -285,7 +285,7 @@ public class DartPositionInfo
 	}
 
 	// trim all leading slashes on windows or all except one on Mac/Linux
-	private static int getPathStartIndex(final @NotNull String text)
+	private static int getPathStartIndex(final @Nonnull String text)
 	{
 		if(text.isEmpty() || text.charAt(0) != '/')
 		{

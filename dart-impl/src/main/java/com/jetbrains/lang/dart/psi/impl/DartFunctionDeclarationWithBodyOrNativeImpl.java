@@ -2,14 +2,14 @@
 package com.jetbrains.lang.dart.psi.impl;
 
 import java.util.List;
-import org.jetbrains.annotations.*;
+
 import com.intellij.lang.ASTNode;
-import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
-import static com.jetbrains.lang.dart.DartTokenTypes.*;
+
+import javax.annotation.*;
+
 import com.jetbrains.lang.dart.psi.*;
-import com.jetbrains.lang.dart.util.DartPsiImplUtil;
 
 public class DartFunctionDeclarationWithBodyOrNativeImpl extends AbstractDartComponentImpl implements DartFunctionDeclarationWithBodyOrNative {
 
@@ -17,19 +17,19 @@ public class DartFunctionDeclarationWithBodyOrNativeImpl extends AbstractDartCom
     super(node);
   }
 
-  public void accept(@NotNull PsiElementVisitor visitor) {
+  public void accept(@Nonnull PsiElementVisitor visitor) {
     if (visitor instanceof DartVisitor) ((DartVisitor)visitor).visitFunctionDeclarationWithBodyOrNative(this);
     else super.accept(visitor);
   }
 
   @Override
-  @NotNull
+  @Nonnull
   public DartComponentName getComponentName() {
     return findNotNullChildByClass(DartComponentName.class);
   }
 
   @Override
-  @NotNull
+  @Nonnull
   public DartFormalParameterList getFormalParameterList() {
     return findNotNullChildByClass(DartFormalParameterList.class);
   }
@@ -41,7 +41,7 @@ public class DartFunctionDeclarationWithBodyOrNativeImpl extends AbstractDartCom
   }
 
   @Override
-  @NotNull
+  @Nonnull
   public List<DartMetadata> getMetadataList() {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, DartMetadata.class);
   }

@@ -1,7 +1,8 @@
 package com.jetbrains.lang.dart.psi.impl;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.util.PsiTreeUtil;
 import com.jetbrains.lang.dart.psi.DartType;
@@ -10,7 +11,7 @@ import com.jetbrains.lang.dart.psi.DartType;
  * @author: Fedor.Korotkov
  */
 abstract public class TypedefDartPsiClass extends AbstractDartPsiClass {
-	public TypedefDartPsiClass(@NotNull ASTNode node) {
+	public TypedefDartPsiClass(@Nonnull ASTNode node) {
 		super(node);
 	}
 

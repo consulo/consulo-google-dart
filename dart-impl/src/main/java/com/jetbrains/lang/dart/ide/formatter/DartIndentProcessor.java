@@ -10,7 +10,7 @@ import static com.jetbrains.lang.dart.DartTokenTypesSets.MULTI_LINE_COMMENT_END;
 import static com.jetbrains.lang.dart.DartTokenTypesSets.SINGLE_LINE_COMMENT;
 import static com.jetbrains.lang.dart.DartTokenTypesSets.WHITE_SPACE;
 
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nullable;
 import com.intellij.formatting.Indent;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;

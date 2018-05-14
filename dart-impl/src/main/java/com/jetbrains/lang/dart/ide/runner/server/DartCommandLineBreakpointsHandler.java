@@ -12,8 +12,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import com.intellij.icons.AllIcons;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.util.ThrowableRunnable;
@@ -40,7 +40,7 @@ public class DartCommandLineBreakpointsHandler
 	private final Map<VmBreakpointLocation, XLineBreakpoint<?>> myVmBreakpointLocationToXLineBreakpoint = new THashMap<VmBreakpointLocation,
 			XLineBreakpoint<?>>();
 
-	public DartCommandLineBreakpointsHandler(final @NotNull DartCommandLineDebugProcess debugProcess)
+	public DartCommandLineBreakpointsHandler(final @Nonnull DartCommandLineDebugProcess debugProcess)
 	{
 		myDebugProcess = debugProcess;
 
@@ -48,7 +48,7 @@ public class DartCommandLineBreakpointsHandler
 				new XBreakpointHandler<XLineBreakpoint<XBreakpointProperties>>(DartLineBreakpointType.class)
 				{
 					@Override
-					public void registerBreakpoint(@NotNull final XLineBreakpoint<XBreakpointProperties> breakpoint)
+					public void registerBreakpoint(@Nonnull final XLineBreakpoint<XBreakpointProperties> breakpoint)
 					{
 						if(myDebugProcess.isVmConnected())
 						{
@@ -61,7 +61,7 @@ public class DartCommandLineBreakpointsHandler
 					}
 
 					@Override
-					public void unregisterBreakpoint(@NotNull final XLineBreakpoint<XBreakpointProperties> breakpoint, final boolean temporary)
+					public void unregisterBreakpoint(@Nonnull final XLineBreakpoint<XBreakpointProperties> breakpoint, final boolean temporary)
 					{
 						doUnregisterBreakpoint(breakpoint);
 					}
@@ -279,7 +279,7 @@ public class DartCommandLineBreakpointsHandler
 		private final String url;
 		private final int tokenOffset;
 
-		private VmBreakpointLocation(final @NotNull VmLocation vmLocation)
+		private VmBreakpointLocation(final @Nonnull VmLocation vmLocation)
 		{
 			url = vmLocation.getUrl();
 			tokenOffset = vmLocation.getTokenOffset();

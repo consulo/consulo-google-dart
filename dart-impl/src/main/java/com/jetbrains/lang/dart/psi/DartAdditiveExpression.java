@@ -2,15 +2,15 @@
 package com.jetbrains.lang.dart.psi;
 
 import java.util.List;
-import org.jetbrains.annotations.*;
-import com.intellij.psi.PsiElement;
+
+import javax.annotation.Nonnull;
 
 public interface DartAdditiveExpression extends DartExpression, DartReference {
 
-  @NotNull
+  @Nonnull
   DartAdditiveOperator getAdditiveOperator();
 
-  @NotNull
+  @Nonnull
   List<DartExpression> getExpressionList();
 
 }

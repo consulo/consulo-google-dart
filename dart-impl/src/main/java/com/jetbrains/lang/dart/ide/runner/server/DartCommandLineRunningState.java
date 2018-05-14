@@ -2,8 +2,8 @@ package com.jetbrains.lang.dart.ide.runner.server;
 
 import java.util.StringTokenizer;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import com.intellij.execution.ExecutionException;
 import com.intellij.execution.configurations.CommandLineState;
 import com.intellij.execution.configurations.CommandLineTokenizer;
@@ -28,12 +28,12 @@ import com.jetbrains.lang.dart.util.DartUrlResolver;
 public class DartCommandLineRunningState extends CommandLineState
 {
 	protected final
-	@NotNull
+	@Nonnull
 	DartCommandLineRunnerParameters myRunnerParameters;
 	private int myDebuggingPort = -1;
 	private Sdk mySdk;
 
-	public DartCommandLineRunningState(final @NotNull ExecutionEnvironment env) throws ExecutionException
+	public DartCommandLineRunningState(final @Nonnull ExecutionEnvironment env) throws ExecutionException
 	{
 		super(env);
 		myRunnerParameters = ((DartRunConfigurationBase) env.getRunProfile()).getRunnerParameters();
@@ -70,7 +70,7 @@ public class DartCommandLineRunningState extends CommandLineState
 		myDebuggingPort = debuggingPort;
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	protected ProcessHandler startProcess() throws ExecutionException
 	{
@@ -117,8 +117,8 @@ public class DartCommandLineRunningState extends CommandLineState
 		return commandLine;
 	}
 
-	private static void setupParameters(final @NotNull Project project, final @NotNull GeneralCommandLine commandLine,
-			final @NotNull DartCommandLineRunnerParameters runnerParameters, final int debuggingPort, final @Nullable String overriddenMainFilePath)
+	private static void setupParameters(final @Nonnull Project project, final @Nonnull GeneralCommandLine commandLine,
+			final @Nonnull DartCommandLineRunnerParameters runnerParameters, final int debuggingPort, final @Nullable String overriddenMainFilePath)
 			throws ExecutionException
 	{
 		commandLine.addParameter("--ignore-unrecognized-flags");

@@ -2,18 +2,18 @@
 package com.jetbrains.lang.dart.psi;
 
 import java.util.List;
-import org.jetbrains.annotations.*;
-import com.intellij.psi.PsiElement;
+
+import javax.annotation.*;
 
 public interface DartFieldFormalParameter extends DartPsiCompositeElement {
 
   @Nullable
   DartFormalParameterList getFormalParameterList();
 
-  @NotNull
+  @Nonnull
   List<DartMetadata> getMetadataList();
 
-  @NotNull
+  @Nonnull
   DartReferenceExpression getReferenceExpression();
 
   @Nullable

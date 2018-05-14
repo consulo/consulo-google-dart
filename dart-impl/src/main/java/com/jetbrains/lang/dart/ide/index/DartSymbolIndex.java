@@ -9,7 +9,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
+
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiElement;
@@ -39,7 +40,7 @@ public class DartSymbolIndex extends ScalarIndexExtension<String>
 	private static final int INDEX_VERSION = 1;
 	private DataIndexer<String, Void, FileContent> myDataIndexer = new MyDataIndexer();
 
-	@NotNull
+	@Nonnull
 	@Override
 	public ID<String, Void> getName()
 	{
@@ -52,7 +53,7 @@ public class DartSymbolIndex extends ScalarIndexExtension<String>
 		return DartIndexUtil.BASE_VERSION + INDEX_VERSION;
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public DataIndexer<String, Void, FileContent> getIndexer()
 	{
@@ -94,7 +95,7 @@ public class DartSymbolIndex extends ScalarIndexExtension<String>
 				processComponents(root, new PsiElementProcessor<DartComponent>()
 				{
 					@Override
-					public boolean execute(@NotNull DartComponent component)
+					public boolean execute(@Nonnull DartComponent component)
 					{
 						if(name.equals(component.getName()))
 						{
@@ -111,7 +112,7 @@ public class DartSymbolIndex extends ScalarIndexExtension<String>
 	private static class MyDataIndexer implements DataIndexer<String, Void, FileContent>
 	{
 		@Override
-		@NotNull
+		@Nonnull
 		public Map<String, Void> map(final FileContent inputData)
 		{
 			List<String> symbols = DartIndexUtil.indexFile(inputData).getSymbols();

@@ -6,8 +6,8 @@ import static com.jetbrains.lang.dart.util.PubspecYamlUtil.PUBSPEC_YAML;
 
 import java.util.Collection;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import com.intellij.execution.filters.Filter;
 import com.intellij.execution.filters.OpenFileHyperlinkInfo;
 import com.intellij.openapi.project.Project;
@@ -22,7 +22,7 @@ public class DartConsoleFilter implements Filter
 {
 
 	private final
-	@NotNull
+	@Nonnull
 	Project myProject;
 	private final
 	@Nullable
@@ -32,12 +32,12 @@ public class DartConsoleFilter implements Filter
 	DartUrlResolver myDartUrlResolver;
 	private Collection<VirtualFile> myAllPubspecYamlFiles;
 
-	public DartConsoleFilter(final @NotNull Project project)
+	public DartConsoleFilter(final @Nonnull Project project)
 	{
 		this(project, null, null);
 	}
 
-	public DartConsoleFilter(final @NotNull Project project, final @Nullable Sdk sdk, final @Nullable VirtualFile contextFile)
+	public DartConsoleFilter(final @Nonnull Project project, final @Nullable Sdk sdk, final @Nullable VirtualFile contextFile)
 	{
 		myProject = project;
 		mySdk = sdk;
