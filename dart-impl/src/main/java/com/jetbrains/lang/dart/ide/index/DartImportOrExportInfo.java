@@ -67,4 +67,53 @@ public class DartImportOrExportInfo implements DartShowHideInfo
 	{
 		return myHideComponents;
 	}
+
+	@Override
+	public boolean equals(Object o)
+	{
+		if(this == o)
+		{
+			return true;
+		}
+		if(o == null || getClass() != o.getClass())
+		{
+			return false;
+		}
+
+		DartImportOrExportInfo that = (DartImportOrExportInfo) o;
+
+		if(myKind != that.myKind)
+		{
+			return false;
+		}
+		if(!myUri.equals(that.myUri))
+		{
+			return false;
+		}
+		if(myImportPrefix != null ? !myImportPrefix.equals(that.myImportPrefix) : that.myImportPrefix != null)
+		{
+			return false;
+		}
+		if(!myShowComponents.equals(that.myShowComponents))
+		{
+			return false;
+		}
+		if(!myHideComponents.equals(that.myHideComponents))
+		{
+			return false;
+		}
+
+		return true;
+	}
+
+	@Override
+	public int hashCode()
+	{
+		int result = myKind.hashCode();
+		result = 31 * result + myUri.hashCode();
+		result = 31 * result + (myImportPrefix != null ? myImportPrefix.hashCode() : 0);
+		result = 31 * result + myShowComponents.hashCode();
+		result = 31 * result + myHideComponents.hashCode();
+		return result;
+	}
 }
