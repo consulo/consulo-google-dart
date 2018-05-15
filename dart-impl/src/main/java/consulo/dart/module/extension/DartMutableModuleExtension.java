@@ -1,16 +1,16 @@
 package consulo.dart.module.extension;
 
-import javax.swing.JComponent;
-
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+
 import com.intellij.openapi.projectRoots.Sdk;
-import com.intellij.util.ui.JBUI;
-import consulo.annotations.RequiredDispatchThread;
-import consulo.extension.ui.ModuleExtensionSdkBoxBuilder;
+import consulo.extension.ui.ModuleExtensionBundleBoxBuilder;
 import consulo.module.extension.MutableModuleExtensionWithSdk;
 import consulo.module.extension.MutableModuleInheritableNamedPointer;
 import consulo.roots.ModuleRootLayer;
+import consulo.ui.Component;
+import consulo.ui.RequiredUIAccess;
+import consulo.ui.VerticalLayout;
 
 /**
  * @author VISTALL
@@ -30,12 +30,12 @@ public class DartMutableModuleExtension extends DartModuleExtension implements M
 		return (MutableModuleInheritableNamedPointer<Sdk>) super.getInheritableSdk();
 	}
 
-	@RequiredDispatchThread
+	@RequiredUIAccess
 	@Nullable
 	@Override
-	public JComponent createConfigurablePanel(@Nullable Runnable runnable)
+	public Component createConfigurationComponent(@Nonnull Runnable updateOnCheck)
 	{
-		return JBUI.Panels.verticalPanel().addComponent(ModuleExtensionSdkBoxBuilder.createAndDefine(this, runnable).build());
+		return VerticalLayout.create().add(ModuleExtensionBundleBoxBuilder.createAndDefine(this, updateOnCheck).build());
 	}
 
 	@Override
