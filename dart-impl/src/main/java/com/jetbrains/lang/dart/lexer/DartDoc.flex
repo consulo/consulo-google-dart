@@ -1,23 +1,15 @@
 package com.jetbrains.lang.dart.lexer;
 
-import com.intellij.lexer.FlexLexer;
+import com.intellij.lexer.LexerBase;
 import com.intellij.psi.tree.IElementType;
 import static com.jetbrains.lang.dart.DartTokenTypesSets.*;
 
-@SuppressWarnings("ALL")
 %%
 
-%{
-
-  public _DartDocLexer() {
-    this((java.io.Reader)null);
-  }
-%}
-
 %class _DartDocLexer
-%implements FlexLexer
+%extends LexerBase
 %unicode
-%function advance
+%function advanceImpl
 %type IElementType
 %eof{
 return;

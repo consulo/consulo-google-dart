@@ -1,7 +1,7 @@
 package com.jetbrains.lang.dart.lexer;
 
 import java.util.*;
-import com.intellij.lexer.FlexLexer;
+import com.intellij.lexer.LexerBase;
 import com.intellij.psi.tree.IElementType;
 import static com.jetbrains.lang.dart.DartTokenTypes.*;
 import static com.jetbrains.lang.dart.DartTokenTypesSets.*;
@@ -38,16 +38,12 @@ import static com.jetbrains.lang.dart.lexer.DartLexer.*;
         myLeftBraceCount = state.lBraceCount;
         yybegin(state.state);
     }
-
-    public _DartLexer() {
-      this((java.io.Reader)null);
-    }
 %}
 
 %class _DartLexer
-%implements FlexLexer
+%extends LexerBase
 %unicode
-%function advance
+%function advanceImpl
 %type IElementType
 %eof{
   myLeftBraceCount = 0;

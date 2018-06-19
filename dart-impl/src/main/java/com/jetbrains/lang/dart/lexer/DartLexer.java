@@ -9,8 +9,8 @@ import static com.jetbrains.lang.dart.DartTokenTypesSets.MULTI_LINE_DOC_COMMENT;
 import static com.jetbrains.lang.dart.DartTokenTypesSets.MULTI_LINE_DOC_COMMENT_START;
 import static com.jetbrains.lang.dart.DartTokenTypesSets.WHITE_SPACE;
 
-import com.intellij.lexer.FlexAdapter;
 import com.intellij.lexer.Lexer;
+import com.intellij.lexer.LexerBase;
 import com.intellij.lexer.MergeFunction;
 import com.intellij.lexer.MergingLexerAdapterBase;
 import com.intellij.psi.tree.IElementType;
@@ -23,9 +23,9 @@ public class DartLexer extends MergingLexerAdapterBase
 		super(createLexer());
 	}
 
-	private static FlexAdapter createLexer()
+	private static LexerBase createLexer()
 	{
-		return new FlexAdapter(new _DartLexer()
+		return new _DartLexer()
 		{
 			public void reset(final CharSequence buffer, final int start, final int end, final int initialState)
 			{
@@ -33,7 +33,7 @@ public class DartLexer extends MergingLexerAdapterBase
 				myLeftBraceCount = 0;
 				myStateStack.clear();
 			}
-		});
+		};
 	}
 
 	/**
