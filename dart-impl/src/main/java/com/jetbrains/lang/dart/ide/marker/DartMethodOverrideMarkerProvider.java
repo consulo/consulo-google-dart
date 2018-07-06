@@ -5,9 +5,8 @@ import java.util.Collection;
 import java.util.List;
 
 import javax.annotation.Nonnull;
-import javax.swing.Icon;
-
 import javax.annotation.Nullable;
+
 import com.intellij.codeHighlighting.Pass;
 import com.intellij.codeInsight.daemon.DaemonBundle;
 import com.intellij.codeInsight.daemon.GutterIconNavigationHandler;
@@ -29,6 +28,7 @@ import com.jetbrains.lang.dart.psi.DartClass;
 import com.jetbrains.lang.dart.psi.DartComponent;
 import com.jetbrains.lang.dart.psi.DartComponentName;
 import com.jetbrains.lang.dart.util.DartResolveUtil;
+import consulo.ui.image.Image;
 
 public class DartMethodOverrideMarkerProvider implements LineMarkerProvider
 {
@@ -83,7 +83,7 @@ public class DartMethodOverrideMarkerProvider implements LineMarkerProvider
 		final PsiElement element = methodDeclaration.getComponentName();
 		final DartComponent dartComponent = filteredSuperItems.iterator().next();
 		final boolean overrides = !dartComponent.isAbstract();
-		final Icon icon = overrides ? AllIcons.Gutter.OverridingMethod : AllIcons.Gutter.ImplementingMethod;
+		Image icon = overrides ? AllIcons.Gutter.OverridingMethod : AllIcons.Gutter.ImplementingMethod;
 		assert element != null;
 		return new LineMarkerInfo<PsiElement>(element, element.getTextRange(), icon, Pass.UPDATE_ALL, new Function<PsiElement, String>()
 		{
