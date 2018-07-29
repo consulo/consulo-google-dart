@@ -19,10 +19,12 @@ import java.util.Set;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.Comparing;
 import com.intellij.openapi.util.Condition;
 import com.intellij.openapi.util.Pair;
+import com.intellij.openapi.util.Ref;
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.openapi.vfs.VfsUtilCore;
 import com.intellij.openapi.vfs.VirtualFile;
@@ -39,7 +41,6 @@ import com.intellij.psi.search.GlobalSearchScope;
 import com.intellij.psi.search.PsiElementProcessor;
 import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.psi.xml.XmlFile;
-import com.intellij.util.BooleanValueHolder;
 import com.intellij.util.Function;
 import com.intellij.util.PathUtil;
 import com.intellij.util.containers.ContainerUtil;
@@ -150,7 +151,7 @@ public class DartResolveUtil
 		{
 			return true;
 		}
-		final BooleanValueHolder result = new BooleanValueHolder(false);
+		final Ref<Boolean> result = Ref.create(false);
 		processSuperClasses(new PsiElementProcessor<DartClass>()
 		{
 			@Override
@@ -158,13 +159,13 @@ public class DartResolveUtil
 			{
 				if(dartClass == baseClass)
 				{
-					result.setValue(true);
+					result.set(true);
 					return false;
 				}
 				return true;
 			}
 		}, aClass);
-		return result.getValue();
+		return result.get();
 	}
 
 	@Nullable
