@@ -7,14 +7,6 @@
 	<vendor>JetBrains</vendor>
 	<depends>com.intellij.xml</depends>
 
-	<application-components/>
-
-	<project-components>
-		<component>
-			<implementation-class>com.jetbrains.lang.dart.DartProjectComponent</implementation-class>
-		</component>
-	</project-components>
-
 	<extensions defaultExtensionNs="com.intellij.copyright">
 		<updater filetype="Dart" implementationClass="com.jetbrains.lang.dart.ide.copyright.UpdateDartCopyrightsProvider"/>
 	</extensions>
@@ -156,6 +148,8 @@
 						 implementationClass="com.jetbrains.lang.dart.ide.inspections.DartDeprecatedApiUsageInspection"/>
 
 		<sdkType implementation="com.jetbrains.lang.dart.ide.DartSdkType"/>
+
+		<projectService serviceImplementation="com.jetbrains.lang.dart.DartProjectComponent" lazy="false" />
 	</extensions>
 
 	<extensions defaultExtensionNs="com.intellij.xml">

@@ -5,8 +5,9 @@ import java.util.Collection;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.inject.Singleton;
+
 import com.intellij.openapi.application.ApplicationManager;
-import com.intellij.openapi.components.AbstractProjectComponent;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.module.ModuleUtilCore;
 import com.intellij.openapi.project.Project;
@@ -24,31 +25,21 @@ import com.intellij.psi.search.GlobalSearchScope;
 import com.intellij.util.containers.ContainerUtil;
 import consulo.roots.impl.ExcludedContentFolderTypeProvider;
 
-public class DartProjectComponent extends AbstractProjectComponent
+@Singleton
+public class DartProjectComponent
 {
-
 	protected DartProjectComponent(final Project project)
 	{
-		super(project);
-	}
-
-	@Override
-	public void projectOpened()
-	{
-		StartupManager.getInstance(myProject).runWhenProjectIsInitialized(new Runnable()
+		StartupManager.getInstance(project).runWhenProjectIsInitialized(() ->
 		{
-			@Override
-			public void run()
-			{
-				final Collection<VirtualFile> pubspecYamlFiles = FilenameIndex.getVirtualFilesByName(myProject, "pubspec.yaml", GlobalSearchScope.projectScope(myProject));
+			final Collection<VirtualFile> pubspecYamlFiles = FilenameIndex.getVirtualFilesByName(project, "pubspec.yaml", GlobalSearchScope.projectScope(project));
 
-				for(VirtualFile pubspecYamlFile : pubspecYamlFiles)
+			for(VirtualFile pubspecYamlFile : pubspecYamlFiles)
+			{
+				final Module module = ModuleUtilCore.findModuleForFile(pubspecYamlFile, project);
+				if(module != null)
 				{
-					final Module module = ModuleUtilCore.findModuleForFile(pubspecYamlFile, myProject);
-					if(module != null)
-					{
-						excludePackagesFolders(module, pubspecYamlFile);
-					}
+					excludePackagesFolders(module, pubspecYamlFile);
 				}
 			}
 		});
