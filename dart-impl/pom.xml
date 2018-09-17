@@ -51,6 +51,7 @@
 					<repositoryChannel>nightly</repositoryChannel>
 					<dependencies>
 						<dependency>com.intellij.xml</dependency>
+						<dependency>consulo.library.flexmark</dependency>
 					</dependencies>
 					<packaging>
 						<skip>${dev.mode}</skip>
@@ -83,12 +84,6 @@
 		</dependency>
 
 		<dependency>
-			<groupId>com.vladsch.flexmark</groupId>
-			<artifactId>flexmark</artifactId>
-			<version>0.28.24</version>
-		</dependency>
-
-		<dependency>
 			<groupId>org.json</groupId>
 			<artifactId>json</artifactId>
 			<version>20171018</version>
@@ -106,6 +101,14 @@
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>
+
+		<dependency>
+			<groupId>consulo.plugin.library</groupId>
+			<artifactId>consulo.library.flexmark</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
+
 		<dependency>
 			<groupId>${project.parent.groupId}</groupId>
 			<artifactId>consulo-lang-impl-testing</artifactId>
