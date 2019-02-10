@@ -1,5 +1,12 @@
 package com.jetbrains.lang.dart.ide;
 
+import gnu.trove.THashMap;
+
+import java.util.Collection;
+import java.util.Map;
+
+import javax.annotation.Nonnull;
+
 import com.intellij.codeInsight.completion.InsertionContext;
 import com.intellij.codeInsight.completion.util.ParenthesesInsertHandler;
 import com.intellij.codeInsight.lookup.LookupElement;
@@ -9,13 +16,15 @@ import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.util.PsiTreeUtil;
 import com.jetbrains.lang.dart.DartComponentType;
-import com.jetbrains.lang.dart.psi.*;
+import com.jetbrains.lang.dart.psi.DartClass;
+import com.jetbrains.lang.dart.psi.DartComponent;
+import com.jetbrains.lang.dart.psi.DartComponentName;
+import com.jetbrains.lang.dart.psi.DartFactoryConstructorDeclaration;
+import com.jetbrains.lang.dart.psi.DartGetterDeclaration;
+import com.jetbrains.lang.dart.psi.DartNamedConstructorDeclaration;
+import com.jetbrains.lang.dart.psi.DartSetterDeclaration;
 import com.jetbrains.lang.dart.util.DartPresentableUtil;
-import gnu.trove.THashMap;
-import javax.annotation.Nonnull;
-
-import java.util.Collection;
-import java.util.Map;
+import consulo.awt.TargetAWT;
 
 /**
  * @author: Fedor.Korotkov
@@ -67,7 +76,7 @@ public class DartLookupElement extends LookupElement {
     }
     String text = myComponentNamePresentation.getPresentableText();
     presentation.setItemText(text);
-    presentation.setIcon(myComponentNamePresentation.getIcon(true));
+    presentation.setIcon(TargetAWT.to(myComponentNamePresentation.getIcon()));
     final String pkg = myComponentNamePresentation.getLocationString();
     if (StringUtil.isNotEmpty(pkg)) {
       presentation.setTailText(" " + pkg, true);

@@ -4,9 +4,8 @@ import java.io.IOException;
 import java.util.List;
 
 import javax.annotation.Nonnull;
-import javax.swing.Icon;
-
 import javax.annotation.Nullable;
+
 import com.intellij.icons.AllIcons;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.util.text.StringUtil;
@@ -26,6 +25,8 @@ import com.jetbrains.lang.dart.ide.runner.server.google.VmObject;
 import com.jetbrains.lang.dart.ide.runner.server.google.VmResult;
 import com.jetbrains.lang.dart.ide.runner.server.google.VmValue;
 import com.jetbrains.lang.dart.ide.runner.server.google.VmVariable;
+import consulo.awt.TargetAWT;
+import consulo.ui.image.Image;
 
 // todo navigate to source, type
 public class DartValue extends XNamedValue
@@ -111,12 +112,12 @@ public class DartValue extends XNamedValue
 				}
 
 				final boolean neverHasChildren = myVmValue.isPrimitive() || myVmValue.isNull() || myVmValue.isFunction();
-				node.setPresentation(getIcon(myVmValue), presentation, !neverHasChildren);
+				node.setPresentation(TargetAWT.to(getIcon(myVmValue)), presentation, !neverHasChildren);
 			}
 		});
 	}
 
-	private static Icon getIcon(final @Nonnull VmValue vmValue)
+	private static Image getIcon(final @Nonnull VmValue vmValue)
 	{
 		if(vmValue.isList())
 		{

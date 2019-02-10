@@ -1,13 +1,9 @@
 package com.jetbrains.lang.dart.psi.impl;
 
 import javax.annotation.Nonnull;
-import javax.swing.Icon;
+import javax.annotation.Nullable;
 
 import org.jetbrains.annotations.NonNls;
-
-import javax.annotation.Nullable;
-import consulo.awt.TargetAWT;
-import consulo.ide.IconDescriptorUpdaters;
 import com.intellij.lang.ASTNode;
 import com.intellij.navigation.ItemPresentation;
 import com.intellij.openapi.util.text.StringUtil;
@@ -25,6 +21,8 @@ import com.jetbrains.lang.dart.psi.DartPartOfStatement;
 import com.jetbrains.lang.dart.psi.DartReturnType;
 import com.jetbrains.lang.dart.psi.DartType;
 import com.jetbrains.lang.dart.util.DartPresentableUtil;
+import consulo.ide.IconDescriptorUpdaters;
+import consulo.ui.image.Image;
 
 abstract public class AbstractDartComponentImpl extends DartPsiCompositeElementImpl implements DartComponent
 {
@@ -186,9 +184,9 @@ abstract public class AbstractDartComponentImpl extends DartPsiCompositeElementI
 			}
 
 			@Override
-			public Icon getIcon(boolean open)
+			public Image getIcon()
 			{
-				return TargetAWT.to(IconDescriptorUpdaters.getIcon(AbstractDartComponentImpl.this, 0));
+				return IconDescriptorUpdaters.getIcon(AbstractDartComponentImpl.this, 0);
 			}
 		};
 	}
