@@ -25,7 +25,6 @@ import com.jetbrains.lang.dart.ide.runner.server.google.VmObject;
 import com.jetbrains.lang.dart.ide.runner.server.google.VmResult;
 import com.jetbrains.lang.dart.ide.runner.server.google.VmValue;
 import com.jetbrains.lang.dart.ide.runner.server.google.VmVariable;
-import consulo.awt.TargetAWT;
 import consulo.ui.image.Image;
 
 // todo navigate to source, type
@@ -112,7 +111,7 @@ public class DartValue extends XNamedValue
 				}
 
 				final boolean neverHasChildren = myVmValue.isPrimitive() || myVmValue.isNull() || myVmValue.isFunction();
-				node.setPresentation(TargetAWT.to(getIcon(myVmValue)), presentation, !neverHasChildren);
+				node.setPresentation(getIcon(myVmValue), presentation, !neverHasChildren);
 			}
 		});
 	}
