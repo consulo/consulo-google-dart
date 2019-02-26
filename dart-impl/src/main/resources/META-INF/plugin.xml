@@ -50,6 +50,9 @@
 		<codeInsight.parameterInfo language="Dart"
 								   implementationClass="com.jetbrains.lang.dart.ide.info.DartParameterInfoHandler"/>
 
+		<lang.parserDefinition language="DART_IN_HTML" implementationClass="com.jetbrains.lang.dart.DartParserDefinition" />
+		<lang.syntaxHighlighterFactory language="DART_IN_HTML" implementationClass="com.jetbrains.lang.dart.highlight.DartSyntaxHighlighterFactory" />
+
 		<renamePsiElementProcessor implementation="com.jetbrains.lang.dart.ide.DartRenamePsiElementProcessor"/>
 		<codeStyleSettingsProvider implementation="com.jetbrains.lang.dart.ide.formatter.settings.DartCodeStyleSettingsProvider"/>
 		<langCodeStyleSettingsProvider implementation="com.jetbrains.lang.dart.ide.formatter.settings.DartLanguageCodeStyleSettingsProvider"/>

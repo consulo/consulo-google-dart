@@ -1,10 +1,9 @@
 package com.jetbrains.lang.dart.highlight;
 
-import com.intellij.openapi.fileTypes.SyntaxHighlighter;
-import com.intellij.openapi.fileTypes.SyntaxHighlighterFactory;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.vfs.VirtualFile;
 import javax.annotation.Nonnull;
+
+import com.intellij.openapi.fileTypes.SingleLazyInstanceSyntaxHighlighterFactory;
+import com.intellij.openapi.fileTypes.SyntaxHighlighter;
 
 /**
  * Created by IntelliJ IDEA.
@@ -12,10 +11,12 @@ import javax.annotation.Nonnull;
  * Date: 10/12/11
  * Time: 9:01 PM
  */
-public class DartSyntaxHighlighterFactory extends SyntaxHighlighterFactory {
-  @Nonnull
-  @Override
-  public SyntaxHighlighter getSyntaxHighlighter(Project project, VirtualFile virtualFile) {
-    return new DartSyntaxHighlighter();
-  }
+public class DartSyntaxHighlighterFactory extends SingleLazyInstanceSyntaxHighlighterFactory
+{
+	@Nonnull
+	@Override
+	protected SyntaxHighlighter createHighlighter()
+	{
+		return new DartSyntaxHighlighter();
+	}
 }
