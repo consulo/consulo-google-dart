@@ -1,24 +1,24 @@
 package com.jetbrains.lang.dart.psi;
 
-import gnu.trove.TObjectHashingStrategy;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.progress.ProgressIndicatorProvider;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.impl.AnyPsiChangeListener;
 import com.intellij.psi.impl.PsiManagerImpl;
-import com.intellij.util.containers.ConcurrentWeakHashMap;
+import com.intellij.util.containers.ContainerUtil;
 import com.intellij.util.messages.MessageBus;
 import com.jetbrains.lang.dart.util.DartClassResolveResult;
+import gnu.trove.TObjectHashingStrategy;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.Map;
 
 /**
  * @author: Fedor.Korotkov
  */
 public class DartClassResolveCache {
-  private final ConcurrentWeakHashMap<DartClass, DartClassResolveResult> myMap = createWeakMap();
+  private final Map<DartClass, DartClassResolveResult> myMap = createWeakMap();
 
   public static DartClassResolveCache getInstance(Project project) {
     ProgressIndicatorProvider.checkCanceled(); // We hope this method is being called often enough to cancel daemon processes smoothly
@@ -38,9 +38,8 @@ public class DartClassResolveCache {
     });
   }
 
-  private static <K, V> ConcurrentWeakHashMap<K, V> createWeakMap() {
-    return new ConcurrentWeakHashMap<K, V>(7, 0.75f, Runtime.getRuntime().availableProcessors(),
-                                           TObjectHashingStrategy.CANONICAL);
+  private static <K, V> Map<K, V> createWeakMap() {
+    return ContainerUtil.<K, V>createWeakMap(7, 0.75f, TObjectHashingStrategy.CANONICAL);
   }
 
   public void put(@Nonnull DartClass dartClass, @Nonnull DartClassResolveResult result) {
