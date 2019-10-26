@@ -1,16 +1,5 @@
 package com.jetbrains.lang.dart.ide.index;
 
-import gnu.trove.THashSet;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import javax.annotation.Nonnull;
-
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.util.Computable;
 import com.intellij.openapi.vfs.VirtualFile;
@@ -21,11 +10,7 @@ import com.intellij.psi.search.searches.DefinitionsScopedSearch;
 import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.util.Processor;
 import com.intellij.util.QueryExecutor;
-import com.intellij.util.indexing.DataIndexer;
-import com.intellij.util.indexing.FileBasedIndex;
-import com.intellij.util.indexing.FileBasedIndexExtension;
-import com.intellij.util.indexing.FileContent;
-import com.intellij.util.indexing.ID;
+import com.intellij.util.indexing.*;
 import com.intellij.util.io.DataExternalizer;
 import com.intellij.util.io.EnumeratorStringDescriptor;
 import com.intellij.util.io.KeyDescriptor;
@@ -34,6 +19,10 @@ import com.jetbrains.lang.dart.psi.DartClass;
 import com.jetbrains.lang.dart.psi.DartComponent;
 import com.jetbrains.lang.dart.psi.DartComponentName;
 import com.jetbrains.lang.dart.util.DartResolveUtil;
+import gnu.trove.THashSet;
+
+import javax.annotation.Nonnull;
+import java.util.*;
 
 /**
  * @author: Fedor.Korotkov
@@ -120,7 +109,7 @@ public class DartInheritanceIndex extends FileBasedIndexExtension<String, List<D
 	public static class DefinitionsSearchExecutor implements QueryExecutor<PsiElement, DefinitionsScopedSearch.SearchParameters>
 	{
 		@Override
-		public boolean execute(@Nonnull final DefinitionsScopedSearch.SearchParameters parameters, @Nonnull final Processor<PsiElement> consumer)
+		public boolean execute(@Nonnull final DefinitionsScopedSearch.SearchParameters parameters, @Nonnull final Processor<? super PsiElement> consumer)
 		{
 			return ApplicationManager.getApplication().runReadAction(new Computable<Boolean>()
 			{
@@ -177,7 +166,7 @@ public class DartInheritanceIndex extends FileBasedIndexExtension<String, List<D
 			});
 		}
 
-		private static boolean processInheritors(final DartClass dartClass, final PsiElement context, final Processor<PsiElement> consumer)
+		private static boolean processInheritors(final DartClass dartClass, final PsiElement context, final Processor<? super PsiElement> consumer)
 		{
 			final Set<DartClass> classSet = new THashSet<DartClass>();
 			final LinkedList<DartClass> namesQueue = new LinkedList<DartClass>();
