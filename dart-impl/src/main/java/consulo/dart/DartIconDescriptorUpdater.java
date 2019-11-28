@@ -1,12 +1,12 @@
 package consulo.dart;
 
-import javax.annotation.Nonnull;
-
 import com.intellij.psi.PsiElement;
 import com.jetbrains.lang.dart.DartComponentType;
-import consulo.annotations.RequiredReadAction;
+import consulo.annotation.access.RequiredReadAction;
 import consulo.ide.IconDescriptor;
 import consulo.ide.IconDescriptorUpdater;
+
+import javax.annotation.Nonnull;
 
 /**
  * @author VISTALL
