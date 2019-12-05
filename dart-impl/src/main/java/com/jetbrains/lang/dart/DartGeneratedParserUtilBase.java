@@ -10,7 +10,7 @@ import java.util.Set;
 
 import com.intellij.lang.PsiBuilder;
 import com.intellij.lang.parser.GeneratedParserUtilBase;
-import com.intellij.openapi.util.Key;
+import consulo.util.dataholder.Key;
 
 public class DartGeneratedParserUtilBase extends GeneratedParserUtilBase
 {
