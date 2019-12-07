@@ -1,7 +1,5 @@
 package com.jetbrains.lang.dart.util;
 
-import com.intellij.openapi.application.PathManager;
-
 import java.io.File;
 
 /**
@@ -18,7 +16,7 @@ public class DartTestUtils {
     if (f.exists()) {
       return f.getAbsolutePath();
     }
-    return PathManager.getHomePath() + "/contrib/Dart/testData";
+    return "/contrib/Dart/testData";
   }
 
   public static final String RELATIVE_TEST_DATA_PATH = findRelativeTestDataPath();
