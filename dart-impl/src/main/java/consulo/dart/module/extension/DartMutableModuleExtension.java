@@ -1,6 +1,7 @@
 package consulo.dart.module.extension;
 
 import com.intellij.openapi.projectRoots.Sdk;
+import consulo.disposer.Disposable;
 import consulo.extension.ui.ModuleExtensionBundleBoxBuilder;
 import consulo.module.extension.MutableModuleExtensionWithSdk;
 import consulo.module.extension.MutableModuleInheritableNamedPointer;
@@ -33,9 +34,11 @@ public class DartMutableModuleExtension extends DartModuleExtension implements M
 	@RequiredUIAccess
 	@Nullable
 	@Override
-	public Component createConfigurationComponent(@Nonnull Runnable updateOnCheck)
+	public Component createConfigurationComponent(@Nonnull Disposable disposable, @Nonnull Runnable runnable)
 	{
-		return VerticalLayout.create().add(ModuleExtensionBundleBoxBuilder.createAndDefine(this, updateOnCheck).build());
+		VerticalLayout layout = VerticalLayout.create();
+		layout.add(ModuleExtensionBundleBoxBuilder.createAndDefine(this, disposable, runnable).build());
+		return layout;
 	}
 
 	@Override
