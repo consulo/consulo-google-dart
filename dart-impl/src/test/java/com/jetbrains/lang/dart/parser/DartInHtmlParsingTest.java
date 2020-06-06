@@ -6,7 +6,7 @@ import consulo.testFramework.ParsingTestCase;
 /**
  * @author: Fedor.Korotkov
  */
-public class DartInHtmlParsingTest extends ParsingTestCase
+public abstract class DartInHtmlParsingTest extends ParsingTestCase
 {
   public DartInHtmlParsingTest() {
     super("parsing/html", "html");

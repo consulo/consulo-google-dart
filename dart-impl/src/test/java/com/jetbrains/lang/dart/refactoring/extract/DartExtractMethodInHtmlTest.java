@@ -9,7 +9,7 @@ import com.jetbrains.lang.dart.util.DartTestUtils;
 /**
  * @author: Fedor.Korotkov
  */
-public class DartExtractMethodInHtmlTest extends CodeInsightFixtureTestCase {
+public abstract class DartExtractMethodInHtmlTest extends CodeInsightFixtureTestCase {
   @Override
   protected String getBasePath() {
     return FileUtil.toSystemDependentName(DartTestUtils.RELATIVE_TEST_DATA_PATH + "/refactoring/extractMethod/html/");

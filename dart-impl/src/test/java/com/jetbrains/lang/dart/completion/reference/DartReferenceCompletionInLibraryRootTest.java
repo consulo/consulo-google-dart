@@ -8,7 +8,7 @@ import com.jetbrains.lang.dart.util.DartSdkTestUtil;
 /**
  * @author: Fedor.Korotkov
  */
-public class DartReferenceCompletionInLibraryRootTest extends DartCompletionTestBase {
+public abstract class DartReferenceCompletionInLibraryRootTest extends DartCompletionTestBase {
   public DartReferenceCompletionInLibraryRootTest() {
     super("completion", "references");
   }

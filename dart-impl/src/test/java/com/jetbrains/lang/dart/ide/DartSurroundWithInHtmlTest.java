@@ -1,7 +1,5 @@
 package com.jetbrains.lang.dart.ide;
 
-import javax.annotation.Nonnull;
-
 import com.intellij.codeInsight.generation.surroundWith.SurroundWithHandler;
 import com.intellij.lang.surroundWith.Surrounder;
 import com.intellij.openapi.util.io.FileUtil;
@@ -9,10 +7,12 @@ import com.intellij.testFramework.LightPlatformCodeInsightTestCase;
 import com.jetbrains.lang.dart.ide.surroundWith.statement.DartWithIfElseSurrounder;
 import com.jetbrains.lang.dart.util.DartTestUtils;
 
+import javax.annotation.Nonnull;
+
 /**
  * @author: Fedor.Korotkov
  */
-public class DartSurroundWithInHtmlTest extends LightPlatformCodeInsightTestCase {
+public abstract class DartSurroundWithInHtmlTest extends LightPlatformCodeInsightTestCase {
   @Nonnull
   @Override
   protected String getTestDataPath() {

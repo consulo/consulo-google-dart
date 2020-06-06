@@ -7,7 +7,7 @@ import com.jetbrains.lang.dart.util.DartTestUtils;
 /**
  * @author: Fedor.Korotkov
  */
-public class DartRenameTest extends CodeInsightFixtureTestCase {
+public abstract class DartRenameTest extends CodeInsightFixtureTestCase {
   @Override
   protected String getBasePath() {
     return FileUtil.toSystemDependentName(DartTestUtils.RELATIVE_TEST_DATA_PATH + "/rename/");

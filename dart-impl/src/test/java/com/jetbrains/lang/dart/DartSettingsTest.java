@@ -6,7 +6,7 @@ import com.jetbrains.lang.dart.util.DartTestUtils;
 
 import java.util.Map;
 
-public class DartSettingsTest extends LightPlatformCodeInsightFixtureTestCase {
+public abstract class DartSettingsTest extends LightPlatformCodeInsightFixtureTestCase {
   @Override
   protected String getTestDataPath() {
     return DartTestUtils.BASE_TEST_DATA_PATH + "/settings/";

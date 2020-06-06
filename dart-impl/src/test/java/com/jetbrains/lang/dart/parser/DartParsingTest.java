@@ -7,7 +7,7 @@ import consulo.testFramework.ParsingTestCase;
 /**
  * @author: Fedor.Korotkov
  */
-public class DartParsingTest extends ParsingTestCase
+public abstract class DartParsingTest extends ParsingTestCase
 {
   public DartParsingTest() {
     super("parsing", DartFileType.DEFAULT_EXTENSION/*, new DartParserDefinition()*/);

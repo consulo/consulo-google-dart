@@ -19,7 +19,7 @@ import java.io.FileWriter;
 /**
  * @author: Fedor.Korotkov
  */
-public class DartFormatterTest extends CodeInsightFixtureTestCase {
+public abstract class DartFormatterTest extends CodeInsightFixtureTestCase {
   protected CommonCodeStyleSettings myTestStyleSettings;
 
   @Override

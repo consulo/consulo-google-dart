@@ -8,7 +8,7 @@ import com.jetbrains.lang.dart.util.DartTestUtils;
 /**
  * @author: Fedor.Korotkov
  */
-public class DartIntroduceConstantTest extends DartIntroduceTestBase {
+public abstract class DartIntroduceConstantTest extends DartIntroduceTestBase {
   @Override
   protected String getBasePath() {
     return FileUtil.toSystemDependentName(DartTestUtils.RELATIVE_TEST_DATA_PATH + "/refactoring/introduceConstant/");

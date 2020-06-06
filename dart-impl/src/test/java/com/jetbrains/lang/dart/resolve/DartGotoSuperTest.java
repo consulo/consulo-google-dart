@@ -2,7 +2,6 @@ package com.jetbrains.lang.dart.resolve;
 
 import com.intellij.codeInsight.CodeInsightActionHandler;
 import com.intellij.lang.CodeInsightActions;
-import com.intellij.openapi.application.PathManager;
 import com.intellij.openapi.util.io.FileUtil;
 import com.intellij.testFramework.fixtures.LightPlatformCodeInsightFixtureTestCase;
 import com.jetbrains.lang.dart.DartLanguage;
@@ -11,7 +10,7 @@ import com.jetbrains.lang.dart.util.DartTestUtils;
 /**
  * @author: Fedor.Korotkov
  */
-public class DartGotoSuperTest extends LightPlatformCodeInsightFixtureTestCase {
+public abstract class DartGotoSuperTest extends LightPlatformCodeInsightFixtureTestCase {
   @Override
   protected String getTestDataPath() {
     return DartTestUtils.BASE_TEST_DATA_PATH +  FileUtil.toSystemDependentName("/gotoSuper/");

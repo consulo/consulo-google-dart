@@ -10,7 +10,7 @@ import java.io.IOException;
  *
  * @author: Fedor.Korotkov
  */
-public class DartGotoInHtmlDeclarationActionTest extends DartGotoDeclarationActionTestBase {
+public abstract class DartGotoInHtmlDeclarationActionTest extends DartGotoDeclarationActionTestBase {
 
   protected void doTest(int expectedSize, String... files) throws IOException {
     doTest(DartHtmlUtil.createHtmlAndConfigureFixture(myFixture, files), expectedSize);

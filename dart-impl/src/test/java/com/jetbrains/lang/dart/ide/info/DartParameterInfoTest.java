@@ -1,18 +1,19 @@
 package com.jetbrains.lang.dart.ide.info;
 
-import javax.annotation.Nonnull;
-
 import com.intellij.openapi.util.io.FileUtil;
 import com.intellij.testFramework.LightPlatformCodeInsightTestCase;
+import com.jetbrains.lang.dart.util.DartTestUtils;
+
+import javax.annotation.Nonnull;
+
 //import com.intellij.testFramework.utils.parameterInfo.MockCreateParameterInfoContext;
 //import com.intellij.testFramework.utils.parameterInfo.MockParameterInfoUIContext;
 //import com.intellij.testFramework.utils.parameterInfo.MockUpdateParameterInfoContext;
-import com.jetbrains.lang.dart.util.DartTestUtils;
 
 /**
  * @author: Fedor.Korotkov
  */
-public class DartParameterInfoTest extends LightPlatformCodeInsightTestCase {
+public abstract class DartParameterInfoTest extends LightPlatformCodeInsightTestCase {
   @Nonnull
   @Override
   protected String getTestDataPath() {

@@ -5,7 +5,7 @@ import com.jetbrains.lang.dart.completion.base.DartCompletionTestBase;
 /**
  * @author: Fedor.Korotkov
  */
-public class DartKeywordCompletionTest extends DartCompletionTestBase {
+public abstract class DartKeywordCompletionTest extends DartCompletionTestBase {
   public DartKeywordCompletionTest() {
     super("completion", "keywords");
   }

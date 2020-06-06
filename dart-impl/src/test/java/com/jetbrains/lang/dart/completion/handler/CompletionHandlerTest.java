@@ -6,7 +6,7 @@ import com.jetbrains.lang.dart.util.DartTestUtils;
 /**
  * @author: Fedor.Korotkov
  */
-public class CompletionHandlerTest extends CompletionHandlerTestBase {
+public abstract class CompletionHandlerTest extends CompletionHandlerTestBase {
   @Override
   protected String getBasePath() {
     return FileUtil.toSystemDependentName(DartTestUtils.RELATIVE_TEST_DATA_PATH + "/completion/handler");

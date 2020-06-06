@@ -7,7 +7,7 @@ import java.io.IOException;
 /**
  * @author: Fedor.Korotkov
  */
-public class DartReferenceCompletionInHtmlTest extends DartReferenceCompletionInLibraryRootTest {
+public abstract class DartReferenceCompletionInHtmlTest extends DartReferenceCompletionInLibraryRootTest {
   @Override
   protected void configure(String... files) throws IOException {
     DartHtmlUtil.createHtmlAndConfigureFixture(myFixture, files);

@@ -18,7 +18,7 @@ import java.util.Collection;
 /**
  * @author: Fedor.Korotkov
  */
-public class DartMoveTest extends LightPlatformCodeInsightFixtureTestCase {
+public abstract class DartMoveTest extends LightPlatformCodeInsightFixtureTestCase {
   @Override
   protected String getBasePath() {
     return FileUtil.toSystemDependentName(DartTestUtils.RELATIVE_TEST_DATA_PATH + "/move/");

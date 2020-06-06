@@ -13,7 +13,7 @@ import javax.annotation.Nonnull;
 /**
  * @author: Fedor.Korotkov
  */
-public class DartSurroundWithTest extends LightPlatformCodeInsightTestCase {
+public abstract class DartSurroundWithTest extends LightPlatformCodeInsightTestCase {
   @Nonnull
   @Override
   protected String getTestDataPath() {

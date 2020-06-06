@@ -2,7 +2,7 @@ package com.jetbrains.lang.dart.completion.editor;
 
 import com.jetbrains.lang.dart.completion.base.DartCompletionTestBase;
 
-public class DartEditorCompletionTest extends DartCompletionTestBase {
+public abstract class DartEditorCompletionTest extends DartCompletionTestBase {
   public DartEditorCompletionTest() {
     super("completion", "editor");
   }

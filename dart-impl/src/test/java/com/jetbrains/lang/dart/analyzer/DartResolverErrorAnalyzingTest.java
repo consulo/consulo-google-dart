@@ -3,7 +3,7 @@ package com.jetbrains.lang.dart.analyzer;
 import com.intellij.openapi.util.io.FileUtil;
 import com.jetbrains.lang.dart.util.DartTestUtils;
 
-public class DartResolverErrorAnalyzingTest extends DartAnalyzerTestBase {
+public abstract class DartResolverErrorAnalyzingTest extends DartAnalyzerTestBase {
   @Override
   protected String getBasePath() {
     return FileUtil.toSystemDependentName(DartTestUtils.RELATIVE_TEST_DATA_PATH + "/analyzer/resolver");

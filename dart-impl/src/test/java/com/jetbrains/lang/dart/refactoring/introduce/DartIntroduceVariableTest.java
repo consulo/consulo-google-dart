@@ -9,7 +9,7 @@ import com.jetbrains.lang.dart.util.DartTestUtils;
 /**
  * @author: Fedor.Korotkov
  */
-public class DartIntroduceVariableTest extends DartIntroduceTestBase {
+public abstract class DartIntroduceVariableTest extends DartIntroduceTestBase {
   @Override
   protected String getBasePath() {
     return FileUtil.toSystemDependentName(DartTestUtils.RELATIVE_TEST_DATA_PATH + "/refactoring/introduceVariable/");

@@ -8,7 +8,7 @@ import javax.annotation.Nonnull;
 /**
  * @author: Fedor.Korotkov
  */
-public class DartGenerateActionTest extends DartGenerateActionTestBase {
+public abstract class DartGenerateActionTest extends DartGenerateActionTestBase {
   @Nonnull
   @Override
   protected String getTestDataPath() {

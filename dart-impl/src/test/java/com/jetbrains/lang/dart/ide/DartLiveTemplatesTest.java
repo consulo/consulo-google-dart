@@ -18,7 +18,7 @@ import com.jetbrains.lang.dart.util.DartTestUtils;
 /**
  * @author: Fedor.Korotkov
  */
-public class DartLiveTemplatesTest extends LightPlatformCodeInsightFixtureTestCase {
+public abstract class DartLiveTemplatesTest extends LightPlatformCodeInsightFixtureTestCase {
   @Override
   protected String getBasePath() {
     return FileUtil.toSystemDependentName(DartTestUtils.RELATIVE_TEST_DATA_PATH + "/liveTemplates/");

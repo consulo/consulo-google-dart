@@ -5,7 +5,7 @@ import com.jetbrains.lang.dart.util.DartHtmlUtil;
 /**
  * @author: Fedor.Korotkov
  */
-public class DartFindUsagesInHtmlTest extends DartFindUsagesTestBase {
+public abstract class DartFindUsagesInHtmlTest extends DartFindUsagesTestBase {
   @Override
   protected void doTest(int size, String... files) throws Throwable {
     DartHtmlUtil.createHtmlAndConfigureFixture(myFixture, files);

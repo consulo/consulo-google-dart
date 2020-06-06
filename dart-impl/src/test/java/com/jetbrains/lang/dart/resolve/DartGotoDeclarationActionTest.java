@@ -5,7 +5,7 @@ import com.jetbrains.lang.dart.util.DartSdkTestUtil;
 /**
  * @author: Fedor.Korotkov
  */
-public class DartGotoDeclarationActionTest extends DartGotoDeclarationActionTestBase {
+public abstract class DartGotoDeclarationActionTest extends DartGotoDeclarationActionTestBase {
 
   public void testArrayAccess() throws Throwable {
     DartSdkTestUtil.configFakeSdk(myFixture);
