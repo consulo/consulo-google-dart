@@ -76,7 +76,7 @@ public class DartLookupElement extends LookupElement {
     }
     String text = myComponentNamePresentation.getPresentableText();
     presentation.setItemText(text);
-    presentation.setIcon(TargetAWT.to(myComponentNamePresentation.getIcon()));
+    presentation.setIcon(myComponentNamePresentation.getIcon());
     final String pkg = myComponentNamePresentation.getLocationString();
     if (StringUtil.isNotEmpty(pkg)) {
       presentation.setTailText(" " + pkg, true);

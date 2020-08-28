@@ -93,7 +93,7 @@ public class DartLibraryNameCompletionContributor extends CompletionContributor
 		public void renderElement(LookupElementPresentation presentation)
 		{
 			super.renderElement(presentation);
-			presentation.setIcon(TargetAWT.to(DartIcons.Dart));
+			presentation.setIcon(DartIcons.Dart);
 		}
 
 		@Override
