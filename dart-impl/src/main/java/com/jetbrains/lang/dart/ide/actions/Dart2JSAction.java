@@ -40,7 +40,7 @@ public class Dart2JSAction extends AnAction {
   private static final Logger LOG = Logger.getInstance("#com.jetbrains.lang.dart.ide.actions.Dart2JSAction");
 
   public Dart2JSAction() {
-    super(TargetAWT.to(icons.DartIcons.Dart));
+    super(icons.DartIcons.Dart);
   }
 
   @Override

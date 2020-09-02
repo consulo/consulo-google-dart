@@ -1,12 +1,5 @@
 package com.jetbrains.lang.dart.ide.actions;
 
-import java.io.File;
-
-import javax.annotation.Nonnull;
-
-import org.jetbrains.annotations.Nls;
-
-import javax.annotation.Nullable;
 import com.intellij.execution.ExecutionException;
 import com.intellij.execution.configurations.GeneralCommandLine;
 import com.intellij.execution.process.CapturingProcessHandler;
@@ -36,9 +29,13 @@ import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiFile;
 import com.jetbrains.lang.dart.DartBundle;
 import com.jetbrains.lang.dart.DartProjectComponent;
-import consulo.awt.TargetAWT;
 import consulo.dart.module.extension.DartModuleExtension;
 import icons.DartIcons;
+import org.jetbrains.annotations.Nls;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.io.File;
 
 abstract public class DartPubActionBase extends AnAction
 {
@@ -47,7 +44,7 @@ abstract public class DartPubActionBase extends AnAction
 
 	public DartPubActionBase()
 	{
-		super(TargetAWT.to(DartIcons.Dart));
+		super(DartIcons.Dart);
 	}
 
 	@Override

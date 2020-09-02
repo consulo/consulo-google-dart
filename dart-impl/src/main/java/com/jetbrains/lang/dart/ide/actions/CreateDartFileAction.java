@@ -27,7 +27,7 @@ import java.util.Properties;
  */
 public class CreateDartFileAction extends CreateFromTemplateAction<PsiFile> {
   public CreateDartFileAction() {
-    super(DartBundle.message("action.create.new.file"), DartBundle.message("action.create.new.file"), TargetAWT.to(icons.DartIcons.Dart));
+    super(DartBundle.message("action.create.new.file"), DartBundle.message("action.create.new.file"), icons.DartIcons.Dart);
   }
 
   @Override
@@ -42,7 +42,7 @@ public class CreateDartFileAction extends CreateFromTemplateAction<PsiFile> {
       final String templateName = fileTemplate.getName();
       final String shortName = DartFileTemplateUtil.getTemplateShortName(templateName);
       final Image icon = DartFileTemplateUtil.getTemplateIcon(templateName);
-      builder.addKind(shortName, TargetAWT.to(icon), templateName);
+      builder.addKind(shortName, icon, templateName);
     }
     builder.setValidator(new InputValidatorEx() {
       @Override

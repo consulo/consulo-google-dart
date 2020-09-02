@@ -49,7 +49,7 @@ public class PubListPackageDirsAction extends AnAction
 
 	public PubListPackageDirsAction()
 	{
-		super("Configure Dart package roots using 'pub list-package-dirs'", null, TargetAWT.to(DartIcons.Dart));
+		super("Configure Dart package roots using 'pub list-package-dirs'", null, DartIcons.Dart);
 	}
 
 	public void update(final AnActionEvent e)
