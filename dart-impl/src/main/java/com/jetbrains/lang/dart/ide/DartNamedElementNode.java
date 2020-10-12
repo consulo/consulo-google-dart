@@ -18,7 +18,7 @@ import consulo.ide.IconDescriptorUpdaters;
  */
 public class DartNamedElementNode extends PsiElementMemberChooserObject implements ClassMember {
   public DartNamedElementNode(final DartComponent haxeNamedComponent) {
-    super(haxeNamedComponent, buildPresentationText(haxeNamedComponent), TargetAWT.to(IconDescriptorUpdaters.getIcon(haxeNamedComponent, Iconable.ICON_FLAG_VISIBILITY)));
+    super(haxeNamedComponent, buildPresentationText(haxeNamedComponent), IconDescriptorUpdaters.getIcon(haxeNamedComponent, Iconable.ICON_FLAG_VISIBILITY));
   }
 
   @Nullable

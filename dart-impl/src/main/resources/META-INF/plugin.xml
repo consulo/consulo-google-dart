@@ -19,7 +19,7 @@
 		<problemFileHighlightFilter implementation="com.jetbrains.lang.dart.highlight.DartProblemFileHighlightFilter"/>
 		<moduleExtensionProvider key="dart"
 								 name="Google Dart"
-								 icon="/icons/dart.png"
+								 icon="consulo.google.dart.DartIconGroup@dart"
 								 immutableClass="consulo.dart.module.extension.DartModuleExtension"
 								 mutableClass="consulo.dart.module.extension.DartMutableModuleExtension"/>
 
@@ -45,7 +45,6 @@
 								 implementationClass="com.jetbrains.lang.dart.psi.impl.DartFileReferenceImpl$DartPathOrLibraryManipulator"/>
 		<lang.refactoringSupport language="Dart"
 								 implementationClass="com.jetbrains.lang.dart.ide.refactoring.DartRefactoringSupportProvider"/>
-		<lang.elementIcon language="Dart" file="/icons/dartLang.png"/>
 
 		<codeInsight.parameterInfo language="Dart"
 								   implementationClass="com.jetbrains.lang.dart.ide.info.DartParameterInfoHandler"/>

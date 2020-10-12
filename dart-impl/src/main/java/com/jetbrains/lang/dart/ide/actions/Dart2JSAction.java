@@ -74,7 +74,7 @@ public class Dart2JSAction extends AnAction {
     if (dart2js == null) {
       Messages.showOkCancelDialog(e.getProject(), DartBundle.message("dart.sdk.bad.dart2js.path", DartSdkUtil.getDart2JSPath(sdk)),
                                   DartBundle.message("dart.warning"),
-                                  TargetAWT.to(icons.DartIcons.Dart));
+                                  icons.DartIcons.Dart);
       return;
     }
 
