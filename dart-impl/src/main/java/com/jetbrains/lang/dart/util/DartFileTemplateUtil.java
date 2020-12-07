@@ -1,9 +1,5 @@
 package com.jetbrains.lang.dart.util;
 
-import java.util.List;
-
-import javax.annotation.Nonnull;
-
 import com.intellij.icons.AllIcons;
 import com.intellij.ide.fileTemplates.FileTemplate;
 import com.intellij.ide.fileTemplates.FileTemplateManager;
@@ -13,7 +9,9 @@ import com.intellij.util.containers.ContainerUtil;
 import com.jetbrains.lang.dart.DartFileType;
 import consulo.ui.image.Image;
 import consulo.ui.image.ImageEffects;
-import icons.DartIcons;
+
+import javax.annotation.Nonnull;
+import java.util.List;
 
 /**
  * @author: Fedor.Korotkov
@@ -48,10 +46,10 @@ public class DartFileTemplateUtil {
   public static Image getTemplateIcon(String name) {
     name = getTemplateShortName(name);
     if ("Class".equals(name)) {
-      return ImageEffects.layered(AllIcons.Nodes.Class, DartIcons.DartLang);
+      return ImageEffects.layered(AllIcons.Nodes.Class);
     }
     else if ("Interface".equals(name)) {
-      return ImageEffects.layered(AllIcons.Nodes.Interface, DartIcons.DartLang);
+      return ImageEffects.layered(AllIcons.Nodes.Interface);
     }
     return icons.DartIcons.Dart;
   }
