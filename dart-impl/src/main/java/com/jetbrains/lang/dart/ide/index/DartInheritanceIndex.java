@@ -19,7 +19,6 @@ import com.jetbrains.lang.dart.psi.DartClass;
 import com.jetbrains.lang.dart.psi.DartComponent;
 import com.jetbrains.lang.dart.psi.DartComponentName;
 import com.jetbrains.lang.dart.util.DartResolveUtil;
-import gnu.trove.THashSet;
 
 import javax.annotation.Nonnull;
 import java.util.*;
@@ -168,7 +167,7 @@ public class DartInheritanceIndex extends FileBasedIndexExtension<String, List<D
 
 		private static boolean processInheritors(final DartClass dartClass, final PsiElement context, final Processor<? super PsiElement> consumer)
 		{
-			final Set<DartClass> classSet = new THashSet<DartClass>();
+			final Set<DartClass> classSet = new HashSet<DartClass>();
 			final LinkedList<DartClass> namesQueue = new LinkedList<DartClass>();
 			namesQueue.add(dartClass);
 			while(!namesQueue.isEmpty())

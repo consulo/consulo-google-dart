@@ -2,6 +2,7 @@ package com.jetbrains.lang.dart.util;
 
 import com.intellij.codeInsight.PsiEquivalenceUtil;
 import com.intellij.lang.ASTNode;
+import com.intellij.navigation.NavigationItem;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiElement;
@@ -13,31 +14,21 @@ import com.intellij.util.Function;
 import com.intellij.util.containers.ContainerUtil;
 import com.jetbrains.lang.dart.DartComponentType;
 import com.jetbrains.lang.dart.psi.*;
-import gnu.trove.THashSet;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author: Fedor.Korotkov
  */
 public class DartRefactoringUtil {
   public static Set<String> collectUsedNames(PsiElement context) {
-    return new THashSet<String>(ContainerUtil.map(collectUsedComponents(context), new Function<DartComponentName, String>() {
-      @Nullable
-      @Override
-      public String fun(DartComponentName componentName) {
-        return componentName.getName();
-      }
-    }));
+    return new HashSet<String>(ContainerUtil.map(collectUsedComponents(context), NavigationItem::getName));
   }
 
   public static Set<DartComponentName> collectUsedComponents(PsiElement context) {
-    final Set<DartComponentName> usedComponentNames = new THashSet<DartComponentName>();
+    final Set<DartComponentName> usedComponentNames = new HashSet<DartComponentName>();
     PsiTreeUtil.treeWalkUp(new ComponentNameScopeProcessor(usedComponentNames), context, null, new ResolveState());
     return usedComponentNames;
   }

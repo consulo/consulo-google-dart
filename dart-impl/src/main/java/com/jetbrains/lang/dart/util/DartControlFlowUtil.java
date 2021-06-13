@@ -1,22 +1,17 @@
 package com.jetbrains.lang.dart.util;
 
-import gnu.trove.THashSet;
-
-import java.util.Set;
+import com.intellij.psi.PsiElement;
+import com.jetbrains.lang.dart.psi.*;
 
 import javax.annotation.Nullable;
-import com.intellij.psi.PsiElement;
-import com.jetbrains.lang.dart.psi.DartComponent;
-import com.jetbrains.lang.dart.psi.DartComponentName;
-import com.jetbrains.lang.dart.psi.DartVarAccessDeclaration;
-import com.jetbrains.lang.dart.psi.DartVarDeclarationList;
-import com.jetbrains.lang.dart.psi.DartVarDeclarationListPart;
+import java.util.HashSet;
+import java.util.Set;
 
 public class DartControlFlowUtil
 {
 	public static Set<DartComponentName> getSimpleDeclarations(PsiElement[] children, @Nullable PsiElement lastParent, boolean stopAtLastParent)
 	{
-		final Set<DartComponentName> result = new THashSet<DartComponentName>();
+		final Set<DartComponentName> result = new HashSet<DartComponentName>();
 		boolean addComponentsFlag = true;
 		for(PsiElement child : children)
 		{

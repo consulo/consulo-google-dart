@@ -1,12 +1,5 @@
 package com.jetbrains.lang.dart.ide;
 
-import gnu.trove.THashMap;
-
-import java.util.Collection;
-import java.util.Map;
-
-import javax.annotation.Nonnull;
-
 import com.intellij.codeInsight.completion.InsertionContext;
 import com.intellij.codeInsight.completion.util.ParenthesesInsertHandler;
 import com.intellij.codeInsight.lookup.LookupElement;
@@ -16,15 +9,13 @@ import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.util.PsiTreeUtil;
 import com.jetbrains.lang.dart.DartComponentType;
-import com.jetbrains.lang.dart.psi.DartClass;
-import com.jetbrains.lang.dart.psi.DartComponent;
-import com.jetbrains.lang.dart.psi.DartComponentName;
-import com.jetbrains.lang.dart.psi.DartFactoryConstructorDeclaration;
-import com.jetbrains.lang.dart.psi.DartGetterDeclaration;
-import com.jetbrains.lang.dart.psi.DartNamedConstructorDeclaration;
-import com.jetbrains.lang.dart.psi.DartSetterDeclaration;
+import com.jetbrains.lang.dart.psi.*;
 import com.jetbrains.lang.dart.util.DartPresentableUtil;
-import consulo.awt.TargetAWT;
+
+import javax.annotation.Nonnull;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author: Fedor.Korotkov
@@ -35,7 +26,7 @@ public class DartLookupElement extends LookupElement {
 
   public static Collection<DartLookupElement> convert(@Nonnull Collection<DartComponentName> componentNames,
                                                       boolean constructorCompletion) {
-    final Map<String, DartLookupElement> result = new THashMap<String, DartLookupElement>();
+    final Map<String, DartLookupElement> result = new HashMap<String, DartLookupElement>();
     for (DartComponentName componentName : componentNames) {
       DartLookupElement lookupElement = new DartLookupElement(componentName, constructorCompletion);
       result.put(lookupElement.getLookupString(), lookupElement);

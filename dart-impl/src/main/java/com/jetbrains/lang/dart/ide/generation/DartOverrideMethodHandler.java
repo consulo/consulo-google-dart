@@ -1,14 +1,13 @@
 package com.jetbrains.lang.dart.ide.generation;
 
-import gnu.trove.THashMap;
-
-import java.util.List;
-import java.util.Map;
-
 import com.intellij.openapi.util.Pair;
 import com.jetbrains.lang.dart.DartBundle;
 import com.jetbrains.lang.dart.psi.DartClass;
 import com.jetbrains.lang.dart.psi.DartComponent;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class DartOverrideMethodHandler extends BaseDartGenerateHandler
 {
@@ -23,7 +22,7 @@ public class DartOverrideMethodHandler extends BaseDartGenerateHandler
 			DartComponent> superClassesMembersMap, Map<Pair<String, Boolean>, DartComponent> superInterfacesMembersMap,
 			List<DartComponent> candidates)
 	{
-		Map<Pair<String, Boolean>, DartComponent> result = new THashMap<Pair<String, Boolean>, DartComponent>(superClassesMembersMap);
+		Map<Pair<String, Boolean>, DartComponent> result = new HashMap<Pair<String, Boolean>, DartComponent>(superClassesMembersMap);
 		result.keySet().removeAll(classMembersMap.keySet());
 		candidates.addAll(result.values());
 	}

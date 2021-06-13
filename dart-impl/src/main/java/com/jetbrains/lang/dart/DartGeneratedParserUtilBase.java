@@ -1,25 +1,24 @@
 package com.jetbrains.lang.dart;
 
-import static com.jetbrains.lang.dart.DartTokenTypes.ID;
-import static com.jetbrains.lang.dart.DartTokenTypes.IDENTIFIER;
-
-import gnu.trove.THashSet;
-
-import java.util.Arrays;
-import java.util.Set;
-
 import com.intellij.lang.PsiBuilder;
 import com.intellij.lang.parser.GeneratedParserUtilBase;
 import consulo.util.dataholder.Key;
+
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
+import static com.jetbrains.lang.dart.DartTokenTypes.ID;
+import static com.jetbrains.lang.dart.DartTokenTypes.IDENTIFIER;
 
 public class DartGeneratedParserUtilBase extends GeneratedParserUtilBase
 {
 	private static Key<Boolean> WITHOUT_CASCADE = Key.create("dart.without.cascade");
 
 	// todo: operator is pseudoKeyword
-	private static final Set<String> pseudoKeywords = new THashSet<String>(Arrays.asList("abstract", "assert", "class", "extends", "factory", "implements", "import", "interface", "is", "as", "on", "library", "native", "source", "static", "typedef", "operator", "set", "get", "of", "part", "show", "hide", "export", "with"));
+	private static final Set<String> pseudoKeywords = new HashSet<String>(Arrays.asList("abstract", "assert", "class", "extends", "factory", "implements", "import", "interface", "is", "as", "on", "library", "native", "source", "static", "typedef", "operator", "set", "get", "of", "part", "show", "hide", "export", "with"));
 
-	private static final Set<String> operators = new THashSet<String>(Arrays.asList("%", "&", "*", "+", "-", "/", "<", "<<", "<=", "==", ">", ">=", "[", "^", "|", "~", "~/"));
+	private static final Set<String> operators = new HashSet<String>(Arrays.asList("%", "&", "*", "+", "-", "/", "<", "<<", "<=", "==", ">", ">=", "[", "^", "|", "~", "~/"));
 
 	public static boolean cascadeStopper(PsiBuilder builder_, int level_)
 	{

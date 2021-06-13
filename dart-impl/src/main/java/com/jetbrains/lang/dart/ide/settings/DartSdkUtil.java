@@ -3,7 +3,6 @@ package com.jetbrains.lang.dart.ide.settings;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.module.ModuleUtilCore;
 import com.intellij.openapi.projectRoots.Sdk;
-import consulo.util.dataholder.Key;
 import com.intellij.openapi.util.Pair;
 import com.intellij.openapi.util.SystemInfo;
 import com.intellij.openapi.util.io.FileUtil;
@@ -17,12 +16,12 @@ import com.intellij.psi.PsiFile;
 import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.util.Processor;
 import com.jetbrains.lang.dart.DartFileType;
-import consulo.dart.module.extension.DartModuleExtension;
 import com.jetbrains.lang.dart.psi.*;
-import gnu.trove.THashMap;
+import consulo.dart.module.extension.DartModuleExtension;
+import consulo.util.dataholder.Key;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
 import java.io.File;
 import java.io.FileFilter;
 import java.util.*;
@@ -153,7 +152,7 @@ public class DartSdkUtil {
     if (file == null) {
       return Collections.emptyMap();
     }
-    final Map<String, String> result = new THashMap<String, String>();
+    final Map<String, String> result = new HashMap<String, String>();
     file.acceptChildren(new DartRecursiveVisitor() {
       @Override
       public void visitConstConstructorExpression(@Nonnull DartConstConstructorExpression constructorExpression) {

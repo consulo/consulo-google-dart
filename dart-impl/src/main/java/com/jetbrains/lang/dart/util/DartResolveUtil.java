@@ -1,25 +1,5 @@
 package com.jetbrains.lang.dart.util;
 
-import static com.jetbrains.lang.dart.ide.index.DartImportOrExportInfo.Kind;
-import static com.jetbrains.lang.dart.util.DartUrlResolver.DART_PREFIX;
-import static com.jetbrains.lang.dart.util.DartUrlResolver.FILE_PREFIX;
-import static com.jetbrains.lang.dart.util.DartUrlResolver.PACKAGE_PREFIX;
-
-import gnu.trove.THashSet;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.Comparing;
 import com.intellij.openapi.util.Condition;
@@ -29,13 +9,7 @@ import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.openapi.vfs.VfsUtilCore;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.openapi.vfs.VirtualFileManager;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiElementResolveResult;
-import com.intellij.psi.PsiFile;
-import com.intellij.psi.PsiRecursiveElementVisitor;
-import com.intellij.psi.ResolveResult;
-import com.intellij.psi.ResolveState;
-import com.intellij.psi.XmlRecursiveElementVisitor;
+import com.intellij.psi.*;
 import com.intellij.psi.impl.source.tree.LeafPsiElement;
 import com.intellij.psi.search.GlobalSearchScope;
 import com.intellij.psi.search.PsiElementProcessor;
@@ -47,18 +21,20 @@ import com.intellij.util.containers.ContainerUtil;
 import com.intellij.util.containers.ContainerUtilRt;
 import com.jetbrains.lang.dart.DartComponentType;
 import com.jetbrains.lang.dart.DartTokenTypesSets;
-import com.jetbrains.lang.dart.ide.index.DartComponentIndex;
-import com.jetbrains.lang.dart.ide.index.DartImportAndExportIndex;
-import com.jetbrains.lang.dart.ide.index.DartImportOrExportInfo;
-import com.jetbrains.lang.dart.ide.index.DartLibraryIndex;
-import com.jetbrains.lang.dart.ide.index.DartPathIndex;
-import com.jetbrains.lang.dart.ide.index.DartSourceIndex;
+import com.jetbrains.lang.dart.ide.index.*;
 import com.jetbrains.lang.dart.ide.info.DartFunctionDescription;
 import com.jetbrains.lang.dart.psi.*;
 import com.jetbrains.lang.dart.psi.impl.AbstractDartPsiClass;
 import com.jetbrains.lang.dart.psi.impl.DartPsiCompositeElementImpl;
 import com.jetbrains.lang.dart.resolve.DartPsiScopeProcessor;
 import com.jetbrains.lang.dart.resolve.DartResolveProcessor;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.*;
+
+import static com.jetbrains.lang.dart.ide.index.DartImportOrExportInfo.Kind;
+import static com.jetbrains.lang.dart.util.DartUrlResolver.*;
 
 public class DartResolveUtil
 {
@@ -308,7 +284,7 @@ public class DartResolveUtil
 		{
 			return Collections.emptySet();
 		}
-		final Set<DartClass> result = new THashSet<DartClass>();
+		final Set<DartClass> result = new HashSet<DartClass>();
 		for(DartComponent component : components)
 		{
 			final DartComponentType type = DartComponentType.typeOf(component);
@@ -361,13 +337,13 @@ public class DartResolveUtil
 	public static boolean processTopLevelDeclarations(final @Nonnull PsiElement context, final @Nonnull DartPsiScopeProcessor processor,
 			final @Nullable VirtualFile rootVirtualFile, final @Nullable String componentNameHint)
 	{
-		final Set<String> fileNames = new THashSet<String>();
+		final Set<String> fileNames = new HashSet<String>();
 		for(VirtualFile virtualFile : DartComponentIndex.getAllFiles(context.getProject(), componentNameHint))
 		{
 			fileNames.add(virtualFile.getName());
 		}
 		return processTopLevelDeclarationsImpl(context, processor, rootVirtualFile, componentNameHint == null ? null : fileNames,
-				new THashSet<VirtualFile>(), componentNameHint != null && componentNameHint.startsWith("_"));
+				new HashSet<VirtualFile>(), componentNameHint != null && componentNameHint.startsWith("_"));
 	}
 
 	private static boolean processTopLevelDeclarationsImpl(final @Nonnull PsiElement context, final @Nonnull DartPsiScopeProcessor processor,
@@ -511,15 +487,8 @@ public class DartResolveUtil
 		{
 			return false;
 		}
-		final THashSet<VirtualFile> librariesSetForContext1 = new THashSet<VirtualFile>(librariesForContext1);
-		return ContainerUtil.find(librariesForContext2, new Condition<VirtualFile>()
-		{
-			@Override
-			public boolean value(VirtualFile file)
-			{
-				return librariesSetForContext1.contains(file);
-			}
-		}) != null;
+		final Set<VirtualFile> librariesSetForContext1 = new HashSet<VirtualFile>(librariesForContext1);
+		return ContainerUtil.find(librariesForContext2, file -> librariesSetForContext1.contains(file)) != null;
 	}
 
 	@Nonnull
@@ -723,7 +692,7 @@ public class DartResolveUtil
 
 	public static boolean processSuperClasses(PsiElementProcessor<DartClass> processor, @Nonnull DartClass... rootDartClasses)
 	{
-		final Set<DartClass> processedClasses = new THashSet<DartClass>();
+		final Set<DartClass> processedClasses = new HashSet<DartClass>();
 		final LinkedList<DartClass> classes = new LinkedList<DartClass>();
 		classes.addAll(Arrays.asList(rootDartClasses));
 		while(!classes.isEmpty())
@@ -774,7 +743,7 @@ public class DartResolveUtil
 	public static void processSupers(@Nullable PsiElementProcessor<DartClass> superClassProcessor, @Nullable PsiElementProcessor<DartClass>
 			superInterfaceProcessor, @Nullable DartClass rootDartClass)
 	{
-		final Set<DartClass> processedClasses = new THashSet<DartClass>();
+		final Set<DartClass> processedClasses = new HashSet<DartClass>();
 		DartClass currentClass = rootDartClass;
 		while(currentClass != null)
 		{

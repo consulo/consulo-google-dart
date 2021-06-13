@@ -1,17 +1,5 @@
 package com.jetbrains.lang.dart.ide.index;
 
-import static com.jetbrains.lang.dart.ide.index.DartImportOrExportInfo.Kind;
-
-import gnu.trove.THashSet;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
-
-import javax.annotation.Nonnull;
-
-import consulo.util.dataholder.Key;
 import com.intellij.openapi.util.io.FileUtil;
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.psi.PsiElement;
@@ -24,6 +12,12 @@ import com.jetbrains.lang.dart.DartComponentType;
 import com.jetbrains.lang.dart.psi.*;
 import com.jetbrains.lang.dart.util.DartControlFlowUtil;
 import com.jetbrains.lang.dart.util.DartResolveUtil;
+import consulo.util.dataholder.Key;
+
+import javax.annotation.Nonnull;
+import java.util.*;
+
+import static com.jetbrains.lang.dart.ide.index.DartImportOrExportInfo.Kind;
 
 public class DartIndexUtil
 {
@@ -127,7 +121,7 @@ public class DartIndexUtil
 	{
 		final String uri = importOrExportStatement.getUri();
 
-		final Set<String> showComponentNames = new THashSet<String>();
+		final Set<String> showComponentNames = new HashSet<String>();
 		for(DartShowCombinator showCombinator : importOrExportStatement.getShowCombinatorList())
 		{
 			for(DartExpression expression : showCombinator.getLibraryReferenceList().getLibraryComponentReferenceExpressionList())
@@ -136,7 +130,7 @@ public class DartIndexUtil
 			}
 		}
 
-		final Set<String> hideComponentNames = new THashSet<String>();
+		final Set<String> hideComponentNames = new HashSet<String>();
 		for(DartHideCombinator hideCombinator : importOrExportStatement.getHideCombinatorList())
 		{
 			for(DartExpression expression : hideCombinator.getLibraryReferenceList().getLibraryComponentReferenceExpressionList())

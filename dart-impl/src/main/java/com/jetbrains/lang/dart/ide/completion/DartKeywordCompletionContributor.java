@@ -1,21 +1,7 @@
 package com.jetbrains.lang.dart.ide.completion;
 
-import static com.intellij.patterns.PlatformPatterns.psiElement;
-
-import gnu.trove.THashSet;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import com.intellij.codeInsight.completion.CompletionContributor;
 import com.intellij.codeInsight.completion.CompletionParameters;
-import consulo.codeInsight.completion.CompletionProvider;
 import com.intellij.codeInsight.completion.CompletionResultSet;
 import com.intellij.codeInsight.completion.CompletionType;
 import com.intellij.codeInsight.lookup.LookupElementBuilder;
@@ -37,10 +23,17 @@ import com.jetbrains.lang.dart.DartTokenTypesSets;
 import com.jetbrains.lang.dart.psi.*;
 import com.jetbrains.lang.dart.util.DartCodeGenerateUtil;
 import com.jetbrains.lang.dart.util.UsefulPsiTreeUtil;
+import consulo.codeInsight.completion.CompletionProvider;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.*;
+
+import static com.intellij.patterns.PlatformPatterns.psiElement;
 
 public class DartKeywordCompletionContributor extends CompletionContributor
 {
-	private static final Set<String> allowedKeywords = new THashSet<String>()
+	private static final Set<String> allowedKeywords = new HashSet<String>()
 	{
 		{
 			for(IElementType elementType : DartTokenTypesSets.RESERVED_WORDS.getTypes())

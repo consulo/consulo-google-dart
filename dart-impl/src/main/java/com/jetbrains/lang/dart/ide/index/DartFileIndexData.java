@@ -1,20 +1,18 @@
 package com.jetbrains.lang.dart.ide.index;
 
-import gnu.trove.THashMap;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class DartFileIndexData
 {
 	private List<String> myClassNames = new ArrayList<String>();
 	private List<DartImportOrExportInfo> myImportAndExportInfos = new ArrayList<DartImportOrExportInfo>();
-	private Map<String, DartComponentInfo> myComponentInfoMap = new THashMap<String, DartComponentInfo>();
-	final Map<String, List<DartComponentInfo>> myInheritorsMap = new THashMap<String, List<DartComponentInfo>>();
+	private Map<String, DartComponentInfo> myComponentInfoMap = new HashMap<String, DartComponentInfo>();
+	final Map<String, List<DartComponentInfo>> myInheritorsMap = new HashMap<String, List<DartComponentInfo>>();
 	@Nullable
 	private String myLibraryName;
 	private List<String> myPaths = new ArrayList<String>();

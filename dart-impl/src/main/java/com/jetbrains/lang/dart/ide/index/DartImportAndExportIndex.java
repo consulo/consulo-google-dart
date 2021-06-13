@@ -1,30 +1,19 @@
 package com.jetbrains.lang.dart.ide.index;
 
-import gnu.trove.THashSet;
-
-import java.io.DataInput;
-import java.io.DataOutput;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import javax.annotation.Nonnull;
-
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.search.GlobalSearchScope;
-import com.intellij.util.indexing.DataIndexer;
-import com.intellij.util.indexing.FileBasedIndex;
-import com.intellij.util.indexing.FileBasedIndexExtension;
-import com.intellij.util.indexing.FileContent;
-import com.intellij.util.indexing.ID;
+import com.intellij.util.indexing.*;
 import com.intellij.util.io.DataExternalizer;
 import com.intellij.util.io.EnumeratorStringDescriptor;
 import com.intellij.util.io.KeyDescriptor;
+
+import javax.annotation.Nonnull;
+import java.io.DataInput;
+import java.io.DataOutput;
+import java.io.IOException;
+import java.util.*;
 
 public class DartImportAndExportIndex extends FileBasedIndexExtension<String, List<DartImportOrExportInfo>>
 {
@@ -99,13 +88,13 @@ public class DartImportAndExportIndex extends FileBasedIndexExtension<String, Li
 					final String uri = in.readUTF();
 					final String prefix = in.readUTF();
 					final int showSize = in.readInt();
-					final Set<String> showComponentNames = showSize == 0 ? Collections.<String>emptySet() : new THashSet<String>(showSize);
+					final Set<String> showComponentNames = showSize == 0 ? Collections.<String>emptySet() : new HashSet<String>(showSize);
 					for(int j = 0; j < showSize; j++)
 					{
 						showComponentNames.add(in.readUTF());
 					}
 					final int hideSize = in.readInt();
-					final Set<String> hideComponentNames = hideSize == 0 ? Collections.<String>emptySet() : new THashSet<String>(hideSize);
+					final Set<String> hideComponentNames = hideSize == 0 ? Collections.<String>emptySet() : new HashSet<String>(hideSize);
 					for(int j = 0; j < hideSize; j++)
 					{
 						hideComponentNames.add(in.readUTF());

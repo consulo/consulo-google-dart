@@ -1,23 +1,17 @@
 package com.jetbrains.lang.dart.ide.index;
 
-import gnu.trove.THashMap;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.Nonnull;
-
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.search.GlobalSearchScope;
-import com.intellij.util.indexing.DataIndexer;
-import com.intellij.util.indexing.FileBasedIndex;
-import com.intellij.util.indexing.FileContent;
-import com.intellij.util.indexing.ID;
-import com.intellij.util.indexing.ScalarIndexExtension;
+import com.intellij.util.indexing.*;
 import com.intellij.util.io.EnumeratorStringDescriptor;
 import com.intellij.util.io.KeyDescriptor;
+
+import javax.annotation.Nonnull;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author: Fedor.Korotkov
@@ -77,7 +71,7 @@ public class DartSourceIndex extends ScalarIndexExtension<String>
 		@Nonnull
 		public Map<String, Void> map(final FileContent inputData)
 		{
-			final Map<String, Void> result = new THashMap<String, Void>();
+			final Map<String, Void> result = new HashMap<String, Void>();
 			for(String pathValue : DartIndexUtil.indexFile(inputData).getPaths())
 			{
 				result.put(pathValue.substring(pathValue.lastIndexOf('/') + 1), null);

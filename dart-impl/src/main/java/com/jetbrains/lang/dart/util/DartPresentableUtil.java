@@ -1,24 +1,19 @@
 package com.jetbrains.lang.dart.util;
 
-import gnu.trove.THashSet;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
-
-import org.jetbrains.annotations.NonNls;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import com.intellij.codeInsight.lookup.LookupElement;
-import com.intellij.codeInsight.template.Expression;
-import com.intellij.codeInsight.template.ExpressionContext;
-import com.intellij.codeInsight.template.Result;
-import com.intellij.codeInsight.template.Template;
-import com.intellij.codeInsight.template.TextResult;
+import com.intellij.codeInsight.template.*;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.util.PsiTreeUtil;
 import com.jetbrains.lang.dart.DartTokenTypes;
 import com.jetbrains.lang.dart.psi.*;
+import org.jetbrains.annotations.NonNls;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class DartPresentableUtil
 {
@@ -208,7 +203,7 @@ public class DartPresentableUtil
 	public static void appendArgumentList(@Nonnull Template result, @Nonnull DartArgumentList argumentList)
 	{
 		final List<DartNamedArgument> namedArgumentList = argumentList.getNamedArgumentList();
-		final Set<String> additionalUsedNamed = new THashSet<String>();
+		final Set<String> additionalUsedNamed = new HashSet<String>();
 		for(DartNamedArgument namedArgument : namedArgumentList)
 		{
 			additionalUsedNamed.add(namedArgument.getParameterReferenceExpression().getText());

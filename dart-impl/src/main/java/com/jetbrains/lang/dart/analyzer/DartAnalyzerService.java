@@ -1,17 +1,5 @@
 package com.jetbrains.lang.dart.analyzer;
 
-import gnu.trove.THashMap;
-import gnu.trove.THashSet;
-
-import java.io.File;
-import java.lang.ref.WeakReference;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Map;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import com.google.dart.engine.AnalysisEngine;
 import com.google.dart.engine.context.AnalysisContext;
 import com.google.dart.engine.context.ChangeSet;
@@ -32,18 +20,18 @@ import com.intellij.openapi.roots.ProjectRootManager;
 import com.intellij.openapi.util.Comparing;
 import com.intellij.openapi.util.Disposer;
 import com.intellij.openapi.util.io.FileUtilRt;
-import com.intellij.openapi.vfs.LocalFileSystem;
-import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.openapi.vfs.VirtualFileCopyEvent;
-import com.intellij.openapi.vfs.VirtualFileEvent;
-import com.intellij.openapi.vfs.VirtualFileListener;
-import com.intellij.openapi.vfs.VirtualFileMoveEvent;
-import com.intellij.openapi.vfs.VirtualFilePropertyEvent;
+import com.intellij.openapi.vfs.*;
 import com.intellij.reference.SoftReference;
 import com.intellij.util.Function;
 import com.jetbrains.lang.dart.DartFileType;
 import com.jetbrains.lang.dart.sdk.DartConfigurable;
 import com.jetbrains.lang.dart.util.DartUrlResolver;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.io.File;
+import java.lang.ref.WeakReference;
+import java.util.*;
 
 public class DartAnalyzerService
 {
@@ -65,10 +53,10 @@ public class DartAnalyzerService
 	@Nullable
 	WeakReference<AnalysisContext> myAnalysisContextRef;
 
-	private final Collection<VirtualFile> myCreatedFiles = Collections.synchronizedSet(new THashSet<VirtualFile>());
+	private final Collection<VirtualFile> myCreatedFiles = Collections.synchronizedSet(new HashSet<VirtualFile>());
 
-	private final Map<VirtualFile, DartFileBasedSource> myFileToSourceMap = Collections.synchronizedMap(new THashMap<VirtualFile,
-			DartFileBasedSource>());
+	private final Map<VirtualFile, DartFileBasedSource> myFileToSourceMap = Collections.synchronizedMap(new HashMap<VirtualFile,
+				DartFileBasedSource>());
 
 	public DartAnalyzerService(final Project project)
 	{

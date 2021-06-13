@@ -1,13 +1,5 @@
 package com.jetbrains.lang.dart.ide.inspections.analyzer;
 
-import gnu.trove.THashMap;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import com.google.dart.engine.context.AnalysisContext;
 import com.google.dart.engine.error.AnalysisError;
 import com.intellij.analysis.AnalysisScope;
@@ -20,7 +12,6 @@ import com.intellij.openapi.progress.ProgressIndicator;
 import com.intellij.openapi.progress.ProgressManager;
 import com.intellij.openapi.progress.util.ProgressWrapper;
 import com.intellij.openapi.project.Project;
-import consulo.util.dataholder.Key;
 import com.intellij.openapi.util.NullableComputable;
 import com.intellij.openapi.util.Pair;
 import com.intellij.openapi.vfs.VirtualFile;
@@ -31,12 +22,20 @@ import com.intellij.psi.search.GlobalSearchScope;
 import com.jetbrains.lang.dart.DartFileType;
 import com.jetbrains.lang.dart.analyzer.DartFileBasedSource;
 import com.jetbrains.lang.dart.analyzer.DartInProcessAnnotator;
+import consulo.util.dataholder.Key;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class DartGlobalInspectionContext implements GlobalInspectionContextExtension<DartGlobalInspectionContext>
 {
 	static final Key<DartGlobalInspectionContext> KEY = Key.create("DartGlobalInspectionContext");
 
-	private final Map<VirtualFile, AnalysisError[]> libraryRoot2Errors = new THashMap<VirtualFile, AnalysisError[]>();
+	private final Map<VirtualFile, AnalysisError[]> libraryRoot2Errors = new HashMap<VirtualFile, AnalysisError[]>();
 
 	public Map<VirtualFile, AnalysisError[]> getLibraryRoot2Errors()
 	{

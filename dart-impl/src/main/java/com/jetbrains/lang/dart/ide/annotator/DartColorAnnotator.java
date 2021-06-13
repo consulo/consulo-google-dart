@@ -1,15 +1,5 @@
 package com.jetbrains.lang.dart.ide.annotator;
 
-import gnu.trove.THashSet;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import com.intellij.lang.annotation.AnnotationHolder;
 import com.intellij.lang.annotation.Annotator;
 import com.intellij.openapi.editor.colors.TextAttributesKey;
@@ -28,14 +18,18 @@ import com.jetbrains.lang.dart.DartComponentType;
 import com.jetbrains.lang.dart.DartTokenTypes;
 import com.jetbrains.lang.dart.DartTokenTypesSets;
 import com.jetbrains.lang.dart.highlight.DartSyntaxHighlighterColors;
-import consulo.dart.module.extension.DartModuleExtension;
 import com.jetbrains.lang.dart.psi.*;
 import com.jetbrains.lang.dart.util.DartClassResolveResult;
 import com.jetbrains.lang.dart.util.DartResolveUtil;
+import consulo.dart.module.extension.DartModuleExtension;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.*;
 
 public class DartColorAnnotator implements Annotator
 {
-	private static final Set<String> BUILT_IN_TYPES_HIGHLIGHTED_AS_KEYWORDS = new THashSet<String>(Arrays.asList("int", "num", "bool", "double"));
+	private static final Set<String> BUILT_IN_TYPES_HIGHLIGHTED_AS_KEYWORDS = new HashSet<String>(Arrays.asList("int", "num", "bool", "double"));
 
 	@Override
 	public void annotate(final @Nonnull PsiElement element, final @Nonnull AnnotationHolder holder)

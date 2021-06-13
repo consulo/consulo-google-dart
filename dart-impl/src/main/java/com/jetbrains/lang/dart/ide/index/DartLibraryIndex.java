@@ -1,25 +1,10 @@
 package com.jetbrains.lang.dart.ide.index;
 
-import gnu.trove.THashSet;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.module.ModuleUtilCore;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.projectRoots.Sdk;
 import com.intellij.openapi.util.Computable;
-import consulo.util.dataholder.Key;
 import com.intellij.openapi.util.Pair;
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.openapi.vfs.LocalFileSystem;
@@ -30,24 +15,18 @@ import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiFileFactory;
 import com.intellij.psi.search.GlobalSearchScope;
 import com.intellij.util.containers.BidirectionalMap;
-import com.intellij.util.indexing.DataIndexer;
-import com.intellij.util.indexing.FileBasedIndex;
-import com.intellij.util.indexing.FileContent;
-import com.intellij.util.indexing.ID;
-import com.intellij.util.indexing.ScalarIndexExtension;
+import com.intellij.util.indexing.*;
 import com.intellij.util.io.EnumeratorStringDescriptor;
 import com.intellij.util.io.KeyDescriptor;
 import com.jetbrains.lang.dart.DartLanguage;
+import com.jetbrains.lang.dart.psi.*;
 import consulo.dart.module.extension.DartModuleExtension;
-import com.jetbrains.lang.dart.psi.DartArgumentList;
-import com.jetbrains.lang.dart.psi.DartArguments;
-import com.jetbrains.lang.dart.psi.DartConstConstructorExpression;
-import com.jetbrains.lang.dart.psi.DartExpression;
-import com.jetbrains.lang.dart.psi.DartFile;
-import com.jetbrains.lang.dart.psi.DartMapLiteralEntry;
-import com.jetbrains.lang.dart.psi.DartRecursiveVisitor;
-import com.jetbrains.lang.dart.psi.DartStringLiteralExpression;
-import com.jetbrains.lang.dart.psi.DartType;
+import consulo.util.dataholder.Key;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.io.IOException;
+import java.util.*;
 
 public class DartLibraryIndex extends ScalarIndexExtension<String>
 {
@@ -126,7 +105,7 @@ public class DartLibraryIndex extends ScalarIndexExtension<String>
 	public static Set<String> getAllLibraryNames(Project project)
 	{
 		final Collection<String> allKeys = FileBasedIndex.getInstance().getAllKeys(DART_LIBRARY_INDEX, project);
-		return new THashSet<String>(allKeys);
+		return new HashSet<String>(allKeys);
 	}
 
 	private static class MyDataIndexer implements DataIndexer<String, Void, FileContent>

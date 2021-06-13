@@ -1,32 +1,20 @@
 package com.jetbrains.lang.dart.ide.index;
 
-import gnu.trove.THashMap;
-import gnu.trove.THashSet;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import javax.annotation.Nonnull;
-
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiManager;
 import com.intellij.psi.search.GlobalSearchScope;
-import com.intellij.util.indexing.DataIndexer;
-import com.intellij.util.indexing.FileBasedIndex;
-import com.intellij.util.indexing.FileContent;
-import com.intellij.util.indexing.ID;
-import com.intellij.util.indexing.ScalarIndexExtension;
+import com.intellij.util.indexing.*;
 import com.intellij.util.io.EnumeratorStringDescriptor;
 import com.intellij.util.io.KeyDescriptor;
 import com.jetbrains.lang.dart.psi.DartComponent;
 import com.jetbrains.lang.dart.psi.DartComponentName;
 import com.jetbrains.lang.dart.util.DartResolveUtil;
+
+import javax.annotation.Nonnull;
+import java.util.*;
 
 public class DartClassIndex extends ScalarIndexExtension<String>
 {
@@ -80,7 +68,7 @@ public class DartClassIndex extends ScalarIndexExtension<String>
 	public static List<DartComponentName> getItemsByName(String name, Project project, GlobalSearchScope searchScope)
 	{
 		final Collection<VirtualFile> files = FileBasedIndex.getInstance().getContainingFiles(DART_CLASS_INDEX, name, searchScope);
-		final Set<DartComponentName> result = new THashSet<DartComponentName>();
+		final Set<DartComponentName> result = new HashSet<DartComponentName>();
 		for(VirtualFile vFile : files)
 		{
 			final PsiFile psiFile = PsiManager.getInstance(project).findFile(vFile);
@@ -105,7 +93,7 @@ public class DartClassIndex extends ScalarIndexExtension<String>
 		public Map<String, Void> map(final FileContent inputData)
 		{
 			DartFileIndexData indexData = DartIndexUtil.indexFile(inputData);
-			final Map<String, Void> result = new THashMap<String, Void>();
+			final Map<String, Void> result = new HashMap<String, Void>();
 			for(String componentName : indexData.getClassNames())
 			{
 				result.put(componentName, null);

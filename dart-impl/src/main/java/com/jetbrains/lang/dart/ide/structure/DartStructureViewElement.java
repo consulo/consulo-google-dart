@@ -11,11 +11,12 @@ import com.jetbrains.lang.dart.psi.*;
 import com.jetbrains.lang.dart.psi.impl.DartPsiCompositeElementImpl;
 import com.jetbrains.lang.dart.util.DartClassResolveResult;
 import com.jetbrains.lang.dart.util.DartResolveUtil;
-import gnu.trove.THashSet;
-import javax.annotation.Nullable;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author: Fedor.Korotkov
@@ -59,7 +60,7 @@ public class DartStructureViewElement implements StructureViewTreeElement, Sorta
   public TreeElement[] getChildren() {
     final List<TreeElement> result = new ArrayList<TreeElement>();
     if (myElement instanceof DartFile || myElement instanceof DartEmbeddedContent) {
-      THashSet<DartComponentName> componentNames = new THashSet<DartComponentName>();
+      Set<DartComponentName> componentNames = new HashSet<DartComponentName>();
       DartPsiCompositeElementImpl
         .processDeclarationsImpl(myElement, new ComponentNameScopeProcessor(componentNames), ResolveState.initial(), null);
       for (DartComponentName componentName : componentNames) {

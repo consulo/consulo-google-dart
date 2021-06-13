@@ -1,16 +1,6 @@
 package com.jetbrains.lang.dart.resolve;
 
-import gnu.trove.THashMap;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import com.intellij.openapi.diagnostic.Logger;
-import consulo.util.dataholder.Key;
 import com.intellij.openapi.util.Pair;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiElement;
@@ -18,13 +8,18 @@ import com.intellij.psi.ResolveState;
 import com.intellij.psi.scope.PsiScopeProcessor;
 import com.jetbrains.lang.dart.ide.index.DartShowHideInfo;
 import com.jetbrains.lang.dart.psi.DartComponentName;
+import consulo.util.dataholder.Key;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.*;
 
 public abstract class DartPsiScopeProcessor implements PsiScopeProcessor
 {
 	private static final Logger LOG = Logger.getInstance(DartResolveProcessor.class.getName());
 
 	private final List<Pair<VirtualFile, DartShowHideInfo>> myShowHideFilters = new ArrayList<Pair<VirtualFile, DartShowHideInfo>>();
-	private final Map<VirtualFile, Collection<PsiElement>> myFilteredOutElements = new THashMap<VirtualFile, Collection<PsiElement>>();
+	private final Map<VirtualFile, Collection<PsiElement>> myFilteredOutElements = new HashMap<VirtualFile, Collection<PsiElement>>();
 
 	public void importedFileProcessingStarted(final @Nonnull VirtualFile importedFile, final @Nonnull DartShowHideInfo showHideInfo)
 	{

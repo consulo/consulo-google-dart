@@ -1,16 +1,7 @@
 package com.jetbrains.lang.dart.ide.completion;
 
-import static com.intellij.patterns.PlatformPatterns.psiElement;
-import static com.intellij.patterns.StandardPatterns.or;
-
-import gnu.trove.THashSet;
-
-import java.util.Set;
-
-import javax.annotation.Nonnull;
 import com.intellij.codeInsight.completion.CompletionContributor;
 import com.intellij.codeInsight.completion.CompletionParameters;
-import consulo.codeInsight.completion.CompletionProvider;
 import com.intellij.codeInsight.completion.CompletionResultSet;
 import com.intellij.codeInsight.completion.CompletionType;
 import com.intellij.codeInsight.lookup.LookupElementBuilder;
@@ -22,14 +13,18 @@ import com.intellij.psi.PsiElement;
 import com.intellij.util.ProcessingContext;
 import com.jetbrains.lang.dart.DartComponentType;
 import com.jetbrains.lang.dart.ide.index.DartComponentInfo;
-import com.jetbrains.lang.dart.psi.DartComponentName;
-import com.jetbrains.lang.dart.psi.DartId;
-import com.jetbrains.lang.dart.psi.DartNormalFormalParameter;
-import com.jetbrains.lang.dart.psi.DartType;
-import com.jetbrains.lang.dart.psi.DartVarAccessDeclaration;
+import com.jetbrains.lang.dart.psi.*;
 import com.jetbrains.lang.dart.resolve.ClassNameScopeProcessor;
 import com.jetbrains.lang.dart.util.DartResolveUtil;
 import com.jetbrains.lang.dart.util.UsefulPsiTreeUtil;
+import consulo.codeInsight.completion.CompletionProvider;
+
+import javax.annotation.Nonnull;
+import java.util.HashSet;
+import java.util.Set;
+
+import static com.intellij.patterns.PlatformPatterns.psiElement;
+import static com.intellij.patterns.StandardPatterns.or;
 
 public class DartClassNameCompletionContributor extends CompletionContributor
 {
@@ -52,7 +47,7 @@ public class DartClassNameCompletionContributor extends CompletionContributor
 			@Override
 			public void addCompletions(@Nonnull CompletionParameters parameters, ProcessingContext context, @Nonnull CompletionResultSet result)
 			{
-				final Set<DartComponentName> suggestedVariants = new THashSet<DartComponentName>();
+				final Set<DartComponentName> suggestedVariants = new HashSet<DartComponentName>();
 				DartResolveUtil.treeWalkUpAndTopLevelDeclarations(parameters.getPosition(), new ClassNameScopeProcessor(suggestedVariants));
 
 				for(DartComponentName variant : suggestedVariants)

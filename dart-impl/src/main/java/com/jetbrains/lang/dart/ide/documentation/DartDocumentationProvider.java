@@ -10,16 +10,10 @@ import com.jetbrains.lang.dart.DartComponentType;
 import com.jetbrains.lang.dart.psi.DartClass;
 import com.jetbrains.lang.dart.psi.DartComponent;
 import com.jetbrains.lang.dart.util.DartResolveUtil;
-
-import gnu.trove.THashSet;
-
 import org.jetbrains.annotations.Nls;
-import javax.annotation.Nonnull;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
+import javax.annotation.Nonnull;
+import java.util.*;
 
 public class DartDocumentationProvider implements DocumentationProvider
 {
@@ -27,7 +21,7 @@ public class DartDocumentationProvider implements DocumentationProvider
 	private static final String STD_LIB_PREFIX = "dart.";
 
 	// Scraped 08/16/2014
-	private static final Set<String> APIDOC_HOSTED_PACKAGES = new THashSet<String>(Arrays.asList("analyzer", "args", "barback", "code_transformers",
+	private static final Set<String> APIDOC_HOSTED_PACKAGES = new HashSet<String>(Arrays.asList("analyzer", "args", "barback", "code_transformers",
 			"collection", "crypto", "csslib", "custom_element", "fixnum", "html5lib", "http", "http_parser", "http_server", "intl", "json_rpc_2",
 			"logging", "matcher", "math", "mine", "mock", "oauth2", "observe", "path", "polymer", "polymer_expressions", "scheduled_test",
 			"serialization", "shelf", "smoke", "source_maps", "stack_trace", "string_scanner", "template_binding", "typed_data", "unittest", "utf",

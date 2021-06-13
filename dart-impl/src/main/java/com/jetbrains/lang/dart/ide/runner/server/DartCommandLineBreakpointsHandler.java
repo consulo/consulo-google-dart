@@ -1,19 +1,5 @@
 package com.jetbrains.lang.dart.ide.runner.server;
 
-import static com.jetbrains.lang.dart.ide.runner.server.DartCommandLineDebugProcess.LOG;
-import static com.jetbrains.lang.dart.ide.runner.server.DartCommandLineDebugProcess.threeSlashizeFileUrl;
-
-import gnu.trove.THashMap;
-import gnu.trove.TIntObjectHashMap;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import com.intellij.icons.AllIcons;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.util.ThrowableRunnable;
@@ -23,21 +9,26 @@ import com.intellij.xdebugger.breakpoints.XBreakpointProperties;
 import com.intellij.xdebugger.breakpoints.XLineBreakpoint;
 import com.jetbrains.lang.dart.DartFileType;
 import com.jetbrains.lang.dart.ide.runner.DartLineBreakpointType;
-import com.jetbrains.lang.dart.ide.runner.server.google.VmBreakpoint;
-import com.jetbrains.lang.dart.ide.runner.server.google.VmCallback;
-import com.jetbrains.lang.dart.ide.runner.server.google.VmInterruptResult;
-import com.jetbrains.lang.dart.ide.runner.server.google.VmIsolate;
-import com.jetbrains.lang.dart.ide.runner.server.google.VmLocation;
-import com.jetbrains.lang.dart.ide.runner.server.google.VmResult;
+import com.jetbrains.lang.dart.ide.runner.server.google.*;
+import consulo.util.collection.primitive.ints.IntMaps;
+import consulo.util.collection.primitive.ints.IntObjectMap;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.io.IOException;
+import java.util.*;
+
+import static com.jetbrains.lang.dart.ide.runner.server.DartCommandLineDebugProcess.LOG;
+import static com.jetbrains.lang.dart.ide.runner.server.DartCommandLineDebugProcess.threeSlashizeFileUrl;
 
 public class DartCommandLineBreakpointsHandler
 {
 	private final DartCommandLineDebugProcess myDebugProcess;
 	private final XBreakpointHandler<?>[] myBreakpointHandlers;
 	private final Collection<XLineBreakpoint<?>> myInitialBreakpoints = new ArrayList<XLineBreakpoint<?>>();
-	private final Map<XLineBreakpoint<?>, List<VmBreakpoint>> myCreatedBreakpoints = new THashMap<XLineBreakpoint<?>, List<VmBreakpoint>>();
-	private final TIntObjectHashMap<XLineBreakpoint<?>> myIndexToBreakpointMap = new TIntObjectHashMap<XLineBreakpoint<?>>();
-	private final Map<VmBreakpointLocation, XLineBreakpoint<?>> myVmBreakpointLocationToXLineBreakpoint = new THashMap<VmBreakpointLocation,
+	private final Map<XLineBreakpoint<?>, List<VmBreakpoint>> myCreatedBreakpoints = new HashMap<XLineBreakpoint<?>, List<VmBreakpoint>>();
+	private final IntObjectMap<XLineBreakpoint<?>> myIndexToBreakpointMap = IntMaps.newIntObjectHashMap();
+	private final Map<VmBreakpointLocation, XLineBreakpoint<?>> myVmBreakpointLocationToXLineBreakpoint = new HashMap<VmBreakpointLocation,
 			XLineBreakpoint<?>>();
 
 	public DartCommandLineBreakpointsHandler(final @Nonnull DartCommandLineDebugProcess debugProcess)

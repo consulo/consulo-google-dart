@@ -1,16 +1,5 @@
 package com.jetbrains.lang.dart.sdk.listPackageDirs;
 
-import gnu.trove.THashSet;
-
-import java.io.File;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.SortedMap;
-import java.util.TreeMap;
-
-import javax.annotation.Nonnull;
-
 import com.google.dart.engine.sdk.DirectoryBasedDartSdk;
 import com.google.dart.engine.source.ExplicitPackageUriResolver;
 import com.intellij.openapi.actionSystem.AnAction;
@@ -24,11 +13,7 @@ import com.intellij.openapi.progress.ProgressIndicator;
 import com.intellij.openapi.progress.ProgressManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.projectRoots.Sdk;
-import com.intellij.openapi.roots.LibraryOrderEntry;
-import com.intellij.openapi.roots.ModifiableRootModel;
-import com.intellij.openapi.roots.ModuleRootManager;
-import com.intellij.openapi.roots.OrderEntry;
-import com.intellij.openapi.roots.OrderRootType;
+import com.intellij.openapi.roots.*;
 import com.intellij.openapi.roots.impl.libraries.LibraryEx;
 import com.intellij.openapi.roots.impl.libraries.LibraryTableBase;
 import com.intellij.openapi.roots.impl.libraries.ProjectLibraryTable;
@@ -38,9 +23,12 @@ import com.intellij.openapi.ui.DialogWrapper;
 import com.intellij.openapi.util.Disposer;
 import com.intellij.openapi.util.io.FileUtil;
 import com.intellij.openapi.vfs.VfsUtilCore;
-import consulo.awt.TargetAWT;
 import consulo.dart.module.extension.DartModuleExtension;
 import icons.DartIcons;
+
+import javax.annotation.Nonnull;
+import java.io.File;
+import java.util.*;
 
 public class PubListPackageDirsAction extends AnAction
 {
@@ -84,7 +72,7 @@ public class PubListPackageDirsAction extends AnAction
 
 		final DirectoryBasedDartSdk dirBasedSdk = new DirectoryBasedDartSdk(new File(sdk.getHomePath()));
 
-		final Set<Module> affectedModules = new THashSet<Module>();
+		final Set<Module> affectedModules = new HashSet<Module>();
 		final SortedMap<String, Set<String>> packageNameToDirMap = new TreeMap<String, Set<String>>();
 
 		final Runnable runnable = new Runnable()
@@ -155,7 +143,7 @@ public class PubListPackageDirsAction extends AnAction
 
 			if(packageRoots == null)
 			{
-				packageRoots = new THashSet<String>();
+				packageRoots = new HashSet<String>();
 				packageNameToDirMap.put(packageName, packageRoots);
 			}
 

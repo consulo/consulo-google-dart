@@ -1,34 +1,10 @@
 package com.jetbrains.lang.dart.util;
 
-import static com.jetbrains.lang.dart.util.PubspecYamlUtil.DEPENDENCIES;
-import static com.jetbrains.lang.dart.util.PubspecYamlUtil.DEV_DEPENDENCIES;
-import static com.jetbrains.lang.dart.util.PubspecYamlUtil.LIB_DIRECTORY_NAME;
-import static com.jetbrains.lang.dart.util.PubspecYamlUtil.NAME;
-import static com.jetbrains.lang.dart.util.PubspecYamlUtil.PATH;
-import static com.jetbrains.lang.dart.util.PubspecYamlUtil.PUBSPEC_YAML;
-import static com.jetbrains.lang.dart.util.PubspecYamlUtil.getPubspecYamlInfo;
-
-import gnu.trove.THashMap;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.module.ModuleUtilCore;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.projectRoots.Sdk;
-import com.intellij.openapi.roots.LibraryOrderEntry;
-import com.intellij.openapi.roots.ModuleRootManager;
-import com.intellij.openapi.roots.OrderEntry;
-import com.intellij.openapi.roots.ProjectFileIndex;
-import com.intellij.openapi.roots.ProjectRootManager;
+import com.intellij.openapi.roots.*;
 import com.intellij.openapi.roots.impl.libraries.LibraryEx;
 import com.intellij.openapi.roots.impl.libraries.ProjectLibraryTable;
 import com.intellij.openapi.roots.libraries.LibraryProperties;
@@ -40,10 +16,17 @@ import com.intellij.openapi.vfs.VfsUtilCore;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.util.PairConsumer;
 import com.jetbrains.lang.dart.ide.index.DartLibraryIndex;
-import consulo.dart.module.extension.DartModuleExtension;
 import com.jetbrains.lang.dart.sdk.DartConfigurable;
 import com.jetbrains.lang.dart.sdk.listPackageDirs.DartListPackageDirsLibraryProperties;
 import com.jetbrains.lang.dart.sdk.listPackageDirs.PubListPackageDirsAction;
+import consulo.dart.module.extension.DartModuleExtension;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.io.File;
+import java.util.*;
+
+import static com.jetbrains.lang.dart.util.PubspecYamlUtil.*;
 
 class DartUrlResolverImpl extends DartUrlResolver
 {
@@ -62,10 +45,10 @@ class DartUrlResolverImpl extends DartUrlResolver
 	List<VirtualFile> myPackageRoots = new ArrayList<VirtualFile>();
 	private final
 	@Nonnull
-	Map<String, VirtualFile> myLivePackageNameToDirMap = new THashMap<String, VirtualFile>();
+	Map<String, VirtualFile> myLivePackageNameToDirMap = new HashMap<String, VirtualFile>();
 	private final
 	@Nonnull
-	Map<String, Set<String>> myPubListPackageDirsMap = new THashMap<String, Set<String>>();
+	Map<String, Set<String>> myPubListPackageDirsMap = new HashMap<String, Set<String>>();
 
 	DartUrlResolverImpl(final @Nonnull Project project, final @Nonnull VirtualFile contextFile)
 	{
