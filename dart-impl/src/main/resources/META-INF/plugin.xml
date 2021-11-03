@@ -8,6 +8,10 @@
 	<depends>com.intellij.xml</depends>
 	<depends>consulo.library.flexmark</depends>
 
+	<tags>
+		<tag>custom.language</tag>
+	</tags>
+
 	<extensions defaultExtensionNs="com.intellij.copyright">
 		<updater filetype="Dart" implementationClass="com.jetbrains.lang.dart.ide.copyright.UpdateDartCopyrightsProvider"/>
 	</extensions>
