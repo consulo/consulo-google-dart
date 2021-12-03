@@ -1,4 +1,4 @@
-<consulo-plugin>
+<consulo-plugin url="https://github.com/consulo/consulo-google-dart">
 	<id>com.jetbrains.lang.dart</id>
 	<name>Dart</name>
 	<description>Support for Dart programming language</description>
