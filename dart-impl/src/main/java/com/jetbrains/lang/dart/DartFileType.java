@@ -1,8 +1,10 @@
 package com.jetbrains.lang.dart;
 
-import javax.annotation.Nonnull;
 import com.intellij.openapi.fileTypes.LanguageFileType;
+import consulo.google.dart.icon.DartIconGroup;
 import consulo.ui.image.Image;
+
+import javax.annotation.Nonnull;
 
 /**
  * Created by IntelliJ IDEA.
@@ -38,6 +40,6 @@ public class DartFileType extends LanguageFileType {
 
   @Override
   public Image getIcon() {
-    return icons.DartIcons.Dart;
+    return DartIconGroup.dart_file();
   }
 }
