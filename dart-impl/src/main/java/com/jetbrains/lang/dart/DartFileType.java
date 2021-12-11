@@ -2,6 +2,7 @@ package com.jetbrains.lang.dart;
 
 import com.intellij.openapi.fileTypes.LanguageFileType;
 import consulo.google.dart.icon.DartIconGroup;
+import consulo.localize.LocalizeValue;
 import consulo.ui.image.Image;
 
 import javax.annotation.Nonnull;
@@ -28,8 +29,8 @@ public class DartFileType extends LanguageFileType {
 
   @Nonnull
   @Override
-  public String getDescription() {
-    return "Dart files";
+  public LocalizeValue getDescription() {
+    return LocalizeValue.localizeTODO("Dart files");
   }
 
   @Nonnull
