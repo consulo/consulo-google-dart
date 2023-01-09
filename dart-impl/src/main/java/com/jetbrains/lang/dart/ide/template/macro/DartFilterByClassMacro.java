@@ -1,16 +1,20 @@
 package com.jetbrains.lang.dart.ide.template.macro;
 
-import com.intellij.codeInsight.template.*;
-import com.intellij.openapi.util.Condition;
-import com.intellij.psi.PsiElement;
-import com.intellij.util.containers.ContainerUtil;
 import com.jetbrains.lang.dart.psi.DartClass;
 import com.jetbrains.lang.dart.psi.DartComponentName;
 import com.jetbrains.lang.dart.util.DartClassResolveResult;
 import com.jetbrains.lang.dart.util.DartRefactoringUtil;
 import com.jetbrains.lang.dart.util.DartResolveUtil;
-import javax.annotation.Nonnull;
+import consulo.language.editor.template.Expression;
+import consulo.language.editor.template.ExpressionContext;
+import consulo.language.editor.template.PsiElementResult;
+import consulo.language.editor.template.Result;
+import consulo.language.editor.template.macro.Macro;
+import consulo.language.psi.PsiElement;
+import consulo.util.collection.ContainerUtil;
+import consulo.util.lang.function.Condition;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.Set;
 

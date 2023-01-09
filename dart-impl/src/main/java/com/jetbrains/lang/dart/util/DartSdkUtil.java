@@ -1,26 +1,27 @@
 package com.jetbrains.lang.dart.util;
 
-import java.io.File;
-import java.io.IOException;
+import consulo.application.util.SystemInfo;
+import consulo.content.base.BinariesOrderRootType;
+import consulo.content.base.DocumentationOrderRootType;
+import consulo.content.base.SourcesOrderRootType;
+import consulo.content.bundle.SdkModificator;
+import consulo.util.io.FileUtil;
+import consulo.virtualFileSystem.VirtualFile;
+import consulo.virtualFileSystem.VirtualFileManager;
+import consulo.virtualFileSystem.util.VirtualFileUtil;
 
 import javax.annotation.Nullable;
-import com.intellij.openapi.projectRoots.SdkModificator;
-import com.intellij.openapi.util.SystemInfo;
-import com.intellij.openapi.util.io.FileUtil;
-import com.intellij.openapi.vfs.VfsUtilCore;
-import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.openapi.vfs.VirtualFileManager;
-import consulo.roots.types.BinariesOrderRootType;
-import consulo.roots.types.DocumentationOrderRootType;
-import consulo.roots.types.SourcesOrderRootType;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 /**
- * @author: Fedor.Korotkov
+ * @author Fedor.Korotkov
  */
 public class DartSdkUtil {
   public static String getSdkVersion(String path) {
     try {
-      return FileUtil.loadFile(new File(path, "version")).trim();
+      return Files.readString(Path.of(path, "version")).trim();
     }
     catch (IOException e) {
       return "NA";
@@ -37,10 +38,10 @@ public class DartSdkUtil {
     if (folderPath == null) {
       return null;
     }
-    final String folderUrl = VfsUtilCore.pathToUrl(folderPath);
+    final String folderUrl = VirtualFileUtil.pathToUrl(folderPath);
     final String candidate = folderUrl + "/bin/" + getExecutableName(name);
     if (fileExists(candidate)) {
-      return FileUtil.toSystemIndependentName(VfsUtilCore.urlToPath(candidate));
+      return FileUtil.toSystemIndependentName(VirtualFileUtil.urlToPath(candidate));
     }
 
     return null;

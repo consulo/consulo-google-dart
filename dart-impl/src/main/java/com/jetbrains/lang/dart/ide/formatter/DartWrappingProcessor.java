@@ -1,12 +1,8 @@
 package com.jetbrains.lang.dart.ide.formatter;
 
-import com.intellij.formatting.Wrap;
-import com.intellij.formatting.WrapType;
-import com.intellij.lang.ASTNode;
-import com.intellij.psi.codeStyle.CommonCodeStyleSettings;
-import com.intellij.psi.formatter.FormatterUtil;
-import com.intellij.psi.formatter.WrappingUtil;
-import com.intellij.psi.tree.IElementType;
+import consulo.language.ast.ASTNode;
+import consulo.language.ast.IElementType;
+import consulo.language.codeStyle.*;
 
 import static com.jetbrains.lang.dart.DartTokenTypes.*;
 import static com.jetbrains.lang.dart.DartTokenTypesSets.BINARY_EXPRESSIONS;
@@ -38,7 +34,9 @@ public class DartWrappingProcessor {
           return createWrap(mySettings.CALL_PARAMETERS_LPAREN_ON_NEXT_LINE);
         }
         if (!mySettings.PREFER_PARAMETERS_WRAP && childWrap != null) {
-          return Wrap.createChildWrap(childWrap, WrappingUtil.getWrapType(mySettings.CALL_PARAMETERS_WRAP), true);
+          return Wrap.createChildWrap(childWrap,
+                                      WrappingUtil.getWrapType(mySettings.CALL_PARAMETERS_WRAP),
+                                      true);
         }
         return Wrap.createWrap(WrappingUtil.getWrapType(mySettings.CALL_PARAMETERS_WRAP), true);
       }
@@ -76,7 +74,7 @@ public class DartWrappingProcessor {
     //
     if (BINARY_EXPRESSIONS.contains(elementType) && mySettings.BINARY_OPERATION_WRAP != CommonCodeStyleSettings.DO_NOT_WRAP) {
       if ((mySettings.BINARY_OPERATION_SIGN_ON_NEXT_LINE && BINARY_OPERATORS.contains(childType)) ||
-          (!mySettings.BINARY_OPERATION_SIGN_ON_NEXT_LINE && isRightOperand(child))) {
+        (!mySettings.BINARY_OPERATION_SIGN_ON_NEXT_LINE && isRightOperand(child))) {
         return Wrap.createWrap(WrappingUtil.getWrapType(mySettings.BINARY_OPERATION_WRAP), true);
       }
     }
@@ -87,7 +85,7 @@ public class DartWrappingProcessor {
     if (elementType == ASSIGN_EXPRESSION && mySettings.ASSIGNMENT_WRAP != CommonCodeStyleSettings.DO_NOT_WRAP) {
       if (childType != ASSIGNMENT_OPERATOR) {
         if (FormatterUtil.isPrecededBy(child, ASSIGNMENT_OPERATOR) &&
-            mySettings.PLACE_ASSIGNMENT_SIGN_ON_NEXT_LINE) {
+          mySettings.PLACE_ASSIGNMENT_SIGN_ON_NEXT_LINE) {
           return Wrap.createWrap(WrapType.NONE, true);
         }
         return Wrap.createWrap(WrappingUtil.getWrapType(mySettings.ASSIGNMENT_WRAP), true);
@@ -104,7 +102,7 @@ public class DartWrappingProcessor {
       if (myNode.getFirstChildNode() != child) {
         if (mySettings.TERNARY_OPERATION_SIGNS_ON_NEXT_LINE) {
           if (!FormatterUtil.isPrecededBy(child, QUEST) &&
-              !FormatterUtil.isPrecededBy(child, COLON)) {
+            !FormatterUtil.isPrecededBy(child, COLON)) {
             return Wrap.createWrap(WrappingUtil.getWrapType(mySettings.TERNARY_OPERATION_WRAP), true);
           }
         }

@@ -1,9 +1,8 @@
 package com.jetbrains.lang.dart;
 
-import com.intellij.lang.Language;
+import consulo.language.Language;
 
 /**
- * Created by IntelliJ IDEA.
  * User: Maxim.Mossienko
  * Date: 10/12/11
  * Time: 8:02 PM

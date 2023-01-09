@@ -1,19 +1,21 @@
 package com.jetbrains.lang.dart.ide.editor;
 
-import javax.annotation.Nonnull;
-
-import com.intellij.codeInsight.editorActions.TypedHandlerDelegate;
-import com.intellij.openapi.editor.Editor;
-import com.intellij.openapi.fileTypes.FileType;
-import com.intellij.openapi.project.Project;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiFile;
-import com.intellij.psi.util.PsiTreeUtil;
 import com.jetbrains.lang.dart.psi.DartComponentName;
 import com.jetbrains.lang.dart.psi.DartPsiCompositeElement;
 import com.jetbrains.lang.dart.psi.DartType;
 import com.jetbrains.lang.dart.util.UsefulPsiTreeUtil;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.codeEditor.Editor;
+import consulo.language.editor.action.TypedHandlerDelegate;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiFile;
+import consulo.language.psi.util.PsiTreeUtil;
+import consulo.project.Project;
+import consulo.virtualFileSystem.fileType.FileType;
 
+import javax.annotation.Nonnull;
+
+@ExtensionImpl(id = "Dart")
 public class DartTypeHandler extends TypedHandlerDelegate {
   private boolean myAfterTypeOrComponentName = false;
   private boolean myAfterDollar = false;

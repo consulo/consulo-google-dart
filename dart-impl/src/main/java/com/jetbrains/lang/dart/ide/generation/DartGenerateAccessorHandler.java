@@ -1,10 +1,10 @@
 package com.jetbrains.lang.dart.ide.generation;
 
-import com.intellij.openapi.util.Pair;
 import com.jetbrains.lang.dart.DartComponentType;
 import com.jetbrains.lang.dart.psi.DartClass;
 import com.jetbrains.lang.dart.psi.DartComponent;
 import com.jetbrains.lang.dart.util.DartResolveUtil;
+import consulo.util.lang.Pair;
 
 import java.util.List;
 import java.util.Map;

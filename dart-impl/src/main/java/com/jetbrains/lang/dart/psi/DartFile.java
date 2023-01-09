@@ -1,17 +1,17 @@
 package com.jetbrains.lang.dart.psi;
 
-import javax.annotation.Nonnull;
-
-import com.intellij.extapi.psi.PsiFileBase;
-import com.intellij.openapi.fileTypes.FileType;
-import com.intellij.psi.FileViewProvider;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.ResolveState;
-import com.intellij.psi.scope.PsiScopeProcessor;
-import com.intellij.psi.tree.IElementType;
 import com.jetbrains.lang.dart.DartFileType;
 import com.jetbrains.lang.dart.DartLanguage;
 import com.jetbrains.lang.dart.psi.impl.DartPsiCompositeElementImpl;
+import consulo.language.ast.IElementType;
+import consulo.language.file.FileViewProvider;
+import consulo.language.impl.psi.PsiFileBase;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.resolve.PsiScopeProcessor;
+import consulo.language.psi.resolve.ResolveState;
+import consulo.virtualFileSystem.fileType.FileType;
+
+import javax.annotation.Nonnull;
 
 /**
  * @author: Fedor.Korotkov
@@ -38,7 +38,7 @@ public class DartFile extends PsiFileBase implements DartExecutionScope {
                                      PsiElement lastParent,
                                      @Nonnull PsiElement place) {
     return DartPsiCompositeElementImpl.processDeclarationsImpl(this, processor, state, lastParent)
-           && super.processDeclarations(processor, state, lastParent, place);
+      && super.processDeclarations(processor, state, lastParent, place);
   }
 
   @Override

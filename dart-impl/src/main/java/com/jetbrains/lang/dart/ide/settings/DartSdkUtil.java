@@ -1,24 +1,23 @@
 package com.jetbrains.lang.dart.ide.settings;
 
-import com.intellij.openapi.module.Module;
-import com.intellij.openapi.module.ModuleUtilCore;
-import com.intellij.openapi.projectRoots.Sdk;
-import com.intellij.openapi.util.Pair;
-import com.intellij.openapi.util.SystemInfo;
-import com.intellij.openapi.util.io.FileUtil;
-import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.openapi.vfs.VfsUtil;
-import com.intellij.openapi.vfs.VfsUtilCore;
-import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.openapi.vfs.VirtualFileManager;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiFile;
-import com.intellij.psi.util.PsiTreeUtil;
-import com.intellij.util.Processor;
 import com.jetbrains.lang.dart.DartFileType;
 import com.jetbrains.lang.dart.psi.*;
+import consulo.application.util.SystemInfo;
+import consulo.application.util.function.Processor;
+import consulo.content.bundle.Sdk;
 import consulo.dart.module.extension.DartModuleExtension;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiFile;
+import consulo.language.psi.util.PsiTreeUtil;
+import consulo.language.util.ModuleUtilCore;
+import consulo.module.Module;
 import consulo.util.dataholder.Key;
+import consulo.util.io.FileUtil;
+import consulo.util.lang.Pair;
+import consulo.util.lang.StringUtil;
+import consulo.virtualFileSystem.VirtualFile;
+import consulo.virtualFileSystem.VirtualFileManager;
+import consulo.virtualFileSystem.util.VirtualFileUtil;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -34,47 +33,47 @@ public class DartSdkUtil {
 
   @Nullable
   public static VirtualFile getCompiler(@Nullable Sdk sdk) {
-    if(sdk == null) {
+    if (sdk == null) {
       return null;
     }
     return VirtualFileManager.getInstance().findFileByUrl(getCompilerPath(sdk));
   }
 
   public static String getCompilerPath(@Nullable Sdk sdk) {
-    if(sdk == null) {
+    if (sdk == null) {
       return null;
     }
-    return VfsUtilCore.pathToUrl(sdk.getHomePath()) + "/bin/dart";
+    return VirtualFileUtil.pathToUrl(sdk.getHomePath()) + "/bin/dart";
   }
 
   @Nullable
   public static VirtualFile getAnalyzer(@Nullable Sdk sdk) {
-    if(sdk == null) {
+    if (sdk == null) {
       return null;
     }
     return VirtualFileManager.getInstance().findFileByUrl(getAnalyzerPath(sdk));
   }
 
   public static String getAnalyzerPath(@Nullable Sdk sdk) {
-    if(sdk == null) {
+    if (sdk == null) {
       return null;
     }
-    return VfsUtilCore.pathToUrl(sdk.getHomePath()) + "/bin/" + (SystemInfo.isWindows ? "dartanalyzer.bat" : "dartanalyzer");
+    return VirtualFileUtil.pathToUrl(sdk.getHomePath()) + "/bin/" + (SystemInfo.isWindows ? "dartanalyzer.bat" : "dartanalyzer");
   }
 
   @Nullable
   public static VirtualFile getDart2JS(@Nullable Sdk sdk) {
-    if(sdk == null) {
+    if (sdk == null) {
       return null;
     }
     return VirtualFileManager.getInstance().findFileByUrl(getDart2JSPath(sdk));
   }
 
   public static String getDart2JSPath(@Nullable Sdk sdk) {
-    if(sdk == null) {
+    if (sdk == null) {
       return null;
     }
-    return VfsUtilCore.pathToUrl(sdk.getHomePath()) + "/bin/" + (SystemInfo.isWindows ? "dart2js.bat" : "dart2js");
+    return VirtualFileUtil.pathToUrl(sdk.getHomePath()) + "/bin/" + (SystemInfo.isWindows ? "dart2js.bat" : "dart2js");
   }
 
   @Nullable
@@ -89,12 +88,12 @@ public class DartSdkUtil {
     if (sdk == null) {
       return null;
     }
-    return VfsUtilCore.pathToUrl(sdk.getHomePath()) + "/bin/" + (SystemInfo.isWindows ? "pub.bat" : "pub");
+    return VirtualFileUtil.pathToUrl(sdk.getHomePath()) + "/bin/" + (SystemInfo.isWindows ? "pub.bat" : "pub");
   }
 
   @Nullable
   public static VirtualFile findSdkLibrary(@Nullable Sdk sdk, PsiElement context, String libName) {
-    if(sdk == null) {
+    if (sdk == null) {
       return null;
     }
     VirtualFile libRoot = getLib(sdk);
@@ -102,11 +101,11 @@ public class DartSdkUtil {
     if (relativeLibPath == null) {
       return null;
     }
-    return VfsUtil.findRelativeFile(libRoot, relativeLibPath.split("/"));
+    return VirtualFileUtil.findRelativeFile(libRoot, relativeLibPath.split("/"));
   }
 
   public static Collection<String> getLibraries(@Nullable Sdk sdk, PsiElement context) {
-    if(sdk == null) {
+    if (sdk == null) {
       return Collections.emptyList();
     }
     return getLibrariesMap(sdk, context).keySet();
@@ -114,14 +113,14 @@ public class DartSdkUtil {
 
   @Nullable
   public static VirtualFile getLib(@Nullable Sdk sdk) {
-    if(sdk == null) {
+    if (sdk == null) {
       return null;
     }
-    return VirtualFileManager.getInstance().findFileByUrl(VfsUtilCore.pathToUrl(getLibPath(sdk)));
+    return VirtualFileManager.getInstance().findFileByUrl(VirtualFileUtil.pathToUrl(getLibPath(sdk)));
   }
 
   public static String getLibPath(@Nullable Sdk sdk) {
-    if(sdk == null) {
+    if (sdk == null) {
       return null;
     }
     return sdk.getHomePath() + "/lib/";
@@ -129,7 +128,7 @@ public class DartSdkUtil {
 
   @Nonnull
   private static Map<String, String> getLibrariesMap(@Nullable Sdk sdk, @Nullable PsiElement context) {
-    if(sdk == null) {
+    if (sdk == null) {
       return Collections.emptyMap();
     }
     VirtualFile configFile = getConfigFile(sdk);
@@ -184,7 +183,7 @@ public class DartSdkUtil {
 
   @Nullable
   public static VirtualFile getConfigFile(@Nullable Sdk sdk) {
-    String path = VfsUtilCore.pathToUrl(sdk.getHomePath()) + "/lib/_internal/libraries.dart";
+    String path = VirtualFileUtil.pathToUrl(sdk.getHomePath()) + "/lib/_internal/libraries.dart";
     return VirtualFileManager.getInstance().findFileByUrl(path);
   }
 

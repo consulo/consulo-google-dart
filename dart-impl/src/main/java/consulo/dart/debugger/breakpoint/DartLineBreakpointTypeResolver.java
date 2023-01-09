@@ -1,23 +1,32 @@
 package consulo.dart.debugger.breakpoint;
 
+import com.jetbrains.lang.dart.DartFileType;
+import com.jetbrains.lang.dart.ide.runner.DartLineBreakpointType;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.execution.debug.breakpoint.XLineBreakpointType;
+import consulo.execution.debug.breakpoint.XLineBreakpointTypeResolver;
+import consulo.project.Project;
+import consulo.virtualFileSystem.VirtualFile;
+import consulo.virtualFileSystem.fileType.FileType;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.xdebugger.breakpoints.XLineBreakpointType;
-import com.jetbrains.lang.dart.ide.runner.DartLineBreakpointType;
-import consulo.xdebugger.breakpoints.XLineBreakpointTypeResolver;
 
 /**
  * @author VISTALL
  * @since 5/8/2016
  */
-public class DartLineBreakpointTypeResolver implements XLineBreakpointTypeResolver
-{
-	@Nullable
-	@Override
-	public XLineBreakpointType<?> resolveBreakpointType(@Nonnull Project project, @Nonnull VirtualFile virtualFile, int line)
-	{
-		return DartLineBreakpointType.getInstance();
-	}
+@ExtensionImpl
+public class DartLineBreakpointTypeResolver implements XLineBreakpointTypeResolver {
+  @Nullable
+  @Override
+  public XLineBreakpointType<?> resolveBreakpointType(@Nonnull Project project, @Nonnull VirtualFile virtualFile, int line) {
+    return DartLineBreakpointType.getInstance();
+  }
+
+  @Nonnull
+  @Override
+  public FileType getFileType() {
+    return DartFileType.INSTANCE;
+  }
 }

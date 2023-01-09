@@ -1,14 +1,14 @@
 package com.jetbrains.lang.dart.util;
 
-import com.intellij.openapi.util.Condition;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiRecursiveElementVisitor;
-import com.intellij.psi.PsiReference;
-import com.intellij.psi.search.LocalSearchScope;
-import com.intellij.psi.search.searches.ReferencesSearch;
-import com.intellij.psi.util.PsiTreeUtil;
-import com.intellij.util.containers.ContainerUtil;
 import com.jetbrains.lang.dart.psi.*;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiRecursiveElementVisitor;
+import consulo.language.psi.PsiReference;
+import consulo.language.psi.scope.LocalSearchScope;
+import consulo.language.psi.search.ReferencesSearch;
+import consulo.language.psi.util.PsiTreeUtil;
+import consulo.util.collection.ContainerUtil;
+import consulo.util.lang.function.Condition;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,20 +63,20 @@ public class DartControlFlow {
       element.accept(dartReferenceVisitor);
     }
     final List<DartComponentName> inComponentNames = ContainerUtil.filter(
-      dartReferenceVisitor.getComponentNames(), new Condition<DartComponentName>() {
-      @Override
-      public boolean value(DartComponentName componentName) {
-        final int offset = componentName.getTextOffset();
-        final boolean declarationInElements = firstElementStartOffset <= offset && offset < lastElementEndOffset;
-        return !declarationInElements;
-      }
-    });
+      dartReferenceVisitor.getComponentNames(), new consulo.util.lang.function.Condition<DartComponentName>() {
+        @Override
+        public boolean value(DartComponentName componentName) {
+          final int offset = componentName.getTextOffset();
+          final boolean declarationInElements = firstElementStartOffset <= offset && offset < lastElementEndOffset;
+          return !declarationInElements;
+        }
+      });
 
 
     return new DartControlFlow(inComponentNames, outDeclarations);
   }
 
-  public void filterParams(Condition<? super DartComponentName> condition) {
+  public void filterParams(consulo.util.lang.function.Condition<? super DartComponentName> condition) {
     myParameters = ContainerUtil.filter(myParameters, condition);
   }
 
@@ -142,7 +142,7 @@ public class DartControlFlow {
         return;
       }
       if (element instanceof DartReference &&
-          DartResolveUtil.aloneOrFirstInChain((DartReference)element)) {
+        DartResolveUtil.aloneOrFirstInChain((DartReference)element)) {
         final PsiElement resolve = ((DartReference)element).resolve();
         if (resolve instanceof DartComponentName && !myComponentNames.contains((DartComponentName)resolve)) {
           myComponentNames.add((DartComponentName)resolve);

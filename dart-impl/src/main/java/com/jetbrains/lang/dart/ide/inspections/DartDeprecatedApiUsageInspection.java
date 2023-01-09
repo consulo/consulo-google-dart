@@ -1,87 +1,82 @@
 package com.jetbrains.lang.dart.ide.inspections;
 
-import org.jetbrains.annotations.Nls;
-import javax.annotation.Nonnull;
-import com.intellij.codeHighlighting.HighlightDisplayLevel;
-import com.intellij.codeInspection.LocalInspectionTool;
-import com.intellij.codeInspection.LocalQuickFix;
-import com.intellij.codeInspection.ProblemHighlightType;
-import com.intellij.codeInspection.ProblemsHolder;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiElementVisitor;
-import com.intellij.psi.util.PsiTreeUtil;
 import com.jetbrains.lang.dart.DartBundle;
-import com.jetbrains.lang.dart.psi.DartClass;
-import com.jetbrains.lang.dart.psi.DartComponent;
-import com.jetbrains.lang.dart.psi.DartComponentName;
-import com.jetbrains.lang.dart.psi.DartFactoryConstructorDeclaration;
-import com.jetbrains.lang.dart.psi.DartMethodDeclaration;
-import com.jetbrains.lang.dart.psi.DartNamedConstructorDeclaration;
-import com.jetbrains.lang.dart.psi.DartReferenceExpression;
-import com.jetbrains.lang.dart.psi.DartVisitor;
+import com.jetbrains.lang.dart.DartLanguage;
+import com.jetbrains.lang.dart.psi.*;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.language.Language;
+import consulo.language.editor.inspection.LocalInspectionTool;
+import consulo.language.editor.inspection.LocalQuickFix;
+import consulo.language.editor.inspection.ProblemHighlightType;
+import consulo.language.editor.inspection.ProblemsHolder;
+import consulo.language.editor.rawHighlight.HighlightDisplayLevel;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiElementVisitor;
+import consulo.language.psi.util.PsiTreeUtil;
 
-public class DartDeprecatedApiUsageInspection extends LocalInspectionTool
-{
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
-	private static final String DEPRECATED_METADATA = "deprecated";
+@ExtensionImpl
+public class DartDeprecatedApiUsageInspection extends LocalInspectionTool {
 
-	@Nonnull
-	public String getGroupDisplayName()
-	{
-		return DartBundle.message("inspections.group.name");
-	}
+  private static final String DEPRECATED_METADATA = "deprecated";
 
-	@Nls
-	@Nonnull
-	public String getDisplayName()
-	{
-		return DartBundle.message("dart.deprecated.api.usage");
-	}
+  @Nonnull
+  public String getGroupDisplayName() {
+    return "General";
+  }
 
-	@Nonnull
-	public HighlightDisplayLevel getDefaultLevel()
-	{
-		return HighlightDisplayLevel.WEAK_WARNING;
-	}
+  @Nullable
+  @Override
+  public Language getLanguage() {
+    return DartLanguage.INSTANCE;
+  }
 
-	@Nonnull
-	public PsiElementVisitor buildVisitor(@Nonnull final ProblemsHolder holder, final boolean isOnTheFly)
-	{
-		return new DartVisitor()
-		{
-			public void visitReferenceExpression(@Nonnull final DartReferenceExpression referenceExpression)
-			{
-				if(PsiTreeUtil.getChildOfType(referenceExpression, DartReferenceExpression.class) != null)
-				{
-					return;
-				}
+  @Nonnull
+  public String getDisplayName() {
+    return DartBundle.message("dart.deprecated.api.usage");
+  }
 
-				final PsiElement referenceParent = referenceExpression.getParent();
-				if(referenceParent instanceof DartFactoryConstructorDeclaration || referenceParent instanceof DartNamedConstructorDeclaration)
-				{
-					return; // no need to highlight constructor declaration
-				}
+  @Nonnull
+  public HighlightDisplayLevel getDefaultLevel() {
+    return HighlightDisplayLevel.WEAK_WARNING;
+  }
 
-				final PsiElement resolve = referenceExpression.resolve();
-				final PsiElement parent = resolve == null ? null : resolve.getParent();
-				if(resolve instanceof DartComponentName && (parent instanceof DartComponent))
-				{
-					if(((DartComponent) parent).getMetadataByName(DEPRECATED_METADATA) != null)
-					{
-						holder.registerProblem(referenceExpression, DartBundle.message("ref.is.deprecated"), ProblemHighlightType.LIKE_DEPRECATED,
-								LocalQuickFix.EMPTY_ARRAY);
-					}
-					else if(parent instanceof DartMethodDeclaration && ((DartComponent) parent).isConstructor())
-					{
-						final DartClass dartClass = PsiTreeUtil.getParentOfType(parent, DartClass.class);
-						if(dartClass != null && dartClass.getMetadataByName(DEPRECATED_METADATA) != null)
-						{
-							holder.registerProblem(referenceExpression, DartBundle.message("ref.is.deprecated"),
-									ProblemHighlightType.LIKE_DEPRECATED, LocalQuickFix.EMPTY_ARRAY);
-						}
-					}
-				}
-			}
-		};
-	}
+  @Override
+  public boolean isEnabledByDefault() {
+    return true;
+  }
+
+  @Nonnull
+  public PsiElementVisitor buildVisitor(@Nonnull final ProblemsHolder holder, final boolean isOnTheFly) {
+    return new DartVisitor() {
+      public void visitReferenceExpression(@Nonnull final DartReferenceExpression referenceExpression) {
+        if (PsiTreeUtil.getChildOfType(referenceExpression, DartReferenceExpression.class) != null) {
+          return;
+        }
+
+        final PsiElement referenceParent = referenceExpression.getParent();
+        if (referenceParent instanceof DartFactoryConstructorDeclaration || referenceParent instanceof DartNamedConstructorDeclaration) {
+          return; // no need to highlight constructor declaration
+        }
+
+        final PsiElement resolve = referenceExpression.resolve();
+        final PsiElement parent = resolve == null ? null : resolve.getParent();
+        if (resolve instanceof DartComponentName && (parent instanceof DartComponent)) {
+          if (((DartComponent)parent).getMetadataByName(DEPRECATED_METADATA) != null) {
+            holder.registerProblem(referenceExpression, DartBundle.message("ref.is.deprecated"), ProblemHighlightType.LIKE_DEPRECATED,
+                                   LocalQuickFix.EMPTY_ARRAY);
+          }
+          else if (parent instanceof DartMethodDeclaration && ((DartComponent)parent).isConstructor()) {
+            final DartClass dartClass = PsiTreeUtil.getParentOfType(parent, DartClass.class);
+            if (dartClass != null && dartClass.getMetadataByName(DEPRECATED_METADATA) != null) {
+              holder.registerProblem(referenceExpression, DartBundle.message("ref.is.deprecated"),
+                                     ProblemHighlightType.LIKE_DEPRECATED, LocalQuickFix.EMPTY_ARRAY);
+            }
+          }
+        }
+      }
+    };
+  }
 }

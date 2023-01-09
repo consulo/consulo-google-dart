@@ -1,13 +1,5 @@
 package com.jetbrains.lang.dart.psi.impl;
 
-import com.intellij.lang.ASTNode;
-import com.intellij.openapi.util.TextRange;
-import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.psi.*;
-import com.intellij.psi.util.PsiTreeUtil;
-import com.intellij.util.ArrayUtil;
-import com.intellij.util.IncorrectOperationException;
 import com.jetbrains.lang.dart.ide.index.DartLibraryIndex;
 import com.jetbrains.lang.dart.psi.DartLibraryStatement;
 import com.jetbrains.lang.dart.psi.DartQualifiedComponentName;
@@ -15,8 +7,16 @@ import com.jetbrains.lang.dart.psi.DartReference;
 import com.jetbrains.lang.dart.util.DartClassResolveResult;
 import com.jetbrains.lang.dart.util.DartElementGenerator;
 import com.jetbrains.lang.dart.util.DartResolveUtil;
-import javax.annotation.Nonnull;
+import consulo.document.util.TextRange;
+import consulo.language.ast.ASTNode;
+import consulo.language.psi.*;
+import consulo.language.psi.util.PsiTreeUtil;
+import consulo.language.util.IncorrectOperationException;
+import consulo.util.collection.ArrayUtil;
+import consulo.util.lang.StringUtil;
+import consulo.virtualFileSystem.VirtualFile;
 
+import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -79,8 +79,8 @@ public class DartLibraryReferenceImpl extends DartExpressionImpl implements Dart
     final ResolveResult[] resolveResults = multiResolve(true);
 
     return resolveResults.length == 0 ||
-           resolveResults.length > 1 ||
-           !resolveResults[0].isValidResult() ? null : resolveResults[0].getElement();
+      resolveResults.length > 1 ||
+      !resolveResults[0].isValidResult() ? null : resolveResults[0].getElement();
   }
 
   @Nonnull

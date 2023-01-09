@@ -1,19 +1,20 @@
 package com.jetbrains.lang.dart.psi.impl;
 
-import com.intellij.lang.ASTNode;
-import com.intellij.navigation.ItemPresentation;
-import com.intellij.navigation.NavigationItem;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.search.LocalSearchScope;
-import com.intellij.psi.search.SearchScope;
-import com.intellij.psi.util.PsiTreeUtil;
-import com.intellij.util.IncorrectOperationException;
 import com.jetbrains.lang.dart.DartComponentType;
 import com.jetbrains.lang.dart.psi.DartComponent;
 import com.jetbrains.lang.dart.psi.DartId;
 import com.jetbrains.lang.dart.psi.DartNamedElement;
 import com.jetbrains.lang.dart.util.DartElementGenerator;
+import consulo.content.scope.SearchScope;
+import consulo.language.ast.ASTNode;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.scope.LocalSearchScope;
+import consulo.language.psi.util.PsiTreeUtil;
+import consulo.navigation.ItemPresentation;
+import consulo.navigation.NavigationItem;
+import consulo.language.util.IncorrectOperationException;
 import org.jetbrains.annotations.NonNls;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
@@ -62,8 +63,8 @@ public abstract class DartNamedElementImpl extends DartPsiCompositeElementImpl i
     final DartComponentType type = DartComponentType.typeOf(getParent());
     final DartComponent component = PsiTreeUtil.getParentOfType(getParent(), DartComponent.class, true);
     final boolean localType = type == DartComponentType.FUNCTION
-                              || type == DartComponentType.PARAMETER
-                              || type == DartComponentType.VARIABLE;
+      || type == DartComponentType.PARAMETER
+      || type == DartComponentType.VARIABLE;
     if (localType && component != null) {
       return new LocalSearchScope(component);
     }

@@ -1,9 +1,10 @@
 package com.jetbrains.lang.dart.ide.formatter;
 
-import com.intellij.formatting.Alignment;
-import com.intellij.lang.ASTNode;
-import com.intellij.psi.codeStyle.CommonCodeStyleSettings;
-import com.intellij.psi.tree.IElementType;
+import consulo.language.ast.ASTNode;
+import consulo.language.ast.IElementType;
+import consulo.language.codeStyle.Alignment;
+import consulo.language.codeStyle.CommonCodeStyleSettings;
+
 import javax.annotation.Nullable;
 
 import static com.jetbrains.lang.dart.DartTokenTypes.*;

@@ -1,7 +1,7 @@
 package com.jetbrains.lang.dart.ide.surroundWith.expression;
 
-import com.intellij.psi.PsiElement;
 import com.jetbrains.lang.dart.DartBundle;
+import consulo.language.psi.PsiElement;
 
 /**
  * @author: Fedor.Korotkov

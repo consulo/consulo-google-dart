@@ -1,7 +1,7 @@
 package com.jetbrains.lang.dart;
 
-import com.intellij.openapi.fileTypes.LanguageFileType;
 import consulo.google.dart.icon.DartIconGroup;
+import consulo.language.file.LanguageFileType;
 import consulo.localize.LocalizeValue;
 import consulo.ui.image.Image;
 

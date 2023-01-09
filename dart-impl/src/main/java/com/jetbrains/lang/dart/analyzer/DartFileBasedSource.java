@@ -1,200 +1,163 @@
 package com.jetbrains.lang.dart.analyzer;
 
-import java.io.IOException;
-import java.net.URI;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import com.google.dart.engine.internal.context.TimestampedData;
 import com.google.dart.engine.source.Source;
 import com.google.dart.engine.source.UriKind;
-import com.intellij.openapi.application.ApplicationManager;
-import com.intellij.openapi.editor.Document;
-import com.intellij.openapi.fileEditor.FileDocumentManager;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.util.NullableComputable;
-import com.intellij.openapi.util.Pair;
-import com.intellij.openapi.util.Ref;
-import com.intellij.openapi.vfs.LocalFileSystem;
-import com.intellij.openapi.vfs.VfsUtilCore;
-import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.util.Function;
+import consulo.application.ApplicationManager;
+import consulo.document.Document;
+import consulo.document.FileDocumentManager;
+import consulo.project.Project;
+import consulo.util.lang.Pair;
+import consulo.util.lang.ref.Ref;
+import consulo.virtualFileSystem.LocalFileSystem;
+import consulo.virtualFileSystem.VirtualFile;
+import consulo.virtualFileSystem.util.VirtualFileUtil;
 
-public class DartFileBasedSource implements Source
-{
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.net.URI;
+import java.util.function.Supplier;
 
-	private final
-	@Nonnull
-	Project myProject;
-	private final
-	@Nonnull
-	VirtualFile myFile;
-	private final
-	@Nonnull
-	UriKind myUriKind;
-	private long myModificationStampWhenFileContentWasRead = -1;
+public class DartFileBasedSource implements Source {
 
-	private DartFileBasedSource(final @Nonnull Project project, final @Nonnull VirtualFile file, final @Nonnull UriKind uriKind)
-	{
-		myProject = project;
-		myFile = file;
-		myUriKind = uriKind;
-	}
+  private final
+  @Nonnull
+  Project myProject;
+  private final
+  @Nonnull
+  VirtualFile myFile;
+  private final
+  @Nonnull
+  UriKind myUriKind;
+  private long myModificationStampWhenFileContentWasRead = -1;
 
-	@Nonnull
-	public VirtualFile getFile()
-	{
-		return myFile;
-	}
+  private DartFileBasedSource(final @Nonnull Project project, final @Nonnull VirtualFile file, final @Nonnull UriKind uriKind) {
+    myProject = project;
+    myFile = file;
+    myUriKind = uriKind;
+  }
 
-	public boolean isOutOfDate()
-	{
-		return myModificationStampWhenFileContentWasRead == -1 || myModificationStampWhenFileContentWasRead != getModificationStamp();
-	}
+  @Nonnull
+  public VirtualFile getFile() {
+    return myFile;
+  }
 
-	@Override
-	public boolean equals(final Object object)
-	{
-		return object != null && this.getClass() == object.getClass() && myFile.equals(((DartFileBasedSource) object).myFile);
-	}
+  public boolean isOutOfDate() {
+    return myModificationStampWhenFileContentWasRead == -1 || myModificationStampWhenFileContentWasRead != getModificationStamp();
+  }
 
-	@Override
-	public boolean exists()
-	{
-		return myFile.exists() && !myFile.isDirectory();
-	}
+  @Override
+  public boolean equals(final Object object) {
+    return object != null && this.getClass() == object.getClass() && myFile.equals(((DartFileBasedSource)object).myFile);
+  }
 
-	@Override
-	public TimestampedData<CharSequence> getContents() throws Exception
-	{
-		final Pair<CharSequence, Long> contentsAndTimestamp = loadFile(myFile);
-		myModificationStampWhenFileContentWasRead = contentsAndTimestamp.second;
-		return new TimestampedData<CharSequence>(contentsAndTimestamp.second, contentsAndTimestamp.first);
-	}
+  @Override
+  public boolean exists() {
+    return myFile.exists() && !myFile.isDirectory();
+  }
 
-	@Override
-	public void getContentsToReceiver(final ContentReceiver receiver) throws Exception
-	{
-		final Pair<CharSequence, Long> contentsAndTimestamp = loadFile(myFile);
-		myModificationStampWhenFileContentWasRead = contentsAndTimestamp.second;
-		receiver.accept(contentsAndTimestamp.first, contentsAndTimestamp.second);
-	}
+  @Override
+  public TimestampedData<CharSequence> getContents() throws Exception {
+    final Pair<CharSequence, Long> contentsAndTimestamp = loadFile(myFile);
+    myModificationStampWhenFileContentWasRead = contentsAndTimestamp.second;
+    return new TimestampedData<CharSequence>(contentsAndTimestamp.second, contentsAndTimestamp.first);
+  }
 
-	@Override
-	public String getEncoding()
-	{
-		return myUriKind.getEncoding() + myFile.getUrl();
-	}
+  @Override
+  public void getContentsToReceiver(final ContentReceiver receiver) throws Exception {
+    final Pair<CharSequence, Long> contentsAndTimestamp = loadFile(myFile);
+    myModificationStampWhenFileContentWasRead = contentsAndTimestamp.second;
+    receiver.accept(contentsAndTimestamp.first, contentsAndTimestamp.second);
+  }
 
-	@Override
-	public String getFullName()
-	{
-		return myFile.getPath();
-	}
+  @Override
+  public String getEncoding() {
+    return myUriKind.getEncoding() + myFile.getUrl();
+  }
 
-	@Override
-	public long getModificationStamp()
-	{
-		final Document cachedDocument = FileDocumentManager.getInstance().getCachedDocument(myFile);
-		if(cachedDocument != null)
-		{
-			return cachedDocument.getModificationStamp();
-		}
-		else
-		{
-			return myFile.getModificationStamp();
-		}
-	}
+  @Override
+  public String getFullName() {
+    return myFile.getPath();
+  }
 
-	@Override
-	public String getShortName()
-	{
-		return myFile.getName();
-	}
+  @Override
+  public long getModificationStamp() {
+    final Document cachedDocument = FileDocumentManager.getInstance().getCachedDocument(myFile);
+    if (cachedDocument != null) {
+      return cachedDocument.getModificationStamp();
+    }
+    else {
+      return myFile.getModificationStamp();
+    }
+  }
 
-	@Nonnull
-	@Override
-	public UriKind getUriKind()
-	{
-		return myUriKind;
-	}
+  @Override
+  public String getShortName() {
+    return myFile.getName();
+  }
 
-	@Override
-	public int hashCode()
-	{
-		return myFile.hashCode();
-	}
+  @Nonnull
+  @Override
+  public UriKind getUriKind() {
+    return myUriKind;
+  }
 
-	@Override
-	public boolean isInSystemLibrary()
-	{
-		return false;
-	}
+  @Override
+  public int hashCode() {
+    return myFile.hashCode();
+  }
 
-	@Override
-	public Source resolveRelative(final URI containedUri)
-	{
-		final VirtualFile file = containedUri.getScheme() == null ? VfsUtilCore.findRelativeFile(containedUri.toString(),
-				myFile.getParent()) : LocalFileSystem.getInstance().findFileByPath(containedUri.getPath());
+  @Override
+  public boolean isInSystemLibrary() {
+    return false;
+  }
 
-		return file == null ? null : getSource(myProject, file);
-	}
+  @Override
+  public Source resolveRelative(final URI containedUri) {
+    final VirtualFile file = containedUri.getScheme() == null ? VirtualFileUtil.findRelativeFile(containedUri.toString(),
+                                                                                                 myFile.getParent()) : LocalFileSystem.getInstance()
+                                                                                                                                      .findFileByPath(
+                                                                                                                                        containedUri
+                                                                                                                                          .getPath());
 
-	@Override
-	public String toString()
-	{
-		return myFile.getPath();
-	}
+    return file == null ? null : getSource(myProject, file);
+  }
 
-	private static Pair<CharSequence, Long> loadFile(final VirtualFile file) throws Exception
-	{
-		final Ref<CharSequence> contentsRef = Ref.create();
-		final Ref<Long> timestampRef = Ref.create();
-		final Exception exception = ApplicationManager.getApplication().runReadAction(new NullableComputable<Exception>()
-		{
-			@Override
-			@Nullable
-			public Exception compute()
-			{
-				final Document cachedDocument = FileDocumentManager.getInstance().getCachedDocument(file);
-				if(cachedDocument != null)
-				{
-					contentsRef.set(cachedDocument.getCharsSequence());
-					timestampRef.set(cachedDocument.getModificationStamp());
-				}
-				else
-				{
-					try
-					{
-						contentsRef.set(VfsUtilCore.loadText(file));
-						timestampRef.set(file.getModificationStamp());
-					}
-					catch(IOException e)
-					{
-						return e;
-					}
-				}
-				return null;
-			}
-		});
+  @Override
+  public String toString() {
+    return myFile.getPath();
+  }
 
-		if(exception != null)
-		{
-			throw exception;
-		}
+  private static Pair<CharSequence, Long> loadFile(final VirtualFile file) throws Exception {
+    final Ref<CharSequence> contentsRef = Ref.create();
+    final Ref<Long> timestampRef = Ref.create();
+    final Exception exception =
+      ApplicationManager.getApplication().runReadAction(new Supplier<Exception>() {
+        @Override
+        @Nullable
+        public Exception get() {
+          final Document cachedDocument = FileDocumentManager.getInstance().getCachedDocument(file);
+          if (cachedDocument != null) {
+            contentsRef.set(cachedDocument.getCharsSequence());
+            timestampRef.set(cachedDocument.getModificationStamp());
+          }
+          else {
+            contentsRef.set(file.loadText());
+            timestampRef.set(file.getModificationStamp());
+          }
+          return null;
+        }
+      });
 
-		return Pair.create(contentsRef.get(), timestampRef.get());
-	}
+    if (exception != null) {
+      throw exception;
+    }
 
-	public static DartFileBasedSource getSource(final @Nonnull Project project, final @Nonnull VirtualFile file)
-	{
-		return DartAnalyzerService.getInstance(project).getOrCreateSource(file, new Function<VirtualFile, DartFileBasedSource>()
-		{
-			@Override
-			public DartFileBasedSource fun(final VirtualFile file)
-			{
-				return new DartFileBasedSource(project, file, UriKind.FILE_URI);
-			}
-		});
-	}
+    return Pair.create(contentsRef.get(), timestampRef.get());
+  }
+
+  public static DartFileBasedSource getSource(final @Nonnull Project project, final @Nonnull VirtualFile file) {
+    return DartAnalyzerService.getInstance(project)
+                              .getOrCreateSource(file, file1 -> new DartFileBasedSource(project, file1, UriKind.FILE_URI));
+  }
 }

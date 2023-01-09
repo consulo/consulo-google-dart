@@ -1,17 +1,20 @@
 package com.jetbrains.lang.dart.ide.formatter.settings;
 
-import com.intellij.application.options.IndentOptionsEditor;
-import com.intellij.application.options.SmartIndentOptionsEditor;
-import com.intellij.lang.Language;
-import com.intellij.psi.codeStyle.CodeStyleSettingsCustomizable;
-import com.intellij.psi.codeStyle.CommonCodeStyleSettings;
-import com.intellij.psi.codeStyle.LanguageCodeStyleSettingsProvider;
 import com.jetbrains.lang.dart.DartLanguage;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.language.Language;
+import consulo.language.codeStyle.CommonCodeStyleSettings;
+import consulo.language.codeStyle.setting.CodeStyleSettingsCustomizable;
+import consulo.language.codeStyle.setting.IndentOptionsEditor;
+import consulo.language.codeStyle.setting.LanguageCodeStyleSettingsProvider;
+import consulo.language.codeStyle.ui.setting.SmartIndentOptionsEditor;
+
 import javax.annotation.Nonnull;
 
 /**
  * @author: Fedor.Korotkov
  */
+@ExtensionImpl
 public class DartLanguageCodeStyleSettingsProvider extends LanguageCodeStyleSettingsProvider {
 
   @Nonnull
@@ -129,94 +132,94 @@ public class DartLanguageCodeStyleSettingsProvider extends LanguageCodeStyleSett
   }
 
   public static final String SPACING_CODE_SAMPLE = "class Foo {\n" +
-                                                   "    Array<Array<Int>> tmp;\n" +
-                                                   "    function foo(int x, z) {\n" +
-                                                   "        new Foo(x, 2);\n" +
-                                                   "        int absSum(int a, int b) {\n" +
-                                                   "            int value = a + b;\n" +
-                                                   "            return value > 0 ? value : -value;\n" +
-                                                   "        }\n" +
-                                                   "        var arr = [\"zero\", \"one\"];\n" +
-                                                   "        var y = (x ^ 0x123) << 2;\n" +
-                                                   "        for (i in tmp) {\n" +
-                                                   "            y = (y ^ 0x123) << 2;\n" +
-                                                   "        }\n" +
-                                                   "        var k = x % 2 == 1 ? 0 : 1;\n" +
-                                                   "        do {\n" +
-                                                   "            try {\n" +
-                                                   "                if (0 < x && x < 10) {\n" +
-                                                   "                    while (x != y) {\n" +
-                                                   "                        x = absSum(x * 3, 5);\n" +
-                                                   "                    }\n" +
-                                                   "                    z += 2;\n" +
-                                                   "                } else if (x > 20) {\n" +
-                                                   "                    z = x << 1;\n" +
-                                                   "                } else {\n" +
-                                                   "                    z = x | 2;\n" +
-                                                   "                }\n" +
-                                                   "                switch (k) {\n" +
-                                                   "                    case 0:\n" +
-                                                   "                        var s1 = 'zero';\n" +
-                                                   "                    case 2:\n" +
-                                                   "                        var s1 = 'two';\n" +
-                                                   "                    default:\n" +
-                                                   "                        var s1 = 'other';\n" +
-                                                   "                }\n" +
-                                                   "            } catch (string e) {\n" +
-                                                   "                var message = arr[0];\n" +
-                                                   "            }\n" +
-                                                   "        } while (x < 0);\n" +
-                                                   "    }\n" +
-                                                   "\n" +
-                                                   "    Foo(int n, int m) {\n" +
-                                                   "        tmp = new Array<Array<Int>>();\n" +
-                                                   "        for (int i; i < 10; ++i) tmp.push(new Array<Int>());\n" +
-                                                   "    }\n" +
-                                                   "}";
+    "    Array<Array<Int>> tmp;\n" +
+    "    function foo(int x, z) {\n" +
+    "        new Foo(x, 2);\n" +
+    "        int absSum(int a, int b) {\n" +
+    "            int value = a + b;\n" +
+    "            return value > 0 ? value : -value;\n" +
+    "        }\n" +
+    "        var arr = [\"zero\", \"one\"];\n" +
+    "        var y = (x ^ 0x123) << 2;\n" +
+    "        for (i in tmp) {\n" +
+    "            y = (y ^ 0x123) << 2;\n" +
+    "        }\n" +
+    "        var k = x % 2 == 1 ? 0 : 1;\n" +
+    "        do {\n" +
+    "            try {\n" +
+    "                if (0 < x && x < 10) {\n" +
+    "                    while (x != y) {\n" +
+    "                        x = absSum(x * 3, 5);\n" +
+    "                    }\n" +
+    "                    z += 2;\n" +
+    "                } else if (x > 20) {\n" +
+    "                    z = x << 1;\n" +
+    "                } else {\n" +
+    "                    z = x | 2;\n" +
+    "                }\n" +
+    "                switch (k) {\n" +
+    "                    case 0:\n" +
+    "                        var s1 = 'zero';\n" +
+    "                    case 2:\n" +
+    "                        var s1 = 'two';\n" +
+    "                    default:\n" +
+    "                        var s1 = 'other';\n" +
+    "                }\n" +
+    "            } catch (string e) {\n" +
+    "                var message = arr[0];\n" +
+    "            }\n" +
+    "        } while (x < 0);\n" +
+    "    }\n" +
+    "\n" +
+    "    Foo(int n, int m) {\n" +
+    "        tmp = new Array<Array<Int>>();\n" +
+    "        for (int i; i < 10; ++i) tmp.push(new Array<Int>());\n" +
+    "    }\n" +
+    "}";
 
   public static final String WRAPPING_CODE_SAMPLE = "class Foo {\n" +
-                                                    "    // function fBar (x,y);\n" +
-                                                    "    fOne(argA, argB, argC, argD, argE, argF, argG, argH) {\n" +
-                                                    "        Array<string> numbers   = ['one', 'two', 'three', 'four', 'five', 'six'];\n" +
-                                                    "        var x = (\"\" + argA) + argB + argC + argD + argE + argF + argG + argH;\n" +
-                                                    "        try {\n" +
-                                                    "            this.fTwo(argA, argB, argC, this.fThree(\"\", argE, argF, argG, argH));\n" +
-                                                    "        } catch (string ignored) {}\n" +
-                                                    "        var z = argA == 'Some string' ? 'yes' : 'no';\n" +
-                                                    "        var colors = ['red', 'green', 'blue', 'black', 'white', 'gray'];\n" +
-                                                    "        for (colorIndex in colors) {\n" +
-                                                    "            var colorString = numbers[colorIndex];\n" +
-                                                    "        }\n" +
-                                                    "        do {\n" +
-                                                    "            colors.pop();\n" +
-                                                    "        } while (colors.length > 0);\n" +
-                                                    "    }\n" +
-                                                    "\n" +
-                                                    "    fTwo(strA, strB, strC, strD) {\n" +
-                                                    "        if (true)\n" +
-                                                    "        return strC;\n" +
-                                                    "        if (strA == 'one' ||\n" +
-                                                    "        strB == 'two') {\n" +
-                                                    "            return strA + strB;\n" +
-                                                    "        } else if (true) return strD;\n" +
-                                                    "        throw strD;\n" +
-                                                    "    }\n" +
-                                                    "\n" +
-                                                    "    fThree(strA, strB, strC, strD, strE) {\n" +
-                                                    "        return strA + strB + strC + strD + strE;\n" +
-                                                    "    }\n" +
-                                                    "}";
+    "    // function fBar (x,y);\n" +
+    "    fOne(argA, argB, argC, argD, argE, argF, argG, argH) {\n" +
+    "        Array<string> numbers   = ['one', 'two', 'three', 'four', 'five', 'six'];\n" +
+    "        var x = (\"\" + argA) + argB + argC + argD + argE + argF + argG + argH;\n" +
+    "        try {\n" +
+    "            this.fTwo(argA, argB, argC, this.fThree(\"\", argE, argF, argG, argH));\n" +
+    "        } catch (string ignored) {}\n" +
+    "        var z = argA == 'Some string' ? 'yes' : 'no';\n" +
+    "        var colors = ['red', 'green', 'blue', 'black', 'white', 'gray'];\n" +
+    "        for (colorIndex in colors) {\n" +
+    "            var colorString = numbers[colorIndex];\n" +
+    "        }\n" +
+    "        do {\n" +
+    "            colors.pop();\n" +
+    "        } while (colors.length > 0);\n" +
+    "    }\n" +
+    "\n" +
+    "    fTwo(strA, strB, strC, strD) {\n" +
+    "        if (true)\n" +
+    "        return strC;\n" +
+    "        if (strA == 'one' ||\n" +
+    "        strB == 'two') {\n" +
+    "            return strA + strB;\n" +
+    "        } else if (true) return strD;\n" +
+    "        throw strD;\n" +
+    "    }\n" +
+    "\n" +
+    "    fThree(strA, strB, strC, strD, strE) {\n" +
+    "        return strA + strB + strC + strD + strE;\n" +
+    "    }\n" +
+    "}";
 
   public static final String BLANK_LINES_CODE_SAMPLE = "class Foo {\n" +
-                                                       "    Foo() {\n" +
-                                                       "    }\n" +
-                                                       "\n" +
-                                                       "\n" +
-                                                       "    main() {\n" +
-                                                       "        print(\"Hello!\");\n" +
-                                                       "    }\n" +
-                                                       "}";
+    "    Foo() {\n" +
+    "    }\n" +
+    "\n" +
+    "\n" +
+    "    main() {\n" +
+    "        print(\"Hello!\");\n" +
+    "    }\n" +
+    "}";
   public static final String INDENT_CODE_SAMPLE = "main(){\n" +
-                                                  "  print(239);\n" +
-                                                  "}";
+    "  print(239);\n" +
+    "}";
 }

@@ -1,9 +1,8 @@
 package com.jetbrains.lang.dart.psi;
 
+import consulo.navigation.NavigationItem;
+
 import javax.annotation.Nonnull;
-
-import com.intellij.navigation.NavigationItem;
-
 import javax.annotation.Nullable;
 
 /**

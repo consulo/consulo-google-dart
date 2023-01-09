@@ -1,14 +1,14 @@
 package com.jetbrains.lang.dart.ide.info;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
-import com.intellij.openapi.util.TextRange;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.util.PsiTreeUtil;
 import com.jetbrains.lang.dart.psi.*;
 import com.jetbrains.lang.dart.util.DartClassResolveResult;
 import com.jetbrains.lang.dart.util.DartPresentableUtil;
+import consulo.document.util.TextRange;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.util.PsiTreeUtil;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /**
  * @author: Fedor.Korotkov
@@ -104,9 +104,9 @@ public class DartFunctionDescription {
     if (target instanceof DartComponentName && targetParent instanceof DartComponent) {
       final DartReference[] references = PsiTreeUtil.getChildrenOfType(callExpression.getExpression(), DartReference.class);
       final DartClassResolveResult resolveResult = (references != null && references.length == 2)
-                                                   ? references[0].resolveDartClass()
-                                                   : DartClassResolveResult
-                                                     .create(PsiTreeUtil.getParentOfType(callExpression, DartClass.class));
+        ? references[0].resolveDartClass()
+        : DartClassResolveResult
+        .create(PsiTreeUtil.getParentOfType(callExpression, DartClass.class));
       return createDescription((DartComponent)targetParent, resolveResult);
     }
     return null;

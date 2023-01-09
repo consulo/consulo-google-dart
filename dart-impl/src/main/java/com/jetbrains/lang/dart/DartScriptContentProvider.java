@@ -1,13 +1,17 @@
 package com.jetbrains.lang.dart;
 
+import consulo.annotation.component.ExtensionImpl;
+import consulo.language.Language;
+import consulo.language.ast.IElementType;
+import consulo.language.editor.highlight.SyntaxHighlighter;
+import consulo.language.editor.highlight.SyntaxHighlighterFactory;
+import consulo.language.lexer.Lexer;
+import consulo.xml.lang.HtmlScriptContentProvider;
+
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import com.intellij.lang.HtmlScriptContentProvider;
-import com.intellij.lexer.Lexer;
-import com.intellij.openapi.fileTypes.SyntaxHighlighter;
-import com.intellij.openapi.fileTypes.SyntaxHighlighterFactory;
-import com.intellij.psi.tree.IElementType;
-
+@ExtensionImpl
 public class DartScriptContentProvider implements HtmlScriptContentProvider {
   @Override
   public IElementType getScriptElementType() {
@@ -19,5 +23,11 @@ public class DartScriptContentProvider implements HtmlScriptContentProvider {
   public Lexer getHighlightingLexer() {
     SyntaxHighlighter syntaxHighlighter = SyntaxHighlighterFactory.getSyntaxHighlighter(DartFileType.INSTANCE, null, null);
     return syntaxHighlighter != null ? syntaxHighlighter.getHighlightingLexer() : null;
+  }
+
+  @Nonnull
+  @Override
+  public Language getLanguage() {
+    return DartLanguage.INSTANCE;
   }
 }

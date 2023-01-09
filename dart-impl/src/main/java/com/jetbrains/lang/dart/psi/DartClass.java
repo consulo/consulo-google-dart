@@ -1,52 +1,50 @@
 package com.jetbrains.lang.dart.psi;
 
-import java.util.List;
-
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.List;
 
-public interface DartClass extends DartComponent
-{
-	@Nullable
-	DartType getSuperClass();
+public interface DartClass extends DartComponent {
+  @Nullable
+  DartType getSuperClass();
 
-	@Nonnull
-	List<DartType> getImplementsList();
+  @Nonnull
+  List<DartType> getImplementsList();
 
-	@Nonnull
-	List<DartType> getMixinsList();
+  @Nonnull
+  List<DartType> getMixinsList();
 
-	boolean isGeneric();
+  boolean isGeneric();
 
-	@Nonnull
-	List<DartComponent> getMethods();
+  @Nonnull
+  List<DartComponent> getMethods();
 
-	@Nonnull
-	List<DartComponent> getFields();
+  @Nonnull
+  List<DartComponent> getFields();
 
-	@Nonnull
-	List<DartComponent> getConstructors();
+  @Nonnull
+  List<DartComponent> getConstructors();
 
-	@Nullable
-	DartComponent findFieldByName(@Nonnull final String name);
+  @Nullable
+  DartComponent findFieldByName(@Nonnull final String name);
 
-	@Nullable
-	DartComponent findMethodByName(@Nonnull final String name);
+  @Nullable
+  DartComponent findMethodByName(@Nonnull final String name);
 
-	@Nullable
-	DartComponent findMemberByName(@Nonnull final String name);
+  @Nullable
+  DartComponent findMemberByName(@Nonnull final String name);
 
-	@Nonnull
-	List<DartComponent> findMembersByName(@Nonnull final String name);
+  @Nonnull
+  List<DartComponent> findMembersByName(@Nonnull final String name);
 
-	@Nullable
-	DartTypeParameters getTypeParameters();
+  @Nullable
+  DartTypeParameters getTypeParameters();
 
-	@Nullable
-	DartOperator findOperator(String operator, @Nullable DartClass rightDartClass);
+  @Nullable
+  DartOperator findOperator(String operator, @Nullable DartClass rightDartClass);
 
-	List<DartOperator> getOperators();
+  List<DartOperator> getOperators();
 
-	@Nullable
-	DartComponent findNamedConstructor(String name);
+  @Nullable
+  DartComponent findNamedConstructor(String name);
 }

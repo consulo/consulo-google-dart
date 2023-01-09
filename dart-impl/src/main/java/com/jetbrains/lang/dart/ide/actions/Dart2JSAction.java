@@ -1,46 +1,51 @@
 package com.jetbrains.lang.dart.ide.actions;
 
-import com.intellij.execution.ExecutionException;
-import com.intellij.execution.configurations.GeneralCommandLine;
-import com.intellij.execution.process.ScriptRunnerUtil;
-import com.intellij.notification.Notification;
-import com.intellij.notification.NotificationType;
-import com.intellij.notification.Notifications;
-import com.intellij.openapi.actionSystem.*;
-import com.intellij.openapi.application.ApplicationManager;
-import com.intellij.openapi.application.ModalityState;
-import com.intellij.openapi.diagnostic.Logger;
-import com.intellij.openapi.fileEditor.FileDocumentManager;
-import com.intellij.openapi.module.Module;
-import com.intellij.openapi.module.ModuleUtil;
-import com.intellij.openapi.module.ModuleUtilCore;
-import com.intellij.openapi.progress.ProgressIndicator;
-import com.intellij.openapi.progress.ProgressManager;
-import com.intellij.openapi.progress.Task;
-import com.intellij.openapi.projectRoots.Sdk;
-import com.intellij.openapi.ui.Messages;
-import com.intellij.openapi.vfs.VfsUtil;
-import com.intellij.openapi.vfs.VfsUtilCore;
-import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.openapi.vfs.VirtualFileManager;
-import com.intellij.psi.PsiFile;
 import com.jetbrains.lang.dart.DartBundle;
+import com.jetbrains.lang.dart.DartIcons;
 import com.jetbrains.lang.dart.ide.actions.ui.Dart2JSSettingsDialog;
-import consulo.awt.TargetAWT;
-import consulo.dart.module.extension.DartModuleExtension;
 import com.jetbrains.lang.dart.ide.settings.DartSdkUtil;
 import com.jetbrains.lang.dart.psi.DartFile;
 import com.jetbrains.lang.dart.util.DartResolveUtil;
+import consulo.application.Application;
+import consulo.application.ApplicationManager;
+import consulo.application.progress.ProgressIndicator;
+import consulo.application.progress.ProgressManager;
+import consulo.application.progress.Task;
+import consulo.content.bundle.Sdk;
+import consulo.dart.DartNotificationGroup;
+import consulo.dart.module.extension.DartModuleExtension;
+import consulo.document.FileDocumentManager;
+import consulo.language.editor.LangDataKeys;
+import consulo.language.psi.PsiFile;
+import consulo.language.util.ModuleUtilCore;
+import consulo.logging.Logger;
+import consulo.module.Module;
+import consulo.process.ExecutionException;
+import consulo.process.cmd.GeneralCommandLine;
+import consulo.process.local.ScriptRunnerUtil;
+import consulo.project.Project;
+import consulo.project.ui.notification.Notification;
+import consulo.project.ui.notification.NotificationType;
+import consulo.project.ui.notification.Notifications;
+import consulo.ui.ex.action.AnAction;
+import consulo.ui.ex.action.AnActionEvent;
+import consulo.ui.ex.action.Presentation;
+import consulo.ui.ex.awt.Messages;
+import consulo.util.io.FileUtil;
+import consulo.virtualFileSystem.VirtualFile;
+import consulo.virtualFileSystem.VirtualFileManager;
+
 import javax.annotation.Nonnull;
+import java.io.File;
 
 /**
  * @author: Fedor.Korotkov
  */
 public class Dart2JSAction extends AnAction {
-  private static final Logger LOG = Logger.getInstance("#com.jetbrains.lang.dart.ide.actions.Dart2JSAction");
+  private static final Logger LOG = Logger.getInstance(Dart2JSAction.class);
 
   public Dart2JSAction() {
-    super(icons.DartIcons.Dart);
+    super(DartIcons.Dart);
   }
 
   @Override
@@ -64,17 +69,17 @@ public class Dart2JSAction extends AnAction {
       return;
     }
 
-    Module module = ModuleUtil.findModuleForPsiElement(psiFile);
-    if(module == null) {
+    Module module = ModuleUtilCore.findModuleForPsiElement(psiFile);
+    if (module == null) {
       return;
     }
 
     final Sdk sdk = ModuleUtilCore.getSdk(module, DartModuleExtension.class);
     final VirtualFile dart2js = DartSdkUtil.getDart2JS(sdk);
     if (dart2js == null) {
-      Messages.showOkCancelDialog(e.getProject(), DartBundle.message("dart.sdk.bad.dart2js.path", DartSdkUtil.getDart2JSPath(sdk)),
+      Messages.showOkCancelDialog(e.getData(Project.KEY), DartBundle.message("dart.sdk.bad.dart2js.path", DartSdkUtil.getDart2JSPath(sdk)),
                                   DartBundle.message("dart.warning"),
-                                  icons.DartIcons.Dart);
+                                  DartIcons.Dart);
       return;
     }
 
@@ -106,7 +111,7 @@ public class Dart2JSAction extends AnAction {
           public void run() {
             FileDocumentManager.getInstance().saveAllDocuments();
           }
-        }, ModalityState.defaultModalityState());
+        }, Application.get().getDefaultModalityState());
 
         try {
           final String output = ScriptRunnerUtil.getProcessOutput(command);
@@ -114,27 +119,27 @@ public class Dart2JSAction extends AnAction {
           LOG.debug(output);
           boolean error = !output.isEmpty();
           if (error) {
-            Notifications.Bus.notify(new Notification(e.getPresentation().getText(),
+            Notifications.Bus.notify(new Notification(DartNotificationGroup.DART2JS,
                                                       DartBundle.message("dart2js.title"),
                                                       DartBundle.message("dart2js.js.file.creation.error", output),
                                                       NotificationType.ERROR));
             return;
           }
-          Notifications.Bus.notify(new Notification(e.getPresentation().getText(),
+          Notifications.Bus.notify(new Notification(DartNotificationGroup.DART2JS,
                                                     DartBundle.message("dart2js.title"),
                                                     DartBundle.message("dart2js.js.file.created", jsFilePath),
                                                     NotificationType.INFORMATION));
 
-          final String parentDir = VfsUtil.getParentDir(dialog.getOutputPath());
+          final File parentDir = FileUtil.getParentFile(new File(dialog.getOutputPath()));
           assert parentDir != null;
-          final VirtualFile outputParentVirtualFile = VirtualFileManager.getInstance().findFileByUrl(VfsUtilCore.pathToUrl(parentDir));
+          final VirtualFile outputParentVirtualFile = VirtualFileManager.getInstance().findFileByNioPath(parentDir.toPath());
           if (outputParentVirtualFile != null) {
             outputParentVirtualFile.refresh(true, false);
           }
         }
         catch (ExecutionException ex) {
           LOG.error(ex);
-          Notifications.Bus.notify(new Notification(e.getPresentation().getText(),
+          Notifications.Bus.notify(new Notification(DartNotificationGroup.DART2JS,
                                                     DartBundle.message("dart2js.title"),
                                                     DartBundle.message("dart2js.js.file.creation.error", ex.getMessage()),
                                                     NotificationType.ERROR));

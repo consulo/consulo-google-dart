@@ -1,6 +1,6 @@
 package com.jetbrains.lang.dart;
 
-import com.intellij.CommonBundle;
+import consulo.application.CommonBundle;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.PropertyKey;
 
@@ -17,7 +17,8 @@ import java.util.ResourceBundle;
 public class DartBundle {
   private static Reference<ResourceBundle> ourBundle;
 
-  @NonNls public static final String BUNDLE = "com.jetbrains.lang.dart.DartBundle";
+  @NonNls
+  public static final String BUNDLE = "com.jetbrains.lang.dart.DartBundle";
 
   private DartBundle() {
   }

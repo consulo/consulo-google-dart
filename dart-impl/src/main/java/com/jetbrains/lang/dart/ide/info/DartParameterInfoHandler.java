@@ -1,20 +1,24 @@
 package com.jetbrains.lang.dart.ide.info;
 
-import javax.annotation.Nonnull;
-
-import com.intellij.codeInsight.lookup.LookupElement;
-import com.intellij.lang.parameterInfo.*;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.util.PsiTreeUtil;
-import com.intellij.util.ArrayUtil;
 import com.jetbrains.lang.dart.DartComponentType;
+import com.jetbrains.lang.dart.DartLanguage;
 import com.jetbrains.lang.dart.psi.*;
 import com.jetbrains.lang.dart.util.DartClassResolveResult;
 import com.jetbrains.lang.dart.util.DartResolveUtil;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.language.Language;
+import consulo.language.editor.completion.lookup.LookupElement;
+import consulo.language.editor.parameterInfo.*;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.util.PsiTreeUtil;
+import consulo.util.collection.ArrayUtil;
+
+import javax.annotation.Nonnull;
 
 /**
  * @author: Fedor.Korotkov
  */
+@ExtensionImpl
 public class DartParameterInfoHandler implements ParameterInfoHandler<PsiElement, DartFunctionDescription> {
   String myParametersListPresentableText = "";
 
@@ -122,5 +126,11 @@ public class DartParameterInfoHandler implements ParameterInfoHandler<PsiElement
       false,
       context.getDefaultParameterColor()
     );
+  }
+
+  @Nonnull
+  @Override
+  public Language getLanguage() {
+    return DartLanguage.INSTANCE;
   }
 }

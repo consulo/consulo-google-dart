@@ -1,7 +1,7 @@
 package com.jetbrains.lang.dart;
 
-import com.intellij.lang.DependentLanguage;
-import com.intellij.lang.Language;
+import consulo.language.DependentLanguage;
+import consulo.language.Language;
 
 public class DartInHtmlLanguage extends Language implements DependentLanguage {
   public static DartInHtmlLanguage INSTANCE = new DartInHtmlLanguage();

@@ -1,14 +1,15 @@
 package com.jetbrains.lang.dart.validation.fixes;
 
-import com.intellij.codeInsight.template.Template;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.util.PsiTreeUtil;
 import com.jetbrains.lang.dart.DartBundle;
 import com.jetbrains.lang.dart.psi.DartCallExpression;
 import com.jetbrains.lang.dart.psi.DartClass;
 import com.jetbrains.lang.dart.psi.DartExpression;
 import com.jetbrains.lang.dart.psi.DartReference;
 import com.jetbrains.lang.dart.util.DartResolveUtil;
+import consulo.language.editor.template.Template;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.util.PsiTreeUtil;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
@@ -25,7 +26,7 @@ public class CreateDartMethodAction extends CreateDartFunctionActionBase {
   @Override
   public String getName() {
     return myStatic ? DartBundle.message("dart.create.static.method.fix.name", myFunctionName)
-                    : DartBundle.message("dart.create.method.fix.name", myFunctionName);
+      : DartBundle.message("dart.create.method.fix.name", myFunctionName);
   }
 
   @Override
@@ -49,7 +50,7 @@ public class CreateDartMethodAction extends CreateDartFunctionActionBase {
     DartExpression expression = callExpression.getExpression();
     DartReference[] dartReferences = PsiTreeUtil.getChildrenOfType(expression, DartReference.class);
     DartClass dartClass = dartReferences == null ? PsiTreeUtil.getParentOfType(element, DartClass.class)
-                                                 : dartReferences[0].resolveDartClass().getDartClass();
+      : dartReferences[0].resolveDartClass().getDartClass();
     return DartResolveUtil.getBody(dartClass);
   }
 }

@@ -1,32 +1,35 @@
 package com.jetbrains.lang.dart.ide.actions;
 
-import com.intellij.codeInsight.daemon.DaemonBundle;
-import com.intellij.codeInsight.daemon.impl.PsiElementListNavigator;
-import com.intellij.ide.util.DefaultPsiElementCellRenderer;
-import com.intellij.lang.LanguageCodeInsightActionHandler;
-import com.intellij.openapi.editor.Editor;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.util.Condition;
-import com.intellij.psi.NavigatablePsiElement;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiFile;
-import com.intellij.psi.util.PsiTreeUtil;
-import com.intellij.util.containers.ContainerUtil;
 import com.jetbrains.lang.dart.DartComponentType;
 import com.jetbrains.lang.dart.DartLanguage;
 import com.jetbrains.lang.dart.psi.DartClass;
 import com.jetbrains.lang.dart.psi.DartComponent;
 import com.jetbrains.lang.dart.util.DartClassResolveResult;
 import com.jetbrains.lang.dart.util.DartResolveUtil;
-import javax.annotation.Nonnull;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.codeEditor.Editor;
+import consulo.language.Language;
+import consulo.language.editor.DaemonBundle;
+import consulo.language.editor.action.GotoSuperActionHander;
+import consulo.language.editor.ui.DefaultPsiElementCellRenderer;
+import consulo.language.editor.ui.PsiElementListNavigator;
+import consulo.language.psi.NavigatablePsiElement;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiFile;
+import consulo.language.psi.util.PsiTreeUtil;
+import consulo.project.Project;
+import consulo.util.collection.ContainerUtil;
+import consulo.util.lang.function.Condition;
 
+import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * @author: Fedor.Korotkov
  */
-public class DartGotoSuperHandler implements LanguageCodeInsightActionHandler {
+@ExtensionImpl
+public class DartGotoSuperHandler implements GotoSuperActionHander {
   @Override
   public boolean isValidFor(Editor editor, PsiFile file) {
     return file.getLanguage() == DartLanguage.INSTANCE;
@@ -86,7 +89,7 @@ public class DartGotoSuperHandler implements LanguageCodeInsightActionHandler {
     });
     if (!filteredSuperItems.isEmpty()) {
       PsiElementListNavigator.openTargets(editor, DartResolveUtil.getComponentNames(filteredSuperItems)
-        .toArray(new NavigatablePsiElement[filteredSuperItems.size()]),
+                                                                 .toArray(new NavigatablePsiElement[filteredSuperItems.size()]),
                                           DaemonBundle.message("navigation.title.super.method", methodName),
                                           null,
                                           new DefaultPsiElementCellRenderer());
@@ -96,5 +99,11 @@ public class DartGotoSuperHandler implements LanguageCodeInsightActionHandler {
   @Override
   public boolean startInWriteAction() {
     return true;
+  }
+
+  @Nonnull
+  @Override
+  public Language getLanguage() {
+    return DartLanguage.INSTANCE;
   }
 }

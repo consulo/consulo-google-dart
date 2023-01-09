@@ -1,19 +1,23 @@
 package com.jetbrains.lang.dart.ide.surroundWith;
 
-import javax.annotation.Nonnull;
-
-import com.intellij.lang.surroundWith.SurroundDescriptor;
-import com.intellij.lang.surroundWith.Surrounder;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiFile;
+import com.jetbrains.lang.dart.DartLanguage;
 import com.jetbrains.lang.dart.ide.surroundWith.expression.DartWithNotParenthesisExpressionSurrounder;
 import com.jetbrains.lang.dart.ide.surroundWith.expression.DartWithParenthesisExpressionSurrounder;
 import com.jetbrains.lang.dart.psi.DartExpression;
 import com.jetbrains.lang.dart.util.DartRefactoringUtil;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.language.Language;
+import consulo.language.editor.surroundWith.SurroundDescriptor;
+import consulo.language.editor.surroundWith.Surrounder;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiFile;
+
+import javax.annotation.Nonnull;
 
 /**
  * @author: Fedor.Korotkov
  */
+@ExtensionImpl
 public class DartExpressionSurroundDescriptor implements SurroundDescriptor {
   @Nonnull
   @Override
@@ -34,5 +38,11 @@ public class DartExpressionSurroundDescriptor implements SurroundDescriptor {
   @Override
   public boolean isExclusive() {
     return false;
+  }
+
+  @Nonnull
+  @Override
+  public Language getLanguage() {
+    return DartLanguage.INSTANCE;
   }
 }

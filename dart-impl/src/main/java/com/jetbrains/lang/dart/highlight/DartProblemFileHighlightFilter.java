@@ -1,14 +1,16 @@
 package com.jetbrains.lang.dart.highlight;
 
-import com.intellij.openapi.util.Condition;
-import com.intellij.openapi.vfs.VirtualFile;
 import com.jetbrains.lang.dart.DartFileType;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.language.editor.wolfAnalyzer.WolfFileProblemFilter;
+import consulo.virtualFileSystem.VirtualFile;
 
 /**
  * @author: Fedor.Korotkov
  */
-public class DartProblemFileHighlightFilter implements Condition<VirtualFile> {
-  public boolean value(VirtualFile virtualFile) {
+@ExtensionImpl
+public class DartProblemFileHighlightFilter implements WolfFileProblemFilter {
+  public boolean isToBeHighlighted(VirtualFile virtualFile) {
     return virtualFile.getFileType() == DartFileType.INSTANCE;
   }
 }

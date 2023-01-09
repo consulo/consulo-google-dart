@@ -1,13 +1,12 @@
 package com.jetbrains.lang.dart.validation.fixes;
 
-import javax.annotation.Nonnull;
-
-import com.intellij.openapi.editor.Editor;
-import com.intellij.openapi.project.Project;
-import com.intellij.psi.PsiElement;
 import com.jetbrains.lang.dart.DartBundle;
 import com.jetbrains.lang.dart.ide.generation.DartImplementMethodHandler;
+import consulo.codeEditor.Editor;
+import consulo.language.psi.PsiElement;
+import consulo.project.Project;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class ImplementMethodAction extends FixAndIntentionAction {

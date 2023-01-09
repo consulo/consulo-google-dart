@@ -1,16 +1,16 @@
 package com.jetbrains.lang.dart.ide;
 
-import com.intellij.codeInsight.completion.InsertionContext;
-import com.intellij.codeInsight.completion.util.ParenthesesInsertHandler;
-import com.intellij.codeInsight.lookup.LookupElement;
-import com.intellij.codeInsight.lookup.LookupElementPresentation;
-import com.intellij.navigation.ItemPresentation;
-import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.util.PsiTreeUtil;
 import com.jetbrains.lang.dart.DartComponentType;
 import com.jetbrains.lang.dart.psi.*;
 import com.jetbrains.lang.dart.util.DartPresentableUtil;
+import consulo.language.editor.completion.lookup.InsertionContext;
+import consulo.language.editor.completion.lookup.LookupElement;
+import consulo.language.editor.completion.lookup.LookupElementPresentation;
+import consulo.language.editor.completion.lookup.ParenthesesInsertHandler;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.util.PsiTreeUtil;
+import consulo.navigation.ItemPresentation;
+import consulo.util.lang.StringUtil;
 
 import javax.annotation.Nonnull;
 import java.util.Collection;
@@ -54,7 +54,7 @@ public class DartLookupElement extends LookupElement {
 
   private boolean isCompleteConstructorComponent() {
     final boolean isConstructor = myComponentName.getParent() instanceof DartNamedConstructorDeclaration ||
-                                  myComponentName.getParent() instanceof DartFactoryConstructorDeclaration;
+      myComponentName.getParent() instanceof DartFactoryConstructorDeclaration;
     return isConstructor && myConstructorCompletion;
   }
 
@@ -80,11 +80,11 @@ public class DartLookupElement extends LookupElement {
     final DartComponentType componentType = DartComponentType.typeOf(parent);
     final boolean isGetterSetter = parent instanceof DartGetterDeclaration || parent instanceof DartSetterDeclaration;
     if (!isGetterSetter &&
-        parent instanceof DartComponent
-        &&
-        (componentType == DartComponentType.FUNCTION ||
-         componentType == DartComponentType.METHOD ||
-         componentType == DartComponentType.CONSTRUCTOR)) {
+      parent instanceof DartComponent
+      &&
+      (componentType == DartComponentType.FUNCTION ||
+        componentType == DartComponentType.METHOD ||
+        componentType == DartComponentType.CONSTRUCTOR)) {
       final String parameterList = DartPresentableUtil.getPresentableParameterList((DartComponent)parent);
       final ParenthesesInsertHandler<LookupElement> insertHandler =
         parameterList.isEmpty() ? ParenthesesInsertHandler.NO_PARAMETERS : ParenthesesInsertHandler.WITH_PARAMETERS;
@@ -96,8 +96,8 @@ public class DartLookupElement extends LookupElement {
       final String parameterList = DartPresentableUtil.getPresentableParameterList(dartComponent);
       final ParenthesesInsertHandler<LookupElement> insertHandler =
         dartComponent == null || parameterList.isEmpty()
-        ? ParenthesesInsertHandler.NO_PARAMETERS
-        : ParenthesesInsertHandler.WITH_PARAMETERS;
+          ? ParenthesesInsertHandler.NO_PARAMETERS
+          : ParenthesesInsertHandler.WITH_PARAMETERS;
       insertHandler.handleInsert(context, this);
     }
   }

@@ -1,12 +1,14 @@
 package com.jetbrains.lang.dart.ide.template.macro;
 
-import javax.annotation.Nonnull;
-
 import com.jetbrains.lang.dart.psi.DartClass;
+import consulo.annotation.component.ExtensionImpl;
+
+import javax.annotation.Nonnull;
 
 /**
  * @author: Fedor.Korotkov
  */
+@ExtensionImpl
 public class DartIterableVariableMacro extends DartFilterByClassMacro {
   @Override
   public String getName() {

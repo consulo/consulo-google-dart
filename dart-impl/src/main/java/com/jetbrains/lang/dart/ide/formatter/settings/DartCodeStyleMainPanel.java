@@ -1,8 +1,8 @@
 package com.jetbrains.lang.dart.ide.formatter.settings;
 
-import com.intellij.application.options.TabbedLanguageCodeStylePanel;
-import com.intellij.psi.codeStyle.CodeStyleSettings;
 import com.jetbrains.lang.dart.DartLanguage;
+import consulo.language.codeStyle.CodeStyleSettings;
+import consulo.language.codeStyle.ui.setting.TabbedLanguageCodeStylePanel;
 
 /**
  * @author: Fedor.Korotkov

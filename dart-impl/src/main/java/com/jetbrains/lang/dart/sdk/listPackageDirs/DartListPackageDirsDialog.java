@@ -1,120 +1,103 @@
 package com.jetbrains.lang.dart.sdk.listPackageDirs;
 
+import consulo.application.util.SystemInfo;
+import consulo.project.Project;
+import consulo.ui.ex.awt.DialogWrapper;
+import consulo.ui.ex.awt.table.JBTable;
+import consulo.util.io.FileUtil;
+import consulo.util.lang.StringUtil;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.util.Map;
 import java.util.Set;
 
-import javax.annotation.Nonnull;
-import javax.swing.Action;
-import javax.swing.JComponent;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.table.DefaultTableModel;
+public class DartListPackageDirsDialog extends DialogWrapper {
 
-import javax.annotation.Nullable;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.ui.DialogWrapper;
-import com.intellij.openapi.util.SystemInfo;
-import com.intellij.openapi.util.io.FileUtil;
-import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.ui.table.JBTable;
+  public static final int CONFIGURE_NONE_EXIT_CODE = NEXT_USER_EXIT_CODE;
 
-public class DartListPackageDirsDialog extends DialogWrapper
-{
+  private JPanel myMainPanel;
+  private JBTable myTable;
 
-	public static final int CONFIGURE_NONE_EXIT_CODE = NEXT_USER_EXIT_CODE;
+  private
+  @Nonnull
+  final Map<String, Set<String>> myPackageMap;
 
-	private JPanel myMainPanel;
-	private JBTable myTable;
+  protected DartListPackageDirsDialog(final @Nonnull Project project, final @Nonnull Map<String, Set<String>> packageMap) {
+    super(project);
+    myPackageMap = packageMap;
+    setTitle("Dart Package List");
+    initTable();
+    setOKButtonText("Configure all");
 
-	private
-	@Nonnull
-	final Map<String, Set<String>> myPackageMap;
+    init();
+  }
 
-	protected DartListPackageDirsDialog(final @Nonnull Project project, final @Nonnull Map<String, Set<String>> packageMap)
-	{
-		super(project);
-		myPackageMap = packageMap;
-		setTitle("Dart Package List");
-		initTable();
-		setOKButtonText("Configure all");
+  private void initTable() {
+    final String[][] data = new String[myPackageMap.size()][2];
 
-		init();
-	}
+    int i = 0;
+    for (Map.Entry<String, Set<String>> entry : myPackageMap.entrySet()) {
+      data[i][0] = entry.getKey();
+      data[i][1] = FileUtil.toSystemDependentName(StringUtil.join(entry.getValue(), "; "));
+      i++;
+    }
 
-	private void initTable()
-	{
-		final String[][] data = new String[myPackageMap.size()][2];
+    myTable.setModel(new DefaultTableModel(data, new String[]{
+      "Package name",
+      "Location"
+    }) {
+      @Override
+      public boolean isCellEditable(final int row, final int column) {
+        return false;
+      }
+    });
 
-		int i = 0;
-		for(Map.Entry<String, Set<String>> entry : myPackageMap.entrySet())
-		{
-			data[i][0] = entry.getKey();
-			data[i][1] = FileUtil.toSystemDependentName(StringUtil.join(entry.getValue(), "; "));
-			i++;
-		}
+    final int width = new JLabel("Package name").getPreferredSize().width * 4 / 3;
+    myTable.getColumnModel().getColumn(0).setPreferredWidth(width);
+    myTable.getColumnModel().getColumn(1).setPreferredWidth(500 - width);
+  }
 
-		myTable.setModel(new DefaultTableModel(data, new String[]{
-				"Package name",
-				"Location"
-		})
-		{
-			@Override
-			public boolean isCellEditable(final int row, final int column)
-			{
-				return false;
-			}
-		});
+  @Override
+  @Nullable
+  protected JComponent createCenterPanel() {
+    return myMainPanel;
+  }
 
-		final int width = new JLabel("Package name").getPreferredSize().width * 4 / 3;
-		myTable.getColumnModel().getColumn(0).setPreferredWidth(width);
-		myTable.getColumnModel().getColumn(1).setPreferredWidth(500 - width);
-	}
+  @Override
+  @Nonnull
+  protected Action[] createActions() {
+    if (SystemInfo.isMac) {
+      return new Action[]{
+        getCancelAction(),
+        new ConfigureNoneAction(),
+        getOKAction()
+      };
+    }
+    return new Action[]{
+      getOKAction(),
+      new ConfigureNoneAction(),
+      getCancelAction()
+    };
+  }
 
-	@Override
-	@Nullable
-	protected JComponent createCenterPanel()
-	{
-		return myMainPanel;
-	}
+  @Override
+  @Nullable
+  protected String getDimensionServiceKey() {
+    return "DartPackageListDialogDimensions";
+  }
 
-	@Override
-	@Nonnull
-	protected Action[] createActions()
-	{
-		if(SystemInfo.isMac)
-		{
-			return new Action[]{
-					getCancelAction(),
-					new ConfigureNoneAction(),
-					getOKAction()
-			};
-		}
-		return new Action[]{
-				getOKAction(),
-				new ConfigureNoneAction(),
-				getCancelAction()
-		};
-	}
+  private class ConfigureNoneAction extends DialogWrapperAction {
+    protected ConfigureNoneAction() {
+      super("Configure none");
+    }
 
-	@Override
-	@Nullable
-	protected String getDimensionServiceKey()
-	{
-		return "DartPackageListDialogDimensions";
-	}
-
-	private class ConfigureNoneAction extends DialogWrapperAction
-	{
-		protected ConfigureNoneAction()
-		{
-			super("Configure none");
-		}
-
-		@Override
-		protected void doAction(final ActionEvent e)
-		{
-			close(CONFIGURE_NONE_EXIT_CODE);
-		}
-	}
+    @Override
+    protected void doAction(final ActionEvent e) {
+      close(CONFIGURE_NONE_EXIT_CODE);
+    }
+  }
 }

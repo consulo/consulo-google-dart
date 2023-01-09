@@ -1,32 +1,45 @@
 package com.jetbrains.lang.dart.ide;
 
-import com.intellij.navigation.ChooseByNameContributor;
-import com.intellij.navigation.NavigationItem;
-import com.intellij.openapi.project.Project;
-import com.intellij.psi.search.GlobalSearchScope;
-import com.intellij.util.ArrayUtil;
 import com.jetbrains.lang.dart.ide.index.DartClassIndex;
 import com.jetbrains.lang.dart.psi.DartComponentName;
-import javax.annotation.Nonnull;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.application.util.function.Processor;
+import consulo.content.scope.SearchScope;
+import consulo.ide.navigation.GotoClassOrTypeContributor;
+import consulo.language.psi.scope.GlobalSearchScope;
+import consulo.language.psi.search.FindSymbolParameters;
+import consulo.language.psi.stub.FileBasedIndex;
+import consulo.language.psi.stub.IdFilter;
+import consulo.navigation.NavigationItem;
+import consulo.project.Project;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.Collection;
 
 /**
  * @author: Fedor.Korotkov
  */
-public class DartClassContributor implements ChooseByNameContributor {
-  @Nonnull
+@ExtensionImpl
+public class DartClassContributor implements GotoClassOrTypeContributor {
   @Override
-  public String[] getNames(Project project, boolean includeNonProjectItems) {
-    final Collection<String> result = DartClassIndex.getNames(project);
-    return ArrayUtil.toStringArray(result);
+  public void processNames(@Nonnull Processor<String> processor, @Nonnull SearchScope searchScope, @Nullable IdFilter idFilter) {
+    FileBasedIndex.getInstance().processAllKeys(DartClassIndex.DART_CLASS_INDEX, processor, searchScope, idFilter);
   }
 
-  @Nonnull
   @Override
-  public NavigationItem[] getItemsByName(String name, String pattern, Project project, boolean includeNonProjectItems) {
-    final GlobalSearchScope scope = includeNonProjectItems ? GlobalSearchScope.allScope(project) : GlobalSearchScope.projectScope(project);
+  public void processElementsWithName(@Nonnull String name,
+                                      @Nonnull Processor<NavigationItem> processor,
+                                      @Nonnull FindSymbolParameters findSymbolParameters) {
+    boolean searchInLibraries = findSymbolParameters.isSearchInLibraries();
+    Project project = findSymbolParameters.getProject();
+    final GlobalSearchScope scope = searchInLibraries ? GlobalSearchScope.allScope(project) : GlobalSearchScope.projectScope(project);
     final Collection<DartComponentName> result = DartClassIndex.getItemsByName(name, project, scope);
-    return result.toArray(new NavigationItem[result.size()]);
+
+    for (DartComponentName dartComponentName : result) {
+      if (!processor.test(dartComponentName)) {
+        break;
+      }
+    }
   }
 }

@@ -1,105 +1,96 @@
 package com.jetbrains.lang.dart.validation.fixes;
 
-import javax.annotation.Nonnull;
-import com.intellij.codeInsight.template.Template;
-import com.intellij.codeInsight.template.TemplateManager;
-import com.intellij.openapi.diagnostic.Logger;
-import com.intellij.openapi.editor.Editor;
-import com.intellij.openapi.project.Project;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiFile;
-import com.intellij.psi.util.PsiTreeUtil;
-import com.intellij.refactoring.util.CommonRefactoringUtil;
 import com.jetbrains.lang.dart.DartBundle;
 import com.jetbrains.lang.dart.psi.DartArgumentList;
 import com.jetbrains.lang.dart.psi.DartCallExpression;
 import com.jetbrains.lang.dart.psi.DartReference;
 import com.jetbrains.lang.dart.util.DartPresentableUtil;
+import consulo.codeEditor.Editor;
+import consulo.language.editor.refactoring.util.CommonRefactoringUtil;
+import consulo.language.editor.template.Template;
+import consulo.language.editor.template.TemplateManager;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiFile;
+import consulo.language.psi.util.PsiTreeUtil;
+import consulo.logging.Logger;
+import consulo.project.Project;
 
-abstract public class CreateDartFunctionActionBase extends BaseCreateFix
-{
-	private static final Logger LOG = Logger.getInstance(CreateDartFunctionActionBase.class);
+import javax.annotation.Nonnull;
 
-	protected final String myFunctionName;
+abstract public class CreateDartFunctionActionBase extends BaseCreateFix {
+  private static final Logger LOG = Logger.getInstance(CreateDartFunctionActionBase.class);
 
-	public CreateDartFunctionActionBase(@Nonnull String name)
-	{
-		myFunctionName = name;
-	}
+  protected final String myFunctionName;
 
-	@Nonnull
-	public String getFamilyName()
-	{
-		return DartBundle.message("dart.create.function.intention.family");
-	}
+  public CreateDartFunctionActionBase(@Nonnull String name) {
+    myFunctionName = name;
+  }
 
-	@Override
-	protected boolean isAvailable(Project project, PsiElement element, Editor editor, PsiFile file)
-	{
-		if(PsiTreeUtil.getParentOfType(myElement, DartReference.class) == null)
-		{
-			return false;
-		}
-		final PsiElement anchor = findAnchor(element);
-		return anchor != null && !isInDartSdkOrDartPackagesFolder(anchor.getContainingFile());
-	}
+  @Nonnull
+  public String getFamilyName() {
+    return DartBundle.message("dart.create.function.intention.family");
+  }
 
-	@Override
-	protected void applyFix(Project project, @Nonnull PsiElement psiElement, Editor editor)
-	{
-		final TemplateManager templateManager = TemplateManager.getInstance(project);
-		Template template = templateManager.createTemplate("", "");
-		template.setToReformat(true);
+  @Override
+  protected boolean isAvailable(Project project, PsiElement element, Editor editor, PsiFile file) {
+    if (PsiTreeUtil.getParentOfType(myElement, DartReference.class) == null) {
+      return false;
+    }
+    final PsiElement anchor = findAnchor(element);
+    return anchor != null && !isInDartSdkOrDartPackagesFolder(anchor.getContainingFile());
+  }
 
-		if(!buildTemplate(template, psiElement))
-		{
-			return;
-		}
+  @Override
+  protected void applyFix(Project project, @Nonnull PsiElement psiElement, Editor editor) {
+    final TemplateManager templateManager = TemplateManager.getInstance(project);
+    Template template = templateManager.createTemplate("", "");
+    template.setToReformat(true);
 
-		PsiElement anchor = findAnchor(psiElement);
+    if (!buildTemplate(template, psiElement)) {
+      return;
+    }
 
-		if(anchor == null)
-		{
-			CommonRefactoringUtil.showErrorHint(project, editor, DartBundle.message("dart.create.function.intention.family"), DartBundle.message("dart.cannot.find.place.to.create"), null);
-			return;
-		}
+    PsiElement anchor = findAnchor(psiElement);
 
-		final Editor openedEditor = navigate(project, anchor.getTextOffset(), anchor.getContainingFile().getVirtualFile());
-		if(openedEditor != null)
-		{
-			templateManager.startTemplate(openedEditor, template);
-		}
-	}
+    if (anchor == null) {
+      CommonRefactoringUtil.showErrorHint(project,
+                                          editor,
+                                          DartBundle.message("dart.create.function.intention.family"),
+                                          DartBundle.message("dart.cannot.find.place.to.create"),
+                                          null);
+      return;
+    }
 
-	protected boolean buildTemplate(Template template, PsiElement psiElement)
-	{
-		DartCallExpression callExpression = PsiTreeUtil.getParentOfType(psiElement, DartCallExpression.class);
-		if(callExpression == null)
-		{
-			LOG.debug(getName() + " cannot find function call for: " + psiElement.getText());
-			return false;
-		}
+    final Editor openedEditor = navigate(project, anchor.getTextOffset(), anchor.getContainingFile().getVirtualFile());
+    if (openedEditor != null) {
+      templateManager.startTemplate(openedEditor, template);
+    }
+  }
 
-		buildFunctionText(template, callExpression);
-		return true;
-	}
+  protected boolean buildTemplate(Template template, PsiElement psiElement) {
+    DartCallExpression callExpression = PsiTreeUtil.getParentOfType(psiElement, DartCallExpression.class);
+    if (callExpression == null) {
+      LOG.debug(getName() + " cannot find function call for: " + psiElement.getText());
+      return false;
+    }
 
-	protected void buildFunctionText(Template template, @Nonnull DartCallExpression callExpression)
-	{
-		template.addTextSegment(myFunctionName);
-		template.addTextSegment("(");
-		buildParameters(template, callExpression);
-		template.addTextSegment("){\n");
-		template.addEndVariable();
-		template.addTextSegment("\n}\n");
-	}
+    buildFunctionText(template, callExpression);
+    return true;
+  }
 
-	private void buildParameters(Template template, DartCallExpression callExpression)
-	{
-		DartArgumentList argumentList = callExpression.getArguments().getArgumentList();
-		if(argumentList != null)
-		{
-			DartPresentableUtil.appendArgumentList(template, argumentList);
-		}
-	}
+  protected void buildFunctionText(Template template, @Nonnull DartCallExpression callExpression) {
+    template.addTextSegment(myFunctionName);
+    template.addTextSegment("(");
+    buildParameters(template, callExpression);
+    template.addTextSegment("){\n");
+    template.addEndVariable();
+    template.addTextSegment("\n}\n");
+  }
+
+  private void buildParameters(Template template, DartCallExpression callExpression) {
+    DartArgumentList argumentList = callExpression.getArguments().getArgumentList();
+    if (argumentList != null) {
+      DartPresentableUtil.appendArgumentList(template, argumentList);
+    }
+  }
 }

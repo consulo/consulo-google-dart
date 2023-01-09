@@ -1,6 +1,6 @@
 package com.jetbrains.lang.dart.psi;
 
-import com.intellij.psi.PsiElement;
+import consulo.language.psi.PsiElement;
 
 public class DartRecursiveVisitor extends DartVisitor {
   @Override

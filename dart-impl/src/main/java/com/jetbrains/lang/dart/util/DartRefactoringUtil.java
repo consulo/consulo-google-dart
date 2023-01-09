@@ -1,19 +1,18 @@
 package com.jetbrains.lang.dart.util;
 
-import com.intellij.codeInsight.PsiEquivalenceUtil;
-import com.intellij.lang.ASTNode;
-import com.intellij.navigation.NavigationItem;
-import com.intellij.openapi.editor.Editor;
-import com.intellij.openapi.project.Project;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiFile;
-import com.intellij.psi.PsiWhiteSpace;
-import com.intellij.psi.ResolveState;
-import com.intellij.psi.util.PsiTreeUtil;
-import com.intellij.util.Function;
-import com.intellij.util.containers.ContainerUtil;
 import com.jetbrains.lang.dart.DartComponentType;
 import com.jetbrains.lang.dart.psi.*;
+import consulo.codeEditor.Editor;
+import consulo.language.ast.ASTNode;
+import consulo.language.editor.PsiEquivalenceUtil;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiFile;
+import consulo.language.psi.PsiWhiteSpace;
+import consulo.language.psi.resolve.ResolveState;
+import consulo.language.psi.util.PsiTreeUtil;
+import consulo.navigation.NavigationItem;
+import consulo.project.Project;
+import consulo.util.collection.ContainerUtil;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -120,12 +119,7 @@ public class DartRefactoringUtil {
 
     // don't forget about leafs (ex. ';')
     final ASTNode[] astResult = UsefulPsiTreeUtil.findChildrenRange(statements.getNode().getChildren(null), startOffset, endOffset);
-    return ContainerUtil.map2Array(astResult, PsiElement.class, new Function<ASTNode, PsiElement>() {
-      @Override
-      public PsiElement fun(ASTNode node) {
-        return node.getPsi();
-      }
-    });
+    return ContainerUtil.map2Array(astResult, PsiElement.class, node -> node.getPsi());
   }
 
   @Nullable

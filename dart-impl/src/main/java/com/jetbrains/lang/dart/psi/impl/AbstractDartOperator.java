@@ -1,8 +1,9 @@
 package com.jetbrains.lang.dart.psi.impl;
 
-import com.intellij.lang.ASTNode;
 import com.jetbrains.lang.dart.psi.DartOperator;
 import com.jetbrains.lang.dart.util.DartResolveUtil;
+import consulo.language.ast.ASTNode;
+
 import javax.annotation.Nonnull;
 
 /**

@@ -1,22 +1,22 @@
 package com.jetbrains.lang.dart.ide.structure;
 
-import javax.annotation.Nonnull;
-
-import org.jetbrains.annotations.NonNls;
-import com.intellij.icons.AllIcons;
-import com.intellij.ide.IdeBundle;
-import com.intellij.ide.structureView.StructureViewModel;
-import com.intellij.ide.structureView.StructureViewModelBase;
-import com.intellij.ide.structureView.StructureViewTreeElement;
-import com.intellij.ide.util.treeView.smartTree.ActionPresentation;
-import com.intellij.ide.util.treeView.smartTree.ActionPresentationData;
-import com.intellij.ide.util.treeView.smartTree.Filter;
-import com.intellij.ide.util.treeView.smartTree.TreeElement;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiFile;
 import com.jetbrains.lang.dart.DartComponentType;
 import com.jetbrains.lang.dart.psi.DartClass;
 import com.jetbrains.lang.dart.psi.DartComponent;
+import consulo.application.AllIcons;
+import consulo.fileEditor.structureView.StructureViewModel;
+import consulo.fileEditor.structureView.StructureViewTreeElement;
+import consulo.fileEditor.structureView.tree.ActionPresentation;
+import consulo.fileEditor.structureView.tree.ActionPresentationData;
+import consulo.fileEditor.structureView.tree.Filter;
+import consulo.fileEditor.structureView.tree.TreeElement;
+import consulo.ide.IdeBundle;
+import consulo.language.editor.structureView.StructureViewModelBase;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiFile;
+import org.jetbrains.annotations.NonNls;
+
+import javax.annotation.Nonnull;
 
 /**
  * @author: Fedor.Korotkov
@@ -51,10 +51,11 @@ public class DartStructureViewModel extends StructureViewModelBase implements St
 
 
   private static final Filter ourFieldsFilter = new Filter() {
-    @NonNls public static final String ID = "SHOW_FIELDS";
+    @NonNls
+    public static final String ID = "SHOW_FIELDS";
 
     @Override
-	public boolean isVisible(TreeElement treeNode) {
+    public boolean isVisible(TreeElement treeNode) {
       if (!(treeNode instanceof DartStructureViewElement)) return true;
       final PsiElement element = ((DartStructureViewElement)treeNode).getRealElement();
 
@@ -71,12 +72,12 @@ public class DartStructureViewModel extends StructureViewModelBase implements St
     }
 
     @Override
-	public boolean isReverted() {
+    public boolean isReverted() {
       return true;
     }
 
     @Override
-	@Nonnull
+    @Nonnull
     public ActionPresentation getPresentation() {
       return new ActionPresentationData(
         IdeBundle.message("action.structureview.show.fields"),
@@ -85,7 +86,7 @@ public class DartStructureViewModel extends StructureViewModelBase implements St
     }
 
     @Override
-	@Nonnull
+    @Nonnull
     public String getName() {
       return ID;
     }

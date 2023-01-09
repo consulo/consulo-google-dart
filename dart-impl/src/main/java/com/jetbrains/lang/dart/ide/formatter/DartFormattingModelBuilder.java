@@ -1,24 +1,29 @@
 package com.jetbrains.lang.dart.ide.formatter;
 
-import com.intellij.formatting.FormattingModel;
-import com.intellij.formatting.FormattingModelBuilder;
-import com.intellij.lang.ASTNode;
-import com.intellij.openapi.util.TextRange;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiFile;
-import com.intellij.psi.codeStyle.CodeStyleSettings;
+import com.jetbrains.lang.dart.DartLanguage;
 import com.jetbrains.lang.dart.psi.DartFile;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.language.Language;
+import consulo.language.codeStyle.CodeStyleSettings;
+import consulo.language.codeStyle.FormattingContext;
+import consulo.language.codeStyle.FormattingModel;
+import consulo.language.codeStyle.FormattingModelBuilder;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiFile;
+
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 /**
  * @author fedor.korotkov
  */
+@ExtensionImpl
 public class DartFormattingModelBuilder implements FormattingModelBuilder {
   @Nonnull
   @Override
-  public FormattingModel createModel(PsiElement element, CodeStyleSettings settings) {
-    final PsiFile psiFile = element.getContainingFile();
+  public FormattingModel createModel(@Nonnull FormattingContext context) {
+    PsiElement element = context.getPsiElement();
+    CodeStyleSettings settings = context.getCodeStyleSettings();
+    final PsiFile psiFile = context.getContainingFile();
     return new DartFormattingModel(
       psiFile,
       settings,
@@ -26,9 +31,9 @@ public class DartFormattingModelBuilder implements FormattingModelBuilder {
     );
   }
 
-  @Nullable
+  @Nonnull
   @Override
-  public TextRange getRangeAffectingIndent(PsiFile file, int offset, ASTNode elementAtOffset) {
-    return null;
+  public Language getLanguage() {
+    return DartLanguage.INSTANCE;
   }
 }

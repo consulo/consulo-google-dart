@@ -1,14 +1,15 @@
 package com.jetbrains.lang.dart.util;
 
-import com.intellij.icons.AllIcons;
-import com.intellij.ide.fileTemplates.FileTemplate;
-import com.intellij.ide.fileTemplates.FileTemplateManager;
-import com.intellij.openapi.util.Condition;
-import com.intellij.util.SmartList;
-import com.intellij.util.containers.ContainerUtil;
 import com.jetbrains.lang.dart.DartFileType;
+import com.jetbrains.lang.dart.DartIcons;
+import consulo.application.AllIcons;
+import consulo.fileTemplate.FileTemplate;
+import consulo.fileTemplate.FileTemplateManager;
 import consulo.ui.image.Image;
 import consulo.ui.image.ImageEffects;
+import consulo.util.collection.ContainerUtil;
+import consulo.util.collection.SmartList;
+import consulo.util.lang.function.Condition;
 
 import javax.annotation.Nonnull;
 import java.util.List;
@@ -51,6 +52,6 @@ public class DartFileTemplateUtil {
     else if ("Interface".equals(name)) {
       return ImageEffects.layered(AllIcons.Nodes.Interface);
     }
-    return icons.DartIcons.Dart;
+    return DartIcons.Dart;
   }
 }

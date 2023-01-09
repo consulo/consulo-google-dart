@@ -1,20 +1,22 @@
 package com.jetbrains.lang.dart.ide;
 
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.search.SearchScope;
-import com.intellij.psi.util.PsiTreeUtil;
-import com.intellij.refactoring.rename.RenamePsiElementProcessor;
 import com.jetbrains.lang.dart.psi.DartClass;
 import com.jetbrains.lang.dart.psi.DartComponent;
 import com.jetbrains.lang.dart.psi.DartComponentName;
 import com.jetbrains.lang.dart.psi.DartNamedConstructorDeclaration;
-import javax.annotation.Nonnull;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.content.scope.SearchScope;
+import consulo.language.editor.refactoring.rename.RenamePsiElementProcessor;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.util.PsiTreeUtil;
 
+import javax.annotation.Nonnull;
 import java.util.Map;
 
 /**
  * @author: Fedor.Korotkov
  */
+@ExtensionImpl
 public class DartRenamePsiElementProcessor extends RenamePsiElementProcessor {
   @Override
   public boolean canProcessElement(@Nonnull PsiElement element) {

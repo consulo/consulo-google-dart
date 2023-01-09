@@ -1,9 +1,14 @@
 package com.jetbrains.lang.dart.ide;
 
-import com.intellij.lang.BracePair;
-import com.intellij.psi.PsiFile;
-import com.intellij.psi.tree.IElementType;
+import com.jetbrains.lang.dart.DartLanguage;
 import com.jetbrains.lang.dart.DartTokenTypes;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.language.BracePair;
+import consulo.language.Language;
+import consulo.language.PairedBraceMatcher;
+import consulo.language.ast.IElementType;
+import consulo.language.psi.PsiFile;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
@@ -13,7 +18,8 @@ import javax.annotation.Nullable;
  * Date: 10/12/11
  * Time: 9:07 PM
  */
-public class DartBraceMatcher implements com.intellij.lang.PairedBraceMatcher {
+@ExtensionImpl
+public class DartBraceMatcher implements PairedBraceMatcher {
   private static BracePair[] ourBracePairs =
     {
       new BracePair(DartTokenTypes.LBRACE, DartTokenTypes.RBRACE, true),
@@ -34,5 +40,11 @@ public class DartBraceMatcher implements com.intellij.lang.PairedBraceMatcher {
   @Override
   public int getCodeConstructStart(PsiFile file, int openingBraceOffset) {
     return openingBraceOffset;
+  }
+
+  @Nonnull
+  @Override
+  public Language getLanguage() {
+    return DartLanguage.INSTANCE;
   }
 }

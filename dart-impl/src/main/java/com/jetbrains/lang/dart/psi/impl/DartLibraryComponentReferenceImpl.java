@@ -1,15 +1,5 @@
 package com.jetbrains.lang.dart.psi.impl;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import com.intellij.lang.ASTNode;
-import com.intellij.openapi.util.TextRange;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiPolyVariantReference;
-import com.intellij.psi.PsiReference;
-import com.intellij.psi.ResolveResult;
-import com.intellij.psi.util.PsiTreeUtil;
-import com.intellij.util.IncorrectOperationException;
 import com.jetbrains.lang.dart.psi.DartId;
 import com.jetbrains.lang.dart.psi.DartPathOrLibraryReference;
 import com.jetbrains.lang.dart.psi.DartReference;
@@ -17,112 +7,106 @@ import com.jetbrains.lang.dart.resolve.DartResolver;
 import com.jetbrains.lang.dart.util.DartClassResolveResult;
 import com.jetbrains.lang.dart.util.DartElementGenerator;
 import com.jetbrains.lang.dart.util.DartResolveUtil;
+import consulo.document.util.TextRange;
+import consulo.language.ast.ASTNode;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiPolyVariantReference;
+import consulo.language.psi.PsiReference;
+import consulo.language.psi.ResolveResult;
+import consulo.language.psi.util.PsiTreeUtil;
+import consulo.language.util.IncorrectOperationException;
 
-public class DartLibraryComponentReferenceImpl extends DartExpressionImpl implements DartReference, PsiPolyVariantReference
-{
-	public DartLibraryComponentReferenceImpl(ASTNode node)
-	{
-		super(node);
-	}
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
-	@Override
-	public PsiElement getElement()
-	{
-		return this;
-	}
+public class DartLibraryComponentReferenceImpl extends DartExpressionImpl implements DartReference, PsiPolyVariantReference {
+  public DartLibraryComponentReferenceImpl(ASTNode node) {
+    super(node);
+  }
 
-	@Override
-	public PsiReference getReference()
-	{
-		return this;
-	}
+  @Override
+  public PsiElement getElement() {
+    return this;
+  }
 
-	@Override
-	public TextRange getRangeInElement()
-	{
-		final TextRange textRange = getTextRange();
-		return new TextRange(0, textRange.getEndOffset() - textRange.getStartOffset());
-	}
+  @Override
+  public PsiReference getReference() {
+    return this;
+  }
 
-	@Nonnull
-	@Override
-	public String getCanonicalText()
-	{
-		return getText();
-	}
+  @Override
+  public TextRange getRangeInElement() {
+    final TextRange textRange = getTextRange();
+    return new TextRange(0, textRange.getEndOffset() - textRange.getStartOffset());
+  }
 
-	@Override
-	public PsiElement handleElementRename(String newElementName) throws IncorrectOperationException
-	{
-		final DartId identifier = PsiTreeUtil.getChildOfType(this, DartId.class);
-		final DartId identifierNew = DartElementGenerator.createIdentifierFromText(getProject(), newElementName);
-		if(identifier != null && identifierNew != null)
-		{
-			getNode().replaceChild(identifier.getNode(), identifierNew.getNode());
-		}
-		return this;
-	}
+  @Nonnull
+  @Override
+  public String getCanonicalText() {
+    return getText();
+  }
 
-	@Override
-	public PsiElement bindToElement(@Nonnull PsiElement element) throws IncorrectOperationException
-	{
-		return this;
-	}
+  @Override
+  public PsiElement handleElementRename(String newElementName) throws IncorrectOperationException {
+    final DartId identifier = PsiTreeUtil.getChildOfType(this, DartId.class);
+    final DartId identifierNew = DartElementGenerator.createIdentifierFromText(getProject(), newElementName);
+    if (identifier != null && identifierNew != null) {
+      getNode().replaceChild(identifier.getNode(), identifierNew.getNode());
+    }
+    return this;
+  }
 
-	@Override
-	public boolean isReferenceTo(PsiElement element)
-	{
-		return resolve() == element;
-	}
+  @Override
+  public PsiElement bindToElement(@Nonnull PsiElement element) throws IncorrectOperationException {
+    return this;
+  }
 
-	@Override
-	public boolean isSoft()
-	{
-		return false;
-	}
+  @Override
+  public boolean isReferenceTo(PsiElement element) {
+    return resolve() == element;
+  }
 
-	@Override
-	public PsiElement resolve()
-	{
-		final ResolveResult[] resolveResults = multiResolve(true);
+  @Override
+  public boolean isSoft() {
+    return false;
+  }
 
-		return resolveResults.length == 0 ||
-				resolveResults.length > 1 ||
-				!resolveResults[0].isValidResult() ? null : resolveResults[0].getElement();
-	}
+  @Override
+  public PsiElement resolve() {
+    final ResolveResult[] resolveResults = multiResolve(true);
 
-	@Nonnull
-	@Override
-	public ResolveResult[] multiResolve(boolean incompleteCode)
-	{
-		final PsiElement library = resolveLibrary();
-		if(library != null)
-		{
-			return DartResolveUtil.toCandidateInfoArray(DartResolver.resolveSimpleReference(library.getContainingFile(), getText()));
-		}
-		return ResolveResult.EMPTY_ARRAY;
-	}
+    return resolveResults.length == 0 ||
+      resolveResults.length > 1 ||
+      !resolveResults[0].isValidResult() ? null : resolveResults[0].getElement();
+  }
 
-	@Nonnull
-	@Override
-	public Object[] getVariants()
-	{
-		return ResolveResult.EMPTY_ARRAY;
-	}
+  @Nonnull
+  @Override
+  public ResolveResult[] multiResolve(boolean incompleteCode) {
+    final PsiElement library = resolveLibrary();
+    if (library != null) {
+      return DartResolveUtil.toCandidateInfoArray(DartResolver.resolveSimpleReference(library.getContainingFile(), getText()));
+    }
+    return ResolveResult.EMPTY_ARRAY;
+  }
 
-	@Nullable
-	public PsiElement resolveLibrary()
-	{
-		final DartPsiCompositeElementImpl statement = PsiTreeUtil.getParentOfType(this, DartImportStatementImpl.class,
-				DartExportStatementImpl.class);
-		final DartPathOrLibraryReference pathOrLibraryReference = PsiTreeUtil.getChildOfType(statement, DartPathOrLibraryReference.class);
-		return pathOrLibraryReference != null ? pathOrLibraryReference.resolve() : null;
-	}
+  @Nonnull
+  @Override
+  public Object[] getVariants() {
+    return ResolveResult.EMPTY_ARRAY;
+  }
 
-	@Nonnull
-	@Override
-	public DartClassResolveResult resolveDartClass()
-	{
-		return DartClassResolveResult.EMPTY;
-	}
+  @Nullable
+  public PsiElement resolveLibrary() {
+    final DartPsiCompositeElementImpl statement = PsiTreeUtil.getParentOfType(this, DartImportStatementImpl.class,
+                                                                              DartExportStatementImpl.class);
+    final DartPathOrLibraryReference pathOrLibraryReference = PsiTreeUtil.getChildOfType(statement, DartPathOrLibraryReference.class);
+    return pathOrLibraryReference != null ? pathOrLibraryReference.resolve() : null;
+  }
+
+  @Nonnull
+  @Override
+  public DartClassResolveResult resolveDartClass() {
+    return DartClassResolveResult.EMPTY;
+  }
 }

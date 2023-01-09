@@ -1,9 +1,12 @@
 package com.jetbrains.lang.dart.highlight;
 
-import javax.annotation.Nonnull;
+import com.jetbrains.lang.dart.DartLanguage;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.language.Language;
+import consulo.language.editor.highlight.SingleLazyInstanceSyntaxHighlighterFactory;
+import consulo.language.editor.highlight.SyntaxHighlighter;
 
-import com.intellij.openapi.fileTypes.SingleLazyInstanceSyntaxHighlighterFactory;
-import com.intellij.openapi.fileTypes.SyntaxHighlighter;
+import javax.annotation.Nonnull;
 
 /**
  * Created by IntelliJ IDEA.
@@ -11,12 +14,17 @@ import com.intellij.openapi.fileTypes.SyntaxHighlighter;
  * Date: 10/12/11
  * Time: 9:01 PM
  */
-public class DartSyntaxHighlighterFactory extends SingleLazyInstanceSyntaxHighlighterFactory
-{
-	@Nonnull
-	@Override
-	protected SyntaxHighlighter createHighlighter()
-	{
-		return new DartSyntaxHighlighter();
-	}
+@ExtensionImpl
+public class DartSyntaxHighlighterFactory extends SingleLazyInstanceSyntaxHighlighterFactory {
+  @Nonnull
+  @Override
+  protected SyntaxHighlighter createHighlighter() {
+    return new DartSyntaxHighlighter();
+  }
+
+  @Nonnull
+  @Override
+  public Language getLanguage() {
+    return DartLanguage.INSTANCE;
+  }
 }

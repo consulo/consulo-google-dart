@@ -1,8 +1,8 @@
 package com.jetbrains.lang.dart.lexer;
 
 import java.util.*;
-import com.intellij.lexer.LexerBase;
-import com.intellij.psi.tree.IElementType;
+import consulo.language.lexer.LexerBase;
+import consulo.language.ast.IElementType;
 import static com.jetbrains.lang.dart.DartTokenTypes.*;
 import static com.jetbrains.lang.dart.DartTokenTypesSets.*;
 import static com.jetbrains.lang.dart.lexer.DartLexer.*;

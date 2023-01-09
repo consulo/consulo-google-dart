@@ -1,16 +1,15 @@
 package com.jetbrains.lang.dart.ide.surroundWith.expression;
 
-import javax.annotation.Nonnull;
-
-import com.intellij.lang.surroundWith.Surrounder;
-import com.intellij.openapi.editor.Editor;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.util.TextRange;
-import com.intellij.psi.PsiElement;
-import com.intellij.util.IncorrectOperationException;
 import com.jetbrains.lang.dart.psi.DartExpression;
 import com.jetbrains.lang.dart.util.DartElementGenerator;
+import consulo.codeEditor.Editor;
+import consulo.document.util.TextRange;
+import consulo.language.editor.surroundWith.Surrounder;
+import consulo.language.psi.PsiElement;
+import consulo.project.Project;
+import consulo.language.util.IncorrectOperationException;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 /**

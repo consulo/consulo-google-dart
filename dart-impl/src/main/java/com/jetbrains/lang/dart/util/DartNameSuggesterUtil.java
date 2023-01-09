@@ -1,15 +1,14 @@
 package com.jetbrains.lang.dart.util;
 
-import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.util.Function;
-import com.intellij.util.containers.ContainerUtil;
 import com.jetbrains.lang.dart.psi.DartCallExpression;
 import com.jetbrains.lang.dart.psi.DartClass;
 import com.jetbrains.lang.dart.psi.DartExpression;
 import com.jetbrains.lang.dart.psi.DartReference;
+import consulo.util.collection.ContainerUtil;
+import consulo.util.lang.StringUtil;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -93,7 +92,7 @@ public class DartNameSuggesterUtil {
     final Collection<String> possibleNames = new LinkedHashSet<String>();
     for (int i = 0; i < length; i++) {
       if (Character.isLetter(name.charAt(i)) &&
-          (i == 0 || name.charAt(i - 1) == '_' || (Character.isLowerCase(name.charAt(i - 1)) && Character.isUpperCase(name.charAt(i))))) {
+        (i == 0 || name.charAt(i - 1) == '_' || (Character.isLowerCase(name.charAt(i - 1)) && Character.isUpperCase(name.charAt(i))))) {
         final String candidate = StringUtil.decapitalize(name.substring(i));
         if (candidate.length() < 25) {
           possibleNames.add(candidate);
@@ -103,15 +102,12 @@ public class DartNameSuggesterUtil {
     // prefer shorter names
     ArrayList<String> reversed = new ArrayList<String>(possibleNames);
     Collections.reverse(reversed);
-    return ContainerUtil.map(reversed, new Function<String, String>() {
-      @Override
-      public String fun(String name) {
-        if (name.indexOf('_') == -1) {
-          return name;
-        }
-        name = StringUtil.capitalizeWords(name, "_", true, true);
-        return StringUtil.decapitalize(name.replaceAll("_", ""));
+    return ContainerUtil.map(reversed, name1 -> {
+      if (name1.indexOf('_') == -1) {
+        return name1;
       }
+      name1 = StringUtil.capitalizeWords(name1, "_", true, true);
+      return StringUtil.decapitalize(name1.replaceAll("_", ""));
     });
   }
 }

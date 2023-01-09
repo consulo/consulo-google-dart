@@ -1,31 +1,26 @@
 package com.jetbrains.lang.dart.resolve;
 
-import java.util.Set;
-
-import javax.annotation.Nonnull;
-
 import com.jetbrains.lang.dart.psi.DartClass;
 import com.jetbrains.lang.dart.psi.DartComponentName;
 
-public class ClassNameScopeProcessor extends DartPsiScopeProcessor
-{
+import javax.annotation.Nonnull;
+import java.util.Set;
 
-	private final
-	@Nonnull
-	Set<DartComponentName> myResult;
+public class ClassNameScopeProcessor extends DartPsiScopeProcessor {
 
-	public ClassNameScopeProcessor(final @Nonnull Set<DartComponentName> result)
-	{
-		this.myResult = result;
-	}
+  private final
+  @Nonnull
+  Set<DartComponentName> myResult;
 
-	@Override
-	protected boolean doExecute(final @Nonnull DartComponentName componentName)
-	{
-		if(componentName.getParent() instanceof DartClass)
-		{
-			myResult.add(componentName);
-		}
-		return true;
-	}
+  public ClassNameScopeProcessor(final @Nonnull Set<DartComponentName> result) {
+    this.myResult = result;
+  }
+
+  @Override
+  protected boolean doExecute(final @Nonnull DartComponentName componentName) {
+    if (componentName.getParent() instanceof DartClass) {
+      myResult.add(componentName);
+    }
+    return true;
+  }
 }

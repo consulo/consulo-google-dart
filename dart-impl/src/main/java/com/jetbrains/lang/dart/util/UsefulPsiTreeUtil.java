@@ -1,19 +1,23 @@
 package com.jetbrains.lang.dart.util;
 
-import com.intellij.lang.ASTNode;
-import com.intellij.openapi.util.Condition;
-import com.intellij.psi.*;
-import com.intellij.psi.util.PsiTreeUtil;
-import com.intellij.util.ArrayUtil;
-import com.intellij.util.Function;
-import com.intellij.util.SmartList;
 import com.jetbrains.lang.dart.DartTokenTypes;
+import consulo.language.ast.ASTNode;
+import consulo.language.ast.TokenType;
+import consulo.language.psi.PsiComment;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiFile;
+import consulo.language.psi.PsiWhiteSpace;
+import consulo.language.psi.util.PsiTreeUtil;
+import consulo.util.collection.ArrayUtil;
+import consulo.util.collection.SmartList;
+import consulo.util.lang.function.Condition;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Function;
 
 /**
  * @author: Fedor.Korotkov
@@ -32,7 +36,7 @@ public class UsefulPsiTreeUtil {
     if (j < elements.length && elements[j].getElementType() != DartTokenTypes.SEMICOLON) {
       // try eat until ';'
       while (j + 1 < elements.length && (elements[j + 1].getElementType() == DartTokenTypes.SEMICOLON ||
-                                         elements[j + 1].getElementType() == TokenType.WHITE_SPACE)) {
+        elements[j + 1].getElementType() == TokenType.WHITE_SPACE)) {
         ++j;
         if (elements[j].getElementType() == DartTokenTypes.SEMICOLON) {
           to = j;
@@ -85,10 +89,10 @@ public class UsefulPsiTreeUtil {
       new Function<PsiElement, PsiElement>() {
         @Nullable
         @Override
-        public PsiElement fun(PsiElement element) {
+        public PsiElement apply(PsiElement element) {
           return element.getNextSibling();
         }
-      }, new Condition<PsiElement>() {
+      }, new consulo.util.lang.function.Condition<PsiElement>() {
         @Override
         public boolean value(PsiElement element) {
           return isWhitespaceOrComment(element);
@@ -99,7 +103,7 @@ public class UsefulPsiTreeUtil {
 
   @Nullable
   public static PsiElement getPrevSiblingSkipWhiteSpacesAndComments(@Nullable PsiElement sibling, boolean strictly) {
-    return getPrevSiblingSkippingCondition(sibling, new Condition<PsiElement>() {
+    return getPrevSiblingSkippingCondition(sibling, new consulo.util.lang.function.Condition<PsiElement>() {
       @Override
       public boolean value(PsiElement element) {
         return isWhitespaceOrComment(element);
@@ -129,12 +133,12 @@ public class UsefulPsiTreeUtil {
 
   @Nullable
   public static PsiElement getPrevSiblingSkippingCondition(@Nullable PsiElement sibling,
-                                                           Condition<PsiElement> condition,
+                                                           consulo.util.lang.function.Condition<PsiElement> condition,
                                                            boolean strictly) {
     return getSiblingSkippingCondition(sibling, new Function<PsiElement, PsiElement>() {
       @Nullable
       @Override
-      public PsiElement fun(PsiElement element) {
+      public PsiElement apply(PsiElement element) {
         return element.getPrevSibling();
       }
     }, condition, strictly);
@@ -147,9 +151,9 @@ public class UsefulPsiTreeUtil {
                                                        boolean strictly) {
     if (sibling == null) return null;
     if (sibling instanceof PsiFile) return sibling;
-    PsiElement result = strictly ? nextSibling.fun(sibling) : sibling;
+    PsiElement result = strictly ? nextSibling.apply(sibling) : sibling;
     while (result != null && !(result instanceof PsiFile) && condition.value(result)) {
-      result = nextSibling.fun(result);
+      result = nextSibling.apply(result);
     }
     return result;
   }

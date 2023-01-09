@@ -1,36 +1,40 @@
 package com.jetbrains.lang.dart.ide.generation;
 
-import com.intellij.codeInsight.FileModificationService;
-import com.intellij.ide.util.MemberChooser;
-import com.intellij.lang.LanguageCodeInsightActionHandler;
-import com.intellij.openapi.application.ApplicationManager;
-import com.intellij.openapi.command.CommandProcessor;
-import com.intellij.openapi.diagnostic.Logger;
-import com.intellij.openapi.editor.Editor;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.util.Condition;
-import com.intellij.openapi.util.Pair;
-import com.intellij.psi.PsiFile;
-import com.intellij.psi.util.PsiTreeUtil;
-import com.intellij.util.Function;
-import com.intellij.util.IncorrectOperationException;
-import com.intellij.util.containers.ContainerUtil;
 import com.jetbrains.lang.dart.DartComponentType;
+import com.jetbrains.lang.dart.DartLanguage;
 import com.jetbrains.lang.dart.ide.DartNamedElementNode;
 import com.jetbrains.lang.dart.psi.DartClass;
 import com.jetbrains.lang.dart.psi.DartClassDefinition;
 import com.jetbrains.lang.dart.psi.DartComponent;
 import com.jetbrains.lang.dart.psi.DartFile;
 import com.jetbrains.lang.dart.util.DartResolveUtil;
-import javax.annotation.Nonnull;
+import consulo.application.ApplicationManager;
+import consulo.codeEditor.Editor;
+import consulo.language.Language;
+import consulo.language.editor.FileModificationService;
+import consulo.language.editor.action.LanguageCodeInsightActionHandler;
+import consulo.language.editor.generation.ClassMember;
+import consulo.language.editor.generation.MemberChooserBuilder;
+import consulo.language.psi.PsiFile;
+import consulo.language.psi.util.PsiTreeUtil;
+import consulo.language.util.IncorrectOperationException;
+import consulo.localize.LocalizeValue;
+import consulo.logging.Logger;
+import consulo.project.Project;
+import consulo.ui.annotation.RequiredUIAccess;
+import consulo.undoRedo.CommandProcessor;
+import consulo.util.collection.ContainerUtil;
+import consulo.util.lang.Pair;
+import consulo.util.lang.function.Condition;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.swing.*;
-import javax.swing.event.TreeSelectionEvent;
-import javax.swing.event.TreeSelectionListener;
-import java.awt.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Consumer;
 
 /**
  * @author: Fedor.Korotkov
@@ -46,6 +50,13 @@ public abstract class BaseDartGenerateHandler implements LanguageCodeInsightActi
     invoke(project, editor, file, editor.getCaretModel().getOffset());
   }
 
+  @Nonnull
+  @Override
+  public Language getLanguage() {
+    return DartLanguage.INSTANCE;
+  }
+
+  @RequiredUIAccess
   public void invoke(Project project, Editor editor, PsiFile file, int offset) {
     if (!FileModificationService.getInstance().prepareFileForWrite(file)) return;
     final DartClass dartClass =
@@ -55,24 +66,24 @@ public abstract class BaseDartGenerateHandler implements LanguageCodeInsightActi
     final List<DartComponent> candidates = new ArrayList<DartComponent>();
     collectCandidates(dartClass, candidates);
 
-    List<DartNamedElementNode> selectedElements = Collections.emptyList();
-    if (ApplicationManager.getApplication().isUnitTestMode()) {
-      selectedElements = ContainerUtil.map(candidates, new Function<DartComponent, DartNamedElementNode>() {
-        @Override
-        public DartNamedElementNode fun(DartComponent namedComponent) {
-          return new DartNamedElementNode(namedComponent);
+    Consumer<Collection<DartNamedElementNode>> acceptor = selectedElements -> {
+      final BaseCreateMethodsFix createMethodsFix = createFix(dartClass);
+      doInvoke(project, editor, file, selectedElements, createMethodsFix);
+    };
+
+    if (!candidates.isEmpty()) {
+      final MemberChooserBuilder<DartNamedElementNode> chooser =
+        createMemberChooserDialog(project, dartClass, candidates, LocalizeValue.localizeTODO(getTitle()));
+      chooser.showAsync(project, data -> {
+        List selected = data.getUserData(ClassMember.KEY_OF_LIST);
+        if (selected != null) {
+          acceptor.accept(selected);
         }
       });
     }
-    else if (!candidates.isEmpty()) {
-      final MemberChooser<DartNamedElementNode> chooser =
-        createMemberChooserDialog(project, dartClass, candidates, getTitle());
-      chooser.show();
-      selectedElements = chooser.getSelectedElements();
+    else {
+      acceptor.accept(List.of());
     }
-
-    final BaseCreateMethodsFix createMethodsFix = createFix(dartClass);
-    doInvoke(project, editor, file, selectedElements, createMethodsFix);
   }
 
   protected void doInvoke(final Project project,
@@ -158,44 +169,12 @@ public abstract class BaseDartGenerateHandler implements LanguageCodeInsightActi
     return true;
   }
 
-  protected MemberChooser<DartNamedElementNode> createMemberChooserDialog(final Project project,
-                                                                          final DartClass dartClass,
-                                                                          final Collection<DartComponent> candidates,
-                                                                          String title) {
-    final MemberChooser<DartNamedElementNode> chooser = new MemberChooser<DartNamedElementNode>(
-      ContainerUtil.map(candidates, new Function<DartComponent, DartNamedElementNode>() {
-        @Override
-        public DartNamedElementNode fun(DartComponent namedComponent) {
-          return new DartNamedElementNode(namedComponent);
-        }
-      }).toArray(new DartNamedElementNode[candidates.size()]), false, true, project, false) {
-
-      protected void init() {
-        super.init();
-        myTree.addTreeSelectionListener(new TreeSelectionListener() {
-          public void valueChanged(final TreeSelectionEvent e) {
-            setOKActionEnabled(myTree.getSelectionCount() > 0);
-          }
-        });
-      }
-
-      protected JComponent createCenterPanel() {
-        final JComponent superComponent = super.createCenterPanel();
-        final JComponent optionsComponent = getOptionsComponent(dartClass, candidates);
-        if (optionsComponent == null) {
-          return superComponent;
-        }
-        else {
-          final JPanel panel = new JPanel(new BorderLayout());
-          panel.add(superComponent, BorderLayout.CENTER);
-          panel.add(optionsComponent, BorderLayout.SOUTH);
-          return panel;
-        }
-      }
-    };
-
-    chooser.setTitle(title);
-    chooser.setCopyJavadocVisible(false);
-    return chooser;
+  protected MemberChooserBuilder<DartNamedElementNode> createMemberChooserDialog(final Project project,
+                                                                                 final DartClass dartClass,
+                                                                                 final Collection<DartComponent> candidates,
+                                                                                 LocalizeValue title) {
+    MemberChooserBuilder<DartNamedElementNode> builder = MemberChooserBuilder.create(candidates.toArray(DartNamedElementNode[]::new));
+    builder.withTitle(title);
+    return builder;
   }
 }

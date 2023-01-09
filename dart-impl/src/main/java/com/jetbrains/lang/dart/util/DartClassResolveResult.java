@@ -1,11 +1,11 @@
 package com.jetbrains.lang.dart.util;
 
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.util.PsiTreeUtil;
 import com.jetbrains.lang.dart.psi.*;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.util.PsiTreeUtil;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
 import java.util.List;
 
 /**
@@ -154,7 +154,7 @@ public class DartClassResolveResult implements Cloneable {
       final DartType argumentType = list.get(i);
       final PsiElement argumentTarget = argumentType.resolveReference();
       if (argumentTarget == null ||
-          dartClass.getTypeParameters() != PsiTreeUtil.getParentOfType(argumentTarget, DartTypeParameters.class)) {
+        dartClass.getTypeParameters() != PsiTreeUtil.getParentOfType(argumentTarget, DartTypeParameters.class)) {
         // argumentTarget isn't our generic
         continue;
       }

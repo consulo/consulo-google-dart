@@ -1,14 +1,12 @@
 package com.jetbrains.lang.dart.ide.index;
 
+import javax.annotation.Nonnull;
 import java.util.Set;
 
-import javax.annotation.Nonnull;
+public interface DartShowHideInfo {
+  @Nonnull
+  Set<String> getShowComponents();
 
-public interface DartShowHideInfo
-{
-	@Nonnull
-	Set<String> getShowComponents();
-
-	@Nonnull
-	Set<String> getHideComponents();
+  @Nonnull
+  Set<String> getHideComponents();
 }

@@ -1,5 +1,4 @@
 package com.jetbrains.lang.dart.sdk;
 
-public class DartSdkGlobalLibUtil
-{
+public class DartSdkGlobalLibUtil {
 }

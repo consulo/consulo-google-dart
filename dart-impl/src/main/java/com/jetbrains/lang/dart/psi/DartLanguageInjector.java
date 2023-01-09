@@ -1,15 +1,18 @@
 package com.jetbrains.lang.dart.psi;
 
-import com.intellij.openapi.util.TextRange;
-import com.intellij.psi.InjectedLanguagePlaces;
-import com.intellij.psi.LanguageInjector;
-import com.intellij.psi.PsiLanguageInjectionHost;
 import com.jetbrains.lang.dart.DartLanguage;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.document.util.TextRange;
+import consulo.language.inject.InjectedLanguagePlaces;
+import consulo.language.inject.LanguageInjector;
+import consulo.language.psi.PsiLanguageInjectionHost;
+
 import javax.annotation.Nonnull;
 
+@ExtensionImpl
 public class DartLanguageInjector implements LanguageInjector {
   @Override
-  public void getLanguagesToInject(@Nonnull PsiLanguageInjectionHost host, @Nonnull InjectedLanguagePlaces injectionPlacesRegistrar) {
+  public void injectLanguages(@Nonnull PsiLanguageInjectionHost host, @Nonnull InjectedLanguagePlaces injectionPlacesRegistrar) {
     if (host instanceof DartEmbeddedContent) {
       injectionPlacesRegistrar.addPlace(
         DartLanguage.INSTANCE,

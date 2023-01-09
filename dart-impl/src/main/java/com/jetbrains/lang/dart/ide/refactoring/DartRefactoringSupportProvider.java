@@ -1,24 +1,29 @@
 package com.jetbrains.lang.dart.ide.refactoring;
 
-import javax.annotation.Nullable;
-
-import com.intellij.lang.refactoring.RefactoringSupportProvider;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.search.LocalSearchScope;
-import com.intellij.refactoring.RefactoringActionHandler;
+import com.jetbrains.lang.dart.DartLanguage;
 import com.jetbrains.lang.dart.ide.refactoring.extract.DartExtractMethodHandler;
 import com.jetbrains.lang.dart.ide.refactoring.introduce.DartIntroduceFinalVariableHandler;
 import com.jetbrains.lang.dart.ide.refactoring.introduce.DartIntroduceVariableHandler;
 import com.jetbrains.lang.dart.psi.DartNamedElement;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.language.Language;
+import consulo.language.editor.refactoring.RefactoringSupportProvider;
+import consulo.language.editor.refactoring.action.RefactoringActionHandler;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.scope.LocalSearchScope;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /**
  * @author: Fedor.Korotkov
  */
+@ExtensionImpl
 public class DartRefactoringSupportProvider extends RefactoringSupportProvider {
   @Override
   public boolean isInplaceRenameAvailable(PsiElement element, PsiElement context) {
     return element instanceof DartNamedElement &&
-           element.getUseScope() instanceof LocalSearchScope;
+      element.getUseScope() instanceof LocalSearchScope;
   }
 
   @Override
@@ -36,5 +41,11 @@ public class DartRefactoringSupportProvider extends RefactoringSupportProvider {
   @Override
   public RefactoringActionHandler getExtractMethodHandler() {
     return new DartExtractMethodHandler();
+  }
+
+  @Nonnull
+  @Override
+  public Language getLanguage() {
+    return DartLanguage.INSTANCE;
   }
 }

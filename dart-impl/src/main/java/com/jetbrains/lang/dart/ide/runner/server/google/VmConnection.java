@@ -1,11 +1,11 @@
 /*
  * Copyright (c) 2012, the Dart project authors.
- * 
+ *
  * Licensed under the Eclipse Public License v1.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
- * 
+ *
  * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software distributed under the License
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
@@ -14,8 +14,8 @@
 
 package com.jetbrains.lang.dart.ide.runner.server.google;
 
-import com.intellij.openapi.application.ApplicationManager;
 import com.jetbrains.lang.dart.ide.runner.server.google.VmListener.PausedReason;
+import consulo.application.ApplicationManager;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -88,7 +88,7 @@ public class VmConnection {
   }
 
   public void callToString(final VmValue object, final VmCallback<VmValue> callback)
-      throws IOException {
+    throws IOException {
     evaluateObject(object.getIsolate(), object, "toString()", callback);
   }
 
@@ -165,13 +165,15 @@ public class VmConnection {
               if (!ref.isInternal() && !ref.isAsync()) {
                 try {
                   setLibraryProperties(isolate, ref.getId(), true);
-                } catch (IOException e) {
+                }
+                catch (IOException e) {
 
                 }
               }
             }
           }
-        } finally {
+        }
+        finally {
           latch.countDown();
         }
       }
@@ -291,7 +293,8 @@ public class VmConnection {
           callback.handleResult(evalResult);
         }
       });
-    } catch (JSONException exception) {
+    }
+    catch (JSONException exception) {
       throw new IOException(exception);
     }
   }

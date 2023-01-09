@@ -1,25 +1,25 @@
 package com.jetbrains.lang.dart.ide.actions;
 
-import com.intellij.ide.IdeBundle;
-import com.intellij.ide.actions.CreateFileFromTemplateDialog;
-import com.intellij.ide.actions.CreateFromTemplateAction;
-import com.intellij.ide.fileTemplates.FileTemplate;
-import com.intellij.ide.fileTemplates.FileTemplateManager;
-import com.intellij.ide.fileTemplates.FileTemplateUtil;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.ui.InputValidatorEx;
-import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.psi.PsiDirectory;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiFile;
-import com.intellij.util.IncorrectOperationException;
 import com.jetbrains.lang.dart.DartBundle;
+import com.jetbrains.lang.dart.DartIcons;
 import com.jetbrains.lang.dart.util.DartFileTemplateUtil;
-import consulo.awt.TargetAWT;
+import consulo.fileTemplate.FileTemplate;
+import consulo.fileTemplate.FileTemplateManager;
+import consulo.fileTemplate.FileTemplateUtil;
+import consulo.ide.IdeBundle;
+import consulo.ide.action.CreateFileFromTemplateDialog;
+import consulo.ide.action.CreateFromTemplateAction;
+import consulo.language.psi.PsiDirectory;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiFile;
+import consulo.language.util.IncorrectOperationException;
+import consulo.project.Project;
+import consulo.ui.ex.InputValidatorEx;
 import consulo.ui.image.Image;
+import consulo.util.lang.StringUtil;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
 import java.util.Properties;
 
 /**
@@ -27,7 +27,7 @@ import java.util.Properties;
  */
 public class CreateDartFileAction extends CreateFromTemplateAction<PsiFile> {
   public CreateDartFileAction() {
-    super(DartBundle.message("action.create.new.file"), DartBundle.message("action.create.new.file"), icons.DartIcons.Dart);
+    super(DartBundle.message("action.create.new.file"), DartBundle.message("action.create.new.file"), DartIcons.Dart);
   }
 
   @Override

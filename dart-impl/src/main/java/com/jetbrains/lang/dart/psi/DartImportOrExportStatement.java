@@ -1,23 +1,21 @@
 package com.jetbrains.lang.dart.psi;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 
-import javax.annotation.Nonnull;
+public interface DartImportOrExportStatement extends DartPsiCompositeElement {
+  @Nonnull
+  List<DartMetadata> getMetadataList();
 
-public interface DartImportOrExportStatement extends DartPsiCompositeElement
-{
-	@Nonnull
-	List<DartMetadata> getMetadataList();
+  @Nonnull
+  DartPathOrLibraryReference getLibraryExpression();
 
-	@Nonnull
-	DartPathOrLibraryReference getLibraryExpression();
+  @Nonnull
+  String getUri();
 
-	@Nonnull
-	String getUri();
+  @Nonnull
+  List<DartShowCombinator> getShowCombinatorList();
 
-	@Nonnull
-	List<DartShowCombinator> getShowCombinatorList();
-
-	@Nonnull
-	List<DartHideCombinator> getHideCombinatorList();
+  @Nonnull
+  List<DartHideCombinator> getHideCombinatorList();
 }

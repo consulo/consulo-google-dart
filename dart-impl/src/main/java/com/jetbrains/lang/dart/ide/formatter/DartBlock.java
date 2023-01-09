@@ -1,18 +1,15 @@
 package com.jetbrains.lang.dart.ide.formatter;
 
-import com.intellij.formatting.*;
-import com.intellij.formatting.templateLanguages.BlockWithParent;
-import com.intellij.lang.ASTNode;
-import com.intellij.psi.PsiWhiteSpace;
-import com.intellij.psi.codeStyle.CodeStyleSettings;
-import com.intellij.psi.formatter.FormatterUtil;
-import com.intellij.psi.formatter.common.AbstractBlock;
-import com.intellij.psi.tree.IElementType;
 import com.jetbrains.lang.dart.DartLanguage;
 import com.jetbrains.lang.dart.DartTokenTypes;
+import consulo.language.ast.ASTNode;
+import consulo.language.ast.IElementType;
+import consulo.language.codeStyle.*;
+import consulo.language.codeStyle.template.BlockWithParent;
+import consulo.language.psi.PsiWhiteSpace;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -122,9 +119,9 @@ public class DartBlock extends AbstractBlock implements BlockWithParent {
 
   private static boolean isEndsWithRPAREN(IElementType elementType, IElementType prevType) {
     return prevType == DartTokenTypes.RPAREN &&
-           (elementType == DartTokenTypes.IF_STATEMENT ||
-            elementType == DartTokenTypes.FOR_STATEMENT ||
-            elementType == DartTokenTypes.WHILE_STATEMENT);
+      (elementType == DartTokenTypes.IF_STATEMENT ||
+        elementType == DartTokenTypes.FOR_STATEMENT ||
+        elementType == DartTokenTypes.WHILE_STATEMENT);
   }
 
   @Override

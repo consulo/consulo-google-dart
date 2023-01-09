@@ -1,7 +1,7 @@
 package com.jetbrains.lang.dart.util;
 
-import com.intellij.codeInsight.completion.CompletionInitializationContext;
-import com.intellij.openapi.util.Pair;
+import consulo.language.editor.completion.CompletionInitializationContext;
+import consulo.util.lang.Pair;
 
 /**
  * @author: Fedor.Korotkov

@@ -1,14 +1,16 @@
 package com.jetbrains.lang.dart.ide.inspections.analyzer;
 
-import com.intellij.codeInspection.HTMLComposer;
-import com.intellij.codeInspection.lang.GlobalInspectionContextExtension;
-import com.intellij.codeInspection.lang.HTMLComposerExtension;
-import com.intellij.codeInspection.lang.InspectionExtensionsFactory;
-import com.intellij.codeInspection.lang.RefManagerExtension;
-import com.intellij.codeInspection.reference.RefManager;
-import com.intellij.openapi.project.Project;
-import com.intellij.psi.PsiElement;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.language.editor.inspection.GlobalInspectionContextExtension;
+import consulo.language.editor.inspection.HTMLComposer;
+import consulo.language.editor.inspection.HTMLComposerExtension;
+import consulo.language.editor.inspection.InspectionExtensionsFactory;
+import consulo.language.editor.inspection.reference.RefManager;
+import consulo.language.editor.inspection.reference.RefManagerExtension;
+import consulo.language.psi.PsiElement;
+import consulo.project.Project;
 
+@ExtensionImpl(id = "dartGlobalInspection")
 public class DartInspectionExtensionsFactory extends InspectionExtensionsFactory {
   @Override
   public GlobalInspectionContextExtension createGlobalInspectionContextExtension() {

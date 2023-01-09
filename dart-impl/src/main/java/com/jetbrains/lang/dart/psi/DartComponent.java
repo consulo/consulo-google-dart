@@ -1,25 +1,24 @@
 package com.jetbrains.lang.dart.psi;
 
+import consulo.language.psi.PsiNameIdentifierOwner;
+
 import javax.annotation.Nullable;
 
-import com.intellij.psi.PsiNameIdentifierOwner;
+public interface DartComponent extends DartPsiCompositeElement, PsiNameIdentifierOwner {
+  @Nullable
+  DartComponentName getComponentName();
 
-public interface DartComponent extends DartPsiCompositeElement, PsiNameIdentifierOwner
-{
-	@Nullable
-	DartComponentName getComponentName();
+  boolean isStatic();
 
-	boolean isStatic();
+  boolean isPublic();
 
-	boolean isPublic();
+  boolean isConstructor();
 
-	boolean isConstructor();
+  boolean isGetter();
 
-	boolean isGetter();
+  boolean isSetter();
 
-	boolean isSetter();
+  boolean isAbstract();
 
-	boolean isAbstract();
-
-	DartMetadata getMetadataByName(final String name);
+  DartMetadata getMetadataByName(final String name);
 }

@@ -1,93 +1,85 @@
 package com.jetbrains.lang.dart.validation.fixes;
 
-import javax.annotation.Nonnull;
-
-import com.intellij.codeInsight.template.Template;
-import com.intellij.codeInsight.template.TemplateManager;
-import com.intellij.openapi.diagnostic.Logger;
-import com.intellij.openapi.editor.Editor;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiFile;
-import com.intellij.psi.util.PsiTreeUtil;
-import com.intellij.refactoring.util.CommonRefactoringUtil;
 import com.jetbrains.lang.dart.DartBundle;
 import com.jetbrains.lang.dart.psi.DartClass;
 import com.jetbrains.lang.dart.psi.DartReference;
 import com.jetbrains.lang.dart.util.DartPresentableUtil;
 import com.jetbrains.lang.dart.util.DartResolveUtil;
+import consulo.codeEditor.Editor;
+import consulo.language.editor.refactoring.util.CommonRefactoringUtil;
+import consulo.language.editor.template.Template;
+import consulo.language.editor.template.TemplateManager;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiFile;
+import consulo.language.psi.util.PsiTreeUtil;
+import consulo.logging.Logger;
+import consulo.project.Project;
+import consulo.util.lang.StringUtil;
 
-abstract public class CreateVariableActionBase extends BaseCreateFix
-{
-	private static final Logger LOG = Logger.getInstance(CreateVariableActionBase.class);
-	protected final String myName;
-	protected final boolean myStatic;
+import javax.annotation.Nonnull;
 
-	public CreateVariableActionBase(String name, boolean isStatic)
-	{
-		myName = name;
-		myStatic = isStatic;
-	}
+abstract public class CreateVariableActionBase extends BaseCreateFix {
+  private static final Logger LOG = Logger.getInstance(CreateVariableActionBase.class);
+  protected final String myName;
+  protected final boolean myStatic;
 
-	@Nonnull
-	public String getFamilyName()
-	{
-		return DartBundle.message("dart.create.function.intention.family");
-	}
+  public CreateVariableActionBase(String name, boolean isStatic) {
+    myName = name;
+    myStatic = isStatic;
+  }
 
-	@Override
-	protected boolean isAvailable(Project project, PsiElement element, Editor editor, PsiFile file)
-	{
-		if(PsiTreeUtil.getParentOfType(myElement, DartReference.class) == null)
-		{
-			return false;
-		}
-		final PsiElement anchor = findAnchor(element);
-		return anchor != null && !isInDartSdkOrDartPackagesFolder(anchor.getContainingFile());
-	}
+  @Nonnull
+  public String getFamilyName() {
+    return DartBundle.message("dart.create.function.intention.family");
+  }
 
-	@Override
-	protected void applyFix(Project project, @Nonnull PsiElement psiElement, Editor editor)
-	{
-		final TemplateManager templateManager = TemplateManager.getInstance(project);
-		Template template = templateManager.createTemplate("", "");
-		template.setToReformat(true);
+  @Override
+  protected boolean isAvailable(Project project, PsiElement element, Editor editor, PsiFile file) {
+    if (PsiTreeUtil.getParentOfType(myElement, DartReference.class) == null) {
+      return false;
+    }
+    final PsiElement anchor = findAnchor(element);
+    return anchor != null && !isInDartSdkOrDartPackagesFolder(anchor.getContainingFile());
+  }
 
-		buildTemplate(template, psiElement);
+  @Override
+  protected void applyFix(Project project, @Nonnull PsiElement psiElement, Editor editor) {
+    final TemplateManager templateManager = TemplateManager.getInstance(project);
+    Template template = templateManager.createTemplate("", "");
+    template.setToReformat(true);
 
-		PsiElement anchor = findAnchor(psiElement);
+    buildTemplate(template, psiElement);
 
-		if(anchor == null)
-		{
-			CommonRefactoringUtil.showErrorHint(project, editor, DartBundle.message("dart.create.function.intention.family"), DartBundle.message("dart.cannot.find.place.to.create"), null);
-			return;
-		}
+    PsiElement anchor = findAnchor(psiElement);
 
-		final Editor openedEditor = navigate(project, anchor.getTextOffset(), anchor.getContainingFile().getVirtualFile());
-		if(openedEditor != null)
-		{
-			templateManager.startTemplate(openedEditor, template);
-		}
-	}
+    if (anchor == null) {
+      CommonRefactoringUtil.showErrorHint(project,
+                                          editor,
+                                          DartBundle.message("dart.create.function.intention.family"),
+                                          DartBundle.message("dart.cannot.find.place.to.create"),
+                                          null);
+      return;
+    }
 
-	protected void buildTemplate(Template template, PsiElement element)
-	{
-		if(myStatic)
-		{
-			template.addTextSegment("static ");
-		}
-		DartClass dartClass = DartResolveUtil.suggestType(element);
-		if(dartClass == null)
-		{
-			template.addVariable(DartPresentableUtil.getExpression("var"), true);
-		}
-		else
-		{
-			template.addTextSegment(StringUtil.notNullize(dartClass.getName()));
-		}
-		template.addTextSegment(" ");
-		template.addTextSegment(myName);
-		template.addTextSegment(";\n");
-	}
+    final Editor openedEditor = navigate(project, anchor.getTextOffset(), anchor.getContainingFile().getVirtualFile());
+    if (openedEditor != null) {
+      templateManager.startTemplate(openedEditor, template);
+    }
+  }
+
+  protected void buildTemplate(Template template, PsiElement element) {
+    if (myStatic) {
+      template.addTextSegment("static ");
+    }
+    DartClass dartClass = DartResolveUtil.suggestType(element);
+    if (dartClass == null) {
+      template.addVariable(DartPresentableUtil.getExpression("var"), true);
+    }
+    else {
+      template.addTextSegment(StringUtil.notNullize(dartClass.getName()));
+    }
+    template.addTextSegment(" ");
+    template.addTextSegment(myName);
+    template.addTextSegment(";\n");
+  }
 }

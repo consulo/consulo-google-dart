@@ -1,7 +1,8 @@
 package com.jetbrains.lang.dart.psi;
 
-import com.intellij.psi.PsiReference;
 import com.jetbrains.lang.dart.util.DartClassResolveResult;
+import consulo.language.psi.PsiReference;
+
 import javax.annotation.Nonnull;
 
 /**

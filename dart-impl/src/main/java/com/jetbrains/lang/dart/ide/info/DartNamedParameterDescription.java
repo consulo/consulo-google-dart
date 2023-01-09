@@ -1,16 +1,16 @@
 package com.jetbrains.lang.dart.ide.info;
 
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.util.PsiTreeUtil;
 import com.jetbrains.lang.dart.psi.DartComponent;
 import com.jetbrains.lang.dart.psi.DartDefaultFormalNamedParameter;
 import com.jetbrains.lang.dart.psi.DartFormalParameterList;
 import com.jetbrains.lang.dart.psi.DartNamedFormalParameters;
 import com.jetbrains.lang.dart.util.DartGenericSpecialization;
 import com.jetbrains.lang.dart.util.DartPresentableUtil;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.util.PsiTreeUtil;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
 import java.util.List;
 
 /**

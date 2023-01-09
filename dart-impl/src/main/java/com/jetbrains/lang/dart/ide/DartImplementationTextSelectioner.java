@@ -1,15 +1,19 @@
 package com.jetbrains.lang.dart.ide;
 
-import javax.annotation.Nonnull;
-
-import com.intellij.codeInsight.hint.ImplementationTextSelectioner;
-import com.intellij.openapi.util.TextRange;
-import com.intellij.psi.PsiElement;
+import com.jetbrains.lang.dart.DartLanguage;
 import com.jetbrains.lang.dart.psi.DartComponentName;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.document.util.TextRange;
+import consulo.language.Language;
+import consulo.language.editor.ImplementationTextSelectioner;
+import consulo.language.psi.PsiElement;
+
+import javax.annotation.Nonnull;
 
 /**
  * @author: Fedor.Korotkov
  */
+@ExtensionImpl
 public class DartImplementationTextSelectioner implements ImplementationTextSelectioner {
   @Override
   public int getTextStartOffset(@Nonnull PsiElement element) {
@@ -27,5 +31,11 @@ public class DartImplementationTextSelectioner implements ImplementationTextSele
     }
     final TextRange textRange = element.getTextRange();
     return textRange.getEndOffset();
+  }
+
+  @Nonnull
+  @Override
+  public Language getLanguage() {
+    return DartLanguage.INSTANCE;
   }
 }

@@ -1,13 +1,13 @@
 package com.jetbrains.lang.dart.ide.info;
 
-import com.intellij.psi.util.PsiTreeUtil;
 import com.jetbrains.lang.dart.psi.DartComponent;
 import com.jetbrains.lang.dart.psi.DartFormalParameterList;
 import com.jetbrains.lang.dart.psi.DartNormalFormalParameter;
 import com.jetbrains.lang.dart.util.DartGenericSpecialization;
 import com.jetbrains.lang.dart.util.DartPresentableUtil;
-import javax.annotation.Nonnull;
+import consulo.language.psi.util.PsiTreeUtil;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 
 /**

@@ -1,7 +1,6 @@
 package com.jetbrains.lang.dart.psi;
 
-import com.intellij.psi.PsiDocCommentBase;
+import consulo.language.psi.PsiDocCommentBase;
 
-public interface DartDocComment extends PsiDocCommentBase
-{
+public interface DartDocComment extends PsiDocCommentBase {
 }

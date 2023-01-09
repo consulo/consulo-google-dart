@@ -1,7 +1,7 @@
 package com.jetbrains.lang.dart.psi;
 
-import com.intellij.psi.NavigatablePsiElement;
-import com.intellij.psi.tree.IElementType;
+import consulo.language.ast.IElementType;
+import consulo.language.psi.NavigatablePsiElement;
 
 /**
  * @author: Fedor.Korotkov

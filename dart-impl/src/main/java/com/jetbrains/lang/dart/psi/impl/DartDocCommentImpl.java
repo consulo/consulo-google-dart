@@ -1,30 +1,26 @@
 package com.jetbrains.lang.dart.psi.impl;
 
+import com.jetbrains.lang.dart.psi.DartDocComment;
+import consulo.language.ast.ASTNode;
+import consulo.language.ast.IElementType;
+import consulo.language.impl.psi.ASTWrapperPsiElement;
+import consulo.language.psi.PsiElement;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import com.intellij.extapi.psi.ASTWrapperPsiElement;
-import com.intellij.lang.ASTNode;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.tree.IElementType;
-import com.jetbrains.lang.dart.psi.DartDocComment;
+public class DartDocCommentImpl extends ASTWrapperPsiElement implements DartDocComment {
 
-public class DartDocCommentImpl extends ASTWrapperPsiElement implements DartDocComment
-{
+  public DartDocCommentImpl(@Nonnull final ASTNode node) {
+    super(node);
+  }
 
-	public DartDocCommentImpl(@Nonnull final ASTNode node)
-	{
-		super(node);
-	}
+  @Nullable
+  public PsiElement getOwner() {
+    return null; // todo
+  }
 
-	@Nullable
-	public PsiElement getOwner()
-	{
-		return null; // todo
-	}
-
-	public IElementType getTokenType()
-	{
-		return getNode().getElementType();
-	}
+  public IElementType getTokenType() {
+    return getNode().getElementType();
+  }
 }

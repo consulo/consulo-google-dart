@@ -1,14 +1,17 @@
 package com.jetbrains.lang.dart.ide.template.macro;
 
-import com.intellij.codeInsight.template.Expression;
-import com.intellij.codeInsight.template.ExpressionContext;
-import com.intellij.codeInsight.template.Macro;
-import com.intellij.codeInsight.template.Result;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.language.editor.template.Expression;
+import consulo.language.editor.template.ExpressionContext;
+import consulo.language.editor.template.Result;
+import consulo.language.editor.template.macro.Macro;
+
 import javax.annotation.Nonnull;
 
 /**
  * @author: Fedor.Korotkov
  */
+@ExtensionImpl
 public class DartSuggestVariableNameMacro extends Macro {
   @Override
   public String getName() {

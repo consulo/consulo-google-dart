@@ -1,6 +1,6 @@
 package com.jetbrains.lang.dart;
 
-import com.intellij.psi.tree.IElementType;
+import consulo.language.ast.IElementType;
 
 /**
  * Created by IntelliJ IDEA.

@@ -1,14 +1,19 @@
 package com.jetbrains.lang.dart.ide.index;
 
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.psi.search.GlobalSearchScope;
-import com.intellij.util.indexing.*;
-import com.intellij.util.io.DataExternalizer;
-import com.intellij.util.io.EnumeratorStringDescriptor;
-import com.intellij.util.io.KeyDescriptor;
-import javax.annotation.Nonnull;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.index.io.DataIndexer;
+import consulo.index.io.EnumeratorStringDescriptor;
+import consulo.index.io.ID;
+import consulo.index.io.KeyDescriptor;
+import consulo.index.io.data.DataExternalizer;
+import consulo.language.psi.scope.GlobalSearchScope;
+import consulo.language.psi.stub.FileBasedIndex;
+import consulo.language.psi.stub.FileBasedIndexExtension;
+import consulo.language.psi.stub.FileContent;
+import consulo.project.Project;
+import consulo.virtualFileSystem.VirtualFile;
 
+import javax.annotation.Nonnull;
 import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
@@ -20,6 +25,7 @@ import java.util.Map;
 /**
  * @author: Fedor.Korotkov
  */
+@ExtensionImpl
 public class DartPathIndex extends FileBasedIndexExtension<String, List<String>> {
   public static final ID<String, List<String>> DART_PATH_INDEX = ID.create("DartPathIndex");
   private static final int INDEX_VERSION = 2;
@@ -83,7 +89,9 @@ public class DartPathIndex extends FileBasedIndexExtension<String, List<String>>
   public static List<String> getPaths(Project project, VirtualFile virtualFile) {
     final List<String> result = new ArrayList<String>();
     for (List<String> list : FileBasedIndex.getInstance()
-      .getValues(DART_PATH_INDEX, virtualFile.getName(), GlobalSearchScope.fileScope(project, virtualFile))) {
+                                           .getValues(DART_PATH_INDEX,
+                                                      virtualFile.getName(),
+                                                      GlobalSearchScope.fileScope(project, virtualFile))) {
       result.addAll(list);
     }
     return result;

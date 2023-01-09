@@ -1,7 +1,7 @@
 package com.jetbrains.lang.dart.psi;
 
-import com.intellij.psi.PsiCodeFragment;
-import com.intellij.psi.impl.PsiFileEx;
+import consulo.language.psi.PsiCodeFragment;
+import consulo.language.psi.PsiFileEx;
 
 /**
  * @author: Fedor.Korotkov

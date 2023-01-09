@@ -1,14 +1,17 @@
 package com.jetbrains.lang.dart.psi;
 
-import com.intellij.openapi.components.ServiceManager;
-import com.intellij.openapi.progress.ProgressIndicatorProvider;
-import com.intellij.openapi.project.Project;
-import com.intellij.psi.impl.AnyPsiChangeListener;
-import com.intellij.psi.impl.PsiManagerImpl;
-import com.intellij.util.containers.ContainerUtil;
-import com.intellij.util.messages.MessageBus;
 import com.jetbrains.lang.dart.util.DartClassResolveResult;
+import consulo.annotation.component.ComponentScope;
+import consulo.annotation.component.ServiceAPI;
+import consulo.annotation.component.ServiceImpl;
+import consulo.application.progress.ProgressIndicatorProvider;
+import consulo.ide.ServiceManager;
+import consulo.language.psi.AnyPsiChangeListener;
+import consulo.project.Project;
+import consulo.util.collection.ContainerUtil;
 import consulo.util.collection.HashingStrategy;
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -17,6 +20,9 @@ import java.util.Map;
 /**
  * @author: Fedor.Korotkov
  */
+@Singleton
+@ServiceAPI(ComponentScope.PROJECT)
+@ServiceImpl
 public class DartClassResolveCache {
   private final Map<DartClass, DartClassResolveResult> myMap = createWeakMap();
 
@@ -25,15 +31,12 @@ public class DartClassResolveCache {
     return ServiceManager.getService(project, DartClassResolveCache.class);
   }
 
-  public DartClassResolveCache(@Nonnull MessageBus messageBus) {
-    messageBus.connect().subscribe(PsiManagerImpl.ANY_PSI_CHANGE_TOPIC, new AnyPsiChangeListener() {
+  @Inject
+  public DartClassResolveCache(@Nonnull Project project) {
+    project.getMessageBus().connect().subscribe(AnyPsiChangeListener.class, new AnyPsiChangeListener() {
       @Override
       public void beforePsiChanged(boolean isPhysical) {
         myMap.clear();
-      }
-
-      @Override
-      public void afterPsiChanged(boolean isPhysical) {
       }
     });
   }
