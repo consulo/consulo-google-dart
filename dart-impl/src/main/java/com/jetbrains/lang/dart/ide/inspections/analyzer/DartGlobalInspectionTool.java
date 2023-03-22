@@ -55,7 +55,8 @@ public class DartGlobalInspectionTool extends GlobalInspectionTool {
   public void runInspection(@Nonnull AnalysisScope scope,
                             @Nonnull final InspectionManager manager,
                             @Nonnull final GlobalInspectionContext globalContext,
-                            @Nonnull final ProblemDescriptionsProcessor problemDescriptionsProcessor) {
+                            @Nonnull final ProblemDescriptionsProcessor problemDescriptionsProcessor,
+                            @Nonnull Object state) {
     final DartGlobalInspectionContext inspectionContext = globalContext.getExtension(DartGlobalInspectionContext.KEY);
     if (inspectionContext == null) {
       return;
