@@ -26,7 +26,6 @@ import consulo.util.io.ResourceUtil;
 import consulo.util.lang.StringUtil;
 import consulo.virtualFileSystem.VirtualFile;
 import consulo.virtualFileSystem.util.VirtualFileUtil;
-import org.jetbrains.annotations.NonNls;
 
 import javax.annotation.Nonnull;
 import java.io.File;
@@ -49,7 +48,7 @@ public class DartUnitRunningState extends DartCommandLineRunningState {
     consoleView.attachToProcess(processHandler);
 
     final DefaultExecutionResult executionResult = new DefaultExecutionResult(consoleView, processHandler);
-    executionResult.setRestartActions(new ToggleAutoTestAction(getEnvironment()));
+    executionResult.setRestartActions(new ToggleAutoTestAction());
     return executionResult;
   }
 
@@ -121,7 +120,7 @@ public class DartUnitRunningState extends DartCommandLineRunningState {
     return file.getAbsolutePath();
   }
 
-  private static String pathToDartUrl(@NonNls @Nonnull String path) {
+  private static String pathToDartUrl(@Nonnull String path) {
     final String url = VirtualFileUtil.pathToUrl(path);
     return SystemInfo.isWindows ? url.replace("file://", "file:///") : url;
   }
