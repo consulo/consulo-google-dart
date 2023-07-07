@@ -1,26 +1,26 @@
 package com.jetbrains.lang.dart.ide.runner.unittest;
 
-import com.jetbrains.lang.dart.DartBundle;
+import com.jetbrains.lang.dart.DartIcons;
 import consulo.annotation.component.ExtensionImpl;
 import consulo.dart.module.extension.DartModuleExtension;
 import consulo.execution.configuration.ConfigurationFactory;
 import consulo.execution.configuration.ConfigurationTypeBase;
 import consulo.execution.configuration.RunConfiguration;
+import consulo.google.dart.localize.DartLocalize;
 import consulo.module.extension.ModuleExtensionHelper;
 import consulo.project.Project;
-import com.jetbrains.lang.dart.DartIcons;
 
 import javax.annotation.Nonnull;
 
 /**
- * @author: Fedor.Korotkov
+ * @author Fedor.Korotkov
  */
 @ExtensionImpl
 public class DartUnitRunConfigurationType extends ConfigurationTypeBase {
   public DartUnitRunConfigurationType() {
     super("DartUnitRunConfigurationType",
-          DartBundle.message("runner.unit.configuration.name"),
-          DartBundle.message("runner.unit.configuration.description"),
+          DartLocalize.runnerUnitConfigurationName(),
+          DartLocalize.runnerUnitConfigurationDescription(),
           DartIcons.DartTest);
     addFactory(new DartUnitConfigurationFactory(this));
   }
