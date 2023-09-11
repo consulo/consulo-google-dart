@@ -21,8 +21,8 @@ import consulo.logging.Logger;
 import consulo.module.Module;
 import consulo.process.ExecutionException;
 import consulo.process.cmd.GeneralCommandLine;
-import consulo.process.local.ExecUtil;
-import consulo.process.local.ProcessOutput;
+import consulo.process.util.CapturingProcessUtil;
+import consulo.process.util.ProcessOutput;
 import consulo.project.ui.notification.Notification;
 import consulo.project.ui.notification.NotificationType;
 import consulo.project.ui.notification.Notifications;
@@ -128,7 +128,7 @@ abstract public class DartPubActionBase extends AnAction {
 
 
         try {
-          final ProcessOutput processOutput = ExecUtil.execAndGetOutput(command);
+          final ProcessOutput processOutput = CapturingProcessUtil.execAndGetOutput(command);
           final String err = processOutput.getStderr().trim();
 
           LOG.debug("pub " + getPubCommand() + ", exit code: " + processOutput.getExitCode() + ", err:\n" +
