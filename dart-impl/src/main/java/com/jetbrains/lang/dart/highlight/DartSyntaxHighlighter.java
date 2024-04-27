@@ -16,7 +16,7 @@ import static com.jetbrains.lang.dart.DartTokenTypes.*;
 import static com.jetbrains.lang.dart.DartTokenTypesSets.*;
 
 public class DartSyntaxHighlighter extends SyntaxHighlighterBase {
-  private static final Map<IElementType, TextAttributesKey> ATTRIBUTES = new HashMap<IElementType, TextAttributesKey>();
+  static final Map<IElementType, TextAttributesKey> ATTRIBUTES = new HashMap<>();
 
   static {
     fillMap(ATTRIBUTES, RESERVED_WORDS, DartSyntaxHighlighterColors.KEYWORD);
@@ -54,9 +54,6 @@ public class DartSyntaxHighlighter extends SyntaxHighlighterBase {
     ATTRIBUTES.put(MULTI_LINE_DOC_COMMENT, DartSyntaxHighlighterColors.DOC_COMMENT);
 
     ATTRIBUTES.put(BAD_CHARACTER, DartSyntaxHighlighterColors.BAD_CHARACTER);
-
-    HtmlFileHighlighter.registerEmbeddedTokenAttributes(ATTRIBUTES, null);
-    XmlFileHighlighter.registerEmbeddedTokenAttributes(ATTRIBUTES, null);
   }
 
   @Override
