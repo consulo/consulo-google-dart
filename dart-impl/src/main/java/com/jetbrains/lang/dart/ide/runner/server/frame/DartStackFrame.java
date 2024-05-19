@@ -5,13 +5,13 @@ import com.jetbrains.lang.dart.ide.runner.server.google.DebuggerUtils;
 import com.jetbrains.lang.dart.ide.runner.server.google.VmCallFrame;
 import com.jetbrains.lang.dart.ide.runner.server.google.VmLocation;
 import com.jetbrains.lang.dart.ide.runner.server.google.VmVariable;
-import consulo.application.AllIcons;
 import consulo.execution.debug.XDebuggerUtil;
 import consulo.execution.debug.XSourcePosition;
 import consulo.execution.debug.evaluation.XDebuggerEvaluator;
 import consulo.execution.debug.frame.XCompositeNode;
 import consulo.execution.debug.frame.XStackFrame;
 import consulo.execution.debug.frame.XValueChildrenList;
+import consulo.platform.base.icon.PlatformIconGroup;
 import consulo.ui.ex.ColoredTextContainer;
 import consulo.ui.ex.SimpleTextAttributes;
 import consulo.virtualFileSystem.VirtualFile;
@@ -104,6 +104,6 @@ public class DartStackFrame extends XStackFrame {
       component.append(" (" + myLocationUrl + ")", SimpleTextAttributes.GRAY_ATTRIBUTES);
     }
 
-    component.setIcon(AllIcons.Debugger.StackFrame);
+    component.setIcon(PlatformIconGroup.debuggerFrame());
   }
 }
