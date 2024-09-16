@@ -1,24 +1,27 @@
 package com.jetbrains.lang.dart.ide.template;
 
-import com.jetbrains.lang.dart.DartBundle;
 import com.jetbrains.lang.dart.DartLanguage;
+import consulo.annotation.access.RequiredReadAction;
 import consulo.annotation.component.ExtensionImpl;
-import consulo.language.editor.template.context.TemplateContextType;
+import consulo.google.dart.localize.DartLocalize;
+import consulo.language.editor.template.context.BaseTemplateContextType;
+import consulo.language.editor.template.context.TemplateActionContext;
 import consulo.language.psi.PsiFile;
-
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 /**
- * @author: Fedor.Korotkov
+ * @author Fedor.Korotkov
  */
 @ExtensionImpl
-public class DartTemplateContextType extends TemplateContextType {
+public class DartTemplateContextType extends BaseTemplateContextType {
   public DartTemplateContextType() {
-    super("DART", DartBundle.message("dart.language.id"));
+    super("DART", DartLocalize.dartLanguageId());
   }
 
   @Override
-  public boolean isInContext(@Nonnull PsiFile file, int offset) {
+  @RequiredReadAction
+  public boolean isInContext(@Nonnull TemplateActionContext context) {
+    PsiFile file = context.getFile();
     return file.getLanguage() instanceof DartLanguage;
   }
 }
