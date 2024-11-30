@@ -18,6 +18,7 @@ import consulo.document.FileDocumentManager;
 import consulo.language.editor.LangDataKeys;
 import consulo.language.psi.PsiFile;
 import consulo.language.util.ModuleUtilCore;
+import consulo.localize.LocalizeValue;
 import consulo.logging.Logger;
 import consulo.module.Module;
 import consulo.process.ExecutionException;
@@ -146,6 +147,6 @@ public class Dart2JSAction extends AnAction {
         }
         indicator.setFraction(1.0);
       }
-    }.setCancelText("Stop").queue();
+    }.setCancelText(LocalizeValue.localizeTODO("Stop")).queue();
   }
 }
