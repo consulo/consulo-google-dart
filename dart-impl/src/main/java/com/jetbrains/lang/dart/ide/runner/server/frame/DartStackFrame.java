@@ -11,7 +11,6 @@ import consulo.execution.debug.evaluation.XDebuggerEvaluator;
 import consulo.execution.debug.frame.XCompositeNode;
 import consulo.execution.debug.frame.XStackFrame;
 import consulo.execution.debug.frame.XValueChildrenList;
-import consulo.platform.base.icon.PlatformIconGroup;
 import consulo.ui.ex.ColoredTextContainer;
 import consulo.ui.ex.SimpleTextAttributes;
 import consulo.virtualFileSystem.VirtualFile;
@@ -103,7 +102,5 @@ public class DartStackFrame extends XStackFrame {
     else if (myLocationUrl != null) {
       component.append(" (" + myLocationUrl + ")", SimpleTextAttributes.GRAY_ATTRIBUTES);
     }
-
-    component.setIcon(PlatformIconGroup.debuggerFrame());
   }
 }

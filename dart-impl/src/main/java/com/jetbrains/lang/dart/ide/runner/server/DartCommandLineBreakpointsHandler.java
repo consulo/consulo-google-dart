@@ -3,12 +3,12 @@ package com.jetbrains.lang.dart.ide.runner.server;
 import com.jetbrains.lang.dart.DartFileType;
 import com.jetbrains.lang.dart.ide.runner.DartLineBreakpointType;
 import com.jetbrains.lang.dart.ide.runner.server.google.*;
-import consulo.application.AllIcons;
 import consulo.application.ApplicationManager;
 import consulo.execution.debug.XSourcePosition;
 import consulo.execution.debug.breakpoint.XBreakpointHandler;
 import consulo.execution.debug.breakpoint.XBreakpointProperties;
 import consulo.execution.debug.breakpoint.XLineBreakpoint;
+import consulo.execution.debug.icon.ExecutionDebugIconGroup;
 import consulo.util.collection.primitive.ints.IntMaps;
 import consulo.util.collection.primitive.ints.IntObjectMap;
 import consulo.util.lang.function.ThrowableRunnable;
@@ -177,7 +177,7 @@ public class DartCommandLineBreakpointsHandler {
       @Override
       public void handleResult(VmResult<VmBreakpoint> result) {
         if (result.isError()) {
-          myDebugProcess.getSession().updateBreakpointPresentation(breakpoint, AllIcons.Debugger.Db_invalid_breakpoint, result.getError());
+          myDebugProcess.getSession().updateBreakpointPresentation(breakpoint, ExecutionDebugIconGroup.breakpointBreakpointinvalid(), result.getError());
         }
         else {
           addCreatedBreakpoint(breakpoint, result.getResult());
@@ -205,7 +205,7 @@ public class DartCommandLineBreakpointsHandler {
       if (vmLocation != null) {
         myVmBreakpointLocationToXLineBreakpoint.put(new VmBreakpointLocation(vmLocation), breakpoint);
       }
-      myDebugProcess.getSession().updateBreakpointPresentation(breakpoint, AllIcons.Debugger.Db_verified_breakpoint, null);
+      myDebugProcess.getSession().updateBreakpointPresentation(breakpoint, ExecutionDebugIconGroup.breakpointBreakpointvalid(), null);
     }
     else {
       LOG.info("Unknown breakpoint id: " + vmBreakpoint.getBreakpointId());

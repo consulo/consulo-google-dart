@@ -2,13 +2,14 @@ package com.jetbrains.lang.dart.ide.runner.server.frame;
 
 import com.jetbrains.lang.dart.ide.runner.server.DartCommandLineDebugProcess;
 import com.jetbrains.lang.dart.ide.runner.server.google.*;
-import consulo.application.AllIcons;
 import consulo.application.ApplicationManager;
 import consulo.execution.debug.frame.*;
 import consulo.execution.debug.frame.presentation.XNumericValuePresentation;
 import consulo.execution.debug.frame.presentation.XRegularValuePresentation;
 import consulo.execution.debug.frame.presentation.XStringValuePresentation;
 import consulo.execution.debug.frame.presentation.XValuePresentation;
+import consulo.execution.debug.icon.ExecutionDebugIconGroup;
+import consulo.platform.base.icon.PlatformIconGroup;
 import consulo.ui.image.Image;
 import consulo.util.lang.StringUtil;
 
@@ -58,7 +59,7 @@ public class DartValue extends XNamedValue {
         }
 
         if (myVmValue == null) {
-          node.setPresentation(AllIcons.Debugger.Value, null, "<no value>", false);
+          node.setPresentation(ExecutionDebugIconGroup.nodeValue(), null, "<no value>", false);
           return;
         }
 
@@ -94,16 +95,16 @@ public class DartValue extends XNamedValue {
 
   private static Image getIcon(final @Nonnull VmValue vmValue) {
     if (vmValue.isList()) {
-      return AllIcons.Debugger.Db_array;
+      return ExecutionDebugIconGroup.nodeArray();
     }
     if (vmValue.isPrimitive() || vmValue.isNull()) {
-      return AllIcons.Debugger.Db_primitive;
+      return ExecutionDebugIconGroup.nodePrimitive();
     }
     if (vmValue.isFunction()) {
-      return AllIcons.Nodes.Function;
+      return PlatformIconGroup.nodesFunction();
     }
 
-    return AllIcons.Debugger.Value; // todo m.b. resolve and show corresponding icon?
+    return ExecutionDebugIconGroup.nodeValue(); // todo m.b. resolve and show corresponding icon?
   }
 
   @Override
