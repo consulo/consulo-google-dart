@@ -7,7 +7,7 @@ import consulo.language.inject.InjectedLanguagePlaces;
 import consulo.language.inject.LanguageInjector;
 import consulo.language.psi.PsiLanguageInjectionHost;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 @ExtensionImpl
 public class DartLanguageInjector implements LanguageInjector {

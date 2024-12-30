@@ -18,7 +18,7 @@ import consulo.language.psi.stub.ScalarIndexExtension;
 import consulo.project.Project;
 import consulo.virtualFileSystem.VirtualFile;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 import java.util.*;
 
 @ExtensionImpl

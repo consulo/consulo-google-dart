@@ -10,7 +10,7 @@ import consulo.language.psi.PsiElement;
 import consulo.language.psi.util.PsiTreeUtil;
 import consulo.project.Project;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 public class CreateDartClassAction extends BaseCreateFix {
   public final String myClassName;

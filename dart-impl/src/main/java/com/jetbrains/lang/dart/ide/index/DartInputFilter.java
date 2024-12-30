@@ -7,7 +7,7 @@ import consulo.virtualFileSystem.VirtualFile;
 import consulo.virtualFileSystem.fileType.FileType;
 import consulo.xml.ide.highlighter.HtmlFileType;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 public class DartInputFilter implements FileBasedIndex.InputFilter {
   public static DartInputFilter INSTANCE = new DartInputFilter();

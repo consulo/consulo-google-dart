@@ -16,8 +16,8 @@ import consulo.language.psi.ResolveResult;
 import consulo.language.psi.util.PsiTreeUtil;
 import consulo.language.util.IncorrectOperationException;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 public class DartLibraryComponentReferenceImpl extends DartExpressionImpl implements DartReference, PsiPolyVariantReference {
   public DartLibraryComponentReferenceImpl(ASTNode node) {

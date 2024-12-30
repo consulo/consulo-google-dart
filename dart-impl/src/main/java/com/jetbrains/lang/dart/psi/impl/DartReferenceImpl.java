@@ -18,7 +18,7 @@ import consulo.language.psi.resolve.ResolveCache;
 import consulo.language.psi.util.PsiTreeUtil;
 import consulo.language.util.IncorrectOperationException;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 import java.util.List;
 
 public class DartReferenceImpl extends DartExpressionImpl implements DartReference, PsiPolyVariantReference {

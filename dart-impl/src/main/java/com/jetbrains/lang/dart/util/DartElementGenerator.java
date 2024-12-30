@@ -10,7 +10,7 @@ import consulo.language.psi.PsiFileFactory;
 import consulo.language.psi.util.PsiTreeUtil;
 import consulo.project.Project;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 import java.util.List;
 
 /**

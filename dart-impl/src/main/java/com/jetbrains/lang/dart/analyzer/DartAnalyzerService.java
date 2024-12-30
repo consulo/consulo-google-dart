@@ -32,8 +32,8 @@ import consulo.virtualFileSystem.event.*;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import java.io.File;
 import java.lang.ref.WeakReference;
 import java.util.*;

@@ -15,7 +15,7 @@ import consulo.language.psi.util.PsiTreeUtil;
 import consulo.logging.Logger;
 import consulo.project.Project;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 abstract public class CreateDartFunctionActionBase extends BaseCreateFix {
   private static final Logger LOG = Logger.getInstance(CreateDartFunctionActionBase.class);

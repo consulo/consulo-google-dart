@@ -12,7 +12,7 @@ import consulo.language.psi.stub.FileContent;
 import consulo.language.psi.stub.ScalarIndexExtension;
 import consulo.virtualFileSystem.VirtualFile;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

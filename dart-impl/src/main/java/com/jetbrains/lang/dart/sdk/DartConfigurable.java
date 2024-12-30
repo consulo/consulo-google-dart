@@ -7,7 +7,7 @@ import consulo.module.content.layer.orderEntry.LibraryOrderEntry;
 import consulo.module.content.layer.orderEntry.OrderEntry;
 import consulo.virtualFileSystem.VirtualFile;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 public class DartConfigurable {
   private static final String CUSTOM_PACKAGE_ROOTS_LIB_NAME = "Dart custom package roots";

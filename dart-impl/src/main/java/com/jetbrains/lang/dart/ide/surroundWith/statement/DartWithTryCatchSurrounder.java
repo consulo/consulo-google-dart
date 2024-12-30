@@ -3,7 +3,7 @@ package com.jetbrains.lang.dart.ide.surroundWith.statement;
 import com.jetbrains.lang.dart.psi.DartTryStatement;
 import consulo.language.psi.PsiElement;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 
 public class DartWithTryCatchSurrounder extends DartBlockStatementSurrounderBase {
   @Override

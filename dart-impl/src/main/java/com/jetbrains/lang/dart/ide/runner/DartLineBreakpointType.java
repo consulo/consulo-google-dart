@@ -5,7 +5,7 @@ import com.jetbrains.lang.dart.ide.runner.base.DartDebuggerEditorsProvider;
 import consulo.annotation.component.ExtensionImpl;
 import consulo.execution.debug.breakpoint.XLineBreakpointTypeBase;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 @ExtensionImpl
 public class DartLineBreakpointType extends XLineBreakpointTypeBase {

@@ -2,7 +2,7 @@ package com.jetbrains.lang.dart.psi;
 
 import consulo.language.psi.PsiNameIdentifierOwner;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 
 public interface DartComponent extends DartPsiCompositeElement, PsiNameIdentifierOwner {
   @Nullable

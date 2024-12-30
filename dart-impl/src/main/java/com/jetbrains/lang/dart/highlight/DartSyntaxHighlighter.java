@@ -8,7 +8,7 @@ import consulo.language.lexer.Lexer;
 import consulo.xml.ide.highlighter.HtmlFileHighlighter;
 import consulo.xml.ide.highlighter.XmlFileHighlighter;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 import java.util.HashMap;
 import java.util.Map;
 

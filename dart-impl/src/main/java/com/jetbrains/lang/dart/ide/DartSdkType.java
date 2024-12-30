@@ -12,7 +12,7 @@ import consulo.content.bundle.SdkModificator;
 import consulo.content.bundle.SdkType;
 import consulo.ui.image.Image;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 /**
  * @author Fedor.Korotkov

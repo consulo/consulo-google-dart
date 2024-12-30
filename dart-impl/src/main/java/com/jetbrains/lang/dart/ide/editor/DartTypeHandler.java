@@ -13,7 +13,7 @@ import consulo.language.psi.util.PsiTreeUtil;
 import consulo.project.Project;
 import consulo.virtualFileSystem.fileType.FileType;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 @ExtensionImpl(id = "Dart")
 public class DartTypeHandler extends TypedHandlerDelegate {

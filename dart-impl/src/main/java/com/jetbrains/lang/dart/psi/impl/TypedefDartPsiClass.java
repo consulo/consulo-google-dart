@@ -4,8 +4,8 @@ import com.jetbrains.lang.dart.psi.DartType;
 import consulo.language.ast.ASTNode;
 import consulo.language.psi.util.PsiTreeUtil;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 /**
  * @author: Fedor.Korotkov

@@ -3,7 +3,7 @@ package com.jetbrains.lang.dart.resolve;
 import com.jetbrains.lang.dart.psi.DartClass;
 import com.jetbrains.lang.dart.psi.DartComponentName;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 import java.util.Set;
 
 public class ClassNameScopeProcessor extends DartPsiScopeProcessor {

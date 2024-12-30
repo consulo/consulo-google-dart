@@ -5,7 +5,7 @@ import consulo.language.ast.IElementType;
 import consulo.language.codeStyle.Alignment;
 import consulo.language.codeStyle.CommonCodeStyleSettings;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 
 import static com.jetbrains.lang.dart.DartTokenTypes.*;
 import static com.jetbrains.lang.dart.DartTokenTypesSets.BINARY_EXPRESSIONS;

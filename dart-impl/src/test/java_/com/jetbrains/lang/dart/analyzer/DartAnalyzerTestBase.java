@@ -3,7 +3,7 @@ package com.jetbrains.lang.dart.analyzer;
 import java.io.IOException;
 import java.util.List;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 import consulo.ide.impl.idea.codeInsight.daemon.impl.AnnotationHolderImpl;
 import consulo.language.editor.annotation.Annotation;
 import consulo.language.editor.annotation.AnnotationSession;

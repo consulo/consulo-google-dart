@@ -12,7 +12,7 @@ import consulo.language.psi.resolve.ResolveState;
 import consulo.navigation.ItemPresentation;
 import consulo.navigation.NavigationItem;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;

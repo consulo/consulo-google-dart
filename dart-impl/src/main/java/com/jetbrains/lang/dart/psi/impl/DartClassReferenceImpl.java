@@ -12,7 +12,7 @@ import consulo.language.psi.util.PsiTreeUtil;
 import consulo.util.collection.ArrayUtil;
 import consulo.language.util.IncorrectOperationException;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 public class DartClassReferenceImpl extends DartExpressionImpl implements DartReference {
   public DartClassReferenceImpl(ASTNode node) {

@@ -20,8 +20,8 @@ import consulo.util.xml.serializer.XmlSerializer;
 import consulo.virtualFileSystem.VirtualFile;
 import org.jdom.Element;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 public abstract class DartRunConfigurationBase extends LocatableConfigurationBase implements RefactoringListenerProvider {
 

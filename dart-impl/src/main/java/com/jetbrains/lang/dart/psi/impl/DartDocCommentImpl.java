@@ -6,8 +6,8 @@ import consulo.language.ast.IElementType;
 import consulo.language.impl.psi.ASTWrapperPsiElement;
 import consulo.language.psi.PsiElement;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 public class DartDocCommentImpl extends ASTWrapperPsiElement implements DartDocComment {
 

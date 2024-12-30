@@ -7,7 +7,7 @@ import consulo.language.editor.template.Template;
 import consulo.language.editor.template.TemplateManager;
 import consulo.project.Project;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 import java.util.Iterator;
 import java.util.Set;
 

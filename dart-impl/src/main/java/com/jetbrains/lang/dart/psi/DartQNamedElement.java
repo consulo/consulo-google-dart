@@ -4,7 +4,7 @@ import consulo.language.psi.PsiNameIdentifierOwner;
 import consulo.language.psi.PsiNamedElement;
 import consulo.navigation.NavigationItem;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 /**
  * @author: Fedor.Korotkov

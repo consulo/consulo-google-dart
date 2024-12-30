@@ -8,7 +8,7 @@ import consulo.language.Language;
 import consulo.language.editor.ImplementationTextSelectioner;
 import consulo.language.psi.PsiElement;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 /**
  * @author: Fedor.Korotkov

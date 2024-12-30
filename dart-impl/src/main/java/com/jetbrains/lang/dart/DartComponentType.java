@@ -6,7 +6,7 @@ import consulo.language.psi.PsiElement;
 import consulo.language.psi.util.PsiTreeUtil;
 import consulo.ui.image.Image;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 
 public enum DartComponentType {
   CLASS(AllIcons.Nodes.Class),

@@ -7,7 +7,7 @@ import consulo.language.psi.resolve.PsiElementProcessor;
 import consulo.xml.psi.xml.XmlTag;
 import consulo.xml.psi.xml.XmlTagChild;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 public class DartEmbeddedContentImpl extends DartPsiCompositeElementImpl implements DartEmbeddedContent {
   public DartEmbeddedContentImpl(@Nonnull ASTNode node) {

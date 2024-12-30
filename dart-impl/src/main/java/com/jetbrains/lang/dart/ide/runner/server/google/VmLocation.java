@@ -18,7 +18,7 @@ import consulo.util.io.URLUtil;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 
 /**
  * A VM location object.

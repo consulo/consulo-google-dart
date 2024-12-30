@@ -4,7 +4,7 @@ import consulo.ide.impl.idea.openapi.util.io.FileUtil;
 import com.intellij.testFramework.LightPlatformCodeInsightTestCase;
 import com.jetbrains.lang.dart.util.DartTestUtils;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 //import com.intellij.testFramework.utils.parameterInfo.MockCreateParameterInfoContext;
 //import com.intellij.testFramework.utils.parameterInfo.MockParameterInfoUIContext;

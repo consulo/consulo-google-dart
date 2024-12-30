@@ -14,7 +14,7 @@ import consulo.util.lang.StringUtil;
 import consulo.xml.psi.XmlRecursiveElementVisitor;
 import consulo.xml.psi.xml.XmlFile;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 import java.util.*;
 
 import static com.jetbrains.lang.dart.ide.index.DartImportOrExportInfo.Kind;

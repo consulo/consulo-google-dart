@@ -8,8 +8,8 @@ import com.jetbrains.lang.dart.ide.runner.server.google.VmValue;
 import consulo.execution.debug.XSourcePosition;
 import consulo.execution.debug.evaluation.XDebuggerEvaluator;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import java.io.IOException;
 
 class DartDebuggerEvaluator extends XDebuggerEvaluator {

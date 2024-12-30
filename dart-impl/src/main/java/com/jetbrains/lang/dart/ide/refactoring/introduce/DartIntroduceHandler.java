@@ -18,9 +18,9 @@ import consulo.document.Document;
 import consulo.language.ast.ASTNode;
 import consulo.language.editor.CodeInsightUtilCore;
 import consulo.language.editor.WriteCommandAction;
-import consulo.language.editor.refactoring.IntroduceTargetChooser;
 import consulo.language.editor.refactoring.RefactoringBundle;
 import consulo.language.editor.refactoring.action.RefactoringActionHandler;
+import consulo.language.editor.refactoring.introduce.IntroduceTargetChooser;
 import consulo.language.editor.refactoring.introduce.inplace.InplaceVariableIntroducer;
 import consulo.language.editor.refactoring.introduce.inplace.OccurrencesChooser;
 import consulo.language.editor.refactoring.util.CommonRefactoringUtil;
@@ -29,9 +29,9 @@ import consulo.language.editor.template.TemplateState;
 import consulo.language.psi.*;
 import consulo.language.psi.util.PsiTreeUtil;
 import consulo.project.Project;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.*;
 
 @SuppressWarnings("MethodMayBeStatic")

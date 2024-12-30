@@ -19,7 +19,7 @@ import consulo.language.util.ProcessingContext;
 import consulo.project.Project;
 import consulo.util.collection.ContainerUtil;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 import java.util.Set;
 
 import static consulo.language.pattern.PlatformPatterns.psiElement;

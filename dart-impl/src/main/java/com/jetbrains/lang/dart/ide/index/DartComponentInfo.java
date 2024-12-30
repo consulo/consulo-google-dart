@@ -2,8 +2,8 @@ package com.jetbrains.lang.dart.ide.index;
 
 import com.jetbrains.lang.dart.DartComponentType;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 /**
  * @author: Fedor.Korotkov

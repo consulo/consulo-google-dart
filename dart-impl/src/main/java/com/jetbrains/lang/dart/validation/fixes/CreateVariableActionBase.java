@@ -16,7 +16,7 @@ import consulo.logging.Logger;
 import consulo.project.Project;
 import consulo.util.lang.StringUtil;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 abstract public class CreateVariableActionBase extends BaseCreateFix {
   private static final Logger LOG = Logger.getInstance(CreateVariableActionBase.class);

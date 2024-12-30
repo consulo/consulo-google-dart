@@ -8,7 +8,7 @@ import consulo.language.codeStyle.Indent;
 import consulo.language.psi.PsiElement;
 import consulo.language.psi.PsiFile;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 
 import static com.jetbrains.lang.dart.DartTokenTypes.*;
 import static com.jetbrains.lang.dart.DartTokenTypesSets.*;

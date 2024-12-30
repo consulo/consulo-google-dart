@@ -7,7 +7,7 @@ import com.jetbrains.lang.dart.util.DartUrlResolver;
 import consulo.project.Project;
 import consulo.virtualFileSystem.VirtualFile;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 import java.net.URI;
 
 import static com.jetbrains.lang.dart.util.DartUrlResolver.FILE_SCHEME;

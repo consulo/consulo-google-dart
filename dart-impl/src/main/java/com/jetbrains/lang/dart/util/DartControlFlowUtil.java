@@ -3,7 +3,7 @@ package com.jetbrains.lang.dart.util;
 import com.jetbrains.lang.dart.psi.*;
 import consulo.language.psi.PsiElement;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 import java.util.HashSet;
 import java.util.Set;
 

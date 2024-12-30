@@ -2,8 +2,8 @@ package com.jetbrains.lang.dart.ide.runner.unittest;
 
 import com.jetbrains.lang.dart.ide.runner.server.DartCommandLineRunnerParameters;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 public class DartUnitRunnerParameters extends DartCommandLineRunnerParameters implements Cloneable {
 

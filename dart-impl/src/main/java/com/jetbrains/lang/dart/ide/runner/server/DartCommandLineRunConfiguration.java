@@ -11,8 +11,8 @@ import consulo.process.ExecutionException;
 import consulo.project.Project;
 import consulo.util.io.PathUtil;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 public class DartCommandLineRunConfiguration extends DartRunConfigurationBase {
   private

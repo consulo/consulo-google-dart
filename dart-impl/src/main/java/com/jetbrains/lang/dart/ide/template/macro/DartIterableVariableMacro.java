@@ -3,7 +3,7 @@ package com.jetbrains.lang.dart.ide.template.macro;
 import com.jetbrains.lang.dart.psi.DartClass;
 import consulo.annotation.component.ExtensionImpl;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 /**
  * @author: Fedor.Korotkov

@@ -8,8 +8,8 @@ import consulo.language.Language;
 import consulo.language.ast.IElementType;
 import consulo.language.psi.PsiComment;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 @ExtensionImpl
 public class DartCommenter implements CodeDocumentationAwareCommenter {

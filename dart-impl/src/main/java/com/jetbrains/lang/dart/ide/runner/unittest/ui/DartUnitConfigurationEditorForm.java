@@ -17,7 +17,7 @@ import consulo.ui.ex.awt.TextFieldWithBrowseButton;
 import consulo.util.io.FileUtil;
 import consulo.util.lang.StringUtil;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

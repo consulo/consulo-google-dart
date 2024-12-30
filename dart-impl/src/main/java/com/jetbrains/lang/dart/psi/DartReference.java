@@ -3,7 +3,7 @@ package com.jetbrains.lang.dart.psi;
 import com.jetbrains.lang.dart.util.DartClassResolveResult;
 import consulo.language.psi.PsiReference;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 /**
  * @author: Fedor.Korotkov

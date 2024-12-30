@@ -3,7 +3,7 @@ package com.jetbrains.lang.dart.generate;
 import consulo.ide.impl.idea.openapi.util.io.FileUtil;
 import com.jetbrains.lang.dart.ide.generation.CreateGetterSetterFix;
 import com.jetbrains.lang.dart.util.DartTestUtils;
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 /**
  * @author: Fedor.Korotkov

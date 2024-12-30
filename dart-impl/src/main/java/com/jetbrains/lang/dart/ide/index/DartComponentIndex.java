@@ -17,8 +17,8 @@ import consulo.util.lang.function.Condition;
 import consulo.util.lang.function.PairProcessor;
 import consulo.virtualFileSystem.VirtualFile;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import java.util.*;
 
 /**

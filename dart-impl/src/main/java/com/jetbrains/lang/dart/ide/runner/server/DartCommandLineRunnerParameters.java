@@ -14,8 +14,8 @@ import consulo.util.xml.serializer.annotation.MapAnnotation;
 import consulo.virtualFileSystem.LocalFileSystem;
 import consulo.virtualFileSystem.VirtualFile;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import java.util.LinkedHashMap;
 import java.util.Map;
 

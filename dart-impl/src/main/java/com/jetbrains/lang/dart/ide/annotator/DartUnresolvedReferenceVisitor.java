@@ -8,7 +8,7 @@ import consulo.language.editor.annotation.AnnotationHolder;
 import consulo.language.editor.annotation.Annotator;
 import consulo.language.psi.PsiElement;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 public class DartUnresolvedReferenceVisitor extends DartVisitor implements Annotator {
   private AnnotationHolder myHolder = null;

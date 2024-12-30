@@ -3,7 +3,7 @@ package com.jetbrains.lang.dart.ide.surroundWith.statement;
 import com.jetbrains.lang.dart.psi.DartForLoopPartsInBraces;
 import consulo.language.psi.PsiElement;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 
 /**
  * @author: Fedor.Korotkov

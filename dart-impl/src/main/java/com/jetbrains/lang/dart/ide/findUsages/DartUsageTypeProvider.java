@@ -9,7 +9,7 @@ import consulo.language.psi.util.PsiTreeUtil;
 import consulo.usage.UsageType;
 import consulo.usage.UsageTypeProvider;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 
 @ExtensionImpl
 public class DartUsageTypeProvider implements UsageTypeProvider {

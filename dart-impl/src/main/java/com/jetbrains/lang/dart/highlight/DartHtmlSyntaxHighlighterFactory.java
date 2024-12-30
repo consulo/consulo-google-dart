@@ -4,7 +4,7 @@ import com.jetbrains.lang.dart.DartInHtmlLanguage;
 import consulo.annotation.component.ExtensionImpl;
 import consulo.language.Language;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 /**
  * @author VISTALL

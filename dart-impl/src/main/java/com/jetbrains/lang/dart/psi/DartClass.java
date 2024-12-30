@@ -1,7 +1,7 @@
 package com.jetbrains.lang.dart.psi;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import java.util.List;
 
 public interface DartClass extends DartComponent {

@@ -10,8 +10,8 @@ import consulo.language.psi.PsiParserFacade;
 import consulo.project.Project;
 import consulo.language.util.IncorrectOperationException;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 /**
  * @author: Fedor.Korotkov

@@ -4,7 +4,7 @@ import com.jetbrains.lang.dart.psi.DartOperator;
 import com.jetbrains.lang.dart.util.DartResolveUtil;
 import consulo.language.ast.ASTNode;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 /**
  * @author: Fedor.Korotkov

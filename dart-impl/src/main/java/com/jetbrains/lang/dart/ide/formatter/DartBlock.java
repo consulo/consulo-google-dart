@@ -8,8 +8,8 @@ import consulo.language.codeStyle.*;
 import consulo.language.codeStyle.template.BlockWithParent;
 import consulo.language.psi.PsiWhiteSpace;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 

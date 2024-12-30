@@ -19,7 +19,7 @@ import consulo.process.ExecutionException;
 import consulo.util.io.NetUtil;
 import consulo.virtualFileSystem.VirtualFile;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 @ExtensionImpl
 public class DartRunner extends DefaultProgramRunner {

@@ -10,7 +10,7 @@ import consulo.language.editor.template.Template;
 import consulo.language.editor.template.TemplateManager;
 import consulo.language.psi.util.PsiTreeUtil;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 public class OverrideImplementMethodFix extends BaseCreateMethodsFix<DartComponent> {
   final boolean myImplementNotOverride;

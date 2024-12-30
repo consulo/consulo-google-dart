@@ -5,7 +5,7 @@ import consulo.language.ast.ASTNode;
 import consulo.language.codeStyle.*;
 import consulo.language.psi.PsiFile;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 public class DartFormattingModel implements FormattingModel {
   private final FormattingModel myModel;

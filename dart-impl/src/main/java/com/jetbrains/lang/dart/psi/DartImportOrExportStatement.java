@@ -1,6 +1,6 @@
 package com.jetbrains.lang.dart.psi;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 import java.util.List;
 
 public interface DartImportOrExportStatement extends DartPsiCompositeElement {

@@ -5,7 +5,7 @@ import com.jetbrains.lang.dart.ide.runner.server.google.VmCallFrame;
 import consulo.execution.debug.frame.XExecutionStack;
 import consulo.execution.debug.frame.XSuspendContext;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 import java.util.List;
 
 public class DartSuspendContext extends XSuspendContext {

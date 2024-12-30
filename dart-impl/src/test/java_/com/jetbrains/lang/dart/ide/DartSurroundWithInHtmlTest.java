@@ -7,7 +7,7 @@ import com.intellij.testFramework.LightPlatformCodeInsightTestCase;
 import com.jetbrains.lang.dart.ide.surroundWith.statement.DartWithIfElseSurrounder;
 import com.jetbrains.lang.dart.util.DartTestUtils;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 /**
  * @author: Fedor.Korotkov
