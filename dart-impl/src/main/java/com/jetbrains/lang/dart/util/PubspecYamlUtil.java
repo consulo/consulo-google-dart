@@ -6,6 +6,7 @@ import consulo.util.dataholder.Key;
 import consulo.util.lang.Pair;
 import consulo.virtualFileSystem.VirtualFile;
 import org.yaml.snakeyaml.DumperOptions;
+import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.SafeConstructor;
 import org.yaml.snakeyaml.nodes.Tag;
@@ -62,9 +63,8 @@ public class PubspecYamlUtil {
   @Nullable
   private static Map<String, Object> loadPubspecYamlInfo(final @Nonnull String pubspecYamlFileContents) {
     // see com.google.dart.tools.core.utilities.yaml.PubYamlUtils#parsePubspecYamlToMap()
-    // deprecated constructor used to be compatible with old snakeyaml version in testng.jar (it wins when running from sources or tests)
-    //noinspection deprecation
-    final Yaml yaml = new Yaml(new SafeConstructor(), new Representer(), new DumperOptions(), new Resolver() {
+    DumperOptions dumperOptions = new DumperOptions();
+    final Yaml yaml = new Yaml(new SafeConstructor(new LoaderOptions()), new Representer(dumperOptions), new DumperOptions(), new Resolver() {
       @Override
       protected void addImplicitResolvers() {
         addImplicitResolver(Tag.BOOL, BOOL, "yYnNtTfFoO");
