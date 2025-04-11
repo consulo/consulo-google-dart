@@ -17,12 +17,12 @@ import consulo.util.io.FileUtil;
 import consulo.util.io.PathUtil;
 import consulo.util.lang.Comparing;
 import consulo.util.lang.StringUtil;
-import consulo.util.lang.ref.Ref;
+import consulo.util.lang.ref.SimpleReference;
 import consulo.virtualFileSystem.VirtualFile;
 import consulo.virtualFileSystem.util.VirtualFileUtil;
-
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
+
 import java.util.List;
 
 import static com.jetbrains.lang.dart.ide.runner.unittest.DartUnitRunnerParameters.Scope;
@@ -36,7 +36,7 @@ public class DartUnitRuntimeConfigurationProducer extends RunConfigurationProduc
   @Override
   protected boolean setupConfigurationFromContext(final @Nonnull DartUnitRunConfiguration configuration,
                                                   final @Nonnull ConfigurationContext context,
-                                                  final @Nonnull Ref<PsiElement> sourceElement) {
+                                                  final @Nonnull SimpleReference<PsiElement> sourceElement) {
     final VirtualFile dartFile = DartCommandLineRuntimeConfigurationProducer.findRunnableDartFile(context);
     if (dartFile == null) {
       return false;

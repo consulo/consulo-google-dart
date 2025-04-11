@@ -11,9 +11,8 @@ import consulo.language.psi.PsiElement;
 import consulo.language.psi.PsiFile;
 import consulo.language.psi.util.PsiTreeUtil;
 import consulo.module.content.ProjectRootManager;
-import consulo.util.lang.ref.Ref;
+import consulo.util.lang.ref.SimpleReference;
 import consulo.virtualFileSystem.VirtualFile;
-
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 
@@ -26,7 +25,7 @@ public class DartCommandLineRuntimeConfigurationProducer extends RunConfiguratio
   @Override
   protected boolean setupConfigurationFromContext(final @Nonnull DartCommandLineRunConfiguration configuration,
                                                   final @Nonnull ConfigurationContext context,
-                                                  final @Nonnull Ref<PsiElement> sourceElement) {
+                                                  final @Nonnull SimpleReference<PsiElement> sourceElement) {
     final VirtualFile dartFile = findRunnableDartFile(context);
     if (dartFile != null) {
       configuration.getRunnerParameters().setFilePath(dartFile.getPath());
