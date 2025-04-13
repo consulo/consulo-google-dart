@@ -7,8 +7,6 @@ import com.jetbrains.lang.dart.psi.DartComponentName;
 import com.jetbrains.lang.dart.util.DartResolveUtil;
 import consulo.annotation.component.ExtensionImpl;
 import consulo.application.ApplicationManager;
-import consulo.application.util.function.Computable;
-import consulo.application.util.function.Processor;
 import consulo.language.psi.PsiElement;
 import consulo.language.psi.PsiFile;
 import consulo.language.psi.scope.GlobalSearchScope;
@@ -17,20 +15,22 @@ import consulo.language.psi.search.DefinitionsScopedSearchExecutor;
 import consulo.language.psi.stub.FileBasedIndex;
 import consulo.language.psi.util.PsiTreeUtil;
 import consulo.virtualFileSystem.VirtualFile;
-
 import jakarta.annotation.Nonnull;
+
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Set;
+import java.util.function.Predicate;
+import java.util.function.Supplier;
 
 @ExtensionImpl
 public class DefinitionsSearchExecutor implements DefinitionsScopedSearchExecutor {
   @Override
   public boolean execute(@Nonnull final DefinitionsScopedSearch.SearchParameters parameters,
-                         @Nonnull final Processor<? super PsiElement> consumer) {
-    return ApplicationManager.getApplication().runReadAction(new Computable<Boolean>() {
-      public Boolean compute() {
+                         @Nonnull final Predicate<? super PsiElement> consumer) {
+    return ApplicationManager.getApplication().runReadAction(new Supplier<Boolean>() {
+      public Boolean get() {
         PsiElement queryParameters = parameters.getElement();
         final PsiElement queryParametersParent = queryParameters.getParent();
         DartComponent dartComponent;
@@ -55,16 +55,13 @@ public class DefinitionsSearchExecutor implements DefinitionsScopedSearchExecuto
           DartClass dartClass = PsiTreeUtil.getParentOfType(dartComponent, DartClass.class);
           assert dartClass != null;
 
-          processInheritors(dartClass, queryParameters, new Processor<PsiElement>() {
-            @Override
-            public boolean process(PsiElement element) {
-              for (DartComponent subDartNamedComponent : DartResolveUtil.getNamedSubComponents((DartClass)element)) {
-                if (nameToFind.equals(subDartNamedComponent.getName())) {
-                  consumer.process(subDartNamedComponent);
-                }
+          processInheritors(dartClass, queryParameters, element -> {
+            for (DartComponent subDartNamedComponent : DartResolveUtil.getNamedSubComponents((DartClass)element)) {
+              if (nameToFind.equals(subDartNamedComponent.getName())) {
+                consumer.test(subDartNamedComponent);
               }
-              return true;
             }
+            return true;
           });
         }
         return true;
@@ -74,9 +71,9 @@ public class DefinitionsSearchExecutor implements DefinitionsScopedSearchExecuto
 
   private static boolean processInheritors(final DartClass dartClass,
                                            final PsiElement context,
-                                           final Processor<? super PsiElement> consumer) {
-    final Set<DartClass> classSet = new HashSet<DartClass>();
-    final LinkedList<DartClass> namesQueue = new LinkedList<DartClass>();
+                                           final Predicate<? super PsiElement> consumer) {
+    final Set<DartClass> classSet = new HashSet<>();
+    final LinkedList<DartClass> namesQueue = new LinkedList<>();
     namesQueue.add(dartClass);
     while (!namesQueue.isEmpty()) {
       final DartClass currentClass = namesQueue.pollFirst();
@@ -92,7 +89,7 @@ public class DefinitionsSearchExecutor implements DefinitionsScopedSearchExecuto
         PsiFile psiFile = dartClass.getManager().findFile(virtualFile);
         for (PsiElement root : DartResolveUtil.findDartRoots(psiFile)) {
           for (DartClass subClass : DartResolveUtil.findClassesByParent(currentClass, root)) {
-            if (!consumer.process(subClass)) {
+            if (!consumer.test(subClass)) {
               return true;
             }
             namesQueue.add(subClass);
