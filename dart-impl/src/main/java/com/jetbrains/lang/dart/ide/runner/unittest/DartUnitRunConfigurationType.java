@@ -2,8 +2,10 @@ package com.jetbrains.lang.dart.ide.runner.unittest;
 
 import com.jetbrains.lang.dart.DartIcons;
 import consulo.annotation.component.ExtensionImpl;
+import consulo.application.Application;
 import consulo.dart.module.extension.DartModuleExtension;
 import consulo.execution.configuration.ConfigurationFactory;
+import consulo.execution.configuration.ConfigurationType;
 import consulo.execution.configuration.ConfigurationTypeBase;
 import consulo.execution.configuration.RunConfiguration;
 import consulo.google.dart.localize.DartLocalize;
@@ -26,7 +28,7 @@ public class DartUnitRunConfigurationType extends ConfigurationTypeBase {
   }
 
   public static DartUnitRunConfigurationType getInstance() {
-    return EP_NAME.findExtensionOrFail(DartUnitRunConfigurationType.class);
+    return Application.get().getExtensionPoint(ConfigurationType.class).findExtensionOrFail(DartUnitRunConfigurationType.class);
   }
 
   public static class DartUnitConfigurationFactory extends ConfigurationFactory {
