@@ -1,6 +1,9 @@
 package com.jetbrains.lang.dart;
 
+import consulo.google.dart.localize.DartLocalize;
 import consulo.language.Language;
+import consulo.localize.LocalizeValue;
+import jakarta.annotation.Nonnull;
 
 /**
  * User: Maxim.Mossienko
@@ -8,9 +11,15 @@ import consulo.language.Language;
  * Time: 8:02 PM
  */
 public class DartLanguage extends Language {
-  public static final Language INSTANCE = new DartLanguage();
+    public static final Language INSTANCE = new DartLanguage();
 
-  private DartLanguage() {
-    super("Dart", "application/dart");
-  }
+    private DartLanguage() {
+        super("Dart", "application/dart");
+    }
+
+    @Nonnull
+    @Override
+    public LocalizeValue getDisplayName() {
+        return DartLocalize.dartTitle();
+    }
 }
