@@ -9,27 +9,22 @@ import consulo.ui.image.Image;
 import consulo.ui.image.ImageEffects;
 import consulo.util.collection.ContainerUtil;
 import consulo.util.collection.SmartList;
-import consulo.util.lang.function.Condition;
-
 import jakarta.annotation.Nonnull;
+
 import java.util.List;
+import java.util.function.Predicate;
 
 /**
- * @author: Fedor.Korotkov
+ * @author Fedor.Korotkov
  */
 public class DartFileTemplateUtil {
   private final static String DART_TEMPLATE_PREFIX = "Dart ";
 
   public static List<FileTemplate> getApplicableTemplates() {
-    return getApplicableTemplates(new Condition<FileTemplate>() {
-      @Override
-      public boolean value(FileTemplate fileTemplate) {
-        return DartFileType.DEFAULT_EXTENSION.equals(fileTemplate.getExtension());
-      }
-    });
+    return getApplicableTemplates(fileTemplate -> DartFileType.DEFAULT_EXTENSION.equals(fileTemplate.getExtension()));
   }
 
-  public static List<FileTemplate> getApplicableTemplates(Condition<FileTemplate> filter) {
+  public static List<FileTemplate> getApplicableTemplates(Predicate<FileTemplate> filter) {
     final List<FileTemplate> applicableTemplates = new SmartList<FileTemplate>();
     applicableTemplates.addAll(ContainerUtil.findAll(FileTemplateManager.getInstance().getInternalTemplates(), filter));
     applicableTemplates.addAll(ContainerUtil.findAll(FileTemplateManager.getInstance().getAllTemplates(), filter));

@@ -1,48 +1,49 @@
 package com.jetbrains.lang.dart.ide.actions;
 
-import com.jetbrains.lang.dart.DartBundle;
 import com.jetbrains.lang.dart.DartIcons;
 import com.jetbrains.lang.dart.util.DartFileTemplateUtil;
 import consulo.fileTemplate.FileTemplate;
 import consulo.fileTemplate.FileTemplateManager;
 import consulo.fileTemplate.FileTemplateUtil;
-import consulo.ide.IdeBundle;
+import consulo.google.dart.localize.DartLocalize;
 import consulo.ide.action.CreateFileFromTemplateDialog;
 import consulo.ide.action.CreateFromTemplateAction;
 import consulo.language.psi.PsiDirectory;
 import consulo.language.psi.PsiElement;
 import consulo.language.psi.PsiFile;
 import consulo.language.util.IncorrectOperationException;
+import consulo.localize.LocalizeValue;
 import consulo.project.Project;
 import consulo.ui.ex.InputValidatorEx;
 import consulo.ui.image.Image;
 import consulo.util.lang.StringUtil;
-
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
-import java.util.Properties;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
- * @author: Fedor.Korotkov
+ * @author Fedor.Korotkov
  */
 public class CreateDartFileAction extends CreateFromTemplateAction<PsiFile> {
   public CreateDartFileAction() {
-    super(DartBundle.message("action.create.new.file"), DartBundle.message("action.create.new.file"), DartIcons.Dart);
+    super(DartLocalize.actionCreateNewFile(), DartLocalize.actionCreateNewFile(), DartIcons.Dart);
   }
 
   @Override
-  protected String getActionName(PsiDirectory directory, String newName, String templateName) {
-    return DartBundle.message("progress.creating.file", newName);
+  protected LocalizeValue getActionName(PsiDirectory directory, String newName, String templateName) {
+    return DartLocalize.progressCreatingFile(newName);
   }
 
   @Override
   protected void buildDialog(Project project, PsiDirectory directory, CreateFileFromTemplateDialog.Builder builder) {
-    builder.setTitle(IdeBundle.message("action.create.new.class"));
+    builder.setTitle(LocalizeValue.localizeTODO("Create New Class"));
     for (FileTemplate fileTemplate : DartFileTemplateUtil.getApplicableTemplates()) {
       final String templateName = fileTemplate.getName();
       final String shortName = DartFileTemplateUtil.getTemplateShortName(templateName);
       final Image icon = DartFileTemplateUtil.getTemplateIcon(templateName);
-      builder.addKind(shortName, icon, templateName);
+      builder.addKind(LocalizeValue.of(shortName), icon, templateName);
     }
     builder.setValidator(new InputValidatorEx() {
       @Override
@@ -78,10 +79,10 @@ public class CreateDartFileAction extends CreateFromTemplateAction<PsiFile> {
 
   private static PsiElement createFile(String className, @Nonnull PsiDirectory directory, final String templateName)
     throws Exception {
-    final Properties props = new Properties(FileTemplateManager.getInstance().getDefaultProperties(directory.getProject()));
-    props.setProperty(FileTemplate.ATTRIBUTE_NAME, className);
+    final Map<String, Object> props = new HashMap<>(FileTemplateManager.getInstance(directory.getProject()).getDefaultVariables());
+    props.put(FileTemplate.ATTRIBUTE_NAME, className);
 
-    final FileTemplate template = FileTemplateManager.getInstance().getInternalTemplate(templateName);
+    final FileTemplate template = FileTemplateManager.getInstance(directory.getProject()).getInternalTemplate(templateName);
 
     return FileTemplateUtil.createFromTemplate(template, className, props, directory, CreateDartFileAction.class.getClassLoader());
   }
