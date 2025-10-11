@@ -1,15 +1,15 @@
 package com.jetbrains.lang.dart.validation.fixes;
 
-import com.jetbrains.lang.dart.DartBundle;
 import com.jetbrains.lang.dart.DartComponentType;
 import com.jetbrains.lang.dart.DartTokenTypes;
 import com.jetbrains.lang.dart.psi.DartComponent;
 import consulo.codeEditor.Editor;
+import consulo.google.dart.localize.DartLocalize;
 import consulo.language.ast.ASTNode;
 import consulo.language.ast.TokenType;
 import consulo.language.psi.PsiElement;
+import consulo.localize.LocalizeValue;
 import consulo.project.Project;
-
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 
@@ -22,10 +22,10 @@ public class MakeStaticAction extends BaseCreateFix {
 
   @Nonnull
   @Override
-  public String getName() {
+  public LocalizeValue getName() {
     DartComponentType componentType = DartComponentType.typeOf(myComponent);
     String componentTypeString = componentType == null ? "" : componentType.toString().toLowerCase();
-    return DartBundle.message("dart.make.static.fix.name", myComponent.getName(), componentTypeString);
+    return DartLocalize.dartMakeStaticFixName(myComponent.getName(), componentTypeString);
   }
 
   @Override

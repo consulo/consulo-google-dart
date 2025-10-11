@@ -1,6 +1,5 @@
 package com.jetbrains.lang.dart.ide.refactoring.extract;
 
-import com.jetbrains.lang.dart.DartBundle;
 import com.jetbrains.lang.dart.DartTokenTypes;
 import com.jetbrains.lang.dart.psi.*;
 import com.jetbrains.lang.dart.resolve.DartResolver;
@@ -15,6 +14,7 @@ import consulo.codeEditor.Editor;
 import consulo.codeEditor.SelectionModel;
 import consulo.dataContext.DataContext;
 import consulo.document.util.TextRange;
+import consulo.google.dart.localize.DartLocalize;
 import consulo.language.ast.ASTNode;
 import consulo.language.codeStyle.CodeStyleManager;
 import consulo.language.editor.refactoring.RefactoringBundle;
@@ -26,171 +26,172 @@ import consulo.language.psi.PsiFile;
 import consulo.language.psi.PsiParserFacade;
 import consulo.language.psi.util.PsiTreeUtil;
 import consulo.project.Project;
+import consulo.ui.annotation.RequiredUIAccess;
 import consulo.undoRedo.CommandProcessor;
 import consulo.util.lang.function.Condition;
-
 import jakarta.annotation.Nonnull;
+
 import java.util.List;
 import java.util.Set;
 
 public class DartExtractMethodHandler implements RefactoringActionHandler {
-  @Override
-  public void invoke(@Nonnull Project project, @Nonnull PsiElement[] elements, DataContext dataContext) {
-  }
-
-  @Override
-  public void invoke(@Nonnull Project project, Editor editor, PsiFile file, DataContext dataContext) {
-    final SelectionModel selectionModel = editor.getSelectionModel();
-    if (!selectionModel.hasSelection()) {
-      selectionModel.selectLineAtCaret();
+    @Override
+    public void invoke(@Nonnull Project project, @Nonnull PsiElement[] elements, DataContext dataContext) {
     }
 
-    final PsiElement[] elements = DartRefactoringUtil.findStatementsInRange(file, selectionModel.getSelectionStart(),
-                                                                            selectionModel.getSelectionEnd());
-
-    if (elements.length == 0 || (elements.length == 1 && elements[0] instanceof DartExpression)) {
-      // todo
-      CommonRefactoringUtil.showErrorHint(project,
-                                          editor,
-                                          RefactoringBundle.getCannotRefactorMessage(DartBundle.message("dart.refactoring" +
-                                                                                                          ".extract.method.from.expression.error")),
-                                          DartBundle.message("dart.refactoring.extract.method.error"),
-                                          null);
-      return;
-    }
-
-    final DartControlFlow controlFlow = DartControlFlow.analyze(elements);
-
-    if (controlFlow.getReturnValues().size() > 1) {
-      CommonRefactoringUtil.showErrorHint(project,
-                                          editor,
-                                          RefactoringBundle.getCannotRefactorMessage(DartBundle.message("dart.refactoring" +
-                                                                                                          ".multiple.output.values")),
-                                          DartBundle.message("dart.refactoring.extract.method.error"),
-                                          null);
-      return;
-    }
-
-    final Scope scope = findScope(elements);
-
-    controlFlow.filterParams(new Condition<DartComponentName>() {
-      @Override
-      public boolean value(DartComponentName name) {
-        return !scope.containsDeclaration(name);
-      }
-    });
-
-    doRefactoringInWriteAction(project, editor, elements, controlFlow, scope);
-  }
-
-  private static void doRefactoringInWriteAction(Project project, final Editor editor, final PsiElement[] elements,
-                                                 final DartControlFlow controlFlow, final Scope scope) {
-    CommandProcessor.getInstance().executeCommand(project, new Runnable() {
-      public void run() {
-        AccessToken l = WriteAction.start();
-        try {
-          doRefactoring(editor, elements, controlFlow, scope);
+    @RequiredUIAccess
+    @Override
+    public void invoke(@Nonnull Project project, Editor editor, PsiFile file, DataContext dataContext) {
+        final SelectionModel selectionModel = editor.getSelectionModel();
+        if (!selectionModel.hasSelection()) {
+            selectionModel.selectLineAtCaret();
         }
-        finally {
-          l.finish();
+
+        final PsiElement[] elements = DartRefactoringUtil.findStatementsInRange(file, selectionModel.getSelectionStart(),
+            selectionModel.getSelectionEnd());
+
+        if (elements.length == 0 || (elements.length == 1 && elements[0] instanceof DartExpression)) {
+            // todo
+            CommonRefactoringUtil.showErrorHint(project,
+                editor,
+                RefactoringBundle.getCannotRefactorMessage(DartLocalize.dartRefactoringExtractMethodFromExpressionError().get()),
+                DartLocalize.dartRefactoringExtractMethodError().get(),
+                null);
+            return;
         }
-      }
-    }, DartBundle.message("dart.extract.method"), null);
-  }
 
-  private static void doRefactoring(Editor editor, PsiElement[] elements, DartControlFlow controlFlow, Scope scope) {
-    final Project project = elements[0].getProject();
-    final PsiFile file = elements[0].getContainingFile();
-    final PsiElement anchorToAdd = scope.findAnchor(elements);
-    final StringBuilder functionBody = new StringBuilder();
+        final DartControlFlow controlFlow = DartControlFlow.analyze(elements);
 
-    final Set<String> usedNames = DartRefactoringUtil.collectUsedNames(anchorToAdd);
-    String functionName = "extracted";
-    while (usedNames.contains(functionName)) {
-      functionName += "0";
+        if (controlFlow.getReturnValues().size() > 1) {
+            CommonRefactoringUtil.showErrorHint(project,
+                editor,
+                RefactoringBundle.getCannotRefactorMessage(DartLocalize.dartRefactoringMultipleOutputValues().get()),
+                DartLocalize.dartRefactoringExtractMethodError().get(),
+                null);
+            return;
+        }
+
+        final Scope scope = findScope(elements);
+
+        controlFlow.filterParams(new Condition<DartComponentName>() {
+            @Override
+            public boolean value(DartComponentName name) {
+                return !scope.containsDeclaration(name);
+            }
+        });
+
+        doRefactoringInWriteAction(project, editor, elements, controlFlow, scope);
     }
 
-    if (!ApplicationManager.getApplication().isUnitTestMode()) {
-      DartExtractDialog extractDialog = new DartExtractDialog(project, functionName, controlFlow);
-      extractDialog.show();
-      if (!extractDialog.isOK()) {
-        return;
-      }
-      functionName = extractDialog.getFunctionName();
+    @RequiredUIAccess
+    private static void doRefactoringInWriteAction(Project project, final Editor editor, final PsiElement[] elements,
+                                                   final DartControlFlow controlFlow, final Scope scope) {
+        CommandProcessor.getInstance().executeCommand(project, new Runnable() {
+            public void run() {
+                AccessToken l = WriteAction.start();
+                try {
+                    doRefactoring(editor, elements, controlFlow, scope);
+                }
+                finally {
+                    l.finish();
+                }
+            }
+        }, DartLocalize.dartExtractMethod().get(), null);
     }
 
-    functionBody.append(controlFlow.getSignature(functionName));
-    functionBody.append("{\n");
+    private static void doRefactoring(Editor editor, PsiElement[] elements, DartControlFlow controlFlow, Scope scope) {
+        final Project project = elements[0].getProject();
+        final PsiFile file = elements[0].getContainingFile();
+        final PsiElement anchorToAdd = scope.findAnchor(elements);
+        final StringBuilder functionBody = new StringBuilder();
 
-    final int startOffset = elements[0].getTextOffset();
-    final int endOffset = elements[elements.length - 1].getTextRange().getEndOffset();
-    functionBody.append(new TextRange(startOffset, endOffset).substring(elements[0].getContainingFile().getText()));
+        final Set<String> usedNames = DartRefactoringUtil.collectUsedNames(anchorToAdd);
+        String functionName = "extracted";
+        while (usedNames.contains(functionName)) {
+            functionName += "0";
+        }
 
-    if (!controlFlow.getReturnValues().isEmpty()) {
-      functionBody.append("\nreturn ");
-      final DartComponentName componentName = controlFlow.getReturnValues().iterator().next();
-      functionBody.append(componentName.getName());
-      functionBody.append(";");
-    }
-    functionBody.append("\n}");
-    final String replaceStatementText = controlFlow.getReplaceStatementText(functionName);
-    PsiElement replaceStatement = DartElementGenerator.createStatementFromText(project, replaceStatementText);
-    final List<DartComponent> dartComponents = DartElementGenerator.createFunctionsFromText(project, functionBody.toString());
-    if (replaceStatement == null || dartComponents.isEmpty()) {
-      return;
-    }
-    PsiElement function = dartComponents.iterator().next();
-    function = anchorToAdd.getParent().addBefore(function, anchorToAdd);
+        if (!ApplicationManager.getApplication().isUnitTestMode()) {
+            DartExtractDialog extractDialog = new DartExtractDialog(project, functionName, controlFlow);
+            extractDialog.show();
+            if (!extractDialog.isOK()) {
+                return;
+            }
+            functionName = extractDialog.getFunctionName();
+        }
 
-    final PsiElement newLineNode = PsiParserFacade.SERVICE.getInstance(function.getProject()).createWhiteSpaceFromText("\n");
+        functionBody.append(controlFlow.getSignature(functionName));
+        functionBody.append("{\n");
 
-    replaceStatement = elements[0].getParent().addBefore(replaceStatement, elements[0]);
-    replaceStatement.getParent().addBefore(newLineNode, replaceStatement);
+        final int startOffset = elements[0].getTextOffset();
+        final int endOffset = elements[elements.length - 1].getTextRange().getEndOffset();
+        functionBody.append(new TextRange(startOffset, endOffset).substring(elements[0].getContainingFile().getText()));
 
-    function.getParent().addAfter(newLineNode, function);
+        if (!controlFlow.getReturnValues().isEmpty()) {
+            functionBody.append("\nreturn ");
+            final DartComponentName componentName = controlFlow.getReturnValues().iterator().next();
+            functionBody.append(componentName.getName());
+            functionBody.append(";");
+        }
+        functionBody.append("\n}");
+        final String replaceStatementText = controlFlow.getReplaceStatementText(functionName);
+        PsiElement replaceStatement = DartElementGenerator.createStatementFromText(project, replaceStatementText);
+        final List<DartComponent> dartComponents = DartElementGenerator.createFunctionsFromText(project, functionBody.toString());
+        if (replaceStatement == null || dartComponents.isEmpty()) {
+            return;
+        }
+        PsiElement function = dartComponents.iterator().next();
+        function = anchorToAdd.getParent().addBefore(function, anchorToAdd);
 
-    final ASTNode nextChild = replaceStatement.getNode().getTreeNext();
-    replaceStatement.getParent().getNode().addLeaf(DartTokenTypes.SEMICOLON, ";", nextChild);
+        final PsiElement newLineNode = PsiParserFacade.SERVICE.getInstance(function.getProject()).createWhiteSpaceFromText("\n");
 
-    elements[0].getParent().deleteChildRange(elements[0], elements[elements.length - 1]);
+        replaceStatement = elements[0].getParent().addBefore(replaceStatement, elements[0]);
+        replaceStatement.getParent().addBefore(newLineNode, replaceStatement);
 
-    PsiDocumentManager.getInstance(project).doPostponedOperationsAndUnblockDocument(editor.getDocument());
-    CodeStyleManager.getInstance(project)
-                    .reformatText(file, function.getTextRange().getStartOffset(), function.getTextRange().getEndOffset());
+        function.getParent().addAfter(newLineNode, function);
 
-    editor.getCaretModel().moveToOffset(replaceStatement.getTextOffset());
-  }
+        final ASTNode nextChild = replaceStatement.getNode().getTreeNext();
+        replaceStatement.getParent().getNode().addLeaf(DartTokenTypes.SEMICOLON, ";", nextChild);
 
-  private static Scope findScope(PsiElement[] elements) {
-    final DartClass dartClass = PsiTreeUtil.getParentOfType(elements[0], DartClass.class);
-    return new Scope(dartClass == null ? PsiTreeUtil.getTopmostParentOfType(elements[0], DartExecutionScope.class) : dartClass);
-  }
+        elements[0].getParent().deleteChildRange(elements[0], elements[elements.length - 1]);
 
-  private static class Scope {
+        PsiDocumentManager.getInstance(project).doPostponedOperationsAndUnblockDocument(editor.getDocument());
+        CodeStyleManager.getInstance(project)
+            .reformatText(file, function.getTextRange().getStartOffset(), function.getTextRange().getEndOffset());
 
-    private final PsiElement myElement;
-
-    public Scope(PsiElement element) {
-      myElement = element;
-    }
-
-    public boolean containsDeclaration(final DartComponentName declarationName) {
-      return DartResolver.resolveSimpleReference(getScopeBody(), declarationName.getText()).contains(declarationName);
-    }
-
-    private PsiElement getScopeBody() {
-      PsiElement result = myElement instanceof DartClass ? DartResolveUtil.getBody((DartClass)myElement) : myElement;
-      assert result != null;
-      return result;
+        editor.getCaretModel().moveToOffset(replaceStatement.getTextOffset());
     }
 
-    public PsiElement findAnchor(PsiElement[] elements) {
-      PsiElement scopeBody = getScopeBody();
-      PsiElement result = elements[0];
-      while (result.getParent() != null && result.getParent() != scopeBody) {
-        result = result.getParent();
-      }
-      return result;
+    private static Scope findScope(PsiElement[] elements) {
+        final DartClass dartClass = PsiTreeUtil.getParentOfType(elements[0], DartClass.class);
+        return new Scope(dartClass == null ? PsiTreeUtil.getTopmostParentOfType(elements[0], DartExecutionScope.class) : dartClass);
     }
-  }
+
+    private static class Scope {
+
+        private final PsiElement myElement;
+
+        public Scope(PsiElement element) {
+            myElement = element;
+        }
+
+        public boolean containsDeclaration(final DartComponentName declarationName) {
+            return DartResolver.resolveSimpleReference(getScopeBody(), declarationName.getText()).contains(declarationName);
+        }
+
+        private PsiElement getScopeBody() {
+            PsiElement result = myElement instanceof DartClass ? DartResolveUtil.getBody((DartClass) myElement) : myElement;
+            assert result != null;
+            return result;
+        }
+
+        public PsiElement findAnchor(PsiElement[] elements) {
+            PsiElement scopeBody = getScopeBody();
+            PsiElement result = elements[0];
+            while (result.getParent() != null && result.getParent() != scopeBody) {
+                result = result.getParent();
+            }
+            return result;
+        }
+    }
 }

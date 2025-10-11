@@ -1,10 +1,11 @@
 package com.jetbrains.lang.dart.ide.generation;
 
-import com.jetbrains.lang.dart.DartBundle;
 import com.jetbrains.lang.dart.psi.DartClass;
 import com.jetbrains.lang.dart.psi.DartComponent;
 import consulo.annotation.component.ExtensionImpl;
+import consulo.google.dart.localize.DartLocalize;
 import consulo.language.editor.generation.ImplementMethodHandler;
+import consulo.localize.LocalizeValue;
 import consulo.util.lang.Pair;
 
 import java.util.HashMap;
@@ -14,8 +15,8 @@ import java.util.Map;
 @ExtensionImpl
 public class DartImplementMethodHandler extends BaseDartGenerateHandler implements ImplementMethodHandler {
   @Override
-  protected String getTitle() {
-    return DartBundle.message("dart.implement.method");
+  protected LocalizeValue getTitle() {
+    return DartLocalize.dartImplementMethod();
   }
 
   @Override

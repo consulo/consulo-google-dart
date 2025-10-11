@@ -5,12 +5,13 @@ import com.jetbrains.lang.dart.psi.DartExpression;
 import consulo.language.editor.ui.awt.EditorComboBoxEditor;
 import consulo.language.editor.ui.awt.EditorComboBoxRenderer;
 import consulo.language.editor.ui.awt.StringComboboxEditor;
+import consulo.localize.LocalizeValue;
 import consulo.project.Project;
 import consulo.ui.ex.awt.ComboBox;
 import consulo.ui.ex.awt.DialogWrapper;
-
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -31,7 +32,7 @@ public class DartIntroduceDialog extends DialogWrapper {
   private final DartExpression myExpression;
 
   public DartIntroduceDialog(@Nonnull final Project project,
-                             @Nonnull final String caption,
+                             @Nonnull final LocalizeValue caption,
                              final DartIntroduceOperation operation) {
     super(project, true);
     myOccurrencesCount = operation.getOccurrences().size();

@@ -1,62 +1,47 @@
 package com.jetbrains.lang.dart.ide.generation;
 
-import com.jetbrains.lang.dart.DartBundle;
 import com.jetbrains.lang.dart.psi.DartClass;
 import com.jetbrains.lang.dart.psi.DartComponent;
 import com.jetbrains.lang.dart.psi.DartReturnType;
 import com.jetbrains.lang.dart.psi.DartType;
 import com.jetbrains.lang.dart.util.DartPresentableUtil;
+import consulo.google.dart.localize.DartLocalize;
 import consulo.language.editor.template.Template;
 import consulo.language.editor.template.TemplateManager;
 import consulo.language.psi.util.PsiTreeUtil;
+import consulo.localize.LocalizeValue;
 import consulo.util.collection.ContainerUtil;
-import consulo.util.lang.function.Condition;
-
 import jakarta.annotation.Nonnull;
+
 import java.util.List;
 
 public class CreateGetterSetterFix extends BaseCreateMethodsFix<DartComponent> {
   public enum Strategy {
-    GETTER(DartBundle.message("dart.fix.getter.none.found")) {
+    GETTER(DartLocalize.dartFixGetterNoneFound()) {
       @Override
       boolean accept(final String name, List<DartComponent> componentList) {
-        return name.startsWith("_") && ContainerUtil.find(componentList, new consulo.util.lang.function.Condition<DartComponent>() {
-          @Override
-          public boolean value(DartComponent component) {
-            return component.isGetter() && DartPresentableUtil.setterGetterName(name).equals(component.getName());
-          }
-        }) == null;
+        return name.startsWith("_") && ContainerUtil.find(componentList, component -> component.isGetter() && DartPresentableUtil.setterGetterName(name).equals(component.getName())) == null;
       }
     },
 
-    SETTER(DartBundle.message("dart.fix.setter.none.found")) {
+    SETTER(DartLocalize.dartFixSetterNoneFound()) {
       @Override
       boolean accept(final String name, List<DartComponent> componentList) {
-        return name.startsWith("_") && ContainerUtil.find(componentList, new Condition<DartComponent>() {
-          @Override
-          public boolean value(DartComponent component) {
-            return component.isSetter() && DartPresentableUtil.setterGetterName(name).equals(component.getName());
-          }
-        }) == null;
+        return name.startsWith("_") && ContainerUtil.find(componentList, component -> component.isSetter() && DartPresentableUtil.setterGetterName(name).equals(component.getName())) == null;
       }
     },
 
-    GETTERSETTER(DartBundle.message("dart.fix.gettersetter.none.found")) {
+    GETTERSETTER(DartLocalize.dartFixGettersetterNoneFound()) {
       @Override
       boolean accept(final String name, List<DartComponent> componentList) {
-        return name.startsWith("_") && ContainerUtil.find(componentList, new consulo.util.lang.function.Condition<DartComponent>() {
-          @Override
-          public boolean value(DartComponent component) {
-            return (component.isGetter() || component.isSetter()) && DartPresentableUtil.setterGetterName(name).equals(component
-                                                                                                                         .getName());
-          }
-        }) == null;
+        return name.startsWith("_") && ContainerUtil.find(componentList, component -> (component.isGetter() || component.isSetter()) && DartPresentableUtil.setterGetterName(name).equals(component
+                                                                                                                     .getName())) == null;
       }
     };
 
-    private final String myNothingFoundMessage;
+    private final LocalizeValue myNothingFoundMessage;
 
-    Strategy(final String nothingFoundMessage) {
+    Strategy(final LocalizeValue nothingFoundMessage) {
       myNothingFoundMessage = nothingFoundMessage;
     }
 
@@ -74,7 +59,7 @@ public class CreateGetterSetterFix extends BaseCreateMethodsFix<DartComponent> {
 
   @Override
   @Nonnull
-  protected String getNothingFoundMessage() {
+  protected LocalizeValue getNothingFoundMessage() {
     return myStrategy.myNothingFoundMessage;
   }
 

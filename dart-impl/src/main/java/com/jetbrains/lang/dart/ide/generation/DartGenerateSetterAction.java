@@ -1,17 +1,18 @@
 package com.jetbrains.lang.dart.ide.generation;
 
-import com.jetbrains.lang.dart.DartBundle;
+import consulo.google.dart.localize.DartLocalize;
+import consulo.localize.LocalizeValue;
 
 /**
- * @author: Fedor.Korotkov
+ * @author Fedor.Korotkov
  */
 public class DartGenerateSetterAction extends BaseDartGenerateAction {
   @Override
   protected BaseDartGenerateHandler getGenerateHandler() {
     return new DartGenerateAccessorHandler(CreateGetterSetterFix.Strategy.SETTER) {
       @Override
-      protected String getTitle() {
-        return DartBundle.message("fields.to.generate.setters");
+      protected LocalizeValue getTitle() {
+        return DartLocalize.fieldsToGenerateSetters();
       }
     };
   }

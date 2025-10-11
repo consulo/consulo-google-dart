@@ -1,332 +1,338 @@
-dart.color.settings.description.line.comment:
-  text: Line comment
-dart.color.settings.description.block.comment:
-  text: Block comment
-dart.color.settings.description.doc.comment:
-  text: Documentation comment
-dart.color.settings.description.keyword:
-  text: Keyword
-dart.color.settings.description.number:
-  text: Number
-dart.color.settings.description.string:
-  text: String
-dart.color.settings.description.valid.string.escape:
-  text: Escape sequence
-dart.color.settings.description.invalid.string.escape:
-  text: Invalid escape sequence
-dart.color.settings.description.operator:
-  text: Operator
-dart.color.settings.description.parenths:
-  text: Parentheses
-dart.color.settings.description.brackets:
-  text: Brackets
-dart.color.settings.description.braces:
-  text: Braces
-dart.color.settings.description.comma:
-  text: Comma
-dart.color.settings.description.dot:
-  text: Dot
-dart.color.settings.description.semicolon:
-  text: Semicolon
-dart.color.settings.description.bad.character:
-  text: Bad character
-dart.color.settings.description.class:
-  text: Class
-dart.color.settings.description.metadata:
-  text: Metadata
-dart.color.settings.description.instance.member.variable:
-  text: Instance member variable
-dart.color.settings.description.instance.member.variable.access:
-  text: Instance member variable access
-dart.color.settings.description.instance.member.function:
-  text: Instance member function
-dart.color.settings.description.instance.member.function.call:
-  text: Instance member function call
-dart.color.settings.description.instance.member.inherited.function.call:
-  text: Inherited member function call
-dart.color.settings.description.instance.member.abstract.function.call:
-  text: Abstract member function call
-dart.color.settings.description.static.member.function:
-  text: Static member function
-dart.color.settings.description.static.member.function.call:
-  text: Static member function call
-dart.color.settings.description.static.member.variable:
-  text: Static member variable
-dart.color.settings.description.static.member.variable.access:
-  text: Static member variable access
-dart.color.settings.description.toplevel.variable:
-  text: Top level variable declaration
-dart.color.settings.description.toplevel.variable.access:
-  text: Top level variable access
-dart.color.settings.description.toplevel.function:
-  text: Top level function declaration
-dart.color.settings.description.toplevel.function.call:
-  text: Top level function call
-dart.color.settings.description.parameter:
-  text: Parameter
-dart.color.settings.description.local.variable:
-  text: Local variable
-dart.color.settings.description.local.variable.access:
-  text: Local variable access
-dart.color.settings.description.builtin:
-  text: Built-in Class
-dart.color.settings.description.local.function:
-  text: Function
-dart.color.settings.description.constructor.call:
-  text: Constructor call
-dart.color.settings.description.constructor.decl:
-  text: Constructor declaration
-cannot.resolve.reference:
-  text: Can't resolve reference
 action.create.new.file:
-  text: Dart File
-progress.creating.file:
-  text: Creating File {0}
-dart.title:
-  text: Dart
-dart.sdk.path.label:
-  text: '&Dart SDK path:'
-version.label:
-  text: 'Version:'
-dartium.not.configured:
-  text: Dartium browser is not specified in {0} | Dart.
-dart.sdk.bad.dartpub.path:
-  text: |-
-    Can''t find pub executable:
-    {0}
-overrides.method.in:
-  text: Overrides method ''{0}'' in ''{1}''
-implements.method.in:
-  text: Implements method ''{0}'' in ''{1}''
-fields.to.generate.getters:
-  text: Select Fields to Generate Getters
-fields.to.generate.setters:
-  text: Select Fields to Generate Setters
-fields.to.generate.getters.setters:
-  text: Select Fields to Generate Getters and Setters
-dart.override.method:
-  text: Choose method to override
-dart.implement.method:
-  text: Choose method to implement
-dart2js.title:
-  text: dart2js
-dart2js.task.description:
-  text: Executing dart2js for ''{0}''
-dart2js.input.problem.description:
-  text: Can't find input file!
-dart2js.output.problem.description:
-  text: No output file is specified!
-dart2js.js.file.created:
-  text: |-
-    JavaScript file created:
-    {0}
-dart2js.js.file.creation.error:
-  text: |-
-    Error occurred:
-    {0}
-runner.command.line.configuration.name:
-  text: Dart Command Line Application
-empty.dart.project.title:
-  text: Empty Dart Project
-empty.dart.project.description.webstorm:
-  text: Create an empty project for use with the Dart programming language
-empty.dart.project.description.idea:
-  text: Create an empty project for use with the Dart programming language (<a href="http://dartlang.org">http://dartlang.org</a>)
-dart.web.app.title:
-  text: Dart Web App
-dart.web.app.description.webstorm:
-  text: Create a project for a Dart web application from sample content
-dart.web.app.description.idea:
-  text: Create a project for a Dart web application from sample content (<a href="http://dartlang.org">http://dartlang.org</a>)
-dart.commandline.app.title:
-  text: Dart Command Line App
-dart.commandline.app.description.webstorm:
-  text: Create a project for a Dart command-line application from sample content
-dart.commandline.app.description.idea:
-  text: Create a project for a Dart command-line application from sample content (<a href="http://dartlang.org">http://dartlang.org</a>)
-choose.dart.main.file:
-  text: Choose Dart File
-config.vmoptions.caption:
-  text: VM Options
-config.progargs.caption:
-  text: Program Arguments
-dart.run.no.module:
-  text: No Module selected
-dart.analyzer.inspection.display.name:
-  text: Dart Analyzer
-livetemplate.description.iter:
-  text: Iterate (for..in)
-livetemplate.description.itar:
-  text: Iterate elements of array
-livetemplate.description.surround.braces:
-  text: Surround with '{}'
-dart.language.id:
-  text: Dart
-dart.surround.with.parenthesis:
-  text: (expr)
-dart.surround.with.not.parenthesis:
-  text: '!(expr)'
-dart.pub.get:
-  text: 'Pub: Get Dependencies'
-dart.pub.get.success:
-  text: Got dependencies successfully.
-dart.pub.upgrade:
-  text: 'Pub: Upgrade Dependencies'
-dart.pub.upgrade.success:
-  text: Dependencies upgraded successfully.
-dart.pub.build:
-  text: 'Pub: Build'
-dart.pub.build.success:
-  text: Dart build completed successfully.
-dart.pub.0.in.progress:
-  text: 'Dart: pub {0}...'
-refactoring.introduce.selection.error:
-  text: Can't perform refactoring using selected element(s)
-refactoring.introduce.variable.dialog.title:
-  text: Introduce Variable
-runner.unit.configuration.name:
-  text: DartUnit
-runner.unit.configuration.description:
-  text: DartUnit run configuration
-dart.unit.group.name:
-  text: 'Group &name:'
-dart.unit.method.name:
-  text: 'Method &name:'
-dart.unit.scope:
-  text: 'Test &kind:'
-dart.pub.exception:
-  text: 'Exception: {0}'
-dart.refactoring.multiple.output.values:
-  text: There are multiple return values
-dart.refactoring.extract.method.error:
-  text: Extract Method Error
-dart.create.function.intention.family:
-  text: Create Dart Function or Method
-dart.create.global.getter.fix.name:
-  text: Create global getter ''{0}''
-dart.create.global.setter.fix.name:
-  text: Create global setter ''{0}''
-dart.create.global.function.fix.name:
-  text: Create global function ''{0}''
-dart.create.method.fix.name:
-  text: Create method ''{0}''
-dart.create.static.method.fix.name:
-  text: Create static method ''{0}''
-dart.create.getter.fix.name:
-  text: Create getter ''{0}''
-dart.create.static.getter.fix.name:
-  text: Create static getter ''{0}''
-dart.create.setter.fix.name:
-  text: Create setter ''{0}''
-dart.create.static.setter.fix.name:
-  text: Create static setter ''{0}''
-dart.cannot.find.place.to.create:
-  text: Can't find place to create statement
-dart.create.operator.fix.name:
-  text: Create operator {0}
-dart.make.static.fix.name:
-  text: Make {1} {0} static
-dart.creat.class.fix.name:
-  text: Create {0} class
-dart.implement.methods.fix.name:
-  text: Implement methods
-refactoring.introduce.final.variable.dialog.title:
-  text: Introduce Constant
-dart.refactoring.extract.method.from.expression.error:
-  text: Can't extract expression
-dart.create.local.variable:
-  text: Create local variable ''{0}''
-dart.create.field:
-  text: Create field ''{0}''
-dart.create.global.variable:
-  text: Create global variable ''{0}''
-dart.extract.method:
-  text: Extract Method
-dart.color.settings.description.label:
-  text: Label
-dart.refactoring.introduce.error:
-  text: Introduce Error
-dart.refactoring.introduce.anchor.error:
-  text: Can't find place for the result
-dart.fix.getter.none.found:
-  text: No fields have been found to generate getters for
-dart.fix.setter.none.found:
-  text: No fields have been found to generate setters for
-dart.fix.gettersetter.none.found:
-  text: No fields have been found to generate getters/setters for
-dart.fix.implement.none.found:
-  text: No methods were found to implement
-dart.fix.override.none.found:
-  text: No methods were found to override
-inspections.group.name:
-  text: Dart
-dart.sdk.is.not.configured:
-  text: Dart SDK is not configured
-setup.dart.sdk:
-  text: Setup Dart SDK
-dart.support.is.not.enabled.for.project:
-  text: Dart support is not enabled for the project
-dart.support.is.not.enabled.for.module.0:
-  text: Dart support is not enabled for the module ''{0}''
-enable.dart.support:
-  text: Enable Dart support
-open.dart.settings:
-  text: Open Dart settings
-path.to.dart.file.not.set:
-  text: Path to Dart file is not specified
-dart.file.not.found:
-  text: 'Dart file is not found: {0}'
-not.a.dart.file:
-  text: 'Specified file is not a Dart file: {0}'
-work.dir.does.not.exist:
-  text: 'Working directory doesn''''t exist: {0}'
-failed.to.create.test.runner:
-  text: 'Failed to create test runner file: {0}'
-dart.generate.constructor:
-  text: Generate Constructor
-dart.import.fix.name:
-  text: Import {0} {1} from {2} library
-project.0:
-  text: Project ''{0}''
-enable.dart.support.for.project.0:
-  text: '&Enable Dart support for the project ''''{0}'''''
-error.path.to.sdk.not.specified:
-  text: 'Error: path to the Dart SDK is not specified.'
-error.folder.specified.as.sdk.not.exists:
-  text: 'Error: the folder specified as the Dart SDK home does not exist.'
-error.sdk.not.found.in.specified.location:
-  text: 'Error: Dart SDK is not found in the specified location.'
-warning.dartium.path.not.specified:
-  text: 'Warning: path to the Dartium browser is not specified.'
-warning.invalid.dartium.path:
-  text: 'Warning: invalid path to the Dartium browser.'
-dartium.path.label:
-  text: 'Da&rtium path:'
-dartium.settings.button:
-  text: '&Settings...'
-warning.no.modules.selected.dart.support.will.be.disabled:
-  text: 'Warning: no modules selected. Dart support will be disabled for the project.'
-dart.deprecated.api.usage:
-  text: Deprecated API usage in Dart
-ref.is.deprecated:
-  text: '#ref is deprecated'
-debugger.waiting.vm.to.connect:
-  text: Waiting for the Dart VM to connect
-dart.line.breakpoints.title:
-  text: Dart Line Breakpoints
-select.custom.package.roots:
-  text: Select Custom Package Root Paths
-warning.custom.package.root.not.specified:
-  text: 'Warning: custom package root is not specified'
-warning.custom.package.root.not.found:
-  text: The folder specified as custom package root does not exist:<br/>{0}
-remove.custom.package.roots:
-  text: Remove custom package roots
-custom.package.roots:
-  text: Custom package roots
-test.0.in.1:
-  text: '{0} in {1}'
-test.group.0.in.1:
-  text: '{0} in {1}'
+    text: Dart File
 all.tests.in.0:
-  text: tests in {0}
+    text: tests in {0}
+cannot.resolve.reference:
+    text: Can't resolve reference
+choose.dart.main.file:
+    text: Choose Dart File
+config.progargs.caption:
+    text: Program Arguments
+config.vmoptions.caption:
+    text: VM Options
+custom.package.roots:
+    text: Custom package roots
+dart.analyzer.inspection.display.name:
+    text: Dart Analyzer
+dart.cannot.find.place.to.create:
+    text: Can't find place to create statement
+dart.color.settings.description.bad.character:
+    text: Bad character
+dart.color.settings.description.block.comment:
+    text: Block comment
+dart.color.settings.description.braces:
+    text: Braces
+dart.color.settings.description.brackets:
+    text: Brackets
+dart.color.settings.description.builtin:
+    text: Built-in Class
+dart.color.settings.description.class:
+    text: Class
+dart.color.settings.description.comma:
+    text: Comma
+dart.color.settings.description.constructor.call:
+    text: Constructor call
+dart.color.settings.description.constructor.decl:
+    text: Constructor declaration
+dart.color.settings.description.doc.comment:
+    text: Documentation comment
+dart.color.settings.description.dot:
+    text: Dot
+dart.color.settings.description.instance.member.abstract.function.call:
+    text: Abstract member function call
+dart.color.settings.description.instance.member.function:
+    text: Instance member function
+dart.color.settings.description.instance.member.function.call:
+    text: Instance member function call
+dart.color.settings.description.instance.member.inherited.function.call:
+    text: Inherited member function call
+dart.color.settings.description.instance.member.variable:
+    text: Instance member variable
+dart.color.settings.description.instance.member.variable.access:
+    text: Instance member variable access
+dart.color.settings.description.invalid.string.escape:
+    text: Invalid escape sequence
+dart.color.settings.description.keyword:
+    text: Keyword
+dart.color.settings.description.label:
+    text: Label
+dart.color.settings.description.line.comment:
+    text: Line comment
+dart.color.settings.description.local.function:
+    text: Function
+dart.color.settings.description.local.variable:
+    text: Local variable
+dart.color.settings.description.local.variable.access:
+    text: Local variable access
+dart.color.settings.description.metadata:
+    text: Metadata
+dart.color.settings.description.number:
+    text: Number
+dart.color.settings.description.operator:
+    text: Operator
+dart.color.settings.description.parameter:
+    text: Parameter
+dart.color.settings.description.parenths:
+    text: Parentheses
+dart.color.settings.description.semicolon:
+    text: Semicolon
+dart.color.settings.description.static.member.function:
+    text: Static member function
+dart.color.settings.description.static.member.function.call:
+    text: Static member function call
+dart.color.settings.description.static.member.variable:
+    text: Static member variable
+dart.color.settings.description.static.member.variable.access:
+    text: Static member variable access
+dart.color.settings.description.string:
+    text: String
+dart.color.settings.description.toplevel.function:
+    text: Top level function declaration
+dart.color.settings.description.toplevel.function.call:
+    text: Top level function call
+dart.color.settings.description.toplevel.variable:
+    text: Top level variable declaration
+dart.color.settings.description.toplevel.variable.access:
+    text: Top level variable access
+dart.color.settings.description.valid.string.escape:
+    text: Escape sequence
+dart.commandline.app.description.idea:
+    text: Create a project for a Dart command-line application from sample content (<a href="http://dartlang.org">http://dartlang.org</a>)
+dart.commandline.app.description.webstorm:
+    text: Create a project for a Dart command-line application from sample content
+dart.commandline.app.title:
+    text: Dart Command Line App
+dart.creat.class.fix.name:
+    text: Create {0} class
+dart.create.field:
+    text: Create field ''{0}''
+dart.create.function.intention.family:
+    text: Create Dart Function or Method
+dart.create.getter.fix.name:
+    text: Create getter ''{0}''
+dart.create.global.function.fix.name:
+    text: Create global function ''{0}''
+dart.create.global.getter.fix.name:
+    text: Create global getter ''{0}''
+dart.create.global.setter.fix.name:
+    text: Create global setter ''{0}''
+dart.create.global.variable:
+    text: Create global variable ''{0}''
+dart.create.local.variable:
+    text: Create local variable ''{0}''
+dart.create.method.fix.name:
+    text: Create method ''{0}''
+dart.create.operator.fix.name:
+    text: Create operator {0}
+dart.create.setter.fix.name:
+    text: Create setter ''{0}''
+dart.create.static.getter.fix.name:
+    text: Create static getter ''{0}''
+dart.create.static.method.fix.name:
+    text: Create static method ''{0}''
+dart.create.static.setter.fix.name:
+    text: Create static setter ''{0}''
+dart.deprecated.api.usage:
+    text: Deprecated API usage in Dart
+dart.extract.method:
+    text: Extract Method
+dart.file.not.found:
+    text: 'Dart file is not found: {0}'
+dart.fix.getter.none.found:
+    text: No fields have been found to generate getters for
+dart.fix.gettersetter.none.found:
+    text: No fields have been found to generate getters/setters for
+dart.fix.implement.none.found:
+    text: No methods were found to implement
+dart.fix.override.none.found:
+    text: No methods were found to override
+dart.fix.setter.none.found:
+    text: No fields have been found to generate setters for
+dart.generate.constructor:
+    text: Generate Constructor
+dart.implement.method:
+    text: Choose method to implement
+dart.implement.methods.fix.name:
+    text: Implement methods
+dart.import.fix.name:
+    text: Import {0} {1} from {2} library
+dart.language.id:
+    text: Dart
+dart.line.breakpoints.title:
+    text: Dart Line Breakpoints
+dart.make.static.fix.name:
+    text: Make {1} {0} static
+dart.override.method:
+    text: Choose method to override
+dart.pub.0.in.progress:
+    text: 'Dart: pub {0}...'
+dart.pub.build:
+    text: 'Pub: Build'
+dart.pub.build.success:
+    text: Dart build completed successfully.
+dart.pub.exception:
+    text: 'Exception: {0}'
+dart.pub.get:
+    text: 'Pub: Get Dependencies'
+dart.pub.get.success:
+    text: Got dependencies successfully.
+dart.pub.upgrade:
+    text: 'Pub: Upgrade Dependencies'
+dart.pub.upgrade.success:
+    text: Dependencies upgraded successfully.
+dart.refactoring.extract.method.error:
+    text: Extract Method Error
+dart.refactoring.extract.method.from.expression.error:
+    text: Can't extract expression
+dart.refactoring.introduce.anchor.error:
+    text: Can't find place for the result
+dart.refactoring.introduce.error:
+    text: Introduce Error
+dart.refactoring.multiple.output.values:
+    text: There are multiple return values
+dart.run.no.module:
+    text: No Module selected
+dart.sdk.bad.dart2js.path:
+    text: |-
+        Can''t find dart2js executable:
+        {0}
+dart.sdk.bad.dartpub.path:
+    text: |-
+        Can''t find pub executable:
+        {0}
+dart.sdk.is.not.configured:
+    text: Dart SDK is not configured
+dart.sdk.path.label:
+    text: '&Dart SDK path:'
+dart.support.is.not.enabled.for.module.0:
+    text: Dart support is not enabled for the module ''{0}''
+dart.support.is.not.enabled.for.project:
+    text: Dart support is not enabled for the project
+dart.surround.with.not.parenthesis:
+    text: '!(expr)'
+dart.surround.with.parenthesis:
+    text: (expr)
+dart.title:
+    text: Dart
+dart.unit.group.name:
+    text: 'Group &name:'
+dart.unit.method.name:
+    text: 'Method &name:'
+dart.unit.scope:
+    text: 'Test &kind:'
+dart.warning:
+    text: Warning!
+dart.web.app.description.idea:
+    text: Create a project for a Dart web application from sample content (<a href="http://dartlang.org">http://dartlang.org</a>)
+dart.web.app.description.webstorm:
+    text: Create a project for a Dart web application from sample content
+dart.web.app.title:
+    text: Dart Web App
+dart2js.input.problem.description:
+    text: Can't find input file!
+dart2js.js.file.created:
+    text: |-
+        JavaScript file created:
+        {0}
+dart2js.js.file.creation.error:
+    text: |-
+        Error occurred:
+        {0}
+dart2js.output.problem.description:
+    text: No output file is specified!
+dart2js.task.description:
+    text: Executing dart2js for ''{0}''
+dart2js.title:
+    text: dart2js
+dartium.not.configured:
+    text: Dartium browser is not specified in {0} | Dart.
+dartium.path.label:
+    text: 'Da&rtium path:'
+dartium.settings.button:
+    text: '&Settings...'
+debugger.waiting.vm.to.connect:
+    text: Waiting for the Dart VM to connect
+empty.dart.project.description.idea:
+    text: Create an empty project for use with the Dart programming language (<a href="http://dartlang.org">http://dartlang.org</a>)
+empty.dart.project.description.webstorm:
+    text: Create an empty project for use with the Dart programming language
+empty.dart.project.title:
+    text: Empty Dart Project
+enable.dart.support:
+    text: Enable Dart support
+enable.dart.support.for.project.0:
+    text: '&Enable Dart support for the project ''''{0}'''''
+error.folder.specified.as.sdk.not.exists:
+    text: 'Error: the folder specified as the Dart SDK home does not exist.'
+error.path.to.sdk.not.specified:
+    text: 'Error: path to the Dart SDK is not specified.'
+error.sdk.not.found.in.specified.location:
+    text: 'Error: Dart SDK is not found in the specified location.'
+failed.to.create.test.runner:
+    text: 'Failed to create test runner file: {0}'
+fields.to.generate.getters:
+    text: Select Fields to Generate Getters
+fields.to.generate.getters.setters:
+    text: Select Fields to Generate Getters and Setters
+fields.to.generate.setters:
+    text: Select Fields to Generate Setters
+implements.method.in:
+    text: Implements method ''{0}'' in ''{1}''
+inspections.group.name:
+    text: Dart
+livetemplate.description.itar:
+    text: Iterate elements of array
+livetemplate.description.iter:
+    text: Iterate (for..in)
+livetemplate.description.surround.braces:
+    text: Surround with '{}'
+not.a.dart.file:
+    text: 'Specified file is not a Dart file: {0}'
+open.dart.settings:
+    text: Open Dart settings
+overrides.method.in:
+    text: Overrides method ''{0}'' in ''{1}''
+path.to.dart.file.not.set:
+    text: Path to Dart file is not specified
+progress.creating.file:
+    text: Creating File {0}
+project.0:
+    text: Project ''{0}''
+ref.is.deprecated:
+    text: '#ref is deprecated'
+refactoring.introduce.final.variable.dialog.title:
+    text: Introduce Constant
+refactoring.introduce.selection.error:
+    text: Can't perform refactoring using selected element(s)
+refactoring.introduce.variable.dialog.title:
+    text: Introduce Variable
+remove.custom.package.roots:
+    text: Remove custom package roots
+runner.command.line.configuration.name:
+    text: Dart Command Line Application
+runner.unit.configuration.description:
+    text: DartUnit run configuration
+runner.unit.configuration.name:
+    text: DartUnit
+select.custom.package.roots:
+    text: Select Custom Package Root Paths
+setup.dart.sdk:
+    text: Setup Dart SDK
+test.0.in.1:
+    text: '{0} in {1}'
+test.group.0.in.1:
+    text: '{0} in {1}'
+version.label:
+    text: 'Version:'
+warning.custom.package.root.not.found:
+    text: The folder specified as custom package root does not exist:<br/>{0}
+warning.custom.package.root.not.specified:
+    text: 'Warning: custom package root is not specified'
+warning.dartium.path.not.specified:
+    text: 'Warning: path to the Dartium browser is not specified.'
+warning.invalid.dartium.path:
+    text: 'Warning: invalid path to the Dartium browser.'
+warning.no.modules.selected.dart.support.will.be.disabled:
+    text: 'Warning: no modules selected. Dart support will be disabled for the project.'
+work.dir.does.not.exist:
+    text: 'Working directory doesn''''t exist: {0}'

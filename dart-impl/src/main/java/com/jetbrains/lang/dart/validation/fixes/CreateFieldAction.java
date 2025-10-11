@@ -1,13 +1,13 @@
 package com.jetbrains.lang.dart.validation.fixes;
 
-import com.jetbrains.lang.dart.DartBundle;
 import com.jetbrains.lang.dart.psi.DartClass;
 import com.jetbrains.lang.dart.psi.DartExecutionScope;
 import com.jetbrains.lang.dart.psi.DartReference;
 import com.jetbrains.lang.dart.util.DartResolveUtil;
+import consulo.google.dart.localize.DartLocalize;
 import consulo.language.psi.PsiElement;
 import consulo.language.psi.util.PsiTreeUtil;
-
+import consulo.localize.LocalizeValue;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 
@@ -18,8 +18,8 @@ public class CreateFieldAction extends CreateVariableActionBase {
 
   @Nonnull
   @Override
-  public String getName() {
-    return DartBundle.message("dart.create.field", myName);
+  public LocalizeValue getName() {
+    return DartLocalize.dartCreateField(myName);
   }
 
   @Nullable

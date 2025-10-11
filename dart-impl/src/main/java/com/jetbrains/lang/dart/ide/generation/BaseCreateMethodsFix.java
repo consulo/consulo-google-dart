@@ -17,11 +17,12 @@ import consulo.language.editor.template.TemplateManager;
 import consulo.language.psi.PsiElement;
 import consulo.language.psi.PsiFile;
 import consulo.language.psi.util.PsiTreeUtil;
-import consulo.project.Project;
 import consulo.language.util.IncorrectOperationException;
-
+import consulo.localize.LocalizeValue;
+import consulo.project.Project;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
+
 import java.util.*;
 
 abstract public class BaseCreateMethodsFix<T extends DartComponent> {
@@ -98,7 +99,7 @@ abstract public class BaseCreateMethodsFix<T extends DartComponent> {
   }
 
   @Nonnull
-  protected abstract String getNothingFoundMessage();
+  protected abstract LocalizeValue getNothingFoundMessage();
 
   @Nullable
   protected abstract Template buildFunctionsText(TemplateManager templateManager, T e);

@@ -4,16 +4,16 @@ import consulo.codeEditor.Editor;
 import consulo.language.editor.FileModificationService;
 import consulo.language.editor.inspection.LocalQuickFix;
 import consulo.language.editor.inspection.ProblemDescriptor;
-import consulo.language.editor.intention.IntentionAction;
+import consulo.language.editor.intention.SyntheticIntentionAction;
 import consulo.language.psi.PsiElement;
 import consulo.language.psi.PsiFile;
 import consulo.language.util.IncorrectOperationException;
+import consulo.localize.LocalizeValue;
 import consulo.project.Project;
-
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 
-public abstract class FixAndIntentionAction implements LocalQuickFix, IntentionAction {
+public abstract class FixAndIntentionAction implements LocalQuickFix, SyntheticIntentionAction {
   @Nullable
   protected PsiElement myElement = null;
 
@@ -22,12 +22,12 @@ public abstract class FixAndIntentionAction implements LocalQuickFix, IntentionA
   }
 
   @Nonnull
-  public String getFamilyName() {
+  public LocalizeValue getFamilyName() {
     return getName();
   }
 
   @Nonnull
-  public String getText() {
+  public LocalizeValue getText() {
     return getName();
   }
 

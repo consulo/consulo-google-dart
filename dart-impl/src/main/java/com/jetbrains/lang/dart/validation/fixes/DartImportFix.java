@@ -1,13 +1,13 @@
 package com.jetbrains.lang.dart.validation.fixes;
 
-import com.jetbrains.lang.dart.DartBundle;
 import com.jetbrains.lang.dart.DartComponentType;
 import com.jetbrains.lang.dart.ide.index.DartComponentInfo;
 import com.jetbrains.lang.dart.util.DartImportUtil;
 import consulo.codeEditor.Editor;
+import consulo.google.dart.localize.DartLocalize;
 import consulo.language.psi.PsiElement;
+import consulo.localize.LocalizeValue;
 import consulo.project.Project;
-
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 
@@ -34,9 +34,9 @@ public class DartImportFix extends BaseCreateFix {
 
   @Nonnull
   @Override
-  public String getName() {
+  public LocalizeValue getName() {
     final DartComponentType type = myInfo.getType();
     assert type != null;
-    return DartBundle.message("dart.import.fix.name", type.toString().toLowerCase(), myComponentName, myInfo.getLibraryId());
+    return DartLocalize.dartImportFixName(type.toString().toLowerCase(), myComponentName, myInfo.getLibraryId());
   }
 }

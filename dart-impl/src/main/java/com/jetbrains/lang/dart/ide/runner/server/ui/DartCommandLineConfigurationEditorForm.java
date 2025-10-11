@@ -1,16 +1,16 @@
 package com.jetbrains.lang.dart.ide.runner.server.ui;
 
-import com.jetbrains.lang.dart.DartBundle;
 import com.jetbrains.lang.dart.DartFileType;
 import com.jetbrains.lang.dart.ide.DartWritingAccessProvider;
 import com.jetbrains.lang.dart.ide.runner.server.DartCommandLineRunConfiguration;
 import com.jetbrains.lang.dart.ide.runner.server.DartCommandLineRunnerParameters;
 import consulo.configurable.ConfigurationException;
-import consulo.execution.ExecutionBundle;
 import consulo.execution.configuration.ui.SettingsEditor;
+import consulo.execution.localize.ExecutionLocalize;
 import consulo.execution.ui.awt.EnvironmentVariablesComponent;
 import consulo.execution.ui.awt.RawCommandLineEditor;
 import consulo.fileChooser.FileChooserDescriptorFactory;
+import consulo.google.dart.localize.DartLocalize;
 import consulo.language.editor.ui.TreeFileChooser;
 import consulo.language.editor.ui.TreeFileChooserFactory;
 import consulo.language.psi.PsiFile;
@@ -21,8 +21,8 @@ import consulo.util.io.FileUtil;
 import consulo.util.lang.StringUtil;
 import consulo.virtualFileSystem.LocalFileSystem;
 import consulo.virtualFileSystem.VirtualFile;
-
 import jakarta.annotation.Nonnull;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -39,11 +39,11 @@ public class DartCommandLineConfigurationEditorForm extends SettingsEditor<DartC
   public DartCommandLineConfigurationEditorForm(final Project project) {
     initDartFileTextWithBrowse(project, myFileField);
 
-    myWorkingDirectory.addBrowseFolderListener(ExecutionBundle.message("select.working.directory.message"), null, project,
+    myWorkingDirectory.addBrowseFolderListener(ExecutionLocalize.selectWorkingDirectoryMessage().get(), null, project,
                                                FileChooserDescriptorFactory.createSingleFolderDescriptor());
 
-    myVMOptions.setDialogCaption(DartBundle.message("config.vmoptions.caption"));
-    myArguments.setDialogCaption(DartBundle.message("config.progargs.caption"));
+    myVMOptions.setDialogCaption(DartLocalize.configVmoptionsCaption().get());
+    myArguments.setDialogCaption(DartLocalize.configProgargsCaption().get());
 
     // 'Environment variables' is the widest label, anchored by myDartFileLabel
     myDartFileLabel.setPreferredSize(myEnvironmentVariables.getLabel().getPreferredSize());
@@ -58,8 +58,7 @@ public class DartCommandLineConfigurationEditorForm extends SettingsEditor<DartC
         final VirtualFile initialFile = initialPath.isEmpty() ? null : LocalFileSystem.getInstance().findFileByPath(initialPath);
         final PsiFile initialPsiFile = initialFile == null ? null : PsiManager.getInstance(project).findFile(initialFile);
 
-        TreeFileChooser fileChooser = TreeFileChooserFactory.getInstance(project).createFileChooser(DartBundle.message("choose.dart.main" +
-                                                                                                                         ".file"),
+        TreeFileChooser fileChooser = TreeFileChooserFactory.getInstance(project).createFileChooser(DartLocalize.chooseDartMainFile().get(),
                                                                                                     initialPsiFile,
                                                                                                     DartFileType.INSTANCE,
                                                                                                     file -> !DartWritingAccessProvider.isInDartSdkOrDartPackagesFolder(

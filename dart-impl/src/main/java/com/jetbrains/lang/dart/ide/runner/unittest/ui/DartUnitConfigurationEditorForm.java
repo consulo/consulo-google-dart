@@ -1,6 +1,5 @@
 package com.jetbrains.lang.dart.ide.runner.unittest.ui;
 
-import com.jetbrains.lang.dart.DartBundle;
 import com.jetbrains.lang.dart.ide.runner.server.ui.DartCommandLineConfigurationEditorForm;
 import com.jetbrains.lang.dart.ide.runner.unittest.DartUnitRunConfiguration;
 import com.jetbrains.lang.dart.ide.runner.unittest.DartUnitRunnerParameters;
@@ -10,14 +9,15 @@ import consulo.execution.configuration.ui.SettingsEditor;
 import consulo.execution.ui.awt.EnvironmentVariablesComponent;
 import consulo.execution.ui.awt.RawCommandLineEditor;
 import consulo.fileChooser.FileChooserDescriptorFactory;
+import consulo.google.dart.localize.DartLocalize;
 import consulo.project.Project;
 import consulo.ui.ex.awt.EnumComboBoxModel;
 import consulo.ui.ex.awt.ListCellRendererWrapper;
 import consulo.ui.ex.awt.TextFieldWithBrowseButton;
 import consulo.util.io.FileUtil;
 import consulo.util.lang.StringUtil;
-
 import jakarta.annotation.Nonnull;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -58,8 +58,8 @@ public class DartUnitConfigurationEditorForm extends SettingsEditor<DartUnitRunC
       }
     });
 
-    myVMOptions.setDialogCaption(DartBundle.message("config.vmoptions.caption"));
-    myArguments.setDialogCaption(DartBundle.message("config.progargs.caption"));
+    myVMOptions.setDialogCaption(DartLocalize.configVmoptionsCaption().get());
+    myArguments.setDialogCaption(DartLocalize.configProgargsCaption().get());
 
     // 'Environment variables' is the widest label, anchored by myTestFileLabel
     myTestFileLabel.setPreferredSize(myEnvironmentVariables.getLabel().getPreferredSize());
@@ -103,7 +103,7 @@ public class DartUnitConfigurationEditorForm extends SettingsEditor<DartUnitRunC
     final Scope scope = (Scope)myScopeCombo.getSelectedItem();
     myTestNameLabel.setVisible(scope == Scope.GROUP || scope == Scope.METHOD);
     myTestNameField.setVisible(scope == Scope.GROUP || scope == Scope.METHOD);
-    myTestNameLabel.setText(scope == Scope.GROUP ? DartBundle.message("dart.unit.group.name") : DartBundle.message("dart.unit.method.name"));
+    myTestNameLabel.setText(scope == Scope.GROUP ? DartLocalize.dartUnitGroupName().get() : DartLocalize.dartUnitMethodName().get());
   }
 
   @Nonnull

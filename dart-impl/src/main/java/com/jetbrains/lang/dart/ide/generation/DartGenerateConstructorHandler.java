@@ -1,9 +1,10 @@
 package com.jetbrains.lang.dart.ide.generation;
 
-import com.jetbrains.lang.dart.DartBundle;
 import com.jetbrains.lang.dart.DartComponentType;
 import com.jetbrains.lang.dart.psi.DartClass;
 import com.jetbrains.lang.dart.psi.DartComponent;
+import consulo.google.dart.localize.DartLocalize;
+import consulo.localize.LocalizeValue;
 import consulo.util.collection.ContainerUtil;
 import consulo.util.lang.Pair;
 import consulo.util.lang.function.Condition;
@@ -16,8 +17,8 @@ import java.util.Map;
  */
 public class DartGenerateConstructorHandler extends BaseDartGenerateHandler {
   @Override
-  protected String getTitle() {
-    return DartBundle.message("dart.generate.constructor");
+  protected LocalizeValue getTitle() {
+    return DartLocalize.dartGenerateConstructor();
   }
 
   @Override

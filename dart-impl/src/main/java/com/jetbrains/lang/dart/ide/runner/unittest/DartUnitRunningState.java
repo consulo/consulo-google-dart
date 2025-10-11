@@ -1,6 +1,5 @@
 package com.jetbrains.lang.dart.ide.runner.unittest;
 
-import com.jetbrains.lang.dart.DartBundle;
 import com.jetbrains.lang.dart.ide.runner.DartConsoleFilter;
 import com.jetbrains.lang.dart.ide.runner.server.DartCommandLineRunningState;
 import consulo.application.util.SystemInfo;
@@ -18,6 +17,7 @@ import consulo.execution.test.sm.SMTestRunnerConnectionUtil;
 import consulo.execution.test.sm.runner.SMTRunnerConsoleProperties;
 import consulo.execution.test.sm.ui.SMTRunnerConsoleView;
 import consulo.execution.ui.console.ConsoleView;
+import consulo.google.dart.localize.DartLocalize;
 import consulo.process.ExecutionException;
 import consulo.process.ProcessHandler;
 import consulo.project.Project;
@@ -26,8 +26,8 @@ import consulo.util.io.ResourceUtil;
 import consulo.util.lang.StringUtil;
 import consulo.virtualFileSystem.VirtualFile;
 import consulo.virtualFileSystem.util.VirtualFileUtil;
-
 import jakarta.annotation.Nonnull;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -92,7 +92,7 @@ public class DartUnitRunningState extends DartCommandLineRunningState {
       testRunnerPath = createTestRunnerFile();
     }
     catch (IOException e) {
-      throw new ExecutionException(DartBundle.message("failed.to.create.test.runner", e.getMessage()));
+      throw new ExecutionException(DartLocalize.failedToCreateTestRunner(e.getMessage()).get());
     }
 
     return doStartProcess(testRunnerPath);

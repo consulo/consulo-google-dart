@@ -1,11 +1,11 @@
 package com.jetbrains.lang.dart.validation.fixes;
 
-import com.jetbrains.lang.dart.DartBundle;
 import com.jetbrains.lang.dart.ide.generation.DartImplementMethodHandler;
 import consulo.codeEditor.Editor;
+import consulo.google.dart.localize.DartLocalize;
 import consulo.language.psi.PsiElement;
+import consulo.localize.LocalizeValue;
 import consulo.project.Project;
-
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 
@@ -19,8 +19,8 @@ public class ImplementMethodAction extends FixAndIntentionAction {
 
   @Nonnull
   @Override
-  public String getName() {
-    return DartBundle.message("dart.implement.methods.fix.name");
+  public LocalizeValue getName() {
+    return DartLocalize.dartImplementMethodsFixName();
   }
 
   @Override

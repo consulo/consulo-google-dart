@@ -1,15 +1,15 @@
 package com.jetbrains.lang.dart.validation.fixes;
 
-import com.jetbrains.lang.dart.DartBundle;
 import com.jetbrains.lang.dart.psi.DartExecutionScope;
 import com.jetbrains.lang.dart.util.DartPresentableUtil;
 import consulo.codeEditor.Editor;
+import consulo.google.dart.localize.DartLocalize;
 import consulo.language.editor.template.Template;
 import consulo.language.editor.template.TemplateManager;
 import consulo.language.psi.PsiElement;
 import consulo.language.psi.util.PsiTreeUtil;
+import consulo.localize.LocalizeValue;
 import consulo.project.Project;
-
 import jakarta.annotation.Nonnull;
 
 public class CreateDartClassAction extends BaseCreateFix {
@@ -21,8 +21,8 @@ public class CreateDartClassAction extends BaseCreateFix {
 
   @Nonnull
   @Override
-  public String getName() {
-    return DartBundle.message("dart.creat.class.fix.name", myClassName);
+  public LocalizeValue getName() {
+    return DartLocalize.dartCreatClassFixName(myClassName);
   }
 
   @Override

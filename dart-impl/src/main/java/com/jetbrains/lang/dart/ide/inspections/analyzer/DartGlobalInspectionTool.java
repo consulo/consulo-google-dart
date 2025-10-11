@@ -1,23 +1,25 @@
 package com.jetbrains.lang.dart.ide.inspections.analyzer;
 
 import com.google.dart.engine.error.AnalysisError;
-import com.jetbrains.lang.dart.DartBundle;
 import com.jetbrains.lang.dart.DartLanguage;
 import consulo.annotation.component.ExtensionImpl;
 import consulo.application.ApplicationManager;
 import consulo.document.util.TextRange;
+import consulo.google.dart.localize.DartLocalize;
 import consulo.language.Language;
 import consulo.language.editor.inspection.*;
+import consulo.language.editor.inspection.localize.InspectionLocalize;
 import consulo.language.editor.inspection.scheme.InspectionManager;
 import consulo.language.editor.rawHighlight.HighlightDisplayLevel;
 import consulo.language.editor.scope.AnalysisScope;
 import consulo.language.psi.PsiElement;
 import consulo.language.psi.PsiFile;
 import consulo.language.psi.PsiManager;
+import consulo.localize.LocalizeValue;
 import consulo.virtualFileSystem.VirtualFile;
-
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
+
 import java.util.Map;
 
 @ExtensionImpl
@@ -30,14 +32,14 @@ public class DartGlobalInspectionTool extends GlobalInspectionTool {
 
   @Nonnull
   @Override
-  public String getGroupDisplayName() {
-    return "General";
+  public LocalizeValue getGroupDisplayName() {
+    return InspectionLocalize.inspectionGeneralToolsGroupName();
   }
 
   @Nonnull
   @Override
-  public String getDisplayName() {
-    return DartBundle.message("dart.analyzer.inspection.display.name");
+  public LocalizeValue getDisplayName() {
+    return DartLocalize.dartAnalyzerInspectionDisplayName();
   }
 
   @Nonnull

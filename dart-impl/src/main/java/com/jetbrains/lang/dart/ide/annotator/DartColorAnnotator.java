@@ -1,6 +1,5 @@
 package com.jetbrains.lang.dart.ide.annotator;
 
-import com.jetbrains.lang.dart.DartBundle;
 import com.jetbrains.lang.dart.DartComponentType;
 import com.jetbrains.lang.dart.DartTokenTypes;
 import com.jetbrains.lang.dart.DartTokenTypesSets;
@@ -12,6 +11,7 @@ import consulo.colorScheme.TextAttributesKey;
 import consulo.content.bundle.Sdk;
 import consulo.dart.module.extension.DartModuleExtension;
 import consulo.document.util.TextRange;
+import consulo.google.dart.localize.DartLocalize;
 import consulo.language.editor.annotation.AnnotationHolder;
 import consulo.language.editor.annotation.Annotator;
 import consulo.language.psi.PsiElement;
@@ -22,9 +22,9 @@ import consulo.util.lang.Pair;
 import consulo.util.lang.StringUtil;
 import consulo.util.lang.function.Condition;
 import consulo.virtualFileSystem.VirtualFile;
-
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
+
 import java.util.*;
 
 public class DartColorAnnotator implements Annotator {
@@ -271,7 +271,7 @@ public class DartColorAnnotator implements Annotator {
         holder.createInfoAnnotation(range, null).setTextAttributes(attribute);
       }
       else {
-        holder.createErrorAnnotation(range, DartBundle.message("dart.color.settings.description.invalid.string.escape")).setTextAttributes
+        holder.createErrorAnnotation(range, DartLocalize.dartColorSettingsDescriptionInvalidStringEscape().get()).setTextAttributes
           (attribute);
       }
     }

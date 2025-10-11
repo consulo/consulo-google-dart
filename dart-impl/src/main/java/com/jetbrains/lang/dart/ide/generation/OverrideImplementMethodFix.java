@@ -1,15 +1,15 @@
 package com.jetbrains.lang.dart.ide.generation;
 
-import com.jetbrains.lang.dart.DartBundle;
 import com.jetbrains.lang.dart.psi.DartClass;
 import com.jetbrains.lang.dart.psi.DartComponent;
 import com.jetbrains.lang.dart.psi.DartReturnType;
 import com.jetbrains.lang.dart.psi.DartType;
 import com.jetbrains.lang.dart.util.DartPresentableUtil;
+import consulo.google.dart.localize.DartLocalize;
 import consulo.language.editor.template.Template;
 import consulo.language.editor.template.TemplateManager;
 import consulo.language.psi.util.PsiTreeUtil;
-
+import consulo.localize.LocalizeValue;
 import jakarta.annotation.Nonnull;
 
 public class OverrideImplementMethodFix extends BaseCreateMethodsFix<DartComponent> {
@@ -22,8 +22,8 @@ public class OverrideImplementMethodFix extends BaseCreateMethodsFix<DartCompone
 
   @Override
   @Nonnull
-  protected String getNothingFoundMessage() {
-    return myImplementNotOverride ? DartBundle.message("dart.fix.implement.none.found") : DartBundle.message("dart.fix.override.none.found");
+  protected LocalizeValue getNothingFoundMessage() {
+    return myImplementNotOverride ? DartLocalize.dartFixImplementNoneFound() : DartLocalize.dartFixOverrideNoneFound();
   }
 
   @Override

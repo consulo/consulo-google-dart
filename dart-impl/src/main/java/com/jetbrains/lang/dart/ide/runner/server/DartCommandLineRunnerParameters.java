@@ -1,10 +1,10 @@
 package com.jetbrains.lang.dart.ide.runner.server;
 
-import com.jetbrains.lang.dart.DartBundle;
 import com.jetbrains.lang.dart.DartFileType;
 import consulo.content.bundle.Sdk;
 import consulo.dart.module.extension.DartModuleExtension;
 import consulo.execution.configuration.RuntimeConfigurationError;
+import consulo.google.dart.localize.DartLocalize;
 import consulo.language.util.ModuleUtilCore;
 import consulo.module.Module;
 import consulo.project.Project;
@@ -13,9 +13,9 @@ import consulo.util.lang.StringUtil;
 import consulo.util.xml.serializer.annotation.MapAnnotation;
 import consulo.virtualFileSystem.LocalFileSystem;
 import consulo.virtualFileSystem.VirtualFile;
-
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
+
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -97,16 +97,16 @@ public class DartCommandLineRunnerParameters implements Cloneable {
   public VirtualFile getDartFile() throws RuntimeConfigurationError {
     final String filePath = getFilePath();
     if (StringUtil.isEmptyOrSpaces(filePath)) {
-      throw new RuntimeConfigurationError(DartBundle.message("path.to.dart.file.not.set"));
+      throw new RuntimeConfigurationError(DartLocalize.pathToDartFileNotSet());
     }
 
     final VirtualFile dartFile = LocalFileSystem.getInstance().findFileByPath(filePath);
     if (dartFile == null || dartFile.isDirectory()) {
-      throw new RuntimeConfigurationError(DartBundle.message("dart.file.not.found", FileUtil.toSystemDependentName(filePath)));
+      throw new RuntimeConfigurationError(DartLocalize.dartFileNotFound(FileUtil.toSystemDependentName(filePath)));
     }
 
     if (dartFile.getFileType() != DartFileType.INSTANCE) {
-      throw new RuntimeConfigurationError(DartBundle.message("not.a.dart.file", FileUtil.toSystemDependentName(filePath)));
+      throw new RuntimeConfigurationError(DartLocalize.notADartFile(FileUtil.toSystemDependentName(filePath)));
     }
 
     return dartFile;
@@ -121,7 +121,7 @@ public class DartCommandLineRunnerParameters implements Cloneable {
 
     Sdk sdk = ModuleUtilCore.getSdk(moduleForFile, DartModuleExtension.class);
     if (sdk == null) {
-      throw new RuntimeConfigurationError(DartBundle.message("dart.sdk.is.not.configured"));
+      throw new RuntimeConfigurationError(DartLocalize.dartSdkIsNotConfigured());
     }
     return sdk;
   }
@@ -135,7 +135,7 @@ public class DartCommandLineRunnerParameters implements Cloneable {
     if (!StringUtil.isEmptyOrSpaces(workDirPath)) {
       final VirtualFile workDir = LocalFileSystem.getInstance().findFileByPath(workDirPath);
       if (workDir == null || !workDir.isDirectory()) {
-        throw new RuntimeConfigurationError(DartBundle.message("work.dir.does.not.exist", FileUtil.toSystemDependentName(workDirPath)));
+        throw new RuntimeConfigurationError(DartLocalize.workDirDoesNotExist(FileUtil.toSystemDependentName(workDirPath)));
       }
     }
   }

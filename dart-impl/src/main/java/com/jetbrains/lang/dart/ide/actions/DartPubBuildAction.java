@@ -1,22 +1,21 @@
 package com.jetbrains.lang.dart.ide.actions;
 
-import com.jetbrains.lang.dart.DartBundle;
-import org.jetbrains.annotations.Nls;
+import consulo.google.dart.localize.DartLocalize;
+import consulo.localize.LocalizeValue;
 
 public class DartPubBuildAction extends DartPubActionBase {
-  @Nls
-  @Override
-  protected String getPresentableText() {
-    return DartBundle.message("dart.pub.build");
-  }
+    @Override
+    protected LocalizeValue getPresentableText() {
+        return DartLocalize.dartPubBuild();
+    }
 
-  @Override
-  protected String getPubCommand() {
-    return "build";
-  }
+    @Override
+    protected String getPubCommand() {
+        return "build";
+    }
 
-  @Override
-  protected String getSuccessMessage() {
-    return DartBundle.message("dart.pub.build.success");
-  }
+    @Override
+    protected LocalizeValue getSuccessMessage() {
+        return DartLocalize.dartPubBuildSuccess();
+    }
 }

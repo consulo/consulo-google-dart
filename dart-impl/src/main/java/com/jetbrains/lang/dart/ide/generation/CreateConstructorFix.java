@@ -5,6 +5,7 @@ import com.jetbrains.lang.dart.psi.DartComponent;
 import consulo.codeEditor.Editor;
 import consulo.language.editor.template.Template;
 import consulo.language.editor.template.TemplateManager;
+import consulo.localize.LocalizeValue;
 import consulo.project.Project;
 
 import jakarta.annotation.Nonnull;
@@ -24,8 +25,8 @@ public class CreateConstructorFix extends BaseCreateMethodsFix<DartComponent> {
 
   @Override
   @Nonnull
-  protected String getNothingFoundMessage() {
-    return ""; // can't be called actually because processElements() is overridden
+  protected LocalizeValue getNothingFoundMessage() {
+    return LocalizeValue.of(); // can't be called actually because processElements() is overridden
   }
 
   protected Template buildFunctionsText(TemplateManager templateManager, Set<DartComponent> elementsToProcess) {

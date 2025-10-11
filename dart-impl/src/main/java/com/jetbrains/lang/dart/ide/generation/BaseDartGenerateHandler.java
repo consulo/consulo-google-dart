@@ -63,7 +63,7 @@ public abstract class BaseDartGenerateHandler implements LanguageCodeInsightActi
       PsiTreeUtil.getParentOfType(file.findElementAt(offset), DartClassDefinition.class);
     if (dartClass == null) return;
 
-    final List<DartComponent> candidates = new ArrayList<DartComponent>();
+    final List<DartComponent> candidates = new ArrayList<>();
     collectCandidates(dartClass, candidates);
 
     Consumer<Collection<DartNamedElementNode>> acceptor = selectedElements -> {
@@ -73,7 +73,7 @@ public abstract class BaseDartGenerateHandler implements LanguageCodeInsightActi
 
     if (!candidates.isEmpty()) {
       final MemberChooserBuilder<DartNamedElementNode> chooser =
-        createMemberChooserDialog(project, dartClass, candidates, LocalizeValue.localizeTODO(getTitle()));
+        createMemberChooserDialog(project, dartClass, candidates, getTitle());
       chooser.showAsync(project, data -> {
         List selected = data.getUserData(ClassMember.KEY_OF_LIST);
         if (selected != null) {
@@ -119,25 +119,25 @@ public abstract class BaseDartGenerateHandler implements LanguageCodeInsightActi
 
   protected abstract BaseCreateMethodsFix createFix(DartClass haxeClass);
 
-  protected abstract String getTitle();
+  protected abstract LocalizeValue getTitle();
 
   protected void collectCandidates(DartClass aClass, List<DartComponent> candidates) {
-    final List<DartClass> superClasses = new ArrayList<DartClass>();
-    final List<DartClass> superInterfaces = new ArrayList<DartClass>();
+    final List<DartClass> superClasses = new ArrayList<>();
+    final List<DartClass> superInterfaces = new ArrayList<>();
 
     DartResolveUtil.collectSupers(superClasses, superInterfaces, aClass);
 
     List<DartComponent> classMembers = DartResolveUtil.getNamedSubComponents(aClass);
-    List<DartComponent> superClassesMembers = new ArrayList<DartComponent>();
+    List<DartComponent> superClassesMembers = new ArrayList<>();
     for (DartClass superClass : superClasses) {
       superClassesMembers.addAll(DartResolveUtil.getNamedSubComponents(superClass));
     }
-    List<DartComponent> superInterfacesMembers = new ArrayList<DartComponent>();
+    List<DartComponent> superInterfacesMembers = new ArrayList<>();
     for (DartClass superInterface : superInterfaces) {
       superInterfacesMembers.addAll(DartResolveUtil.getNamedSubComponents(superInterface));
     }
 
-    final Condition<DartComponent> notConstructorCondition = new Condition<DartComponent>() {
+    final Condition<DartComponent> notConstructorCondition = new Condition<>() {
       @Override
       public boolean value(DartComponent component) {
         return DartComponentType.typeOf(component) != DartComponentType.CONSTRUCTOR;

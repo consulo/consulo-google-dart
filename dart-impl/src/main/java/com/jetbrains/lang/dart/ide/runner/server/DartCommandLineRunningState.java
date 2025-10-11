@@ -1,6 +1,5 @@
 package com.jetbrains.lang.dart.ide.runner.server;
 
-import com.jetbrains.lang.dart.DartBundle;
 import com.jetbrains.lang.dart.ide.runner.DartConsoleFilter;
 import com.jetbrains.lang.dart.ide.runner.base.DartRunConfigurationBase;
 import com.jetbrains.lang.dart.util.DartSdkUtil;
@@ -12,6 +11,7 @@ import consulo.execution.process.ProcessTerminatedListener;
 import consulo.execution.runner.ExecutionEnvironment;
 import consulo.execution.ui.console.TextConsoleBuilder;
 import consulo.execution.util.CommandLineTokenizer;
+import consulo.google.dart.localize.DartLocalize;
 import consulo.process.ExecutionException;
 import consulo.process.ProcessHandler;
 import consulo.process.cmd.GeneralCommandLine;
@@ -19,9 +19,9 @@ import consulo.process.local.ProcessHandlerFactory;
 import consulo.project.Project;
 import consulo.util.lang.StringUtil;
 import consulo.virtualFileSystem.VirtualFile;
-
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
+
 import java.util.StringTokenizer;
 
 public class DartCommandLineRunningState extends CommandLineState {
@@ -74,7 +74,7 @@ public class DartCommandLineRunningState extends CommandLineState {
 
   private GeneralCommandLine createCommandLine(final @Nullable String overriddenMainFilePath) throws ExecutionException {
     if (mySdk == null) {
-      throw new ExecutionException(DartBundle.message("dart.sdk.is.not.configured"));
+      throw new ExecutionException(DartLocalize.dartSdkIsNotConfigured().get());
     }
 
     final String dartExePath = DartSdkUtil.getCompilerPathByFolderPath(mySdk.getHomePath());

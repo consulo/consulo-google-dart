@@ -1,19 +1,19 @@
 package com.jetbrains.lang.dart.ide.surroundWith.expression;
 
-import com.jetbrains.lang.dart.DartBundle;
+import consulo.google.dart.localize.DartLocalize;
 import consulo.language.psi.PsiElement;
 
 /**
  * @author: Fedor.Korotkov
  */
 public class DartWithNotParenthesisExpressionSurrounder extends DartWithExpressionSurrounder {
-  @Override
-  protected String getTemplateText(PsiElement expr) {
-    return "!(" + expr.getText() + ")";
-  }
+    @Override
+    protected String getTemplateText(PsiElement expr) {
+        return "!(" + expr.getText() + ")";
+    }
 
-  @Override
-  public String getTemplateDescription() {
-    return DartBundle.message("dart.surround.with.not.parenthesis");
-  }
+    @Override
+    public String getTemplateDescription() {
+        return DartLocalize.dartSurroundWithNotParenthesis().get();
+    }
 }

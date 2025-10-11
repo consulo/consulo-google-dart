@@ -1,13 +1,13 @@
 package com.jetbrains.lang.dart.ide.refactoring.introduce;
 
-import com.jetbrains.lang.dart.DartBundle;
+import consulo.google.dart.localize.DartLocalize;
 
 /**
- * @author: Fedor.Korotkov
+ * @author Fedor.Korotkov
  */
 public class DartIntroduceFinalVariableHandler extends DartIntroduceHandler {
   public DartIntroduceFinalVariableHandler() {
-    super(DartBundle.message("refactoring.introduce.final.variable.dialog.title"));
+    super(DartLocalize.refactoringIntroduceFinalVariableDialogTitle());
   }
 
   @Override

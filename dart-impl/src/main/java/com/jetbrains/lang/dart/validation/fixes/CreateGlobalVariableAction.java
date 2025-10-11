@@ -1,10 +1,10 @@
 package com.jetbrains.lang.dart.validation.fixes;
 
-import com.jetbrains.lang.dart.DartBundle;
 import com.jetbrains.lang.dart.psi.DartExecutionScope;
+import consulo.google.dart.localize.DartLocalize;
 import consulo.language.psi.PsiElement;
 import consulo.language.psi.util.PsiTreeUtil;
-
+import consulo.localize.LocalizeValue;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 
@@ -15,8 +15,8 @@ public class CreateGlobalVariableAction extends CreateVariableActionBase {
 
   @Nonnull
   @Override
-  public String getName() {
-    return DartBundle.message("dart.create.global.variable", myName);
+  public LocalizeValue getName() {
+    return DartLocalize.dartCreateGlobalVariable(myName);
   }
 
   @Nullable

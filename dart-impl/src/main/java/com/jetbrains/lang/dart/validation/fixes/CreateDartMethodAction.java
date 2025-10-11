@@ -1,15 +1,15 @@
 package com.jetbrains.lang.dart.validation.fixes;
 
-import com.jetbrains.lang.dart.DartBundle;
 import com.jetbrains.lang.dart.psi.DartCallExpression;
 import com.jetbrains.lang.dart.psi.DartClass;
 import com.jetbrains.lang.dart.psi.DartExpression;
 import com.jetbrains.lang.dart.psi.DartReference;
 import com.jetbrains.lang.dart.util.DartResolveUtil;
+import consulo.google.dart.localize.DartLocalize;
 import consulo.language.editor.template.Template;
 import consulo.language.psi.PsiElement;
 import consulo.language.psi.util.PsiTreeUtil;
-
+import consulo.localize.LocalizeValue;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 
@@ -24,9 +24,9 @@ public class CreateDartMethodAction extends CreateDartFunctionActionBase {
 
   @Nonnull
   @Override
-  public String getName() {
-    return myStatic ? DartBundle.message("dart.create.static.method.fix.name", myFunctionName)
-      : DartBundle.message("dart.create.method.fix.name", myFunctionName);
+  public LocalizeValue getName() {
+    return myStatic ? DartLocalize.dartCreateStaticMethodFixName(myFunctionName)
+      : DartLocalize.dartCreateMethodFixName(myFunctionName);
   }
 
   @Override
