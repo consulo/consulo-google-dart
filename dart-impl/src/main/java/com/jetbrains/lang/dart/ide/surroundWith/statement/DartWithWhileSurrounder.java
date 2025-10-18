@@ -1,12 +1,14 @@
 package com.jetbrains.lang.dart.ide.surroundWith.statement;
 
+import consulo.localize.LocalizeValue;
+
 /**
  * @author: Fedor.Korotkov
  */
 public class DartWithWhileSurrounder extends DartLiteralAndBlockStatementSurrounderBase {
   @Override
-  public String getTemplateDescription() {
-    return "while";
+  public LocalizeValue getTemplateDescription() {
+    return LocalizeValue.localizeTODO("while");
   }
 
   @Override

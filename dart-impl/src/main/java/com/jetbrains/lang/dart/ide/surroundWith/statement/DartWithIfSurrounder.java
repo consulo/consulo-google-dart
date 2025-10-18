@@ -1,12 +1,14 @@
 package com.jetbrains.lang.dart.ide.surroundWith.statement;
 
+import consulo.localize.LocalizeValue;
+
 /**
  * @author: Fedor.Korotkov
  */
 public class DartWithIfSurrounder extends DartLiteralAndBlockStatementSurrounderBase {
   @Override
-  public String getTemplateDescription() {
-    return "if";
+  public LocalizeValue getTemplateDescription() {
+    return LocalizeValue.localizeTODO("if");
   }
 
   @Override

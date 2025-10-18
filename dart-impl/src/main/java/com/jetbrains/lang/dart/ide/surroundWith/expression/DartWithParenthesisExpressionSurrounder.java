@@ -2,6 +2,7 @@ package com.jetbrains.lang.dart.ide.surroundWith.expression;
 
 import consulo.google.dart.localize.DartLocalize;
 import consulo.language.psi.PsiElement;
+import consulo.localize.LocalizeValue;
 
 /**
  * @author: Fedor.Korotkov
@@ -13,7 +14,7 @@ public class DartWithParenthesisExpressionSurrounder extends DartWithExpressionS
     }
 
     @Override
-    public String getTemplateDescription() {
-        return DartLocalize.dartSurroundWithParenthesis().get();
+    public LocalizeValue getTemplateDescription() {
+        return DartLocalize.dartSurroundWithParenthesis();
     }
 }

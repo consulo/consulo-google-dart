@@ -3,6 +3,7 @@ package com.jetbrains.lang.dart.ide.surroundWith.statement;
 import com.jetbrains.lang.dart.psi.DartForLoopPartsInBraces;
 import consulo.language.psi.PsiElement;
 
+import consulo.localize.LocalizeValue;
 import jakarta.annotation.Nullable;
 
 /**
@@ -10,8 +11,8 @@ import jakarta.annotation.Nullable;
  */
 public class DartWithForSurrounder extends DartBlockAndChildStatementSurrounderBase<DartForLoopPartsInBraces> {
   @Override
-  public String getTemplateDescription() {
-    return "for";
+  public LocalizeValue getTemplateDescription() {
+    return LocalizeValue.localizeTODO("for");
   }
 
   @Override
