@@ -15,6 +15,7 @@ import consulo.execution.debug.localize.XDebuggerLocalize;
 import consulo.execution.ui.ExecutionConsole;
 import consulo.execution.ui.console.ConsoleViewContentType;
 import consulo.google.dart.localize.DartLocalize;
+import consulo.localize.LocalizeValue;
 import consulo.logging.Logger;
 import consulo.process.ProcessHandler;
 import consulo.util.lang.TimeoutUtil;
@@ -230,9 +231,15 @@ public class DartCommandLineDebugProcess extends XDebugProcess {
         }
     }
 
+    @Nonnull
     @Override
-    public String getCurrentStateMessage() {
-        return getSession().isStopped() ? XDebuggerLocalize.debuggerStateMessageDisconnected().get() : myVmConnected ? XDebuggerLocalize.debuggerStateMessageConnected().get() : DartLocalize.debuggerWaitingVmToConnect().get();
+    public LocalizeValue getCurrentStateMessage() {
+        if (getSession().isStopped()) {
+            return XDebuggerLocalize.debuggerStateMessageDisconnected();
+        }
+        else {
+            return myVmConnected ? XDebuggerLocalize.debuggerStateMessageConnected() : DartLocalize.debuggerWaitingVmToConnect();
+        }
     }
 
     public static String threeSlashizeFileUrl(final String fileUrl) {
