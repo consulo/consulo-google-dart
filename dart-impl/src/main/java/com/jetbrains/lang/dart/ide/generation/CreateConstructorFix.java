@@ -26,7 +26,7 @@ public class CreateConstructorFix extends BaseCreateMethodsFix<DartComponent> {
   @Override
   @Nonnull
   protected LocalizeValue getNothingFoundMessage() {
-    return LocalizeValue.of(); // can't be called actually because processElements() is overridden
+    return LocalizeValue.empty(); // can't be called actually because processElements() is overridden
   }
 
   protected Template buildFunctionsText(TemplateManager templateManager, Set<DartComponent> elementsToProcess) {
