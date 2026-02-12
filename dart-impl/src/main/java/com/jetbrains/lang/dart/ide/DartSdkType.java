@@ -11,8 +11,7 @@ import consulo.content.bundle.Sdk;
 import consulo.content.bundle.SdkModificator;
 import consulo.content.bundle.SdkType;
 import consulo.google.dart.icon.DartIconGroup;
-import consulo.ui.image.Image;
-import jakarta.annotation.Nonnull;
+import consulo.google.dart.localize.DartLocalize;
 
 /**
  * @author Fedor.Korotkov
@@ -24,24 +23,7 @@ public class DartSdkType extends SdkType {
     }
 
     public DartSdkType() {
-        super("Dart SDK");
-    }
-
-    @Nonnull
-    @Override
-    public Image getIcon() {
-        return DartIconGroup.dart();
-    }
-
-    @Nonnull
-    @Override
-    public String getPresentableName() {
-        return "Dart";
-    }
-
-    @Override
-    public String suggestSdkName(String currentSdkName, String sdkHome) {
-        return "Dart " + getVersionString(sdkHome);
+        super("Dart SDK", DartLocalize.dartTitle(), DartIconGroup.dart());
     }
 
     @Override
