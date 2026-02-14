@@ -1,5 +1,4 @@
 {
-  version = "3"
   psiImplUtilClass="com.jetbrains.lang.dart.util.DartPsiImplUtil"
 
   parserClass="com.jetbrains.lang.dart.DartParser"

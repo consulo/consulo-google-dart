@@ -4,6 +4,7 @@ import com.jetbrains.lang.dart.lexer.DartLexer;
 import com.jetbrains.lang.dart.psi.DartFile;
 import com.jetbrains.lang.dart.psi.impl.DartDocCommentImpl;
 import com.jetbrains.lang.dart.psi.impl.DartEmbeddedContentImpl;
+import com.jetbrains.lang.dart.psi.impl.DartTokenTypesFactory;
 import consulo.annotation.component.ExtensionImpl;
 import consulo.language.Language;
 import consulo.language.ast.ASTNode;
@@ -16,7 +17,6 @@ import consulo.language.parser.PsiParser;
 import consulo.language.psi.PsiElement;
 import consulo.language.psi.PsiFile;
 import consulo.language.version.LanguageVersion;
-
 import jakarta.annotation.Nonnull;
 
 @ExtensionImpl
@@ -72,7 +72,7 @@ public class DartParserDefinition implements ParserDefinition {
     else if (node.getElementType() == DartTokenTypesSets.MULTI_LINE_DOC_COMMENT) {
       return new DartDocCommentImpl(node);
     }
-    return DartTokenTypes.Factory.createElement(node);
+    return DartTokenTypesFactory.createElement(node);
   }
 
   @Override
