@@ -11,8 +11,8 @@ import consulo.language.psi.util.PsiTreeUtil;
 import consulo.util.dataholder.Key;
 import consulo.util.io.FileUtil;
 import consulo.util.lang.StringUtil;
-import consulo.xml.psi.XmlRecursiveElementVisitor;
-import consulo.xml.psi.xml.XmlFile;
+import consulo.xml.language.psi.XmlFile;
+import consulo.xml.language.psi.XmlRecursiveElementVisitor;
 
 import jakarta.annotation.Nonnull;
 import java.util.*;

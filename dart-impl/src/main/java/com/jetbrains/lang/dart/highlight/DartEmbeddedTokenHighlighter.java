@@ -5,7 +5,7 @@ import consulo.annotation.component.ExtensionImpl;
 import consulo.colorScheme.TextAttributesKey;
 import consulo.language.ast.IElementType;
 import consulo.util.collection.MultiMap;
-import consulo.xml.lang.xml.XMLLanguage;
+import consulo.xml.language.XMLLanguage;
 import jakarta.annotation.Nonnull;
 
 import java.util.Map;
