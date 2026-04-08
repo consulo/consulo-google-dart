@@ -1,25 +1,22 @@
 package com.jetbrains.lang.dart.ide.actions;
 
-import com.jetbrains.lang.dart.DartIcons;
 import com.jetbrains.lang.dart.DartProjectComponent;
+import consulo.annotation.access.RequiredReadAction;
 import consulo.application.Application;
-import consulo.application.ApplicationManager;
 import consulo.application.progress.ProgressIndicator;
 import consulo.application.progress.Task;
-import consulo.application.util.SystemInfo;
 import consulo.content.bundle.Sdk;
 import consulo.dart.DartNotificationGroup;
 import consulo.dart.module.extension.DartModuleExtension;
 import consulo.document.FileDocumentManager;
 import consulo.google.dart.localize.DartLocalize;
 import consulo.ide.setting.ShowSettingsUtil;
-import consulo.language.editor.CommonDataKeys;
-import consulo.language.editor.LangDataKeys;
 import consulo.language.psi.PsiFile;
 import consulo.language.util.ModuleUtilCore;
 import consulo.localize.LocalizeValue;
 import consulo.logging.Logger;
 import consulo.module.Module;
+import consulo.platform.Platform;
 import consulo.process.ExecutionException;
 import consulo.process.cmd.GeneralCommandLine;
 import consulo.process.util.CapturingProcessUtil;
@@ -27,9 +24,11 @@ import consulo.process.util.ProcessOutput;
 import consulo.project.ui.notification.Notification;
 import consulo.project.ui.notification.NotificationType;
 import consulo.project.ui.notification.Notifications;
+import consulo.ui.annotation.RequiredUIAccess;
 import consulo.ui.ex.action.AnAction;
 import consulo.ui.ex.action.AnActionEvent;
 import consulo.ui.ex.awt.Messages;
+import consulo.ui.ex.awt.UIUtil;
 import consulo.util.lang.Pair;
 import consulo.util.lang.StringUtil;
 import consulo.virtualFileSystem.VirtualFile;
@@ -42,21 +41,22 @@ abstract public class DartPubActionBase extends AnAction {
     private static final Logger LOG = Logger.getInstance(DartPubActionBase.class);
 
     public DartPubActionBase() {
-        super(DartIcons.Dart);
+        super(DartIconGroup.dart());
     }
 
     @Override
     public void update(AnActionEvent e) {
-        e.getPresentation().setTextValue(getPresentableText());
+        e.getPresentation().setText(getPresentableText());
         final boolean enabled = getModuleAndPubspecYamlFile(e) != null;
         e.getPresentation().setVisible(enabled);
         e.getPresentation().setEnabled(enabled);
     }
 
     @Nullable
+    @RequiredReadAction
     private static Pair<Module, VirtualFile> getModuleAndPubspecYamlFile(final AnActionEvent e) {
-        final Module module = e.getData(LangDataKeys.MODULE);
-        final PsiFile psiFile = e.getData(CommonDataKeys.PSI_FILE);
+        final Module module = e.getData(Module.KEY);
+        final PsiFile psiFile = e.getData(PsiFile.KEY);
 
         if (module != null && psiFile != null && psiFile.getName().equalsIgnoreCase("pubspec.yaml")) {
             final VirtualFile file = psiFile.getOriginalFile().getVirtualFile();
@@ -72,6 +72,7 @@ abstract public class DartPubActionBase extends AnAction {
     protected abstract LocalizeValue getSuccessMessage();
 
     @Override
+    @RequiredUIAccess
     public void actionPerformed(final AnActionEvent e) {
         final Pair<Module, VirtualFile> moduleAndPubspecYamlFile = getModuleAndPubspecYamlFile(e);
         if (moduleAndPubspecYamlFile == null) {
@@ -80,11 +81,17 @@ abstract public class DartPubActionBase extends AnAction {
 
         File sdkRoot = getSdkRoot(moduleAndPubspecYamlFile);
         if (sdkRoot == null) {
-            final int answer =
-                Messages.showDialog(moduleAndPubspecYamlFile.first.getProject(), "Dart SDK is not configured", getPresentableText().get(), new String[]{
+            final int answer = Messages.showDialog(
+                moduleAndPubspecYamlFile.first.getProject(),
+                "Dart SDK is not configured",
+                getPresentableText().get(),
+                new String[]{
                     "Configure SDK",
                     "Cancel"
-                }, 0, Messages.getErrorIcon());
+                },
+                0,
+                UIUtil.getErrorIcon()
+            );
             if (answer != 0) {
                 return;
             }
@@ -97,11 +104,13 @@ abstract public class DartPubActionBase extends AnAction {
             }
         }
 
-        File pubFile = new File(sdkRoot, SystemInfo.isWindows ? "bin/pub.bat" : "bin/pub");
+        File pubFile = new File(sdkRoot, Platform.current().os().isWindows() ? "bin/pub.bat" : "bin/pub");
         if (!pubFile.isFile()) {
-            Messages.showInfoMessage(moduleAndPubspecYamlFile.first.getProject(),
+            Messages.showInfoMessage(
+                moduleAndPubspecYamlFile.first.getProject(),
                 DartLocalize.dartSdkBadDartpubPath(pubFile.getPath()).get(),
-                getPresentableText().get());
+                getPresentableText().get()
+            );
 
             return;
         }
@@ -111,8 +120,10 @@ abstract public class DartPubActionBase extends AnAction {
 
     private void doExecute(final Module module, final VirtualFile pubspecYamlFile, final String sdkPath, final String pubPath) {
         final Task.Backgroundable task = new Task.Backgroundable(module.getProject(), getPresentableText(), true) {
+            @Override
+            @RequiredUIAccess
             public void run(@Nonnull ProgressIndicator indicator) {
-                indicator.setText(DartLocalize.dartPub0InProgress(getPubCommand()).get());
+                indicator.setText(DartLocalize.dartPub0InProgress(getPubCommand()));
                 indicator.setIndeterminate(true);
                 final GeneralCommandLine command = new GeneralCommandLine();
                 command.setExePath(pubPath);
@@ -120,13 +131,8 @@ abstract public class DartPubActionBase extends AnAction {
                 command.addParameter(getPubCommand());
                 command.getEnvironment().put("DART_SDK", sdkPath);
 
-                ApplicationManager.getApplication().invokeAndWait(new Runnable() {
-                    @Override
-                    public void run() {
-                        FileDocumentManager.getInstance().saveAllDocuments();
-                    }
-                }, Application.get().getDefaultModalityState());
-
+                Application app = Application.get();
+                app.invokeAndWait(() -> FileDocumentManager.getInstance().saveAllDocuments(), app.getDefaultModalityState());
 
                 try {
                     final ProcessOutput processOutput = CapturingProcessUtil.execAndGetOutput(command);
@@ -136,30 +142,32 @@ abstract public class DartPubActionBase extends AnAction {
                         err + "\nout:\n" + processOutput.getStdout());
 
                     if (err.isEmpty()) {
-                        Notifications.Bus.notify(new Notification(DartNotificationGroup.DART_PUB_TOOL,
+                        Notifications.Bus.notify(new Notification(
+                            DartNotificationGroup.DART_PUB_TOOL,
                             getPresentableText().get(),
                             getSuccessMessage().get(),
-                            NotificationType.INFORMATION));
+                            NotificationType.INFORMATION
+                        ));
                     }
                     else {
-                        Notifications.Bus.notify(new Notification(DartNotificationGroup.DART_PUB_TOOL,
+                        Notifications.Bus.notify(new Notification(
+                            DartNotificationGroup.DART_PUB_TOOL,
                             getPresentableText().get(),
                             err,
-                            NotificationType.ERROR));
+                            NotificationType.ERROR
+                        ));
                     }
 
-                    ApplicationManager.getApplication().invokeLater(new Runnable() {
-                        public void run() {
-                            DartProjectComponent.excludePackagesFolders(module, pubspecYamlFile);
-                        }
-                    });
+                    app.invokeLater(() -> DartProjectComponent.excludePackagesFolders(module, pubspecYamlFile));
                 }
                 catch (ExecutionException ex) {
                     LOG.error(ex);
-                    Notifications.Bus.notify(new Notification(DartNotificationGroup.DART_PUB_TOOL,
+                    Notifications.Bus.notify(new Notification(
+                        DartNotificationGroup.DART_PUB_TOOL,
                         getPresentableText().get(),
                         DartLocalize.dartPubException(ex.getMessage()).get(),
-                        NotificationType.ERROR));
+                        NotificationType.ERROR
+                    ));
                 }
             }
         };
