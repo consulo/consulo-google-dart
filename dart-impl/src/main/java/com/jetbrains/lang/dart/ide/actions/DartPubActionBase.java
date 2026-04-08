@@ -9,6 +9,7 @@ import consulo.content.bundle.Sdk;
 import consulo.dart.DartNotificationGroup;
 import consulo.dart.module.extension.DartModuleExtension;
 import consulo.document.FileDocumentManager;
+import consulo.google.dart.icon.DartIconGroup;
 import consulo.google.dart.localize.DartLocalize;
 import consulo.ide.setting.ShowSettingsUtil;
 import consulo.language.psi.PsiFile;
