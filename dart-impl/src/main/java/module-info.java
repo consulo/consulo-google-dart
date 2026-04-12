@@ -8,6 +8,7 @@ module com.jetbrains.lang.dart {
   requires com.jetbrains.lang.dart.analyzer.server;
 
   requires com.intellij.xml;
+  requires com.intellij.xml.html.api;
   requires org.yaml.snakeyaml;
   requires consulo.library.flexmark;
   requires org.jetbrains.plugins.yaml;

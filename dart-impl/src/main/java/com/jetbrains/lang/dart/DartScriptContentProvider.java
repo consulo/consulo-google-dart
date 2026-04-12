@@ -1,12 +1,12 @@
 package com.jetbrains.lang.dart;
 
 import consulo.annotation.component.ExtensionImpl;
+import consulo.html.language.HtmlScriptContentProvider;
 import consulo.language.Language;
 import consulo.language.ast.IElementType;
 import consulo.language.editor.highlight.SyntaxHighlighter;
 import consulo.language.editor.highlight.SyntaxHighlighterFactory;
 import consulo.language.lexer.Lexer;
-import consulo.xml.lang.HtmlScriptContentProvider;
 
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;

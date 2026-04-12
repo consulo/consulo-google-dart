@@ -1,11 +1,11 @@
 package com.jetbrains.lang.dart.ide.index;
 
 import com.jetbrains.lang.dart.DartFileType;
+import consulo.html.language.HtmlFileType;
 import consulo.language.psi.stub.FileBasedIndex;
 import consulo.project.Project;
 import consulo.virtualFileSystem.VirtualFile;
 import consulo.virtualFileSystem.fileType.FileType;
-import consulo.xml.ide.highlighter.HtmlFileType;
 
 import jakarta.annotation.Nonnull;
 
