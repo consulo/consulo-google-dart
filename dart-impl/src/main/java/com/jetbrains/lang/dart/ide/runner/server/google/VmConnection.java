@@ -1128,7 +1128,7 @@ public class VmConnection {
       List<Integer> isolateIds = new ArrayList<Integer>();
 
       for (int i = 0; i < arr.length(); i++) {
-        isolateIds.add(new Integer(arr.getInt(i)));
+        isolateIds.add(Integer.valueOf(arr.getInt(i)));
       }
 
       result.setResult(isolateIds);
