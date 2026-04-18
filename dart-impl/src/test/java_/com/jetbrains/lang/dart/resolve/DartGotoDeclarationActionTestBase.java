@@ -3,17 +3,17 @@ package com.jetbrains.lang.dart.resolve;
 import java.io.IOException;
 import java.util.Collection;
 
-import consulo.ide.impl.idea.openapi.util.io.FileUtil;
 import consulo.language.psi.PsiElement;
 import consulo.language.psi.PsiFile;
 import com.intellij.testFramework.fixtures.CodeInsightFixtureTestCase;
 import com.jetbrains.lang.dart.util.DartTestUtils;
 import consulo.language.editor.TargetElementUtil;
+import consulo.util.io.FileUtil;
 
 abstract public class DartGotoDeclarationActionTestBase extends CodeInsightFixtureTestCase {
   @Override
   protected String getBasePath() {
-    return consulo.ide.impl.idea.openapi.util.io.FileUtil.toSystemDependentName(DartTestUtils.RELATIVE_TEST_DATA_PATH + "/goto/");
+    return FileUtil.toSystemDependentName(DartTestUtils.RELATIVE_TEST_DATA_PATH + "/goto/");
   }
 
   protected void doTest(int expectedSize) throws IOException {

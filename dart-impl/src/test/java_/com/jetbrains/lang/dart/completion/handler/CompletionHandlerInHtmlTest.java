@@ -1,10 +1,10 @@
 package com.jetbrains.lang.dart.completion.handler;
 
-import consulo.ide.impl.idea.openapi.util.io.FileUtil;
 import com.jetbrains.lang.dart.util.DartTestUtils;
+import consulo.util.io.FileUtil;
 
 /**
- * @author: Fedor.Korotkov
+ * @author Fedor.Korotkov
  */
 public abstract class CompletionHandlerInHtmlTest extends CompletionHandlerTestBase {
   @Override

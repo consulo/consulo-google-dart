@@ -1,6 +1,5 @@
 package com.jetbrains.lang.dart.formatter;
 
-import consulo.ide.impl.idea.openapi.util.io.FileUtil;
 import consulo.language.codeStyle.CodeStyleManager;
 import consulo.language.codeStyle.CodeStyleSettings;
 import consulo.language.codeStyle.CodeStyleSettingsManager;
@@ -11,6 +10,7 @@ import com.jetbrains.lang.dart.DartLanguage;
 import com.jetbrains.lang.dart.util.DartTestUtils;
 import consulo.application.ApplicationManager;
 import consulo.project.Project;
+import consulo.util.io.FileUtil;
 import junit.framework.Assert;
 
 import java.io.FileNotFoundException;
@@ -73,7 +73,7 @@ public abstract class DartFormatterTest extends CodeInsightFixtureTestCase {
         throw e;
       }
       final String path = getTestDataPath() + getTestName(false) + ".txt";
-      FileWriter writer = new FileWriter(consulo.ide.impl.idea.openapi.util.io.FileUtil.toSystemDependentName(path));
+      FileWriter writer = new FileWriter(FileUtil.toSystemDependentName(path));
       try {
         writer.write(myFixture.getFile().getText().trim());
       }

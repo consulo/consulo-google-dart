@@ -8,15 +8,15 @@ import consulo.language.codeStyle.CodeStyleManager;
 import consulo.language.editor.template.TemplateState;
 import consulo.ide.impl.idea.codeInsight.template.impl.actions.ListTemplatesAction;
 import consulo.ide.impl.idea.openapi.util.Disposer;
-import consulo.ide.impl.idea.openapi.util.io.FileUtil;
 import com.intellij.testFramework.fixtures.LightPlatformCodeInsightFixtureTestCase;
 import com.jetbrains.lang.dart.util.DartTestUtils;
 import consulo.language.editor.completion.lookup.Lookup;
 import consulo.language.editor.completion.lookup.LookupManager;
 import consulo.project.Project;
+import consulo.util.io.FileUtil;
 
 /**
- * @author: Fedor.Korotkov
+ * @author Fedor.Korotkov
  */
 public abstract class DartLiveTemplatesTest extends LightPlatformCodeInsightFixtureTestCase {
   @Override

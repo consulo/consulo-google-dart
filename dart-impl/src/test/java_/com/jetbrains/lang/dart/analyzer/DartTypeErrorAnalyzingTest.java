@@ -1,12 +1,12 @@
 package com.jetbrains.lang.dart.analyzer;
 
-import consulo.ide.impl.idea.openapi.util.io.FileUtil;
 import com.jetbrains.lang.dart.util.DartTestUtils;
+import consulo.util.io.FileUtil;
 
 public abstract class DartTypeErrorAnalyzingTest extends DartAnalyzerTestBase {
   @Override
   protected String getBasePath() {
-    return consulo.ide.impl.idea.openapi.util.io.FileUtil.toSystemDependentName(DartTestUtils.RELATIVE_TEST_DATA_PATH + "/analyzer/type");
+    return FileUtil.toSystemDependentName(DartTestUtils.RELATIVE_TEST_DATA_PATH + "/analyzer/type");
   }
 
   public void testCannotBeResolved1$CreateDartGetterSetterAction() throws Throwable {

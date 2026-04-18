@@ -1,18 +1,18 @@
 package com.jetbrains.lang.dart.generate;
 
-import consulo.ide.impl.idea.openapi.util.io.FileUtil;
 import com.jetbrains.lang.dart.ide.generation.CreateGetterSetterFix;
 import com.jetbrains.lang.dart.util.DartTestUtils;
+import consulo.util.io.FileUtil;
 import jakarta.annotation.Nonnull;
 
 /**
- * @author: Fedor.Korotkov
+ * @author Fedor.Korotkov
  */
 public abstract class DartGenerateActionTest extends DartGenerateActionTestBase {
   @Nonnull
   @Override
   protected String getTestDataPath() {
-    return DartTestUtils.BASE_TEST_DATA_PATH +  consulo.ide.impl.idea.openapi.util.io.FileUtil.toSystemDependentName("/generate/");
+    return DartTestUtils.BASE_TEST_DATA_PATH + FileUtil.toSystemDependentName("/generate/");
   }
 
   public void testImplement1() throws Throwable {

@@ -3,19 +3,20 @@ package com.jetbrains.lang.dart.util;
 import java.io.File;
 import java.io.IOException;
 
+import consulo.util.io.FilePermissionCopier;
+import consulo.util.io.FileUtil;
 import consulo.virtualFileSystem.LocalFileSystem;
 import org.junit.Assert;
-import consulo.ide.impl.idea.openapi.util.io.FileUtil;
 import consulo.virtualFileSystem.VirtualFile;
 import com.intellij.testFramework.fixtures.CodeInsightTestFixture;
 
 public class DartSdkTestUtil {
   public static void configFakeSdk(CodeInsightTestFixture fixture) {
-    String sdkHome = DartTestUtils.BASE_TEST_DATA_PATH +  FileUtil.toSystemDependentName("/sdk/");
+    String sdkHome = DartTestUtils.BASE_TEST_DATA_PATH + FileUtil.toSystemDependentName("/sdk/");
 
     final File targetFile = new File(fixture.getTempDirPath() + "/dart-sdk");
     try {
-      FileUtil.copyDir(new File(sdkHome), targetFile);
+      FileUtil.copyDir(new File(sdkHome), targetFile, FilePermissionCopier.BY_NIO2);
     }
     catch (IOException e) {
       throw new RuntimeException(e);
