@@ -2,12 +2,12 @@ package com.jetbrains.lang.dart.resolve;
 
 import consulo.ide.impl.idea.codeInsight.navigation.GotoImplementationHandler;
 import consulo.ide.impl.idea.codeInsight.navigation.GotoTargetHandler;
-import consulo.ide.impl.idea.openapi.util.io.FileUtil;
 import com.intellij.testFramework.fixtures.CodeInsightFixtureTestCase;
 import com.jetbrains.lang.dart.util.DartTestUtils;
+import consulo.util.io.FileUtil;
 
 /**
- * @author: Fedor.Korotkov
+ * @author Fedor.Korotkov
  */
 public abstract class DartGotoImplementationTest extends CodeInsightFixtureTestCase {
   @Override

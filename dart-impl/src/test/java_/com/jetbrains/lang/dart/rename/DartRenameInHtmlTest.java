@@ -1,16 +1,16 @@
 package com.jetbrains.lang.dart.rename;
 
-import consulo.ide.impl.idea.openapi.util.io.FileUtil;
 import com.intellij.testFramework.fixtures.CodeInsightFixtureTestCase;
 import com.jetbrains.lang.dart.util.DartTestUtils;
+import consulo.util.io.FileUtil;
 
 /**
- * @author: Fedor.Korotkov
+ * @author Fedor.Korotkov
  */
 public abstract class DartRenameInHtmlTest extends CodeInsightFixtureTestCase {
   @Override
   protected String getBasePath() {
-    return consulo.ide.impl.idea.openapi.util.io.FileUtil.toSystemDependentName(DartTestUtils.RELATIVE_TEST_DATA_PATH + "/rename/html");
+    return FileUtil.toSystemDependentName(DartTestUtils.RELATIVE_TEST_DATA_PATH + "/rename/html");
   }
 
   public void doTest(String newName, String... additionalFiles) {

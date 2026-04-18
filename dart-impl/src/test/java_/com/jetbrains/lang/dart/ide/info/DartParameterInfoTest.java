@@ -1,9 +1,9 @@
 package com.jetbrains.lang.dart.ide.info;
 
-import consulo.ide.impl.idea.openapi.util.io.FileUtil;
 import com.intellij.testFramework.LightPlatformCodeInsightTestCase;
 import com.jetbrains.lang.dart.util.DartTestUtils;
 
+import consulo.util.io.FileUtil;
 import jakarta.annotation.Nonnull;
 
 //import com.intellij.testFramework.utils.parameterInfo.MockCreateParameterInfoContext;
@@ -11,13 +11,13 @@ import jakarta.annotation.Nonnull;
 //import com.intellij.testFramework.utils.parameterInfo.MockUpdateParameterInfoContext;
 
 /**
- * @author: Fedor.Korotkov
+ * @author Fedor.Korotkov
  */
 public abstract class DartParameterInfoTest extends LightPlatformCodeInsightTestCase {
   @Nonnull
   @Override
   protected String getTestDataPath() {
-    return DartTestUtils.BASE_TEST_DATA_PATH + consulo.ide.impl.idea.openapi.util.io.FileUtil.toSystemDependentName("/paramInfo/");
+    return DartTestUtils.BASE_TEST_DATA_PATH + FileUtil.toSystemDependentName("/paramInfo/");
   }
 
   private void doTest(String infoText, int highlightedParameterIndex) throws Exception {

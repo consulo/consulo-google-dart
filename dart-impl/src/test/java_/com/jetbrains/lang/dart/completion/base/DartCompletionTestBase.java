@@ -1,7 +1,6 @@
 package com.jetbrains.lang.dart.completion.base;
 
 import consulo.language.editor.completion.CompletionType;
-import consulo.ide.impl.idea.openapi.util.io.FileUtil;
 import consulo.util.lang.CharFilter;
 import com.intellij.testFramework.UsefulTestCase;
 import com.intellij.testFramework.fixtures.CodeInsightFixtureTestCase;
@@ -16,7 +15,7 @@ import java.util.List;
 import java.util.Scanner;
 
 /**
- * @author: Fedor.Korotkov
+ * @author Fedor.Korotkov
  */
 abstract public class DartCompletionTestBase extends CodeInsightFixtureTestCase {
   enum CheckType {EQUALS, INCLUDES, EXCLUDES}

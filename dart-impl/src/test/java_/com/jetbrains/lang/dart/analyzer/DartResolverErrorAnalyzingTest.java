@@ -1,7 +1,7 @@
 package com.jetbrains.lang.dart.analyzer;
 
-import consulo.ide.impl.idea.openapi.util.io.FileUtil;
 import com.jetbrains.lang.dart.util.DartTestUtils;
+import consulo.util.io.FileUtil;
 
 public abstract class DartResolverErrorAnalyzingTest extends DartAnalyzerTestBase {
   @Override

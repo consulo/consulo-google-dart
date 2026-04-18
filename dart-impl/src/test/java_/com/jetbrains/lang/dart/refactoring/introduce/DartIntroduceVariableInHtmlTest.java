@@ -1,18 +1,18 @@
 package com.jetbrains.lang.dart.refactoring.introduce;
 
-import consulo.ide.impl.idea.openapi.util.io.FileUtil;
 import com.jetbrains.lang.dart.ide.refactoring.introduce.DartIntroduceHandler;
 import com.jetbrains.lang.dart.ide.refactoring.introduce.DartIntroduceVariableHandler;
 import com.jetbrains.lang.dart.psi.DartCallExpression;
 import com.jetbrains.lang.dart.util.DartTestUtils;
+import consulo.util.io.FileUtil;
 
 /**
- * @author: Fedor.Korotkov
+ * @author Fedor.Korotkov
  */
 public abstract class DartIntroduceVariableInHtmlTest extends DartIntroduceTestBase {
   @Override
   protected String getBasePath() {
-    return consulo.ide.impl.idea.openapi.util.io.FileUtil.toSystemDependentName(DartTestUtils.RELATIVE_TEST_DATA_PATH + "/refactoring/introduceVariable/html/");
+    return FileUtil.toSystemDependentName(DartTestUtils.RELATIVE_TEST_DATA_PATH + "/refactoring/introduceVariable/html/");
   }
 
   @Override

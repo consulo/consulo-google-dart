@@ -1,7 +1,6 @@
 package com.jetbrains.lang.dart.ide;
 
 import consulo.ide.impl.idea.codeInsight.generation.surroundWith.SurroundWithHandler;
-import consulo.ide.impl.idea.openapi.util.io.FileUtil;
 import com.intellij.testFramework.LightPlatformCodeInsightTestCase;
 import com.jetbrains.lang.dart.ide.surroundWith.expression.DartWithNotParenthesisExpressionSurrounder;
 import com.jetbrains.lang.dart.ide.surroundWith.expression.DartWithParenthesisExpressionSurrounder;
@@ -9,16 +8,17 @@ import com.jetbrains.lang.dart.ide.surroundWith.statement.*;
 import com.jetbrains.lang.dart.util.DartTestUtils;
 import consulo.language.editor.surroundWith.Surrounder;
 
+import consulo.util.io.FileUtil;
 import jakarta.annotation.Nonnull;
 
 /**
- * @author: Fedor.Korotkov
+ * @author Fedor.Korotkov
  */
 public abstract class DartSurroundWithTest extends LightPlatformCodeInsightTestCase {
   @Nonnull
   @Override
   protected String getTestDataPath() {
-    return DartTestUtils.BASE_TEST_DATA_PATH + consulo.ide.impl.idea.openapi.util.io.FileUtil.toSystemDependentName("/surroundWith/");
+    return DartTestUtils.BASE_TEST_DATA_PATH + FileUtil.toSystemDependentName("/surroundWith/");
   }
 
   private void doTest(final Surrounder handler) throws Exception {

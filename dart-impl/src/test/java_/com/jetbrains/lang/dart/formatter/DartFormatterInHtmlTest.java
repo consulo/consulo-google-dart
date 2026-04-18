@@ -1,6 +1,5 @@
 package com.jetbrains.lang.dart.formatter;
 
-import consulo.ide.impl.idea.openapi.util.io.FileUtil;
 import consulo.language.codeStyle.CodeStyleSettings;
 import consulo.language.codeStyle.CodeStyleSettingsManager;
 import consulo.language.codeStyle.CommonCodeStyleSettings;
@@ -11,6 +10,7 @@ import com.jetbrains.lang.dart.util.DartTestUtils;
 import consulo.application.ApplicationManager;
 import consulo.language.codeStyle.CodeStyleManager;
 import consulo.project.Project;
+import consulo.util.io.FileUtil;
 import junit.framework.Assert;
 
 import java.io.FileNotFoundException;
@@ -21,7 +21,6 @@ import java.io.FileWriter;
  */
 public abstract class DartFormatterInHtmlTest extends CodeInsightFixtureTestCase {
   protected CommonCodeStyleSettings myTestStyleSettings;
-
 
   @Override
   protected String getBasePath() {

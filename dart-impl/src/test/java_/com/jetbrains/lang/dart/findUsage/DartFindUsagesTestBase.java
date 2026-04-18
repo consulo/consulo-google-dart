@@ -2,7 +2,6 @@ package com.jetbrains.lang.dart.findUsage;
 
 import java.util.Collection;
 
-import consulo.ide.impl.idea.openapi.util.io.FileUtil;
 import com.intellij.testFramework.fixtures.CodeInsightFixtureTestCase;
 import consulo.usage.UsageInfo;
 import consulo.usage.PsiElementUsageTarget;
@@ -10,12 +9,12 @@ import consulo.usage.UsageTarget;
 import consulo.usage.UsageTargetUtil;
 import com.jetbrains.lang.dart.util.DartTestUtils;
 import consulo.codeEditor.EditorEx;
+import consulo.util.io.FileUtil;
 
 abstract public class DartFindUsagesTestBase extends CodeInsightFixtureTestCase {
-
   @Override
   protected String getBasePath() {
-    return consulo.ide.impl.idea.openapi.util.io.FileUtil.toSystemDependentName(DartTestUtils.RELATIVE_TEST_DATA_PATH + "/findUsages/");
+    return FileUtil.toSystemDependentName(DartTestUtils.RELATIVE_TEST_DATA_PATH + "/findUsages/");
   }
 
   protected void doTest(int size) throws Throwable {

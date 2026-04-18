@@ -1,15 +1,15 @@
 package com.jetbrains.lang.dart.completion.handler;
 
-import consulo.ide.impl.idea.openapi.util.io.FileUtil;
 import com.jetbrains.lang.dart.util.DartTestUtils;
+import consulo.util.io.FileUtil;
 
 /**
- * @author: Fedor.Korotkov
+ * @author Fedor.Korotkov
  */
 public abstract class CompletionHandlerTest extends CompletionHandlerTestBase {
   @Override
   protected String getBasePath() {
-    return consulo.ide.impl.idea.openapi.util.io.FileUtil.toSystemDependentName(DartTestUtils.RELATIVE_TEST_DATA_PATH + "/completion/handler");
+    return FileUtil.toSystemDependentName(DartTestUtils.RELATIVE_TEST_DATA_PATH + "/completion/handler");
   }
 
   @Override

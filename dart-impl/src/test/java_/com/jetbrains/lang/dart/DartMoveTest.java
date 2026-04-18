@@ -1,9 +1,9 @@
 package com.jetbrains.lang.dart;
 
-import consulo.ide.impl.idea.openapi.util.io.FileUtil;
 import consulo.language.editor.refactoring.move.fileOrDirectory.MoveFilesOrDirectoriesProcessor;
 import consulo.language.psi.PsiDirectory;
 import consulo.language.psi.PsiElement;
+import consulo.util.io.FileUtil;
 import consulo.virtualFileSystem.LocalFileSystem;
 import consulo.virtualFileSystem.VirtualFile;
 import consulo.language.psi.PsiUtilCore;
@@ -16,12 +16,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 /**
- * @author: Fedor.Korotkov
+ * @author Fedor.Korotkov
  */
 public abstract class DartMoveTest extends LightPlatformCodeInsightFixtureTestCase {
   @Override
   protected String getBasePath() {
-    return consulo.ide.impl.idea.openapi.util.io.FileUtil.toSystemDependentName(DartTestUtils.RELATIVE_TEST_DATA_PATH + "/move/");
+    return FileUtil.toSystemDependentName(DartTestUtils.RELATIVE_TEST_DATA_PATH + "/move/");
   }
 
   //Both names are relative to root directory
