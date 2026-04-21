@@ -9,39 +9,41 @@ import consulo.language.editor.template.TextResult;
 import consulo.language.editor.template.macro.Macro;
 import consulo.language.psi.PsiElement;
 
+import consulo.localize.LocalizeValue;
 import jakarta.annotation.Nonnull;
+
 import java.util.Set;
 
 /**
- * @author: Fedor.Korotkov
+ * @author Fedor.Korotkov
  */
 @ExtensionImpl
 public class DartSuggestIndexNameMacro extends Macro {
-  @Override
-  public String getName() {
-    return "dartSuggestIndexName";
-  }
-
-  @Override
-  public String getPresentableName() {
-    return "dartSuggestIndexName()";
-  }
-
-  @Nonnull
-  @Override
-  public String getDefaultValue() {
-    return "i";
-  }
-
-  @Override
-  public Result calculateResult(@Nonnull Expression[] params, ExpressionContext context) {
-    final PsiElement at = context.getPsiElementAtStartOffset();
-    final Set<String> names = DartRefactoringUtil.collectUsedNames(at);
-    for (char i = 'i'; i < 'z'; ++i) {
-      if (!names.contains(Character.toString(i))) {
-        return new TextResult(Character.toString(i));
-      }
+    @Override
+    public String getName() {
+        return "dartSuggestIndexName";
     }
-    return null;
-  }
+
+    @Override
+    public LocalizeValue getPresentableName() {
+        return LocalizeValue.of("dartSuggestIndexName()");
+    }
+
+    @Nonnull
+    @Override
+    public String getDefaultValue() {
+        return "i";
+    }
+
+    @Override
+    public Result calculateResult(@Nonnull Expression[] params, ExpressionContext context) {
+        final PsiElement at = context.getPsiElementAtStartOffset();
+        final Set<String> names = DartRefactoringUtil.collectUsedNames(at);
+        for (char i = 'i'; i < 'z'; ++i) {
+            if (!names.contains(Character.toString(i))) {
+                return new TextResult(Character.toString(i));
+            }
+        }
+        return null;
+    }
 }
