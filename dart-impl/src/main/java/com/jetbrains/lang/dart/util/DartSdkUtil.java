@@ -70,15 +70,15 @@ public class DartSdkUtil {
     if (libRoot != null) {
       for (VirtualFile child : libRoot.getChildren()) {
         if (!"html".equals(child.getName()) && !"_internal".equals(child.getName())) {
-          modificator.addRoot(child, SourcesOrderRootType.getInstance());
-          modificator.addRoot(child, BinariesOrderRootType.getInstance());
+          modificator.addRoot(child, SourcesOrderRootType.ID);
+          modificator.addRoot(child, BinariesOrderRootType.ID);
         }
       }
     }
 
     final VirtualFile docRoot = sdkRoot.findChild("doc");
     if (docRoot != null) {
-      modificator.addRoot(docRoot, DocumentationOrderRootType.getInstance());
+      modificator.addRoot(docRoot, DocumentationOrderRootType.ID);
     }
   }
 }

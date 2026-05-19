@@ -16,7 +16,7 @@ public class DartConfigurable {
   public static VirtualFile[] getCustomPackageRoots(final @Nonnull Module module) {
     for (OrderEntry entry : ModuleRootManager.getInstance(module).getOrderEntries()) {
       if (entry instanceof LibraryOrderEntry && CUSTOM_PACKAGE_ROOTS_LIB_NAME.equals(((LibraryOrderEntry)entry).getLibraryName())) {
-        return entry.getFiles(BinariesOrderRootType.getInstance());
+        return entry.getFiles(BinariesOrderRootType.ID);
       }
     }
 

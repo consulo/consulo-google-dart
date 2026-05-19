@@ -206,13 +206,13 @@ public class PubListPackageDirsAction extends AnAction {
 
     final Library.ModifiableModel libModel = library.getModifiableModel();
     try {
-      for (String url : libModel.getUrls(BinariesOrderRootType.getInstance())) {
-        libModel.removeRoot(url, BinariesOrderRootType.getInstance());
+      for (String url : libModel.getUrls(BinariesOrderRootType.ID)) {
+        libModel.removeRoot(url, BinariesOrderRootType.ID);
       }
 
       for (Set<String> packageDirs : packageMap.values()) {
         for (String packageDir : packageDirs) {
-          libModel.addRoot(VirtualFileUtil.pathToUrl(packageDir), BinariesOrderRootType.getInstance());
+          libModel.addRoot(VirtualFileUtil.pathToUrl(packageDir), BinariesOrderRootType.ID);
         }
       }
 

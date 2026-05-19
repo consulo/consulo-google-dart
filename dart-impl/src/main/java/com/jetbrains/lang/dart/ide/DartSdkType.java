@@ -13,14 +13,18 @@ import consulo.content.bundle.SdkType;
 import consulo.google.dart.icon.DartIconGroup;
 import consulo.google.dart.localize.DartLocalize;
 
+import java.util.Set;
+
 /**
  * @author Fedor.Korotkov
  */
 @ExtensionImpl
 public class DartSdkType extends SdkType {
-    public static DartSdkType getInstance() {
-        return Application.get().getExtensionPoint(SdkType.class).findExtension(DartSdkType.class);
-    }
+    private static final Set<String> ourAllowedRootTypeIds = Set.of(
+        BinariesOrderRootType.ID,
+        SourcesOrderRootType.ID,
+        DocumentationOrderRootType.ID
+    );
 
     public DartSdkType() {
         super("Dart SDK", DartLocalize.dartTitle(), DartIconGroup.dart());
@@ -37,9 +41,8 @@ public class DartSdkType extends SdkType {
     }
 
     @Override
-    public boolean isRootTypeApplicable(OrderRootType type) {
-        return type == BinariesOrderRootType.getInstance() || type == SourcesOrderRootType.getInstance() || type == DocumentationOrderRootType
-            .getInstance();
+    public boolean isRootTypeApplicable(String type) {
+        return ourAllowedRootTypeIds.contains(type);
     }
 
     @Override
