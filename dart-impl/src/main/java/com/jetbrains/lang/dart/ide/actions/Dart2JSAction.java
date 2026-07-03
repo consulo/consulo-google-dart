@@ -32,6 +32,7 @@ import consulo.project.ui.notification.Notifications;
 import consulo.ui.annotation.RequiredUIAccess;
 import consulo.ui.ex.action.AnAction;
 import consulo.ui.ex.action.AnActionEvent;
+import consulo.ui.ex.action.AnActionWithSyncUpdate;
 import consulo.ui.ex.action.Presentation;
 import consulo.ui.ex.awt.Messages;
 import consulo.util.io.FileUtil;
@@ -42,9 +43,9 @@ import jakarta.annotation.Nonnull;
 import java.io.File;
 
 /**
- * @author: Fedor.Korotkov
+ * @author Fedor.Korotkov
  */
-public class Dart2JSAction extends AnAction {
+public class Dart2JSAction extends AnAction implements AnActionWithSyncUpdate {
     private static final Logger LOG = Logger.getInstance(Dart2JSAction.class);
 
     public Dart2JSAction() {

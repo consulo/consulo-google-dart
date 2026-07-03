@@ -28,8 +28,11 @@ import consulo.project.ui.notification.Notifications;
 import consulo.ui.annotation.RequiredUIAccess;
 import consulo.ui.ex.action.AnAction;
 import consulo.ui.ex.action.AnActionEvent;
+import consulo.ui.ex.action.AnActionWithAsyncUpdate;
+import consulo.ui.ex.action.coroutine.ActionSafeReadLock;
 import consulo.ui.ex.awt.Messages;
 import consulo.ui.ex.awt.UIUtil;
+import consulo.util.concurrent.coroutine.Coroutine;
 import consulo.util.lang.Pair;
 import consulo.util.lang.StringUtil;
 import consulo.virtualFileSystem.VirtualFile;
@@ -38,7 +41,7 @@ import jakarta.annotation.Nullable;
 
 import java.io.File;
 
-abstract public class DartPubActionBase extends AnAction {
+abstract public class DartPubActionBase extends AnAction implements AnActionWithAsyncUpdate {
     private static final Logger LOG = Logger.getInstance(DartPubActionBase.class);
 
     public DartPubActionBase() {
@@ -46,11 +49,15 @@ abstract public class DartPubActionBase extends AnAction {
     }
 
     @Override
-    public void update(AnActionEvent e) {
-        e.getPresentation().setText(getPresentableText());
-        final boolean enabled = getModuleAndPubspecYamlFile(e) != null;
-        e.getPresentation().setVisible(enabled);
-        e.getPresentation().setEnabled(enabled);
+    public Coroutine<?, ?> updateAsync(AnActionEvent e) {
+        return ActionSafeReadLock.run(e, presentation -> {
+            presentation.setText(getPresentableText());
+
+            boolean enabled = getModuleAndPubspecYamlFile(e) != null;
+
+            presentation.setVisible(enabled);
+            presentation.setEnabled(enabled);
+        }).toCoroutine();
     }
 
     @Nullable

@@ -9,13 +9,15 @@ import consulo.language.psi.util.PsiTreeUtil;
 import consulo.project.Project;
 import consulo.ui.ex.action.AnAction;
 import consulo.ui.ex.action.AnActionEvent;
+import consulo.ui.ex.action.AnActionWithSyncUpdate;
 import consulo.util.lang.Pair;
 
 /**
- * @author: Fedor.Korotkov
+ * @author Fedor.Korotkov
  */
-public abstract class BaseDartGenerateAction extends AnAction {
+public abstract class BaseDartGenerateAction extends AnAction implements AnActionWithSyncUpdate {
 
+  @Override
   public void actionPerformed(final AnActionEvent e) {
     final Project project = e.getData(PlatformDataKeys.PROJECT);
     assert project != null;
