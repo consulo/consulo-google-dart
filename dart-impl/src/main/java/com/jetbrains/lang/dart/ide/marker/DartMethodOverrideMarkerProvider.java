@@ -15,22 +15,26 @@ import consulo.language.editor.Pass;
 import consulo.language.editor.gutter.LineMarkerInfo;
 import consulo.language.editor.gutter.LineMarkerProvider;
 import consulo.language.editor.localize.DaemonLocalize;
-import consulo.language.editor.ui.DefaultPsiElementCellRenderer;
-import consulo.language.editor.ui.PsiElementListNavigator;
-import consulo.language.psi.NavigatablePsiElement;
+import consulo.language.editor.ui.navigation.PsiTargetNavigationService;
 import consulo.language.psi.PsiElement;
 import consulo.language.psi.util.PsiTreeUtil;
 import consulo.ui.image.Image;
 import consulo.util.collection.ContainerUtil;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
+import jakarta.inject.Inject;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.function.Function;
 
 @ExtensionImpl
 public class DartMethodOverrideMarkerProvider implements LineMarkerProvider {
+    private final PsiTargetNavigationService myPsiTargetNavigationService;
+
+    @Inject
+    public DartMethodOverrideMarkerProvider(PsiTargetNavigationService psiTargetNavigationService) {
+        myPsiTargetNavigationService = psiTargetNavigationService;
+    }
 
     @Override
     public LineMarkerInfo getLineMarkerInfo(@Nonnull PsiElement element) {
@@ -46,12 +50,12 @@ public class DartMethodOverrideMarkerProvider implements LineMarkerProvider {
     }
 
     @Nullable
-    private static LineMarkerInfo createOverrideMarker(DartClass dartClass, DartComponent dartComponent) {
+    private LineMarkerInfo createOverrideMarker(DartClass dartClass, DartComponent dartComponent) {
         return tryCreateOverrideMarker(dartComponent, DartResolveUtil.findNamedSuperComponents(dartClass));
     }
 
     @Nullable
-    private static LineMarkerInfo tryCreateOverrideMarker(final DartComponent methodDeclaration, List<DartComponent> superItems) {
+    private LineMarkerInfo tryCreateOverrideMarker(final DartComponent methodDeclaration, List<DartComponent> superItems) {
         final String methodName = methodDeclaration.getName();
         if (methodName == null || !methodDeclaration.isPublic()) {
             return null;
@@ -77,13 +81,11 @@ public class DartMethodOverrideMarkerProvider implements LineMarkerProvider {
                 }
                 return DartLocalize.implementsMethodIn(methodDeclaration.getName(), superDartClass.getName()).get();
             }
-        }, (e, elt) -> PsiElementListNavigator.openTargets(e,
-            DartResolveUtil.getComponentNames(filteredSuperItems).toArray(new
-                NavigatablePsiElement[filteredSuperItems
-                .size()]),
-            DaemonLocalize.navigationTitleSuperMethod(methodDeclaration.getName()).get(),
-            DaemonLocalize.navigationFindusagesTitleSuperMethod(methodDeclaration.getName()).get(),
-            new DefaultPsiElementCellRenderer()), GutterIconRenderer.Alignment.LEFT
+        }, (e, elt) -> myPsiTargetNavigationService
+            .newNavigator(() -> DartResolveUtil.getComponentNames(filteredSuperItems))
+            .title(DaemonLocalize.navigationTitleSuperMethod(methodDeclaration.getName()))
+            .findUsagesTitle(DaemonLocalize.navigationFindusagesTitleSuperMethod(methodDeclaration.getName()))
+            .navigate(e, methodDeclaration.getProject()), GutterIconRenderer.Alignment.LEFT
         );
     }
 
