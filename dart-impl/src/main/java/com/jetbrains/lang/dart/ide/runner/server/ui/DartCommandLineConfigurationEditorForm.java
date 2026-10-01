@@ -1,108 +1,45 @@
 package com.jetbrains.lang.dart.ide.runner.server.ui;
 
-import com.jetbrains.lang.dart.DartFileType;
-import com.jetbrains.lang.dart.ide.DartWritingAccessProvider;
 import com.jetbrains.lang.dart.ide.runner.server.DartCommandLineRunConfiguration;
-import com.jetbrains.lang.dart.ide.runner.server.DartCommandLineRunnerParameters;
 import consulo.configurable.ConfigurationException;
 import consulo.execution.configuration.ui.SettingsEditor;
-import consulo.execution.localize.ExecutionLocalize;
-import consulo.execution.ui.awt.EnvironmentVariablesComponent;
-import consulo.execution.ui.awt.RawCommandLineEditor;
-import consulo.fileChooser.FileChooserDescriptorFactory;
 import consulo.google.dart.localize.DartLocalize;
-import consulo.language.editor.ui.TreeFileChooser;
-import consulo.language.editor.ui.TreeFileChooserFactory;
-import consulo.language.psi.PsiFile;
-import consulo.language.psi.PsiManager;
 import consulo.project.Project;
-import consulo.ui.ex.awt.TextFieldWithBrowseButton;
-import consulo.util.io.FileUtil;
-import consulo.util.lang.StringUtil;
-import consulo.virtualFileSystem.LocalFileSystem;
-import consulo.virtualFileSystem.VirtualFile;
-import jakarta.annotation.Nonnull;
-
-import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import consulo.ui.Component;
+import consulo.ui.annotation.RequiredUIAccess;
+import jakarta.annotation.Nullable;
 
 public class DartCommandLineConfigurationEditorForm extends SettingsEditor<DartCommandLineRunConfiguration> {
-  private JPanel myMainPanel;
-  private JLabel myDartFileLabel;
-  private TextFieldWithBrowseButton myFileField;
-  private RawCommandLineEditor myVMOptions;
-  private RawCommandLineEditor myArguments;
-  private TextFieldWithBrowseButton myWorkingDirectory;
-  private EnvironmentVariablesComponent myEnvironmentVariables;
+  private final Project myProject;
+  private @Nullable DartCommandLineParametersPanel myPanel;
 
   public DartCommandLineConfigurationEditorForm(final Project project) {
-    initDartFileTextWithBrowse(project, myFileField);
-
-    myWorkingDirectory.addBrowseFolderListener(ExecutionLocalize.selectWorkingDirectoryMessage().get(), null, project,
-                                               FileChooserDescriptorFactory.createSingleFolderDescriptor());
-
-    myVMOptions.setDialogCaption(DartLocalize.configVmoptionsCaption().get());
-    myArguments.setDialogCaption(DartLocalize.configProgargsCaption().get());
-
-    // 'Environment variables' is the widest label, anchored by myDartFileLabel
-    myDartFileLabel.setPreferredSize(myEnvironmentVariables.getLabel().getPreferredSize());
-    myEnvironmentVariables.setAnchor(myDartFileLabel);
+    myProject = project;
   }
 
-  public static void initDartFileTextWithBrowse(final @Nonnull Project project, final @Nonnull TextFieldWithBrowseButton textWithBrowse) {
-    textWithBrowse.getButton().addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        final String initialPath = FileUtil.toSystemIndependentName(textWithBrowse.getText().trim());
-        final VirtualFile initialFile = initialPath.isEmpty() ? null : LocalFileSystem.getInstance().findFileByPath(initialPath);
-        final PsiFile initialPsiFile = initialFile == null ? null : PsiManager.getInstance(project).findFile(initialFile);
-
-        TreeFileChooser fileChooser = TreeFileChooserFactory.getInstance(project).createFileChooser(DartLocalize.chooseDartMainFile().get(),
-                                                                                                    initialPsiFile,
-                                                                                                    DartFileType.INSTANCE,
-                                                                                                    file -> !DartWritingAccessProvider.isInDartSdkOrDartPackagesFolder(
-                                                                                                      file));
-
-        fileChooser.showDialog();
-
-        final PsiFile selectedFile = fileChooser.getSelectedFile();
-        final VirtualFile virtualFile = selectedFile == null ? null : selectedFile.getVirtualFile();
-        if (virtualFile != null) {
-          final String path = FileUtil.toSystemDependentName(virtualFile.getPath());
-          textWithBrowse.setText(path);
-        }
-      }
-    });
+  @RequiredUIAccess
+  @Override
+  protected Component createUIComponent() {
+    DartCommandLineParametersPanel panel = new DartCommandLineParametersPanel(myProject, DartLocalize.runConfigurationDartFileLabel());
+    myPanel = panel;
+    return panel.build();
   }
 
+  @RequiredUIAccess
   @Override
   protected void resetEditorFrom(final DartCommandLineRunConfiguration configuration) {
-    final DartCommandLineRunnerParameters parameters = configuration.getRunnerParameters();
-
-    myFileField.setText(FileUtil.toSystemDependentName(StringUtil.notNullize(parameters.getFilePath())));
-    myArguments.setText(StringUtil.notNullize(parameters.getArguments()));
-    myVMOptions.setText(StringUtil.notNullize(parameters.getVMOptions()));
-    myWorkingDirectory.setText(FileUtil.toSystemDependentName(StringUtil.notNullize(parameters.getWorkingDirectory())));
-    myEnvironmentVariables.setEnvs(parameters.getEnvs());
-    myEnvironmentVariables.setPassParentEnvs(parameters.isIncludeParentEnvs());
+    DartCommandLineParametersPanel panel = myPanel;
+    if (panel != null) {
+      panel.resetEditorFrom(configuration.getRunnerParameters());
+    }
   }
 
+  @RequiredUIAccess
   @Override
   protected void applyEditorTo(final DartCommandLineRunConfiguration configuration) throws ConfigurationException {
-    final DartCommandLineRunnerParameters parameters = configuration.getRunnerParameters();
-
-    parameters.setFilePath(StringUtil.nullize(FileUtil.toSystemIndependentName(myFileField.getText().trim()), true));
-    parameters.setArguments(StringUtil.nullize(myArguments.getText(), true));
-    parameters.setVMOptions(StringUtil.nullize(myVMOptions.getText(), true));
-    parameters.setWorkingDirectory(StringUtil.nullize(FileUtil.toSystemIndependentName(myWorkingDirectory.getText().trim()), true));
-    parameters.setEnvs(myEnvironmentVariables.getEnvs());
-    parameters.setIncludeParentEnvs(myEnvironmentVariables.isPassParentEnvs());
-  }
-
-  @Nonnull
-  @Override
-  protected JComponent createEditor() {
-    return myMainPanel;
+    DartCommandLineParametersPanel panel = myPanel;
+    if (panel != null) {
+      panel.applyEditorTo(configuration.getRunnerParameters());
+    }
   }
 }

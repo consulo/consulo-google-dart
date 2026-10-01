@@ -1,114 +1,124 @@
 package com.jetbrains.lang.dart.ide.runner.unittest.ui;
 
-import com.jetbrains.lang.dart.ide.runner.server.ui.DartCommandLineConfigurationEditorForm;
+import com.jetbrains.lang.dart.ide.runner.server.ui.DartCommandLineParametersPanel;
 import com.jetbrains.lang.dart.ide.runner.unittest.DartUnitRunConfiguration;
 import com.jetbrains.lang.dart.ide.runner.unittest.DartUnitRunnerParameters;
 import consulo.configurable.ConfigurationException;
-import consulo.execution.ExecutionBundle;
 import consulo.execution.configuration.ui.SettingsEditor;
-import consulo.execution.ui.awt.EnvironmentVariablesComponent;
-import consulo.execution.ui.awt.RawCommandLineEditor;
-import consulo.fileChooser.FileChooserDescriptorFactory;
 import consulo.google.dart.localize.DartLocalize;
+import consulo.localize.LocalizeValue;
 import consulo.project.Project;
-import consulo.ui.ex.awt.EnumComboBoxModel;
-import consulo.ui.ex.awt.ListCellRendererWrapper;
-import consulo.ui.ex.awt.TextFieldWithBrowseButton;
-import consulo.util.io.FileUtil;
+import consulo.ui.ComboBox;
+import consulo.ui.Component;
+import consulo.ui.Label;
+import consulo.ui.TextBox;
+import consulo.ui.annotation.RequiredUIAccess;
+import consulo.ui.util.FormBuilder;
 import consulo.util.lang.StringUtil;
-import jakarta.annotation.Nonnull;
-
-import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.Locale;
+import jakarta.annotation.Nullable;
 
 import static com.jetbrains.lang.dart.ide.runner.unittest.DartUnitRunnerParameters.Scope;
 
 public class DartUnitConfigurationEditorForm extends SettingsEditor<DartUnitRunConfiguration> {
-  private JPanel myMainPanel;
-  private JComboBox myScopeCombo;
-  private JLabel myTestFileLabel;
-  private TextFieldWithBrowseButton myFileField;
-  private JLabel myTestNameLabel;
-  private JTextField myTestNameField;
-  private RawCommandLineEditor myVMOptions;
-  private RawCommandLineEditor myArguments;
-  private TextFieldWithBrowseButton myWorkingDirectory;
-  private EnvironmentVariablesComponent myEnvironmentVariables;
+  private final Project myProject;
+  private @Nullable Panel myPanel;
 
   public DartUnitConfigurationEditorForm(final Project project) {
-    DartCommandLineConfigurationEditorForm.initDartFileTextWithBrowse(project, myFileField);
-
-    myWorkingDirectory.addBrowseFolderListener(ExecutionBundle.message("select.working.directory.message"), null, project,
-                                               FileChooserDescriptorFactory.createSingleFolderDescriptor());
-
-    myScopeCombo.setModel(new EnumComboBoxModel<Scope>(Scope.class));
-    myScopeCombo.setRenderer(new ListCellRendererWrapper<Scope>() {
-      @Override
-      public void customize(final JList list, final Scope value, final int index, final boolean selected, final boolean hasFocus) {
-        setText(StringUtil.capitalize(value.toString().toLowerCase(Locale.US)));
-      }
-    });
-
-    myScopeCombo.addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        onScopeChanged();
-      }
-    });
-
-    myVMOptions.setDialogCaption(DartLocalize.configVmoptionsCaption().get());
-    myArguments.setDialogCaption(DartLocalize.configProgargsCaption().get());
-
-    // 'Environment variables' is the widest label, anchored by myTestFileLabel
-    myTestFileLabel.setPreferredSize(myEnvironmentVariables.getLabel().getPreferredSize());
-    myEnvironmentVariables.setAnchor(myTestFileLabel);
+    myProject = project;
   }
 
+  @RequiredUIAccess
+  @Override
+  protected Component createUIComponent() {
+    Panel panel = new Panel();
+    myPanel = panel;
+    Component component = panel.build();
+    panel.onScopeChanged();
+    return component;
+  }
+
+  @RequiredUIAccess
   @Override
   protected void resetEditorFrom(DartUnitRunConfiguration configuration) {
-    final DartUnitRunnerParameters parameters = configuration.getRunnerParameters();
-
-    myScopeCombo.setSelectedItem(parameters.getScope());
-    myFileField.setText(FileUtil.toSystemDependentName(StringUtil.notNullize(parameters.getFilePath())));
-    myTestNameField.setText(parameters.getScope() == Scope.ALL ? "" : StringUtil.notNullize(parameters.getTestName()));
-    myArguments.setText(StringUtil.notNullize(parameters.getArguments()));
-    myVMOptions.setText(StringUtil.notNullize(parameters.getVMOptions()));
-    myWorkingDirectory.setText(FileUtil.toSystemDependentName(StringUtil.notNullize(parameters.getWorkingDirectory())));
-    myEnvironmentVariables.setEnvs(parameters.getEnvs());
-    myEnvironmentVariables.setPassParentEnvs(parameters.isIncludeParentEnvs());
-
-    onScopeChanged();
+    Panel panel = myPanel;
+    if (panel != null) {
+      panel.reset(configuration.getRunnerParameters());
+    }
   }
 
+  @RequiredUIAccess
   @Override
   protected void applyEditorTo(DartUnitRunConfiguration configuration) throws ConfigurationException {
-    final DartUnitRunnerParameters parameters = configuration.getRunnerParameters();
-
-    final Scope scope = (Scope)myScopeCombo.getSelectedItem();
-    parameters.setScope(scope);
-    parameters.setFilePath(StringUtil.nullize(FileUtil.toSystemIndependentName(myFileField.getText()
-                                                                                                                                .trim()),
-                                              true));
-    parameters.setTestName(scope == Scope.ALL ? null : StringUtil.nullize(myTestNameField.getText()));
-    parameters.setArguments(StringUtil.nullize(myArguments.getText(), true));
-    parameters.setVMOptions(StringUtil.nullize(myVMOptions.getText(), true));
-    parameters.setWorkingDirectory(StringUtil.nullize(FileUtil.toSystemIndependentName(myWorkingDirectory.getText().trim()), true));
-    parameters.setEnvs(myEnvironmentVariables.getEnvs());
-    parameters.setIncludeParentEnvs(myEnvironmentVariables.isPassParentEnvs());
+    Panel panel = myPanel;
+    if (panel != null) {
+      panel.apply(configuration.getRunnerParameters());
+    }
   }
 
-  private void onScopeChanged() {
-    final Scope scope = (Scope)myScopeCombo.getSelectedItem();
-    myTestNameLabel.setVisible(scope == Scope.GROUP || scope == Scope.METHOD);
-    myTestNameField.setVisible(scope == Scope.GROUP || scope == Scope.METHOD);
-    myTestNameLabel.setText(scope == Scope.GROUP ? DartLocalize.dartUnitGroupName().get() : DartLocalize.dartUnitMethodName().get());
+  private static LocalizeValue getScopeName(final Scope scope) {
+    return switch (scope) {
+      case METHOD -> DartLocalize.dartUnitScopeMethod();
+      case GROUP -> DartLocalize.dartUnitScopeGroup();
+      case ALL -> DartLocalize.dartUnitScopeAll();
+    };
   }
 
-  @Nonnull
-  @Override
-  protected JComponent createEditor() {
-    return myMainPanel;
+  private class Panel extends DartCommandLineParametersPanel {
+    private final ComboBox<Scope> myScopeCombo;
+    private final Label myTestNameLabel;
+    private final TextBox myTestNameField;
+
+    @RequiredUIAccess
+    private Panel() {
+      super(DartUnitConfigurationEditorForm.this.myProject, DartLocalize.runConfigurationTestFileLabel());
+
+      myScopeCombo = ComboBox.create(Scope.values());
+      myScopeCombo.setTextRenderer(scope -> scope == null ? LocalizeValue.empty() : getScopeName(scope));
+
+      myTestNameLabel = Label.create(DartLocalize.dartUnitMethodName());
+      myTestNameField = TextBox.create();
+
+      myScopeCombo.addValueListener(event -> onScopeChanged());
+    }
+
+    @RequiredUIAccess
+    @Override
+    protected void addBefore(final FormBuilder builder) {
+      builder.addLabeled(DartLocalize.dartUnitScope(), myScopeCombo);
+    }
+
+    @RequiredUIAccess
+    @Override
+    protected void addAfterFile(final FormBuilder builder) {
+      builder.addLabeled(myTestNameLabel, myTestNameField);
+    }
+
+    @RequiredUIAccess
+    private void onScopeChanged() {
+      final Scope scope = myScopeCombo.getValue();
+      final boolean visible = scope == Scope.GROUP || scope == Scope.METHOD;
+      myTestNameLabel.setVisible(visible);
+      myTestNameField.setVisible(visible);
+      myTestNameLabel.setText(scope == Scope.GROUP ? DartLocalize.dartUnitGroupName() : DartLocalize.dartUnitMethodName());
+    }
+
+    @RequiredUIAccess
+    private void reset(final DartUnitRunnerParameters parameters) {
+      myScopeCombo.setValue(parameters.getScope());
+      myTestNameField.setValue(parameters.getScope() == Scope.ALL ? "" : StringUtil.notNullize(parameters.getTestName()));
+
+      resetEditorFrom(parameters);
+
+      onScopeChanged();
+    }
+
+    @RequiredUIAccess
+    private void apply(final DartUnitRunnerParameters parameters) {
+      final Scope scope = myScopeCombo.getValue();
+      parameters.setScope(scope);
+      parameters.setTestName(scope == Scope.ALL ? null : StringUtil.nullize(myTestNameField.getValue()));
+
+      applyEditorTo(parameters);
+    }
   }
 }

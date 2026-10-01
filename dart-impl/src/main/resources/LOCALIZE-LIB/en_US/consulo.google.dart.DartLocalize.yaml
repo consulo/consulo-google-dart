@@ -220,6 +220,12 @@ dart.unit.method.name:
     text: 'Method &name:'
 dart.unit.scope:
     text: 'Test &kind:'
+dart.unit.scope.all:
+    text: All
+dart.unit.scope.group:
+    text: Group
+dart.unit.scope.method:
+    text: Method
 dart.warning:
     text: Warning!
 dart.web.app.description.idea:
@@ -308,6 +314,10 @@ refactoring.introduce.variable.dialog.title:
     text: Introduce Variable
 remove.custom.package.roots:
     text: Remove custom package roots
+run.configuration.dart.file.label:
+    text: 'Dart &file:'
+run.configuration.test.file.label:
+    text: 'Test &file:'
 runner.command.line.configuration.name:
     text: Dart Command Line Application
 runner.unit.configuration.description:
