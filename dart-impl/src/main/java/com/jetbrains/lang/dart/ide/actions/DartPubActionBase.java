@@ -22,9 +22,7 @@ import consulo.process.ExecutionException;
 import consulo.process.cmd.GeneralCommandLine;
 import consulo.process.util.CapturingProcessUtil;
 import consulo.process.util.ProcessOutput;
-import consulo.project.ui.notification.Notification;
-import consulo.project.ui.notification.NotificationType;
-import consulo.project.ui.notification.Notifications;
+import consulo.project.ui.notification.NotificationService;
 import consulo.ui.annotation.RequiredUIAccess;
 import consulo.ui.ex.action.AnAction;
 import consulo.ui.ex.action.AnActionEvent;
@@ -150,32 +148,29 @@ abstract public class DartPubActionBase extends AnAction implements AnActionWith
                         err + "\nout:\n" + processOutput.getStdout());
 
                     if (err.isEmpty()) {
-                        Notifications.Bus.notify(new Notification(
-                            DartNotificationGroup.DART_PUB_TOOL,
-                            getPresentableText().get(),
-                            getSuccessMessage().get(),
-                            NotificationType.INFORMATION
-                        ));
+                        NotificationService.getInstance()
+                            .newInfo(DartNotificationGroup.DART_PUB_TOOL)
+                            .title(getPresentableText())
+                            .content(getSuccessMessage())
+                            .notify(module.getProject());
                     }
                     else {
-                        Notifications.Bus.notify(new Notification(
-                            DartNotificationGroup.DART_PUB_TOOL,
-                            getPresentableText().get(),
-                            err,
-                            NotificationType.ERROR
-                        ));
+                        NotificationService.getInstance()
+                            .newError(DartNotificationGroup.DART_PUB_TOOL)
+                            .title(getPresentableText())
+                            .content(LocalizeValue.ofNullable(err))
+                            .notify(module.getProject());
                     }
 
                     app.invokeLater(() -> DartProjectComponent.excludePackagesFolders(module, pubspecYamlFile));
                 }
                 catch (ExecutionException ex) {
                     LOG.error(ex);
-                    Notifications.Bus.notify(new Notification(
-                        DartNotificationGroup.DART_PUB_TOOL,
-                        getPresentableText().get(),
-                        DartLocalize.dartPubException(ex.getMessage()).get(),
-                        NotificationType.ERROR
-                    ));
+                    NotificationService.getInstance()
+                        .newError(DartNotificationGroup.DART_PUB_TOOL)
+                        .title(getPresentableText())
+                        .content(LocalizeValue.of(ex))
+                        .notify(module.getProject());
                 }
             }
         };

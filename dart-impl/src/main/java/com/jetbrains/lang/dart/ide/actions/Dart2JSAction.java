@@ -26,9 +26,7 @@ import consulo.process.ExecutionException;
 import consulo.process.cmd.GeneralCommandLine;
 import consulo.process.local.ScriptRunnerUtil;
 import consulo.project.Project;
-import consulo.project.ui.notification.Notification;
-import consulo.project.ui.notification.NotificationType;
-import consulo.project.ui.notification.Notifications;
+import consulo.project.ui.notification.NotificationService;
 import consulo.ui.annotation.RequiredUIAccess;
 import consulo.ui.ex.action.AnAction;
 import consulo.ui.ex.action.AnActionEvent;
@@ -126,16 +124,18 @@ public class Dart2JSAction extends AnAction implements AnActionWithSyncUpdate {
                     LOG.debug(output);
                     boolean error = !output.isEmpty();
                     if (error) {
-                        Notifications.Bus.notify(new Notification(DartNotificationGroup.DART2JS,
-                            DartLocalize.dart2jsTitle().get(),
-                            DartLocalize.dart2jsJsFileCreationError(output).get(),
-                            NotificationType.ERROR));
+                        NotificationService.getInstance()
+                            .newError(DartNotificationGroup.DART2JS)
+                            .title(DartLocalize.dart2jsTitle())
+                            .content(DartLocalize.dart2jsJsFileCreationError(output))
+                            .notify(module.getProject());
                         return;
                     }
-                    Notifications.Bus.notify(new Notification(DartNotificationGroup.DART2JS,
-                        DartLocalize.dart2jsTitle().get(),
-                        DartLocalize.dart2jsJsFileCreated(jsFilePath).get(),
-                        NotificationType.INFORMATION));
+                    NotificationService.getInstance()
+                        .newInfo(DartNotificationGroup.DART2JS)
+                        .title(DartLocalize.dart2jsTitle())
+                        .content(DartLocalize.dart2jsJsFileCreated(jsFilePath))
+                        .notify(module.getProject());
 
                     final File parentDir = FileUtil.getParentFile(new File(dialog.getOutputPath()));
                     assert parentDir != null;
@@ -146,10 +146,11 @@ public class Dart2JSAction extends AnAction implements AnActionWithSyncUpdate {
                 }
                 catch (ExecutionException ex) {
                     LOG.error(ex);
-                    Notifications.Bus.notify(new Notification(DartNotificationGroup.DART2JS,
-                        DartLocalize.dart2jsTitle().get(),
-                        DartLocalize.dart2jsJsFileCreationError(ex.getMessage()).get(),
-                        NotificationType.ERROR));
+                    NotificationService.getInstance()
+                        .newError(DartNotificationGroup.DART2JS)
+                        .title(DartLocalize.dart2jsTitle())
+                        .content(DartLocalize.dart2jsJsFileCreationError(ex.getMessage()))
+                        .notify(module.getProject());
                 }
                 indicator.setFraction(1.0);
             }
