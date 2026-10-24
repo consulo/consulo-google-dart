@@ -95,9 +95,7 @@ module com.jetbrains.lang.dart {
   exports com.jetbrains.lang.dart.ide.runner.server;
   exports com.jetbrains.lang.dart.ide.runner.server.frame;
   exports com.jetbrains.lang.dart.ide.runner.server.google;
-  exports com.jetbrains.lang.dart.ide.runner.server.ui;
   exports com.jetbrains.lang.dart.ide.runner.unittest;
-  exports com.jetbrains.lang.dart.ide.runner.unittest.ui;
   exports com.jetbrains.lang.dart.ide.settings;
   exports com.jetbrains.lang.dart.ide.structure;
   exports com.jetbrains.lang.dart.ide.surroundWith;
@@ -117,4 +115,7 @@ module com.jetbrains.lang.dart {
   exports consulo.dart.debugger.breakpoint;
   exports consulo.dart.module.extension;
   exports consulo.google.dart.icon;
+
+    opens com.jetbrains.lang.dart.ide.runner.server to consulo.util.xml.serializer, consulo.execution.api;
+    opens com.jetbrains.lang.dart.ide.runner.unittest to consulo.util.xml.serializer, consulo.execution.api;
 }

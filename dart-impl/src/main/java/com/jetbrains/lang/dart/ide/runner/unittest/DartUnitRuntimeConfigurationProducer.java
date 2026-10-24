@@ -60,9 +60,11 @@ public class DartUnitRuntimeConfigurationProducer extends RunConfigurationProduc
     }
 
     final PsiElement element = findTestElement(context.getPsiLocation());
-    if (element == null || !setupRunConfiguration(configuration.getRunnerParameters(), element)) {
+    final DartUnitRunnerParameters parameters = configuration.getRunnerParameters();
+    if (element == null || !setupRunConfiguration(parameters, element)) {
       return false;
     }
+    configuration.setRunnerParameters(parameters);
 
     configuration.setGeneratedName();
     return true;

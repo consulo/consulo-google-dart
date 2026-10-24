@@ -316,6 +316,14 @@ remove.custom.package.roots:
     text: Remove custom package roots
 run.configuration.dart.file.label:
     text: 'Dart &file:'
+run.configuration.fragment.dart.file:
+    text: Dart file
+run.configuration.fragment.test.file:
+    text: Test file
+run.configuration.fragment.test.kind:
+    text: Test kind
+run.configuration.fragment.vm.options:
+    text: VM options
 run.configuration.test.file.label:
     text: 'Test &file:'
 runner.command.line.configuration.name:

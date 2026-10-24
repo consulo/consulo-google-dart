@@ -1,38 +1,54 @@
 package com.jetbrains.lang.dart.ide.runner.server;
 
+import com.jetbrains.lang.dart.ide.runner.base.DartFileFragment;
 import com.jetbrains.lang.dart.ide.runner.base.DartRunConfigurationBase;
-import com.jetbrains.lang.dart.ide.runner.server.ui.DartCommandLineConfigurationEditorForm;
-import consulo.execution.configuration.RunConfiguration;
+import com.jetbrains.lang.dart.ide.runner.base.DartVmOptionsFragment;
+import consulo.execution.configuration.LegacyRunConfigurationConverter;
 import consulo.execution.configuration.RunProfileState;
-import consulo.execution.configuration.ui.SettingsEditor;
+import consulo.execution.configuration.fragment.RunConfigurationFragment;
 import consulo.execution.executor.Executor;
 import consulo.execution.runner.ExecutionEnvironment;
+import consulo.google.dart.localize.DartLocalize;
 import consulo.process.ExecutionException;
 import consulo.project.Project;
 import consulo.util.io.PathUtil;
-
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 
-public class DartCommandLineRunConfiguration extends DartRunConfigurationBase {
-  private
-  @Nonnull
-  DartCommandLineRunnerParameters myRunnerParameters = new DartCommandLineRunnerParameters();
+import java.util.List;
 
+public class DartCommandLineRunConfiguration extends DartRunConfigurationBase {
   public DartCommandLineRunConfiguration(String name, Project project, DartCommandLineRunConfigurationType configurationType) {
     super(project, configurationType.getConfigurationFactories()[0], name);
   }
 
   @Override
-  @Nonnull
-  public DartCommandLineRunnerParameters getRunnerParameters() {
-    return myRunnerParameters;
+  protected Class<DartCommandLineRunConfigurationOptions> getOptionsClass() {
+    return DartCommandLineRunConfigurationOptions.class;
+  }
+
+  @Override
+  protected void convertLegacyState(LegacyRunConfigurationConverter converter) {
+    super.convertLegacyState(converter);
+
+    DartCommandLineRunConfigurationLegacyState old = converter.readXml(DartCommandLineRunConfigurationLegacyState.class);
+    convertLegacyCommandLineState(converter, old, new DartCommandLineRunConfigurationOptions());
+  }
+
+  @Override
+  public List<RunConfigurationFragment<?>> createFragments() {
+    return List.of(
+      new DartFileFragment(DartLocalize.runConfigurationFragmentDartFile(), DartLocalize.runConfigurationDartFileLabel()),
+      new DartVmOptionsFragment()
+    );
   }
 
   @Override
   @Nonnull
-  public SettingsEditor<? extends RunConfiguration> getConfigurationEditor() {
-    return new DartCommandLineConfigurationEditorForm(getProject());
+  public DartCommandLineRunnerParameters getRunnerParameters() {
+    DartCommandLineRunnerParameters parameters = new DartCommandLineRunnerParameters();
+    fillRunnerParameters(parameters);
+    return parameters;
   }
 
   @Override
@@ -43,14 +59,7 @@ public class DartCommandLineRunConfiguration extends DartRunConfigurationBase {
   @Override
   @Nullable
   public String suggestedName() {
-    final String filePath = myRunnerParameters.getFilePath();
+    final String filePath = getFilePath();
     return filePath == null ? null : PathUtil.getFileName(filePath);
-  }
-
-  @Override
-  public DartCommandLineRunConfiguration clone() {
-    final DartCommandLineRunConfiguration clone = (DartCommandLineRunConfiguration)super.clone();
-    clone.myRunnerParameters = myRunnerParameters.clone();
-    return clone;
   }
 }

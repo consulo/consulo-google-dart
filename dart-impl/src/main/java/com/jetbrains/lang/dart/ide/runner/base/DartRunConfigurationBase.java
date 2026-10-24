@@ -1,9 +1,16 @@
 package com.jetbrains.lang.dart.ide.runner.base;
 
+import com.jetbrains.lang.dart.ide.runner.server.DartCommandLineRunConfigurationLegacyState;
+import com.jetbrains.lang.dart.ide.runner.server.DartCommandLineRunConfigurationOptions;
 import com.jetbrains.lang.dart.ide.runner.server.DartCommandLineRunnerParameters;
+import consulo.execution.CommonProgramRunConfigurationParameters;
 import consulo.execution.RuntimeConfigurationException;
 import consulo.execution.configuration.ConfigurationFactory;
+import consulo.execution.configuration.LegacyRunConfigurationConverter;
 import consulo.execution.configuration.LocatableConfigurationBase;
+import consulo.execution.configuration.fragment.EnvironmentFragmentState;
+import consulo.execution.configuration.fragment.ProgramParametersFragmentState;
+import consulo.execution.configuration.fragment.WorkingDirectoryFragmentState;
 import consulo.language.editor.refactoring.event.RefactoringElementListener;
 import consulo.language.editor.refactoring.event.RefactoringListenerProvider;
 import consulo.language.editor.refactoring.event.UndoRefactoringElementAdapter;
@@ -13,40 +20,80 @@ import consulo.language.psi.PsiFile;
 import consulo.language.psi.PsiFileSystemItem;
 import consulo.project.Project;
 import consulo.util.io.PathUtil;
-import consulo.util.xml.serializer.InvalidDataException;
-import consulo.util.xml.serializer.SkipDefaultValuesSerializationFilters;
-import consulo.util.xml.serializer.WriteExternalException;
-import consulo.util.xml.serializer.XmlSerializer;
 import consulo.virtualFileSystem.VirtualFile;
-import org.jdom.Element;
 
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 
-public abstract class DartRunConfigurationBase extends LocatableConfigurationBase implements RefactoringListenerProvider {
+public abstract class DartRunConfigurationBase extends LocatableConfigurationBase implements CommonProgramRunConfigurationParameters,
+  RefactoringListenerProvider {
 
   protected DartRunConfigurationBase(final Project project, final ConfigurationFactory factory, final String name) {
     super(project, factory, name);
   }
 
+  @Override
+  public DartCommandLineRunConfigurationOptions getOptions() {
+    return (DartCommandLineRunConfigurationOptions)super.getOptions();
+  }
+
+  /**
+   * A snapshot of the settings for running; changes to it are kept only through {@link #setRunnerParameters}.
+   */
   @Nonnull
   public abstract DartCommandLineRunnerParameters getRunnerParameters();
+
+  public void setRunnerParameters(@Nonnull DartCommandLineRunnerParameters parameters) {
+    setFilePath(parameters.getFilePath());
+    setVmOptions(parameters.getVMOptions());
+    setProgramParameters(parameters.getArguments());
+    setWorkingDirectory(parameters.getWorkingDirectory());
+    setEnvs(parameters.getEnvs());
+    setPassParentEnvs(parameters.isIncludeParentEnvs());
+  }
+
+  protected void fillRunnerParameters(@Nonnull DartCommandLineRunnerParameters parameters) {
+    parameters.setFilePath(getFilePath());
+    parameters.setVMOptions(getVmOptions());
+    parameters.setArguments(getProgramParameters());
+    parameters.setWorkingDirectory(getWorkingDirectory());
+    parameters.setEnvs(getEnvs());
+    parameters.setIncludeParentEnvs(isPassParentEnvs());
+  }
+
+  protected static void convertLegacyCommandLineState(@Nonnull LegacyRunConfigurationConverter converter,
+                                                      @Nonnull DartCommandLineRunConfigurationLegacyState old,
+                                                      @Nonnull DartCommandLineRunConfigurationOptions options) {
+    options.setFilePath(old.getFilePath());
+    options.setVmOptions(old.getVMOptions());
+    converter.setOptions(options);
+
+    converter.addFragment(new ProgramParametersFragmentState(old.getArguments()));
+    converter.addFragment(new WorkingDirectoryFragmentState(old.getWorkingDirectory()));
+    converter.addFragment(new EnvironmentFragmentState(old.getEnvs(), old.isIncludeParentEnvs()));
+  }
+
+  @Nullable
+  public String getFilePath() {
+    return getOptions().getFilePath();
+  }
+
+  public void setFilePath(@Nullable String filePath) {
+    getOptions().setFilePath(filePath);
+  }
+
+  @Nullable
+  public String getVmOptions() {
+    return getOptions().getVmOptions();
+  }
+
+  public void setVmOptions(@Nullable String vmOptions) {
+    getOptions().setVmOptions(vmOptions);
+  }
 
   @Override
   public void checkConfiguration() throws RuntimeConfigurationException {
     getRunnerParameters().check(getProject());
-  }
-
-  @Override
-  public void writeExternal(final Element element) throws WriteExternalException {
-    super.writeExternal(element);
-    XmlSerializer.serializeInto(getRunnerParameters(), element, new SkipDefaultValuesSerializationFilters());
-  }
-
-  @Override
-  public void readExternal(final Element element) throws InvalidDataException {
-    super.readExternal(element);
-    XmlSerializer.deserializeInto(getRunnerParameters(), element);
   }
 
   @Nullable
@@ -56,7 +103,7 @@ public abstract class DartRunConfigurationBase extends LocatableConfigurationBas
       return null;
     }
 
-    final String filePath = getRunnerParameters().getFilePath();
+    final String filePath = getFilePath();
     final VirtualFile file = filePath == null ? null : ((PsiFileSystemItem)element).getVirtualFile();
     if (file == null) {
       return null;
@@ -87,7 +134,7 @@ public abstract class DartRunConfigurationBase extends LocatableConfigurationBas
     }
 
     private String getNewPathAndUpdateAffectedPath(final @Nonnull PsiElement newElement) {
-      final String oldPath = getRunnerParameters().getFilePath();
+      final String oldPath = getFilePath();
 
       final VirtualFile newFile = newElement instanceof PsiFileSystemItem ? ((PsiFileSystemItem)newElement).getVirtualFile() : null;
       if (newFile != null && oldPath != null && oldPath.startsWith(myAffectedPath)) {
@@ -102,15 +149,14 @@ public abstract class DartRunConfigurationBase extends LocatableConfigurationBas
     @Override
     protected void refactored(@Nonnull final PsiElement element, @Nullable final String oldQualifiedName) {
       final boolean generatedName = getName().equals(suggestedName());
-      final String filePath = getRunnerParameters().getFilePath();
-      final boolean updateWorkingDir = filePath != null && PathUtil.getParentPath(filePath).equals(getRunnerParameters().getWorkingDirectory
-        ());
+      final String filePath = getFilePath();
+      final boolean updateWorkingDir = filePath != null && PathUtil.getParentPath(filePath).equals(getWorkingDirectory());
 
       final String newPath = getNewPathAndUpdateAffectedPath(element);
-      getRunnerParameters().setFilePath(newPath);
+      setFilePath(newPath);
 
       if (updateWorkingDir) {
-        getRunnerParameters().setWorkingDirectory(PathUtil.getParentPath(newPath));
+        setWorkingDirectory(PathUtil.getParentPath(newPath));
       }
 
       if (generatedName) {
