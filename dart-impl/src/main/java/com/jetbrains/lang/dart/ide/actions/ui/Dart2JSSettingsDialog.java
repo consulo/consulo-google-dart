@@ -2,7 +2,7 @@ package com.jetbrains.lang.dart.ide.actions.ui;
 
 import consulo.application.ApplicationPropertiesComponent;
 import consulo.fileChooser.FileChooserDescriptor;
-import consulo.fileChooser.IdeaFileChooser;
+import consulo.fileChooser.FileChooserFactory;
 import consulo.project.Project;
 import consulo.ui.ex.awt.DialogWrapper;
 import consulo.ui.ex.awt.TextFieldWithBrowseButton;
@@ -48,10 +48,11 @@ public class Dart2JSSettingsDialog extends DialogWrapper {
       @Override
       public void actionPerformed(ActionEvent e) {
         final FileChooserDescriptor descriptor = new FileChooserDescriptor(false, true, false, false, false, false);
-        final VirtualFile file = IdeaFileChooser.chooseFile(descriptor, myMainPanel, null, null);
-        if (file != null) {
-          myOutputFilePath.setText(FileUtil.toSystemDependentName(file.getPath()));
-        }
+        FileChooserFactory.getInstance().newBuilder(descriptor).parent(myMainPanel).showSingle().whenComplete((path, error) -> {
+          if (path != null) {
+            myOutputFilePath.setText(path.toString());
+          }
+        });
       }
     });
 
