@@ -1,10 +1,12 @@
 package com.jetbrains.lang.dart.ide.actions;
 
 import com.jetbrains.lang.dart.DartProjectComponent;
+import com.jetbrains.lang.dart.util.PubspecYamlUtil;
 import consulo.annotation.access.RequiredReadAction;
 import consulo.application.Application;
 import consulo.application.progress.ProgressIndicator;
 import consulo.application.progress.Task;
+import consulo.codeEditor.Editor;
 import consulo.content.bundle.Sdk;
 import consulo.dart.DartNotificationGroup;
 import consulo.dart.module.extension.DartModuleExtension;
@@ -51,6 +53,11 @@ abstract public class DartPubActionBase extends AnAction implements AnActionWith
         return ActionSafeReadLock.run(e, presentation -> {
             presentation.setText(getPresentableText());
 
+            // the file shown in an editor is the one of the PSI file of the context: only a pubspec.yaml can enable the action
+            Editor editor = e.getData(Editor.KEY);
+            VirtualFile file = editor != null ? FileDocumentManager.getInstance().getFile(editor.getDocument()) : null;
+            presentation.setEnabledAndVisible(file == null || file.getName().equalsIgnoreCase(PubspecYamlUtil.PUBSPEC_YAML));
+        }, presentation -> {
             boolean enabled = getModuleAndPubspecYamlFile(e) != null;
 
             presentation.setVisible(enabled);
