@@ -197,11 +197,6 @@ public class DartCommandLineDebugProcess extends XDebugProcess {
         }
     }
 
-    @Override
-    public void runToPosition(@Nonnull XSourcePosition position) {
-        // todo implement
-    }
-
     @Nonnull
     public DartUrlResolver getDartUrlResolver() {
         return myDartUrlResolver;
